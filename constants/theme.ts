@@ -70,10 +70,11 @@ export const Radii = {
 };
 
 export const Typography = {
-  "Display": { fontSize: 48, lineHeight: 64, fontWeight: '500' as const },
-  "Heading": { fontSize: 32, lineHeight: 40, fontWeight: '500' as const },
-  "Title": { fontSize: 24, lineHeight: 32, fontWeight: '500' as const },
-  "Subtitle": { fontSize: 20, lineHeight: 28, fontWeight: '500' as const },
-  "Body": { fontSize: 16, lineHeight: 24, fontWeight: '400' as const },
-  "Caption": { fontSize: 12, lineHeight: 16, fontWeight: '400' as const },
-};
+  "h1": { fontSize: 32, lineHeight: 42, fontWeight: "600" },
+  "h2": { fontSize: 21, fontWeight: "500", lineHeight: 31 },
+  "h3": { fontSize: 17, fontWeight: '500', lineHeight: 27 },
+  "h4": { fontSize: 16, fontWeight: "500", lineHeight: 26 },
+  "body": { fontSize: 16, fontWeight: "600", lineHeight: 26 },
+  "label": { fontSize: 14, fontWeight: '500', lineHeight: 24 },
+  "caption": { fontSize: 16, lineHeight: 26 },
+} as const;

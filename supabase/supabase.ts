@@ -1,10 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 import 'expo-sqlite/localStorage/install';
+import { Database } from './database.types';
 
 const supabaseUrl = "https://feevjgbrjoicwzbxnann.supabase.co";
 const supabasePublishableKey = "sb_publishable__3zl66kFIskI4TxSnlTIEQ_KF9jgGBX";
 
-export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
+export const supabase = createClient<Database>(supabaseUrl, supabasePublishableKey, {
     auth: {
         storage: localStorage,
         autoRefreshToken: true,

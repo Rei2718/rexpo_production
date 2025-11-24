@@ -1,4 +1,4 @@
-import { useRefetchOnFocus } from "@/hooks/useRefetchOnFocus";
+import { useRefetchOnFocus } from "@/hooks/use-refetch-on-focus";
 import { useQuery } from "@tanstack/react-query";
 import { getEventDetailsById, getEventsByVenueId, getEventsListByTag, getVenues } from "./function";
 import { keys } from "./keys";

@@ -16,9 +16,9 @@ export default function NotFoundScreen() {
                 }}
             />
             <ThemedView style={styles.container}>
-                <ThemedText type="Title">Oops! Not Found</ThemedText>
+                <ThemedText type="h1">Oops! Not Found</ThemedText>
                 <Link href="/" style={styles.link}>
-                    <ThemedText type="Body" color="tint">Go to home screen!</ThemedText>
+                    <ThemedText type="body" color="tint">Go to home screen!</ThemedText>
                 </Link>
             </ThemedView>
         </>

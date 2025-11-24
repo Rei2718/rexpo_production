@@ -1,6 +1,5 @@
 import { ThemedText } from '@/components/core/themed-text';
 import { ThemedView } from '@/components/core/themed-view';
-import { Link } from 'expo-router';
 
 export default function HomeScreen() {
   return (
@@ -12,11 +11,6 @@ export default function HomeScreen() {
       }}
     >
       <ThemedText>Home</ThemedText>
-      <Link href="/a">
-        <ThemedText>
-          Go back to Home screen!
-        </ThemedText>
-      </Link>
     </ThemedView>
   );
 }

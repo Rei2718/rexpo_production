@@ -10,7 +10,7 @@ export type ThemedTextProps = TextProps & {
 
 export function ThemedText({
   style,
-  type = 'Body',
+  type = 'body',
   color,
   ...rest
 }: ThemedTextProps) {
@@ -20,12 +20,13 @@ export function ThemedText({
     <Text
       style={[
         { color: themeColor },
-        type === 'Display' ? styles.display : undefined,
-        type === 'Heading' ? styles.heading : undefined,
-        type === 'Title' ? styles.title : undefined,
-        type === 'Subtitle' ? styles.subtitle : undefined,
-        type === 'Body' ? styles.body : undefined,
-        type === 'Caption' ? styles.caption : undefined,
+        type === 'h1' ? styles.h1 : undefined,
+        type === 'h2' ? styles.h2 : undefined,
+        type === 'h3' ? styles.h3 : undefined,
+        type === 'h4' ? styles.h4 : undefined,
+        type === 'body' ? styles.body : undefined,
+        type === 'label' ? styles.label : undefined,
+        type === 'caption' ? styles.caption : undefined,
         style,
       ]}
       {...rest}
@@ -34,10 +35,11 @@ export function ThemedText({
 }
 
 const styles = StyleSheet.create({
-  display: Typography.Display,
-  heading: Typography.Heading,
-  title: Typography.Title,
-  subtitle: Typography.Subtitle,
-  body: Typography.Body,
-  caption: Typography.Caption,
+  h1: Typography.h1,
+  h2: Typography.h2,
+  h3: Typography.h3,
+  h4: Typography.h4,
+  body: Typography.body,
+  label: Typography.label,
+  caption: Typography.caption,
 });

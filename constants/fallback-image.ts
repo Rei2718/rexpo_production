@@ -1,0 +1,1 @@
+export const FALLBACK_IMAGE_URL = require('@/assets/images/partial-react-logo.png');
