@@ -6,7 +6,7 @@ const tintColorDark = '#0091FF';
 export const Colors = {
   light: {
     textPrimary: '#DEDEDE',
-    textSecondary: '#8C8C8C',
+    textSecondary: '#6C6C6C',
     textTertiary: '#292929',
     backgroundPrimary: '#161616',
     backgroundSecondary: '#292929',
@@ -15,7 +15,7 @@ export const Colors = {
   },
   dark: {
     textPrimary: '#DEDEDE',
-    textSecondary: '#8C8C8C',
+    textSecondary: '#6C6C6C',
     textTertiary: '#292929',
     backgroundPrimary: '#161616',
     backgroundSecondary: '#292929',
@@ -49,32 +49,34 @@ export const Fonts = Platform.select({
   },
 });
 
-export const Spacing = {
-  "none": 0,
-  "xs": 4,
-  "sm": 8,
-  "md": 12,
-  "lg": 16,
-  "xl": 24,
-  "2xl": 32,
-  "3xl": 48,
-  "4xl": 64,
-};
+export const spacing = {
+  xxs: 2,
+  xs: 4,
+  s: 8,
+  m: 12,
+  l: 16,
+  xl: 24,
+  xxl: 48,
+  xxxl: 66,
+  xxxxl: 96,
+} as const;
 
-export const Radii = {
-  "none": 0,
-  "xs": 4,
-  "sm": 8,
-  "md": 12,
-  "full": 9999,
-};
 
-export const Typography = {
-  "h1": { fontSize: 32, lineHeight: 42, fontWeight: "600" },
-  "h2": { fontSize: 21, fontWeight: "500", lineHeight: 31 },
-  "h3": { fontSize: 17, fontWeight: '500', lineHeight: 27 },
-  "h4": { fontSize: 16, fontWeight: "500", lineHeight: 26 },
-  "body": { fontSize: 16, fontWeight: "600", lineHeight: 26 },
-  "label": { fontSize: 14, fontWeight: '500', lineHeight: 24 },
-  "caption": { fontSize: 16, lineHeight: 26 },
+export const radii = {
+  xs: 2,
+  s: 4,
+  m: 8,
+  l: 16,
+  xl: 24,
+  pill: 9999,
+} as const;
+
+export const typography = {
+  "h1": { fontSize: 32, fontWeight: "600", lineHeight: 40 },
+  "h2": { fontSize: 24, fontWeight: "500", lineHeight: 32 },
+  "h3": { fontSize: 18, fontWeight: "500", lineHeight: 26 },
+  "h4": { fontSize: 16, fontWeight: "500", lineHeight: 24 },
+  "body": { fontSize: 15, fontWeight: "400", lineHeight: 23 },
+  "caption": { fontSize: 14, fontWeight: "400", lineHeight: 22 },
+  "label": { fontSize: 12, fontWeight: "500", lineHeight: 22 },
 } as const;

@@ -1,7 +1,7 @@
-import { ThemedText } from '@/components/core/themed-text';
-import { ThemedView } from '@/components/core/themed-view';
+import { ThemedText } from '@/components/ui/themed-text';
+import { ThemedView } from '@/components/ui/themed-view';
 import { FALLBACK_IMAGE_URL } from '@/constants/fallback-image';
-import { Radii, Spacing } from '@/constants/theme';
+import { radii, spacing } from '@/constants/theme';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -12,7 +12,7 @@ export function Card({ item }: CardProps) {
         <View>
             <Link
                 href={{
-                    pathname: "/",
+                    pathname: "/event-detail",
                     params: { id: item.id },
                 }}
                 asChild
@@ -21,11 +21,11 @@ export function Card({ item }: CardProps) {
                     <Image
                         source={item.logo_url ? item.logo_url : FALLBACK_IMAGE_URL}
                         style={styles.image}
-                        transition={300}
+                        transition={100}
                     />
 
                     <View style={styles.textContainer}>
-                        <ThemedText type="h3" numberOfLines={2}>
+                        <ThemedText type="h4" numberOfLines={2}>
                             {item.title}
                         </ThemedText>
                         <ThemedText type="caption" color="textSecondary" numberOfLines={1}>
@@ -52,18 +52,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     image: {
-        width: Spacing['3xl'],
-        height: Spacing['3xl'],
-        borderRadius: Radii.md,
+        width: spacing.xxxl,
+        height: spacing.xxxl,
+        borderRadius: radii.l,
     },
     textContainer: {
         flex: 1,
-        marginHorizontal: Spacing.md,
+        marginHorizontal: spacing.m,
     },
     detailButton: {
-        borderRadius: Radii.full,
-        paddingVertical: Spacing.sm,
-        paddingHorizontal: Spacing.xl,
+        borderRadius: radii.pill,
+        paddingVertical: spacing.s,
+        paddingHorizontal: spacing.xl,
         justifyContent: "center",
         alignItems: "center",
     },

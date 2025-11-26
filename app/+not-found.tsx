@@ -1,6 +1,6 @@
-import { ThemedText } from '@/components/core/themed-text';
-import { ThemedView } from '@/components/core/themed-view';
-import { Spacing } from '@/constants/theme';
+import { ThemedText } from '@/components/ui/themed-text';
+import { ThemedView } from '@/components/ui/themed-view';
+import { spacing } from '@/constants/theme';
 import { Link, Stack } from 'expo-router';
 import { StyleSheet } from 'react-native';
 
@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        padding: Spacing.xl,
+        padding: spacing.xl,
     },
     link: {
-        marginTop: Spacing.md,
-        paddingVertical: Spacing.md,
+        marginTop: spacing.m,
+        paddingVertical: spacing.m,
     },
 });

@@ -1,5 +1,5 @@
-import { Haptic } from '@/components/core/haptic';
-import { Icon } from '@/components/core/icon';
+import { Haptic } from '@/components/ui/haptic';
+import { Icon } from '@/components/ui/icon';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { msExplore, msExploreFill, msHome, msHomeFill } from '@material-symbols-react-native/rounded-200';
 import { Tabs } from 'expo-router';

@@ -1,4 +1,4 @@
-import { GetEventsListByTag } from '@/supabase/data/types';
+import { GetEventsListByTag } from '@/types/supabase';
 
 export type ListProps = {
     targetTag: string;

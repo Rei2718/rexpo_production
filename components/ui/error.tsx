@@ -1,4 +1,4 @@
-import { Spacing } from '@/constants/theme';
+import { spacing } from '@/constants/theme';
 import { StyleSheet, View } from 'react-native';
 import { ThemedText } from './themed-text';
 
@@ -17,6 +17,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: Spacing.xl,
+        padding: spacing.xl,
     },
 });

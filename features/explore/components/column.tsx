@@ -1,5 +1,5 @@
-import { ThemedView } from '@/components/core/themed-view';
-import { Radii, Spacing } from '@/constants/theme';
+import { ThemedView } from '@/components/ui/themed-view';
+import { radii, spacing } from '@/constants/theme';
 import { Fragment } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Card } from './card';
@@ -22,10 +22,10 @@ export function Column({ items, width }: ColumnProps) {
 
 const styles = StyleSheet.create({
     container: {
-        gap: Spacing.sm,
+        gap: spacing.m,
     },
     separator: {
         height: 1,
-        borderRadius: Radii.full,
+        borderRadius: radii.pill,
     },
 });

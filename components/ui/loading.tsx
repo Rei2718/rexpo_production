@@ -1,4 +1,4 @@
-import { Spacing } from '@/constants/theme';
+import { spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: Spacing.xl,
+        padding: spacing.xl,
     },
 });

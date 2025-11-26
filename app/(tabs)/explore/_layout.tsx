@@ -1,5 +1,5 @@
-import { ThemedView } from '@/components/core/themed-view';
-import { Radii, Typography } from '@/constants/theme';
+import { ThemedView } from '@/components/ui/themed-view';
+import { radii, typography } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import {
     createMaterialTopTabNavigator,
@@ -38,7 +38,7 @@ export default function ExplorationLayout() {
         <ThemedView style={styles.container}>
             <SafeAreaView style={styles.safeArea} edges={['top']}>
                 <MaterialTopTabs
-                    tabBar={props => (
+                    tabBar={(props: any) => (
                         <ThemedView>
                             <View style={[styles.inactiveIndicatorBase, dynamicStyles.inactiveIndicator]} />
                             <MaterialTopTabBar {...props} />
@@ -80,13 +80,13 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0,
     },
     tabLabel: {
-        ...Typography.Subtitle,
+        ...typography.h3,
         fontWeight: 'bold',
         textTransform: 'none',
     },
     indicatorBase: {
         height: 4,
-        borderRadius: Radii.full,
+        borderRadius: radii.pill,
     },
     inactiveIndicatorBase: {
         position: 'absolute',

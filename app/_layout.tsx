@@ -7,7 +7,7 @@ import { Stack } from 'expo-router';
 import 'expo-sqlite/localStorage/install';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
@@ -65,6 +65,15 @@ export default function RootLayout() {
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+            <Stack.Screen
+              name="event-detail"
+              options={{
+                presentation: 'modal',
+                headerTitle: '',
+                headerTransparent: false,
+                headerShadowVisible: false,
+              }}
+            />
           </Stack>
           <StatusBar style="auto" />
         </GestureHandlerRootView>

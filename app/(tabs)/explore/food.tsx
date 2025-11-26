@@ -1,5 +1,5 @@
-import { ThemedText } from '@/components/core/themed-text';
-import { ThemedView } from '@/components/core/themed-view';
+import { ThemedText } from '@/components/ui/themed-text';
+import { ThemedView } from '@/components/ui/themed-view';
 
 export default function FoodScreen() {
     return (

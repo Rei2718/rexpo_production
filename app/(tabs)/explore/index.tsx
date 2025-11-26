@@ -1,5 +1,5 @@
-import { ThemedView } from '@/components/core/themed-view';
-import Index from '@/components/feature/explore';
+import { ThemedView } from '@/components/ui/themed-view';
+import Index from '@/features/explore/components';
 
 export default function HomeScreen() {
     return (

@@ -1,20 +1,16 @@
-import { Error } from '@/components/core/error';
-import { Loading } from '@/components/core/loading';
-import { ThemedText } from '@/components/core/themed-text';
-import { Spacing } from '@/constants/theme';
-import { useChunkedData } from '@/hooks/use-chunked-data';
-import { useGetEventsListByTag } from '@/supabase/data';
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
+
+import { Error } from '@/components/ui/error';
+import { Loading } from '@/components/ui/loading';
+import { ThemedText } from '@/components/ui/themed-text';
+import { spacing } from '@/constants/theme';
+import { useEventList } from '@/features/explore/hooks/useEventList';
+import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Column } from './column';
 import { ListProps } from './types';
 
-const CHUNK_SIZE = 3;
-
 export function List({ targetTag, title, subtitle }: ListProps) {
-    const { data: originalData, isPending, isError } = useGetEventsListByTag(targetTag);
-    const chunkedData = useChunkedData(originalData, CHUNK_SIZE);
-    const { width } = useWindowDimensions();
+    const { chunkedData, isPending, isError, hasData, itemWidth, snapInterval } = useEventList(targetTag);
 
     if (isPending) {
         return <Loading />;
@@ -23,11 +19,6 @@ export function List({ targetTag, title, subtitle }: ListProps) {
     if (isError) {
         return <Error />;
     }
-
-    const hasData = chunkedData && chunkedData.length > 0;
-    const itemWidth = width * 0.85;
-    const separatorWidth = Spacing.xl;
-    const snapInterval = itemWidth + separatorWidth;
 
     return (
         <View>
@@ -45,7 +36,7 @@ export function List({ targetTag, title, subtitle }: ListProps) {
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={styles.flatListContent}
                     snapToInterval={snapInterval}
-                    snapToAlignment="center"
+                    snapToAlignment="start"
                     decelerationRate="normal"
                     disableIntervalMomentum={true}
                     nestedScrollEnabled={true}
@@ -59,17 +50,17 @@ export function List({ targetTag, title, subtitle }: ListProps) {
 
 const styles = StyleSheet.create({
     headerContainer: {
-        paddingBottom: Spacing.sm,
-        paddingHorizontal: Spacing.xl,
-        gap: Spacing.none,
+        paddingBottom: spacing.m,
+        paddingHorizontal: spacing.xl,
+        gap: 0,
     },
     emptyText: {
-        paddingHorizontal: Spacing.xl,
+        paddingHorizontal: spacing.xl,
     },
     separator: {
-        width: Spacing.xl,
+        width: spacing.xl,
     },
     flatListContent: {
-        paddingHorizontal: Spacing.xl,
+        paddingHorizontal: spacing.xl,
     },
 });

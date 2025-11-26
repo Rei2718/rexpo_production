@@ -1,4 +1,5 @@
 import { MsIcon } from 'material-symbols-react-native';
+import React from 'react';
 
 export function Icon({
     icon,

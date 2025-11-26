@@ -1,15 +1,15 @@
-import { Spacing } from '@/constants/theme';
+import { spacing } from '@/constants/theme';
 import { FlatList, StyleSheet, View } from 'react-native';
 import CarouselContents from './carousel';
 import { CategoryTabs } from './category-tabs';
 import { List } from './list';
+import { SearchBar } from './search-bar';
 
 export function HeaderComponent() {
     return (
         <View style={styles.headerComponent}>
-            <View style={styles.tabs}>
-                <CategoryTabs />
-            </View>
+            <SearchBar />
+            <CategoryTabs />
             <CarouselContents />
         </View>
     );
@@ -60,15 +60,13 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     contentContainer: {
-        paddingVertical: Spacing.xl,
-    },
-    tabs: {
-        paddingBottom: Spacing.lg,
+        paddingVertical: spacing.xl,
     },
     headerComponent: {
-        paddingBottom: Spacing['3xl'],
+        paddingBottom: spacing.xxl,
+        gap: spacing.l,
     },
     separator: {
-        height: Spacing['3xl'],
+        height: spacing.xxl,
     },
 });
