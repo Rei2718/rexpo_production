@@ -23,7 +23,7 @@ export function List({ targetTag, title, subtitle }: ListProps) {
     return (
         <View>
             <View style={styles.headerContainer}>
-                <ThemedText type="h2">{title}</ThemedText>
+                <ThemedText type="h3">{title}</ThemedText>
                 <ThemedText type="caption" color="textSecondary">{subtitle}</ThemedText>
             </View>
             {hasData ? (

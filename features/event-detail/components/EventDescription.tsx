@@ -11,7 +11,6 @@ export function EventDescription({ description, overview }: EventDescriptionProp
         <EventSection title="概要">
             <ThemedText type="body" style={styles.container} color="textSecondary">
                 {content}
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iure pariatur quod laboriosam expedita, iste alias inventore, tempore debitis accusamus mollitia voluptatibus eum, ea laudantium. Corrupti sed culpa commodi eaque rerum?
             </ThemedText>
         </EventSection>
     );

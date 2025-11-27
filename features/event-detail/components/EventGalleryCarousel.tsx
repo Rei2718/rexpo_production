@@ -9,7 +9,7 @@ export default function EventGalleryCarousel({ imageUrls }: EventGalleryCarousel
     const { width: windowWidth } = useWindowDimensions();
     const carouselWidth = windowWidth * 0.9;
     const carouselHeight = carouselWidth * (9 / 16);
-    const placeholderColor = useThemeColor('backgroundSecondary');
+    const colors = useThemeColor();
 
     const validImageUrls = imageUrls.filter((url): url is string => !!url);
 
@@ -35,7 +35,7 @@ export default function EventGalleryCarousel({ imageUrls }: EventGalleryCarousel
                     <View style={styles.itemContainer}>
                         <Image
                             source={{ uri: item }}
-                            style={[styles.image, { backgroundColor: placeholderColor }]}
+                            style={[styles.image, { backgroundColor: colors.backgroundSecondary }]}
                             transition={300}
                         />
                     </View>

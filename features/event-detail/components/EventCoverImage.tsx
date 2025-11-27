@@ -5,8 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { EventCoverImageProps } from './types';
 
 export function EventCoverImage({ coverImageUrl, logoUrl }: EventCoverImageProps) {
-    const placeholderColor = useThemeColor('backgroundSecondary');
-    const logoFrameColor = useThemeColor("backgroundPrimary");
+    const colors = useThemeColor();
 
     if (!coverImageUrl) {
         return null;
@@ -18,20 +17,24 @@ export function EventCoverImage({ coverImageUrl, logoUrl }: EventCoverImageProps
                 source={{ uri: coverImageUrl }}
                 style={[
                     styles.image,
-                    { backgroundColor: placeholderColor },
+                    { backgroundColor: colors.backgroundSecondary },
                 ]}
                 transition={300}
             />
-            {logoUrl && (
-                <View style={[styles.logoFrame, { backgroundColor: logoFrameColor }]}>
-                    <Image
-                        source={{ uri: logoUrl }}
-                        style={styles.logo}
-                        transition={300}
-                        contentFit="cover"
-                    />
-                </View>
-            )}
+            {logoUrl && <EventLogo logoUrl={logoUrl} backgroundColor={colors.backgroundPrimary} />}
+        </View>
+    );
+}
+
+function EventLogo({ logoUrl, backgroundColor }: { logoUrl: string; backgroundColor: string }) {
+    return (
+        <View style={[styles.logoFrame, { backgroundColor }]}>
+            <Image
+                source={{ uri: logoUrl }}
+                style={styles.logo}
+                transition={300}
+                contentFit="cover"
+            />
         </View>
     );
 }

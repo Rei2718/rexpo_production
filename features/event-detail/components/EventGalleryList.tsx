@@ -10,7 +10,7 @@ type EventGalleryListProps = {
 
 export function EventGalleryList({ imageUrls }: EventGalleryListProps) {
     const validUrls = imageUrls.filter(Boolean) as string[];
-    const placeholderColor = useThemeColor('backgroundSecondary');
+    const colors = useThemeColor();
 
     if (validUrls.length === 0) {
         return null;
@@ -23,7 +23,7 @@ export function EventGalleryList({ imageUrls }: EventGalleryListProps) {
                     <Image
                         key={index}
                         source={{ uri: url }}
-                        style={[styles.image, { backgroundColor: placeholderColor }]}
+                        style={[styles.image, { backgroundColor: colors.backgroundSecondary }]}
                         transition={300}
                     />
                 ))}

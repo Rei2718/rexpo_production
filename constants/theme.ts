@@ -57,7 +57,7 @@ export const spacing = {
   l: 16,
   xl: 24,
   xxl: 48,
-  xxxl: 66,
+  xxxl: 60,
   xxxxl: 96,
 } as const;
 
@@ -74,7 +74,7 @@ export const radii = {
 export const typography = {
   "h1": { fontSize: 32, fontWeight: "600", lineHeight: 40 },
   "h2": { fontSize: 24, fontWeight: "500", lineHeight: 32 },
-  "h3": { fontSize: 18, fontWeight: "500", lineHeight: 26 },
+  "h3": { fontSize: 20, fontWeight: "500", lineHeight: 26 },
   "h4": { fontSize: 16, fontWeight: "500", lineHeight: 24 },
   "body": { fontSize: 15, fontWeight: "400", lineHeight: 23 },
   "caption": { fontSize: 14, fontWeight: "400", lineHeight: 22 },

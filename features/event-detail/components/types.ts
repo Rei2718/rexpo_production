@@ -1,4 +1,3 @@
-import { GetEventDetailsById } from '@/types/supabase';
 
 export interface EventHeaderProps {
     title?: string | null;
@@ -28,7 +27,7 @@ export interface Performer {
 }
 
 export interface EventPerformerListProps {
-    performers: GetEventDetailsById['performers'];
+    performers: Performer[] | null;
 }
 
 export interface EventTagSectionProps {
@@ -42,7 +41,7 @@ export interface TimeSlot {
 }
 
 export interface EventTimeListProps {
-    times: GetEventDetailsById['times'];
+    times: TimeSlot[] | null;
 }
 
 export interface EventVenueSectionProps {

@@ -14,15 +14,17 @@ import {
     EventVenueSection,
 } from '@/features/event-detail/components';
 import { useEventDetail } from '@/features/event-detail/hooks/useEventDetail';
+import { useContentInsets } from '@/hooks/use-content-insets';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default function EventDetailModal() {
     const { id, data, isPending, isError } = useEventDetail();
+    const { paddingTop } = useContentInsets();
 
     if (!id) {
         return (
-            <View style={styles.errorContainer}>
+            <View style={[styles.errorContainer, { paddingTop }]}>
                 <ThemedText>イベントIDが指定されていません。</ThemedText>
             </View>
         );
@@ -36,43 +38,42 @@ export default function EventDetailModal() {
         return <Error />;
     }
 
-    const eventData = data as any;
-
     return (
         <ThemedView style={styles.container}>
             <ScrollView
                 style={styles.scrollView}
+                contentContainerStyle={{ paddingTop }}
                 showsVerticalScrollIndicator={false}
                 nestedScrollEnabled={true}
             >
                 <View style={styles.scrollViewContent}>
                     <View>
-                        <EventCoverImage coverImageUrl={eventData.cover_image_url} logoUrl={eventData.logo_url} />
+                        <EventCoverImage coverImageUrl={data.cover_image_url} logoUrl={data.logo_url} />
                         <EventHeader
-                            title={eventData.title}
-                            overview_description={eventData.overview_description}
+                            title={data.title}
+                            overview_description={data.overview_description}
                         />
                     </View>
                     <EventDescription
-                        description={eventData.description}
-                        overview={eventData.overview_description}
+                        description={data.description}
+                        overview={data.overview_description}
                     />
 
                     <View style={styles.tagCarouselContainer}>
-                        <EventTagSection tags={eventData.tags} />
+                        <EventTagSection tags={data.tags} />
                         <EventGalleryCarousel
                             imageUrls={[
-                                eventData.cover_image_url,
-                                eventData.gallery_image_url_1,
-                                eventData.gallery_image_url_2,
-                                eventData.gallery_image_url_3,
+                                data.cover_image_url,
+                                data.gallery_image_url_1,
+                                data.gallery_image_url_2,
+                                data.gallery_image_url_3,
                             ]}
                         />
                     </View>
 
-                    <EventPerformerList performers={eventData.performers} />
-                    <EventTimeList times={eventData.times} />
-                    <EventVenueSection venueName={eventData.venue_name} />
+                    <EventPerformerList performers={data.performers} />
+                    <EventTimeList times={data.times} />
+                    <EventVenueSection venueName={data.venue_name} />
                 </View>
             </ScrollView>
         </ThemedView>

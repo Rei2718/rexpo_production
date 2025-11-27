@@ -1,4 +1,5 @@
 import { spacing } from '@/constants/theme';
+import { useContentInsets } from '@/hooks/use-content-insets';
 import { FlatList, StyleSheet, View } from 'react-native';
 import CarouselContents from './carousel';
 import { CategoryTabs } from './category-tabs';
@@ -16,6 +17,7 @@ export function HeaderComponent() {
 }
 
 export default function Index() {
+    const { paddingBottom } = useContentInsets();
     const sections = [
         {
             tag: 'テクノロジー_TEST',
@@ -48,7 +50,10 @@ export default function Index() {
                 keyExtractor={(item) => item.tag}
                 ListHeaderComponent={HeaderComponent}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
-                contentContainerStyle={styles.contentContainer}
+                contentContainerStyle={[
+                    styles.contentContainer,
+                    { paddingBottom }
+                ]}
                 showsVerticalScrollIndicator={false}
             />
         </View>
