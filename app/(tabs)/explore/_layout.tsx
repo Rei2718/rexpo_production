@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     },
     tabBar: {
         backgroundColor: 'transparent',
-        shadowOpacity: 0, // Android
-        elevation: 0, // iOS
+        shadowOpacity: 0,
+        elevation: 0,
         borderBottomWidth: 0,
     },
     tabLabel: {

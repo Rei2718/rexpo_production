@@ -1,38 +1,37 @@
 {
   "expo": {
-    "name": "rexpo_production",
-    "slug": "rexpo_production",
+    "name": "rexpo",
+    "slug": "rexpo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/rexpo-logo-2.png",
-    "scheme": "rexpoproduction",
+    "icon": "./assets/icons/icon.png",
+    "scheme": "rexpo",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ichiro1173.rexpo"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#000000",
-        "foregroundImage": "./assets/images/rexpo-logo-2.png"
+        "foregroundImage": "./assets/icons/adaptive-icon.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
-    },
-    "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "predictiveBackGestureEnabled": false,
+      "package": "com.ichiro1173.rexpo"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/rexpo-logo-2.png",
+          "image": "./assets/icons/splash-icon-light.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000000",
+          "backgroundColor": "#FFFFFF",
           "dark": {
+            "image": "./assets/icons/splash-icon-dark.png",
             "backgroundColor": "#000000"
           }
         }
@@ -43,7 +42,8 @@
           "enableFTS": true,
           "useSQLCipher": true
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -52,7 +52,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "a213945f-4a3f-4ebc-a5df-bc0f50b722f7"
+        "projectId": "3d263608-ebd7-4f85-9196-f8db48c7131b"
       }
     }
   }

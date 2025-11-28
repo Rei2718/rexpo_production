@@ -23,6 +23,7 @@ export default function CarouselContents() {
                 height={carouselHeight}
                 snapEnabled={true}
                 pagingEnabled={true}
+                autoPlay={true}
                 autoPlayInterval={2000}
                 data={CAROUSEL_DATA}
                 style={styles.carousel}
@@ -31,7 +32,7 @@ export default function CarouselContents() {
                         style={styles.itemContainer}
                     >
                         <ImageBackground
-                            source={{ uri: item.imageUrl }}
+                            source={item.image}
                             resizeMode="cover"
                             style={styles.imageBackground}
                         />

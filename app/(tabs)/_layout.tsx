@@ -1,8 +1,8 @@
 import { Haptic } from '@/components/ui/haptic';
 import { Icon } from '@/components/ui/icon';
-import { gradientTabBarOptions } from '@/constants/navigation-options';
+import { tabBarOptions } from '@/constants/navigation-options';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { msExplore, msExploreFill, msHome, msHomeFill } from '@material-symbols-react-native/rounded-200';
+import { msBrowse, msBrowseFill, msHome, msHomeFill } from '@material-symbols-react-native/rounded-400';
 import { Tabs } from 'expo-router';
 
 export default function TabLayout() {
@@ -11,11 +11,11 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: color.textPrimary,
+        tabBarActiveTintColor: color.tint,
         tabBarInactiveTintColor: color.textSecondary,
         headerShown: false,
         tabBarButton: Haptic,
-        ...gradientTabBarOptions,
+        ...tabBarOptions,
       }}>
       <Tabs.Screen
         name="index"
@@ -34,8 +34,8 @@ export default function TabLayout() {
           title: 'Explore',
           tabBarIcon: ({ color, focused }) => (
             focused
-              ? <Icon size={32} icon={msExploreFill} color={color} />
-              : <Icon size={32} icon={msExplore} color={color} />
+              ? <Icon size={32} icon={msBrowseFill} color={color} />
+              : <Icon size={32} icon={msBrowse} color={color} />
           ),
         }}
       />

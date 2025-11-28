@@ -1,7 +1,6 @@
-import { Platform } from 'react-native';
 
 const tintColorLight = '#0088FF';
-const tintColorDark = '#0091FF';
+const tintColorDark = '#AB9FF2';
 
 export const Colors = {
   light: {
@@ -24,30 +23,26 @@ export const Colors = {
   },
 };
 
-export const Fonts = Platform.select({
+export const Fonts = {
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
-    rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: 'ui-monospace',
+    sans: 'NotoSans_400Regular',
+    serif: 'NotoSans_400Regular',
+    rounded: 'NotoSans_400Regular',
+    mono: 'NotoSans_400Regular',
   },
   default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
+    sans: 'NotoSans_400Regular',
+    serif: 'NotoSans_400Regular',
+    rounded: 'NotoSans_400Regular',
+    mono: 'NotoSans_400Regular',
   },
   web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+    sans: 'NotoSans_400Regular',
+    serif: 'NotoSans_400Regular',
+    rounded: 'NotoSans_400Regular',
+    mono: 'NotoSans_400Regular',
   },
-});
+};
 
 export const spacing = {
   xxs: 2,
@@ -61,7 +56,6 @@ export const spacing = {
   xxxxl: 96,
 } as const;
 
-
 export const radii = {
   xs: 2,
   s: 4,
@@ -72,11 +66,11 @@ export const radii = {
 } as const;
 
 export const typography = {
-  "h1": { fontSize: 32, fontWeight: "600", lineHeight: 40 },
-  "h2": { fontSize: 24, fontWeight: "500", lineHeight: 32 },
-  "h3": { fontSize: 20, fontWeight: "500", lineHeight: 26 },
-  "h4": { fontSize: 16, fontWeight: "500", lineHeight: 24 },
-  "body": { fontSize: 15, fontWeight: "400", lineHeight: 23 },
-  "caption": { fontSize: 14, fontWeight: "400", lineHeight: 22 },
-  "label": { fontSize: 12, fontWeight: "500", lineHeight: 22 },
+  "h1": { fontSize: 32, fontWeight: "700", lineHeight: 40, fontFamily: 'NotoSans_700Bold' },
+  "h2": { fontSize: 24, fontWeight: "700", lineHeight: 32, fontFamily: 'NotoSans_700Bold' },
+  "h3": { fontSize: 20, fontWeight: "700", lineHeight: 26, fontFamily: 'NotoSans_700Bold' },
+  "h4": { fontSize: 16, fontWeight: "700", lineHeight: 24, fontFamily: 'NotoSans_700Bold' },
+  "body": { fontSize: 15, fontWeight: "400", lineHeight: 23, fontFamily: 'NotoSans_400Regular' },
+  "caption": { fontSize: 14, fontWeight: "500", lineHeight: 22, fontFamily: 'NotoSans_500Medium' },
+  "label": { fontSize: 12, fontWeight: "500", lineHeight: 20, fontFamily: 'NotoSans_500Medium' },
 } as const;

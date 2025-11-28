@@ -2,7 +2,7 @@ import { Icon } from '@/components/ui/icon';
 import { ThemedView } from '@/components/ui/themed-view';
 import { radii, spacing, typography } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { msSearch } from '@material-symbols-react-native/rounded-200';
+import { msSearch } from '@material-symbols-react-native/rounded-400';
 import { StyleSheet, TextInput } from 'react-native';
 
 export function SearchBar() {

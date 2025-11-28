@@ -1,4 +1,4 @@
-import { spacing } from '@/constants/theme';
+import { radii, spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
@@ -17,5 +17,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: spacing.xl,
+        borderRadius: radii.pill,
     },
 });

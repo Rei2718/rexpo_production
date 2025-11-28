@@ -30,7 +30,6 @@ export function CategoryTabs() {
                                 <Image
                                     source={category.icon ? category.icon : FALLBACK_IMAGE_URL}
                                     style={styles.image}
-                                    transition={100}
                                 />
                                 <ThemedText
                                     type="label"

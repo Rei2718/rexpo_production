@@ -21,7 +21,6 @@ export function Card({ item }: CardProps) {
                     <Image
                         source={item.logo_url ? item.logo_url : FALLBACK_IMAGE_URL}
                         style={styles.image}
-                        transition={100}
                     />
 
                     <View style={styles.textContainer}>
@@ -36,7 +35,7 @@ export function Card({ item }: CardProps) {
                         color="backgroundSecondary"
                         style={styles.detailButton}
                     >
-                        <ThemedText type="label" color="textPrimary">
+                        <ThemedText type="caption" color="tint">
                             詳細
                         </ThemedText>
                     </ThemedView>

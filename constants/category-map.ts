@@ -62,7 +62,7 @@ export const CATEGORIES: Category[] = [
     {
         id: 'fieldwork',
         label: 'フィールドワーク',
-        icon: require('@/assets/category/category_05.png'),
+        icon: require('@/assets/category/category_06.png'),
         tags: [
             { tag: "コミュニティ_TEST", title: "地域貢献活動", subtitle: "清掃活動・ボランティア" },
             { tag: "クリエイティブ_TEST", title: "ワークショップ", subtitle: "体験型講座・ものづくり" }
@@ -71,7 +71,7 @@ export const CATEGORIES: Category[] = [
     {
         id: 'presentation',
         label: 'プレゼンテーション',
-        icon: require('@/assets/category/category_05.png'),
+        icon: require('@/assets/category/category_07.png'),
         tags: [
             { tag: "ビジネス_TEST", title: "ビジネスコンテスト", subtitle: "起業アイデアピッチ" },
             { tag: "テクノロジー_TEST", title: "ライトニングトーク", subtitle: "技術共有・開発秘話" }
@@ -80,7 +80,7 @@ export const CATEGORIES: Category[] = [
     {
         id: 'other',
         label: 'その他',
-        icon: require('@/assets/category/category_05.png'),
+        icon: require('@/assets/category/category_08.png'),
         tags: [
             { tag: "コミュニティ_TEST", title: "全般・インフォ", subtitle: "総合案内・休憩所情報" },
             { tag: "ビジネス_TEST", title: "協賛・スポンサー", subtitle: "支援企業一覧" }

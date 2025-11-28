@@ -1,15 +1,49 @@
-import { GradientBackground } from '@/components/ui/gradient-background';
+import { Colors } from '@/constants/theme';
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
-import { Platform } from 'react-native';
+import { Platform, StyleSheet, View, useColorScheme } from 'react-native';
 
-export const gradientHeaderOptions: NativeStackNavigationOptions = {
+function NavigationBackground({ variant }: { variant: 'header' | 'tab-bar' }) {
+    const colorScheme = useColorScheme();
+    const backgroundColor =
+        colorScheme === 'dark'
+            ? Colors.dark.backgroundPrimary
+            : Colors.light.backgroundPrimary;
+
+    return (
+        <View
+            style={[
+                styles.container,
+                { backgroundColor },
+                variant === 'header' ? styles.headerBorder : styles.tabBarBorder,
+            ]}
+        />
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    headerBorder: {
+        borderBottomWidth: 0,
+        elevation: 0,
+        shadowOpacity: 0,
+    },
+    tabBarBorder: {
+        borderTopWidth: 0,
+        elevation: 0,
+        shadowOpacity: 0,
+    },
+});
+
+export const headerOptions: NativeStackNavigationOptions = {
     headerTransparent: true,
     headerShadowVisible: false,
-    headerBackground: () => <GradientBackground variant="header" />,
+    headerBackground: () => <NavigationBackground variant="header" />,
 };
 
-export const gradientTabBarOptions: BottomTabNavigationOptions = {
+export const tabBarOptions: BottomTabNavigationOptions = {
     tabBarStyle: {
         backgroundColor: 'transparent',
         position: 'absolute',
@@ -19,5 +53,5 @@ export const gradientTabBarOptions: BottomTabNavigationOptions = {
         height: Platform.select({ ios: 104, default: 84 }),
         paddingTop: Platform.select({ ios: 8, default: 8 }),
     },
-    tabBarBackground: () => <GradientBackground variant="tab-bar" />,
+    tabBarBackground: () => <NavigationBackground variant="tab-bar" />,
 };
