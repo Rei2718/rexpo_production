@@ -32,7 +32,7 @@ export function CategoryTabs() {
                                     style={styles.image}
                                 />
                                 <ThemedText
-                                    type="label"
+                                    type="caption"
                                     color="textPrimary"
                                     numberOfLines={1}
                                     ellipsizeMode="tail"
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         width: "auto",
     },
     image: {
-        width: spacing.xxxl,
-        height: spacing.xxxl,
+        width: spacing.xxl,
+        height: spacing.xxl,
     },
 });

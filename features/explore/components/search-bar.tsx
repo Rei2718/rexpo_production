@@ -6,10 +6,10 @@ import { msSearch } from '@material-symbols-react-native/rounded-400';
 import { StyleSheet, TextInput } from 'react-native';
 
 export function SearchBar() {
-    const textColor = useThemeColor('textPrimary');
+    const textColor = useThemeColor("textSecondary");
 
     return (
-        <ThemedView style={styles.container} color="backgroundTertiary">
+        <ThemedView style={styles.container} color="backgroundSecondary">
             <Icon icon={msSearch} size={20} color={textColor} />
             <TextInput
                 style={[styles.input, { color: textColor }]}
