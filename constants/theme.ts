@@ -52,7 +52,7 @@ export const spacing = {
   xl: 24,
   xxl: 48,
   xxxl: 54,
-  xxxxl: 96,
+  xxxxl: 84,
 } as const;
 
 export const radii = {
@@ -70,9 +70,9 @@ export const typography = {
   title2: { fontSize: 23, lineHeight: 28, fontWeight: '400', fontFamily: 'NotoSansJP_400Regular' },
   title3: { fontSize: 18, lineHeight: 23, fontWeight: '500', fontFamily: 'NotoSansJP_500Medium' },
   headline: { fontSize: 17, lineHeight: 22, fontWeight: '500', fontFamily: 'NotoSansJP_500Medium' },
-  body: { fontSize: 16, lineHeight: 22, fontWeight: '400', fontFamily: 'NotoSansJP_400Regular' },
   callout: { fontSize: 16, lineHeight: 21, fontWeight: '400', fontFamily: 'NotoSansJP_400Regular' },
   subhead: { fontSize: 15, lineHeight: 20, fontWeight: '400', fontFamily: 'NotoSansJP_400Regular' },
+  body: { fontSize: 14, lineHeight: 20, fontWeight: '400', fontFamily: 'NotoSansJP_400Regular' },
   footnote: { fontSize: 13, lineHeight: 18, fontWeight: '500', fontFamily: 'NotoSansJP_500Medium' },
   caption1: { fontSize: 12, lineHeight: 16, fontWeight: '300', fontFamily: 'NotoSansJP_300Light' },
   caption2: { fontSize: 12, lineHeight: 16, fontWeight: '500', fontFamily: 'NotoSansJP_500Medium' },

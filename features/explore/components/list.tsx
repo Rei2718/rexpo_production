@@ -3,7 +3,7 @@ import { Error } from '@/components/ui/error';
 import { Loading } from '@/components/ui/loading';
 import { ThemedText } from '@/components/ui/themed-text';
 import { spacing } from '@/constants/theme';
-import { useEventList } from '@/features/explore/hooks/useEventList';
+import { useEventList } from '@/features/explore/hooks/use-event-list';
 import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { ListProps } from '../types';

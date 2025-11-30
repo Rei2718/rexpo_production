@@ -1,6 +1,6 @@
 import { spacing } from '@/constants/theme';
 import { ViewStyle } from 'react-native';
-import { Box, BoxProps } from './Box';
+import { Box, BoxProps } from './box';
 
 type FlexProps = BoxProps & {
     gap?: keyof typeof spacing;

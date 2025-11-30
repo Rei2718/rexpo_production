@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { StyleSheet, View } from 'react-native';
 import { EventCoverImageProps } from '../types';
 
-export function EventCoverImage({ coverImageUrl, logoUrl }: EventCoverImageProps) {
+export default function EventCoverImage({ coverImageUrl, logoUrl }: EventCoverImageProps) {
     const colors = useThemeColor();
 
     if (!coverImageUrl) {
@@ -50,12 +50,12 @@ const styles = StyleSheet.create({
         width: '100%',
         maxWidth: 500,
         aspectRatio: 1,
-        borderRadius: radii.l,
+        borderRadius: radii.xl,
     },
     logoFrame: {
         position: 'absolute',
         bottom: -spacing.xxl,
-        borderRadius: radii.xl - spacing.xs,
+        borderRadius: radii.l + spacing.xs,
         padding: spacing.xs,
         alignItems: 'center',
         justifyContent: 'center',

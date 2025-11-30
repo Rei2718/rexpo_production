@@ -1,5 +1,5 @@
 import { ThemedView } from '@/components/ui/themed-view';
-import ExploreScreen from '@/features/explore/screens/ExploreScreen';
+import ExploreScreen from '@/features/explore/screens/screen';
 
 export default function HomeScreen() {
     return (

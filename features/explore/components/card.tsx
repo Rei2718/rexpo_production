@@ -1,5 +1,5 @@
-import { Box } from '@/components/ui/layout/Box';
-import { Column, Row } from '@/components/ui/layout/Flex';
+import { Box } from '@/components/ui/layout/box';
+import { Column, Row } from '@/components/ui/layout/flex';
 import { ThemedText } from '@/components/ui/themed-text';
 import { FALLBACK_IMAGE_URL } from '@/constants/fallback-image';
 import { spacing } from '@/constants/theme';

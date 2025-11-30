@@ -7,14 +7,14 @@ type EventSectionProps = {
     children?: React.ReactNode;
 };
 
-export function EventSection({ title, children }: EventSectionProps) {
+export default function EventSection({ title, children }: EventSectionProps) {
     if (!children) {
         return null;
     }
 
     return (
         <View>
-            <ThemedText type="title2" color="textPrimary" style={styles.container}>{title}</ThemedText>
+            <ThemedText type="headline" color="textPrimary" style={styles.container}>{title}</ThemedText>
             <View style={styles.content}>
                 {children}
             </View>

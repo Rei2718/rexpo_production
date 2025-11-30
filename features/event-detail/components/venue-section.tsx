@@ -1,8 +1,8 @@
 import { ThemedText } from '@/components/ui/themed-text';
 import { EventVenueSectionProps } from '../types';
-import { EventSection } from './EventSection';
+import EventSection from './section';
 
-export function EventVenueSection({ venueName }: EventVenueSectionProps) {
+export default function EventVenueSection({ venueName }: EventVenueSectionProps) {
     if (!venueName) {
         return null;
     }

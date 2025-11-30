@@ -5,7 +5,7 @@ import { Link } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet } from 'react-native';
 import { EventTagSectionProps } from '../types';
 
-export function EventTagSection({ tags }: EventTagSectionProps) {
+export default function EventTagSection({ tags }: EventTagSectionProps) {
     if (!tags) {
         return null;
     }

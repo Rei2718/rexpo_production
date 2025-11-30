@@ -2,9 +2,9 @@ import { ThemedText } from '@/components/ui/themed-text';
 import { spacing } from '@/constants/theme';
 import { StyleSheet } from 'react-native';
 import { EventDescriptionProps } from '../types';
-import { EventSection } from './EventSection';
+import EventSection from './section';
 
-export function EventDescription({ description, overview }: EventDescriptionProps) {
+export default function EventDescription({ description, overview }: EventDescriptionProps) {
     const content = description ?? overview ?? '情報がありません。';
 
     return (

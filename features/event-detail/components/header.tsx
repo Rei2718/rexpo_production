@@ -3,17 +3,19 @@ import { spacing } from '@/constants/theme';
 import { StyleSheet, View } from 'react-native';
 import { EventHeaderProps } from '../types';
 
-export function EventHeader({
+export default function EventHeader({
     title,
     overview_description,
 }: EventHeaderProps) {
     return (
         <View style={styles.headerContainer}>
-            <ThemedText type="caption1" color="tint" style={styles.sponcorText}>
+            <ThemedText type="caption2" color="tint" style={styles.sponcorText}>
                 プラチナブーススポンサー
             </ThemedText>
-            <ThemedText type="title1">{title}</ThemedText>
-            <ThemedText type="title3" color="textSecondary">
+            <ThemedText type="title2" style={styles.headerText}>
+                {title}
+            </ThemedText>
+            <ThemedText type="subhead" color="textSecondary">
                 {overview_description}
             </ThemedText>
         </View>
@@ -27,6 +29,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     sponcorText: {
-        marginTop: spacing.xxs,
+        paddingVertical: spacing.s
+    },
+    headerText: {
+        paddingBottom: spacing.xs
     },
 });

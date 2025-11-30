@@ -3,9 +3,9 @@ import { spacing } from '@/constants/theme';
 import { formatTime } from '@/utils/date';
 import { StyleSheet } from 'react-native';
 import { EventTimeListProps } from '../types';
-import { EventSection } from './EventSection';
+import EventSection from './section';
 
-export function EventTimeList({ times }: EventTimeListProps) {
+export default function EventTimeList({ times }: EventTimeListProps) {
     if (!times || times.length === 0) {
         return null;
     }

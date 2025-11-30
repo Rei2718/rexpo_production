@@ -1,14 +1,18 @@
-import { Box } from '@/components/ui/layout/Box';
-import { Column, Row } from '@/components/ui/layout/Flex';
+import { Icon } from '@/components/ui/icon';
+import { Box } from '@/components/ui/layout/box';
+import { Column, Row } from '@/components/ui/layout/flex';
 import { ThemedText } from '@/components/ui/themed-text';
 import { FALLBACK_IMAGE_URL } from '@/constants/fallback-image';
 import { spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { msChevronRight } from '@material-symbols-react-native/rounded-400';
 import { Image } from 'expo-image';
 import { EventPerformerListProps, Performer } from '../types';
-import { EventSection } from './EventSection';
+import EventSection from './section';
 
-export function EventPerformerList({ performers }: EventPerformerListProps) {
+
+
+export default function EventPerformerList({ performers }: EventPerformerListProps) {
     if (!Array.isArray(performers) || performers.length === 0) {
         return null;
     }
@@ -52,7 +56,9 @@ function PerformerRow({ performer }: { performer: Performer }) {
                     transition={300}
                 />
                 <Column>
-                    <ThemedText type="body">{performer.name}</ThemedText>
+                    <ThemedText type="body">
+                        {performer.name}
+                    </ThemedText>
                     {performer.position && (
                         <ThemedText type="caption1" color="textSecondary">
                             {performer.position}
@@ -61,17 +67,11 @@ function PerformerRow({ performer }: { performer: Performer }) {
                 </Column>
             </Row>
             <Box
-                backgroundColor="backgroundTertiary"
-                borderRadius="pill"
-                paddingVertical="s"
-                paddingHorizontal="xl"
-                margin="xs"
-                alignItems="center"
+                paddingHorizontal="s"
                 justifyContent="center"
+                alignItems="center"
             >
-                <ThemedText type="footnote" color="tint">
-                    詳細
-                </ThemedText>
+                <Icon icon={msChevronRight} size={28} color={colors.textTertiary} />
             </Box>
         </Row>
     );

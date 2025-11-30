@@ -1,4 +1,4 @@
-import EventDetailScreen from '@/features/event-detail/screens/EventDetailScreen';
+import EventDetailScreen from '@/features/event-detail/screens/screen';
 
 export default function EventDetailModal() {
     return <EventDetailScreen />;
