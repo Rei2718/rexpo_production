@@ -1,5 +1,5 @@
 import { spacing } from '@/constants/theme';
-import { ExploreHeader } from '@/features/explore/components/ExploreHeader';
+import { ExploreHeader } from '@/features/explore/components/header';
 import { List } from '@/features/explore/components/list';
 import { useContentInsets } from '@/hooks/use-content-insets';
 import { FlatList, StyleSheet, View } from 'react-native';

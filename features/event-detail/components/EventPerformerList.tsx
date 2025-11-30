@@ -1,12 +1,12 @@
+import { Box } from '@/components/ui/layout/Box';
+import { Column, Row } from '@/components/ui/layout/Flex';
 import { ThemedText } from '@/components/ui/themed-text';
-import { ThemedView } from '@/components/ui/themed-view';
 import { FALLBACK_IMAGE_URL } from '@/constants/fallback-image';
-import { radii, spacing } from '@/constants/theme';
+import { spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { Image } from 'expo-image';
-import { StyleSheet, View } from 'react-native';
+import { EventPerformerListProps, Performer } from '../types';
 import { EventSection } from './EventSection';
-import { EventPerformerListProps, Performer } from './types';
 
 export function EventPerformerList({ performers }: EventPerformerListProps) {
     if (!Array.isArray(performers) || performers.length === 0) {
@@ -15,11 +15,11 @@ export function EventPerformerList({ performers }: EventPerformerListProps) {
 
     return (
         <EventSection title="出演者">
-            <View style={styles.listContainer}>
+            <Column gap="m" paddingHorizontal="xl">
                 {performers.map((performer) => (
                     <PerformerRow key={performer.id} performer={performer} />
                 ))}
-            </View>
+            </Column>
         </EventSection>
     );
 }
@@ -28,75 +28,51 @@ function PerformerRow({ performer }: { performer: Performer }) {
     const colors = useThemeColor();
 
     return (
-        <ThemedView
-            color="backgroundSecondary"
-            style={styles.performerRow}
+        <Row
+            backgroundColor="backgroundSecondary"
+            padding="xs"
+            borderRadius="pill"
+            justifyContent="space-between"
+            width="100%"
         >
-            <View style={styles.leftContainer}>
+            <Row>
                 <Image
                     source={
                         performer.avatar_url
                             ? { uri: performer.avatar_url }
                             : FALLBACK_IMAGE_URL
                     }
-                    style={[styles.avatar, { backgroundColor: colors.backgroundSecondary }]}
+                    style={{
+                        width: spacing.xxl,
+                        height: spacing.xxl,
+                        borderRadius: 9999, // radii.pill
+                        marginRight: spacing.m,
+                        backgroundColor: colors.backgroundSecondary,
+                    }}
                     transition={300}
                 />
-                <View>
+                <Column>
                     <ThemedText type="body">{performer.name}</ThemedText>
                     {performer.position && (
                         <ThemedText type="caption1" color="textSecondary">
                             {performer.position}
                         </ThemedText>
                     )}
-                </View>
-            </View>
-            <ThemedView
-                color="backgroundTertiary"
-                style={styles.detailButton}
+                </Column>
+            </Row>
+            <Box
+                backgroundColor="backgroundTertiary"
+                borderRadius="pill"
+                paddingVertical="s"
+                paddingHorizontal="xl"
+                margin="xs"
+                alignItems="center"
+                justifyContent="center"
             >
                 <ThemedText type="footnote" color="tint">
                     詳細
                 </ThemedText>
-            </ThemedView>
-        </ThemedView>
+            </Box>
+        </Row>
     );
 }
-
-const styles = StyleSheet.create({
-    listContainer: {
-        gap: spacing.m,
-        paddingHorizontal: spacing.xl,
-    },
-    performerRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-        padding: spacing.xs,
-        borderRadius: radii.pill,
-    },
-    leftContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    avatar: {
-        width: spacing.xxl,
-        height: spacing.xxl,
-        borderRadius: radii.pill,
-        marginRight: spacing.m,
-    },
-    rightContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingRight: spacing.l,
-    },
-    detailButton: {
-        borderRadius: radii.pill,
-        paddingVertical: spacing.s,
-        paddingHorizontal: spacing.xl,
-        margin: spacing.xs,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-});

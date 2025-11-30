@@ -2,8 +2,8 @@ import { ThemedView } from '@/components/ui/themed-view';
 import { radii, spacing } from '@/constants/theme';
 import { Fragment } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { ColumnProps } from '../types';
 import { Card } from './card';
-import { ColumnProps } from './types';
 
 export function Column({ items, width }: ColumnProps) {
     return (

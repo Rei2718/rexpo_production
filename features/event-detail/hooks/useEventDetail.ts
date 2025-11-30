@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useGetEventDetailsById } from '../api';
-import { Performer, TimeSlot } from '../components/types';
+import { Performer, TimeSlot } from '../types';
 
 export function useEventDetail() {
     const { id } = useLocalSearchParams<{ id: string }>();

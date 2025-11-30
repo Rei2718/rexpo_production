@@ -1,4 +1,6 @@
-import { GetEventsListByTag } from '@/types/supabase';
+import { Database } from "@/supabase/database.types";
+
+export type GetEventsListByTag = Database['public']['Functions']["get_events_list_by_tag"]['Returns'][number];
 
 export type ListProps = {
     targetTag: string;

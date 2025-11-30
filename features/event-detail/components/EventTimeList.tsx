@@ -2,8 +2,8 @@ import { ThemedText } from '@/components/ui/themed-text';
 import { spacing } from '@/constants/theme';
 import { formatTime } from '@/utils/date';
 import { StyleSheet } from 'react-native';
+import { EventTimeListProps } from '../types';
 import { EventSection } from './EventSection';
-import { EventTimeListProps } from './types';
 
 export function EventTimeList({ times }: EventTimeListProps) {
     if (!times || times.length === 0) {

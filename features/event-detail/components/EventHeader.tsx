@@ -1,7 +1,7 @@
 import { ThemedText } from '@/components/ui/themed-text';
 import { spacing } from '@/constants/theme';
 import { StyleSheet, View } from 'react-native';
-import { EventHeaderProps } from './types';
+import { EventHeaderProps } from '../types';
 
 export function EventHeader({
     title,

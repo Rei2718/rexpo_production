@@ -2,7 +2,7 @@ import { radii, spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { Image } from 'expo-image';
 import { StyleSheet, View } from 'react-native';
-import { EventCoverImageProps } from './types';
+import { EventCoverImageProps } from '../types';
 
 export function EventCoverImage({ coverImageUrl, logoUrl }: EventCoverImageProps) {
     const colors = useThemeColor();

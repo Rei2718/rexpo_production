@@ -6,8 +6,8 @@ import { spacing } from '@/constants/theme';
 import { useEventList } from '@/features/explore/hooks/useEventList';
 import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { ListProps } from '../types';
 import { Column } from './column';
-import { ListProps } from './types';
 
 export function List({ targetTag, title, subtitle }: ListProps) {
     const { chunkedData, isPending, isError, hasData, itemWidth, snapInterval } = useEventList(targetTag);
