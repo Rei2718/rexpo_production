@@ -23,8 +23,8 @@ export function List({ targetTag, title, subtitle }: ListProps) {
     return (
         <View>
             <View style={styles.headerContainer}>
-                <ThemedText type="h3">{title}</ThemedText>
-                <ThemedText type="caption" color="textSecondary">{subtitle}</ThemedText>
+                <ThemedText type="title3">{title}</ThemedText>
+                <ThemedText type="footnote" color="textSecondary">{subtitle}</ThemedText>
             </View>
             {hasData ? (
                 <FlatList
@@ -50,9 +50,9 @@ export function List({ targetTag, title, subtitle }: ListProps) {
 
 const styles = StyleSheet.create({
     headerContainer: {
-        paddingBottom: spacing.m,
+        paddingBottom: spacing.l,
         paddingHorizontal: spacing.xl,
-        gap: 0,
+        gap: spacing.xxs,
     },
     emptyText: {
         paddingHorizontal: spacing.xl,

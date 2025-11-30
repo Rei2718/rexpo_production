@@ -24,10 +24,10 @@ export function Card({ item }: CardProps) {
                     />
 
                     <View style={styles.textContainer}>
-                        <ThemedText type="h4" numberOfLines={2}>
+                        <ThemedText type="body" numberOfLines={1}>
                             {item.title}
                         </ThemedText>
-                        <ThemedText type="caption" color="textSecondary" numberOfLines={1}>
+                        <ThemedText type="caption1" color="textSecondary" numberOfLines={1}>
                             {item.overview_description}
                         </ThemedText>
                     </View>
@@ -35,7 +35,7 @@ export function Card({ item }: CardProps) {
                         color="backgroundSecondary"
                         style={styles.detailButton}
                     >
-                        <ThemedText type="caption" color="tint">
+                        <ThemedText type="caption1" color="tint">
                             詳細
                         </ThemedText>
                     </ThemedView>
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     textContainer: {
         flex: 1,
         marginHorizontal: spacing.m,
+        gap: spacing.xs,
     },
     detailButton: {
         borderRadius: radii.pill,

@@ -12,7 +12,7 @@ export function Column({ items, width }: ColumnProps) {
                 <Fragment key={item.id}>
                     <Card item={item} />
                     {index < items.length - 1 && (
-                        <ThemedView color="backgroundSecondary" style={styles.separator} />
+                        <ThemedView color="backgroundTertiary" style={styles.separator} />
                     )}
                 </Fragment>
             ))}
@@ -22,7 +22,7 @@ export function Column({ items, width }: ColumnProps) {
 
 const styles = StyleSheet.create({
     container: {
-        gap: spacing.m,
+        gap: spacing.s,
     },
     separator: {
         height: 1,

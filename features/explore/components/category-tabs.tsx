@@ -1,13 +1,16 @@
 import { ThemedText } from '@/components/ui/themed-text';
 import { CATEGORIES } from '@/constants/category-map';
 import { FALLBACK_IMAGE_URL } from '@/constants/fallback-image';
-import { spacing } from '@/constants/theme';
+import { Colors, radii, spacing } from '@/constants/theme';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View, useColorScheme } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export function CategoryTabs() {
+    const colorScheme = useColorScheme() ?? 'light';
+    const themeColors = Colors[colorScheme];
+
     return (
         <View>
             <ScrollView
@@ -26,13 +29,13 @@ export function CategoryTabs() {
                         asChild
                     >
                         <Pressable>
-                            <View style={styles.tabContainer}>
+                            <View style={[styles.tabContainer, { backgroundColor: themeColors.backgroundTertiary }]}>
                                 <Image
                                     source={category.icon ? category.icon : FALLBACK_IMAGE_URL}
                                     style={styles.image}
                                 />
                                 <ThemedText
-                                    type="caption"
+                                    type="footnote"
                                     color="textPrimary"
                                     numberOfLines={1}
                                     ellipsizeMode="tail"
@@ -51,15 +54,18 @@ export function CategoryTabs() {
 const styles = StyleSheet.create({
     scrollContainer: {
         paddingHorizontal: spacing.xl,
-        gap: spacing.l,
+        gap: spacing.m,
     },
     tabContainer: {
+        flexDirection: 'row',
         alignItems: 'center',
-        gap: spacing.xxs,
-        width: "auto",
+        gap: spacing.m,
+        borderRadius: radii.pill,
+        paddingHorizontal: spacing.l,
+        paddingVertical: spacing.s,
     },
     image: {
-        width: spacing.xxl,
-        height: spacing.xxl,
+        width: spacing.xl,
+        height: spacing.xl,
     },
 });

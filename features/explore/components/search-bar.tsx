@@ -9,8 +9,8 @@ export function SearchBar() {
     const textColor = useThemeColor("textSecondary");
 
     return (
-        <ThemedView style={styles.container} color="backgroundSecondary">
-            <Icon icon={msSearch} size={20} color={textColor} />
+        <ThemedView style={styles.container} color="backgroundTertiary">
+            <Icon icon={msSearch} size={24} color={textColor} />
             <TextInput
                 style={[styles.input, { color: textColor }]}
                 placeholder="検索"
@@ -31,8 +31,10 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        ...typography.h4,
+        ...typography.subhead,
         padding: 0, // Remove default padding on Android
         marginLeft: spacing.s,
+        textAlignVertical: 'center',
+        includeFontPadding: false,
     },
 });

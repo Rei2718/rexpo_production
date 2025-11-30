@@ -1,13 +1,14 @@
 import { headerOptions } from '@/constants/navigation-options';
 import { Colors } from '@/constants/theme';
 import {
-  NotoSans_300Light,
-  NotoSans_400Regular,
-  NotoSans_500Medium,
-  NotoSans_600SemiBold,
-  NotoSans_700Bold,
+  NotoSansJP_200ExtraLight,
+  NotoSansJP_300Light,
+  NotoSansJP_400Regular,
+  NotoSansJP_500Medium,
+  NotoSansJP_600SemiBold,
+  NotoSansJP_700Bold,
   useFonts,
-} from '@expo-google-fonts/noto-sans';
+} from '@expo-google-fonts/noto-sans-jp';
 import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { focusManager, QueryClient } from '@tanstack/react-query';
@@ -65,11 +66,12 @@ const CustomDefaultTheme: Theme = {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [fontsLoaded] = useFonts({
-    NotoSans_300Light,
-    NotoSans_400Regular,
-    NotoSans_500Medium,
-    NotoSans_600SemiBold,
-    NotoSans_700Bold,
+    NotoSansJP_200ExtraLight,
+    NotoSansJP_300Light,
+    NotoSansJP_400Regular,
+    NotoSansJP_500Medium,
+    NotoSansJP_600SemiBold,
+    NotoSansJP_700Bold,
   });
 
   useEffect(() => {

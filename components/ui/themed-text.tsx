@@ -20,26 +20,34 @@ export function ThemedText({
     <Text
       style={[
         { color: themeColor },
-        type === 'h1' && styles.h1,
-        type === 'h2' && styles.h2,
-        type === 'h3' && styles.h3,
-        type === 'h4' && styles.h4,
+        type === 'largeTitle' && styles.largeTitle,
+        type === 'title1' && styles.title1,
+        type === 'title2' && styles.title2,
+        type === 'title3' && styles.title3,
+        type === 'headline' && styles.headline,
         type === 'body' && styles.body,
-        type === 'label' && styles.label,
-        type === 'caption' && styles.caption,
+        type === 'callout' && styles.callout,
+        type === 'subhead' && styles.subhead,
+        type === 'footnote' && styles.footnote,
+        type === 'caption1' && styles.caption1,
+        type === 'caption2' && styles.caption2,
         style,
-      ] as any}
+      ]}
       {...rest}
     />
   );
 }
 
 const styles = StyleSheet.create({
-  h1: typography.h1,
-  h2: typography.h2,
-  h3: typography.h3,
-  h4: typography.h4,
+  largeTitle: typography.largeTitle,
+  title1: typography.title1,
+  title2: typography.title2,
+  title3: typography.title3,
+  headline: typography.headline,
   body: typography.body,
-  label: typography.label,
-  caption: typography.caption,
+  callout: typography.callout,
+  subhead: typography.subhead,
+  footnote: typography.footnote,
+  caption1: typography.caption1,
+  caption2: typography.caption2,
 });

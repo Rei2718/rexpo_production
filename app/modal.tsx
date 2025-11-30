@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 export default function ModalScreen() {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="h1">This is a modal</ThemedText>
+      <ThemedText type="title3">This is a modal</ThemedText>
       <Link href="/" dismissTo style={styles.link}>
         <ThemedText type="body" color="tint">Go to home screen</ThemedText>
       </Link>
