@@ -31,7 +31,7 @@ export function EventTagSection({ tags }: EventTagSectionProps) {
                             color="backgroundTertiary"
                             style={styles.tabContainer}
                         >
-                            <ThemedText type="label">{tag}</ThemedText>
+                            <ThemedText type="footnote">{tag}</ThemedText>
                         </ThemedView>
                     </Pressable>
                 </Link>

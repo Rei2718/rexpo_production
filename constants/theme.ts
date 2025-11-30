@@ -1,15 +1,14 @@
-
 const tintColorLight = '#6155F5';
 const tintColorDark = '#6D7CFF';
 
 export const Colors = {
   light: {
-    textPrimary: '#DEDEDE',
+    textPrimary: '#121212',
     textSecondary: '#6C6C6C',
-    textTertiary: '#292929',
-    backgroundPrimary: '#161616',
-    backgroundSecondary: '#292929',
-    backgroundTertiary: '#383838',
+    textTertiary: '#949494',
+    backgroundPrimary: '#FFFFFF',
+    backgroundSecondary: '#F5F5F5',
+    backgroundTertiary: '#E5E5E5',
     tint: tintColorLight,
   },
   dark: {

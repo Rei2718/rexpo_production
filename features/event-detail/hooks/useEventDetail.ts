@@ -1,5 +1,5 @@
-import { useGetEventDetailsById } from '@/supabase/data';
 import { useLocalSearchParams } from 'expo-router';
+import { useGetEventDetailsById } from '../api';
 import { Performer, TimeSlot } from '../components/types';
 
 export function useEventDetail() {

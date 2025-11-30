@@ -1,7 +1,7 @@
 import { spacing } from '@/constants/theme';
 import { useChunkedData } from '@/hooks/use-chunked-data';
-import { useGetEventsListByTag } from '@/supabase/data';
 import { useWindowDimensions } from 'react-native';
+import { useGetEventsListByTag } from '../api';
 
 const CHUNK_SIZE = 3;
 

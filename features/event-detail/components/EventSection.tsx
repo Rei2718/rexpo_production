@@ -14,7 +14,7 @@ export function EventSection({ title, children }: EventSectionProps) {
 
     return (
         <View>
-            <ThemedText type="h2" color="textPrimary" style={styles.container}>{title}</ThemedText>
+            <ThemedText type="title2" color="textPrimary" style={styles.container}>{title}</ThemedText>
             <View style={styles.content}>
                 {children}
             </View>

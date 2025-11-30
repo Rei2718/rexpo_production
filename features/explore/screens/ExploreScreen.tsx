@@ -1,31 +1,10 @@
-import { Icon } from '@/components/ui/icon';
-import { ThemedText } from '@/components/ui/themed-text';
 import { spacing } from '@/constants/theme';
+import { ExploreHeader } from '@/features/explore/components/ExploreHeader';
+import { List } from '@/features/explore/components/list';
 import { useContentInsets } from '@/hooks/use-content-insets';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { msSearch } from '@material-symbols-react-native/rounded-400';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import CarouselContents from './carousel';
-import { CategoryTabs } from './category-tabs';
-import { List } from './list';
 
-export function HeaderComponent() {
-    const iconColor = useThemeColor("textPrimary");
-
-    return (
-        <SafeAreaView edges={['top']} style={styles.headerComponent}>
-            <View style={styles.headerTop}>
-                <ThemedText type="largeTitle">Explore</ThemedText>
-                <Icon icon={msSearch} size={28} color={iconColor} />
-            </View>
-            <CategoryTabs />
-            <CarouselContents />
-        </SafeAreaView>
-    );
-}
-
-export default function Index() {
+export default function ExploreScreen() {
     const { paddingBottom } = useContentInsets();
 
     const sections = [
@@ -58,7 +37,7 @@ export default function Index() {
                     />
                 )}
                 keyExtractor={(item) => item.tag}
-                ListHeaderComponent={HeaderComponent}
+                ListHeaderComponent={ExploreHeader}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
                 contentContainerStyle={[
                     styles.contentContainer,
@@ -74,19 +53,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    headerTop: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: spacing.xl,
-        paddingBottom: spacing.xl,
-    },
     contentContainer: {
         paddingTop: spacing.xl,
-    },
-    headerComponent: {
-        paddingBottom: spacing.xxl,
-        gap: spacing.l,
     },
     separator: {
         height: spacing.xxl,

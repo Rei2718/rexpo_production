@@ -45,7 +45,7 @@ function PerformerRow({ performer }: { performer: Performer }) {
                 <View>
                     <ThemedText type="body">{performer.name}</ThemedText>
                     {performer.position && (
-                        <ThemedText type="caption" color="textSecondary">
+                        <ThemedText type="caption1" color="textSecondary">
                             {performer.position}
                         </ThemedText>
                     )}
@@ -55,7 +55,7 @@ function PerformerRow({ performer }: { performer: Performer }) {
                 color="backgroundTertiary"
                 style={styles.detailButton}
             >
-                <ThemedText type="label" color="tint">
+                <ThemedText type="footnote" color="tint">
                     詳細
                 </ThemedText>
             </ThemedView>

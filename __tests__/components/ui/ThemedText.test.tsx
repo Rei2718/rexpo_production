@@ -14,8 +14,8 @@ describe('ThemedText', () => {
         expect(textElement).toBeTruthy();
     });
 
-    it('applies correct style for h1 type', () => {
-        const { getByText } = render(<ThemedText type="h1">Header</ThemedText>);
+    it('applies correct style for title1 type', () => {
+        const { getByText } = render(<ThemedText type="title1">Header</ThemedText>);
         const textElement = getByText('Header');
         expect(textElement).toBeTruthy();
     });

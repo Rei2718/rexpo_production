@@ -9,11 +9,11 @@ export function EventHeader({
 }: EventHeaderProps) {
     return (
         <View style={styles.headerContainer}>
-            <ThemedText type="caption" color="tint" style={styles.sponcorText}>
+            <ThemedText type="caption1" color="tint" style={styles.sponcorText}>
                 プラチナブーススポンサー
             </ThemedText>
-            <ThemedText type="h1">{title}</ThemedText>
-            <ThemedText type="h3" color="textSecondary">
+            <ThemedText type="title1">{title}</ThemedText>
+            <ThemedText type="title3" color="textSecondary">
                 {overview_description}
             </ThemedText>
         </View>
