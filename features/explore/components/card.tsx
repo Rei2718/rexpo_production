@@ -1,4 +1,3 @@
-import { Box } from '@/components/ui/layout/box';
 import { Column, Row } from '@/components/ui/layout/flex';
 import { ThemedText } from '@/components/ui/themed-text';
 import { FALLBACK_IMAGE_URL } from '@/constants/fallback-image';
@@ -20,7 +19,7 @@ export function Card({ item }: CardProps) {
             <Pressable>
                 <Row>
                     <Image
-                        source={item.logo_url ? item.logo_url : FALLBACK_IMAGE_URL}
+                        source={item.logo_url ? { uri: item.logo_url } : FALLBACK_IMAGE_URL}
                         style={{
                             width: spacing.xxxl,
                             height: spacing.xxxl,
@@ -36,19 +35,6 @@ export function Card({ item }: CardProps) {
                             {item.overview_description}
                         </ThemedText>
                     </Column>
-
-                    <Box
-                        backgroundColor="backgroundSecondary"
-                        borderRadius="pill"
-                        paddingVertical="s"
-                        paddingHorizontal="xl"
-                        alignItems="center"
-                        justifyContent="center"
-                    >
-                        <ThemedText type="caption1" color="tint">
-                            詳細
-                        </ThemedText>
-                    </Box>
                 </Row>
             </Pressable>
         </Link>

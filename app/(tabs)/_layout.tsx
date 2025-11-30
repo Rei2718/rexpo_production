@@ -2,7 +2,7 @@ import { Haptic } from '@/components/ui/haptic';
 import { Icon } from '@/components/ui/icon';
 import { tabBarOptions } from '@/constants/navigation-options';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { msBrowse, msBrowseFill, msHome, msHomeFill } from '@material-symbols-react-native/rounded-400';
+import { msBookmark, msBookmarkFill, msBrowse, msBrowseFill, msHome, msHomeFill } from '@material-symbols-react-native/rounded-400';
 import { Tabs } from 'expo-router';
 
 export default function TabLayout() {
@@ -36,6 +36,17 @@ export default function TabLayout() {
                         focused
                             ? <Icon size={32} icon={msBrowseFill} color={color} />
                             : <Icon size={32} icon={msBrowse} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="bookmark"
+                options={{
+                    title: 'Bookmark',
+                    tabBarIcon: ({ color, focused }) => (
+                        focused
+                            ? <Icon size={32} icon={msBookmarkFill} color={color} />
+                            : <Icon size={32} icon={msBookmark} color={color} />
                     ),
                 }}
             />

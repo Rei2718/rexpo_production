@@ -3,18 +3,18 @@ import { Loading } from '@/components/ui/loading';
 import { ThemedText } from '@/components/ui/themed-text';
 import { ThemedView } from '@/components/ui/themed-view';
 import { spacing } from '@/constants/theme';
-import EventCoverImage from '@/features/event-detail/components/cover-image';
-import EventDescription from '@/features/event-detail/components/description';
-import EventGalleryCarousel from '@/features/event-detail/components/gallery-carousel';
-import EventHeader from '@/features/event-detail/components/header';
-import EventPerformerList from '@/features/event-detail/components/performer-list';
-import EventTagSection from '@/features/event-detail/components/tag-section';
-import EventTimeList from '@/features/event-detail/components/time-list';
-import EventVenueSection from '@/features/event-detail/components/venue-section';
-import { useEventDetail } from '@/features/event-detail/hooks/use-event-detail';
 import { useContentInsets } from '@/hooks/use-content-insets';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import EventCoverImage from '../components/cover-image';
+import EventDescription from '../components/description';
+import EventGalleryCarousel from '../components/gallery-carousel';
+import EventHeader from '../components/header';
+import EventPerformerList from '../components/performer-list';
+import EventTagSection from '../components/tag-section';
+import EventTimeList from '../components/time-list';
+import EventVenueSection from '../components/venue-section';
+import { useEventDetail } from '../hooks/use-event-detail';
 
 export default function EventDetailScreen() {
     const { id, data, isPending, isError } = useEventDetail();
