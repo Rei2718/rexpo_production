@@ -1,0 +1,1 @@
+SELECT refresh_all_mvs();

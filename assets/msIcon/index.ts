@@ -1,0 +1,25 @@
+export const icons = {
+    home: require('./home.svg'),
+    homeFill: require('./homeFill.svg'),
+    browse: require('./browse.svg'),
+    browseFill: require('./browseFill.svg'),
+    right: require('./right.svg'),
+    search: require('./search.svg'),
+    left: require('./left.svg'),
+    clock: require('./clock.svg'),
+    explore: require('./explore.svg'),
+    down: require('./down.svg'),
+    bookmark: require('./bookmark.svg'),
+    bookmarkFill: require('./bookmarkFill.svg'),
+    favorite: require('./favorite.svg'),
+    favoriteFill: require('./favoriteFill.svg'),
+    map: require('./map.svg'),
+    mapFill: require('./mapFill.svg'),
+    locationOn: require('./locationOn.svg'),
+    locationOnFill: require('./locationOnFill.svg'),
+    humanFill: require('./humanFill.svg'),
+    FloorFill: require('./FloorFill.svg'),
+    clockFill: require('./clockFill.svg'),
+};
+
+export type IconName = keyof typeof icons;
