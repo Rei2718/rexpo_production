@@ -1,4 +1,3 @@
-
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useCategories } from "@/supabase/api";
@@ -27,8 +26,8 @@ export default function CategoryTab() {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
-                    paddingHorizontal: Spacing.xl,
-                    gap: Spacing.s,
+                    paddingHorizontal: Spacing.s20,
+                    gap: Spacing.s8,
                 }}
             >
                 {categories.map((category: Category) => (
@@ -42,10 +41,10 @@ export default function CategoryTab() {
                     >
                         <TouchableOpacity>
                             <Container
-                                paddingHorizontal="l"
-                                paddingVertical="s"
-                                gap="m"
-                                backgroundColor={color.natural_400}
+                                paddingHorizontal="s16"
+                                paddingVertical="s8"
+                                gap="s12"
+                                backgroundColor={color.natural_500}
                                 style={{
                                     borderRadius: Spacing.pill,
                                     flexDirection: "row",
@@ -55,10 +54,10 @@ export default function CategoryTab() {
                                 {category.icon && (
                                     <Image
                                         source={{ uri: supabaseStorageUrl + category.icon }}
-                                        style={{ width: Spacing.xl, height: Spacing.xl }}
+                                        style={{ width: Spacing.s24, height: Spacing.s24 }}
                                     />
                                 )}
-                                <ThemedText type="caption1" color="natural_100" numberOfLines={1} ellipsizeMode="tail">{category.name}</ThemedText>
+                                <ThemedText type="caption1" numberOfLines={1} ellipsizeMode="tail">{category.name}</ThemedText>
                             </Container>
                         </TouchableOpacity>
                     </Link>

@@ -5,36 +5,41 @@ const tintColorDark = '#0091FF';
 
 export const Colors = {
   light: {
-    natural_100: '#050505', // text
-    natural_200: '#8E8D92', // sub
-    natural_300: '#8E8D92', // sub
-    natural_400: '#FFFFFF', // tag・card
-    natural_500: '#D1D1D6', // separator
-    natural_600: '#F2F1F6', // background
+    natural_100: '#000000FF', // Filles Primary
+    natural_200: '#3C3C4399', // Filles Secondary
+    natural_300: '#3C3C434D', // Filles Tertiary
+    natural_400: '#F2F2F7FF', // Grouped Background Quaternary
+    natural_500: '#FFFFFFFF', // Grouped Background Secondary
+    natural_600: '#F2F2F7FF', // Grouped Background Primary
     tint: tintColorLight,
   },
   dark: {
-    natural_100: '#F3F3F3',
-    natural_200: '#949494',
-    natural_300: '#404040',
-    natural_400: '#1C1C1E',
-    natural_500: '#121212',
-    natural_600: '#050505',
+    natural_100: '#FFFFFFFF', // FillesPrimary
+    natural_200: '#EBEBF599', // Filles Secondary
+    natural_300: '#EBEBF54D', // Filles Tertiary
+    natural_400: '#2C2C2EFF', // Grouped Background Quaternary
+    natural_500: '#1C1C1EFF', // Grouped Background Secondary
+    natural_600: '#000000FF', // Grouped Background Primary
     tint: tintColorDark,
   },
 };
 
 export const Spacing = {
   none: 0,
-  xxs: 2,
-  xs: 4,
-  s: 8,
-  m: 12,
-  l: 16,
-  xl: 24,
-  xxl: 48,
-  xxxl: 54,
-  xxxxl: 84,
+  s2: 2,
+  s4: 4,
+  s8: 8,
+  s12: 12,
+  s16: 16,
+  s20: 20, // Previous xl
+  s24: 24, // Previous xxl (value changed from 48 -> 24 if following dense grid, but strictly mapping: xl(24)->s24)
+  s32: 32,
+  s40: 40,
+  s48: 48,
+  s56: 56,
+  s64: 64,
+  s80: 80,
+  s96: 96,
   icon: 32,
   pill: 999,
 } as const;
@@ -58,7 +63,7 @@ export const Typography = {
   subhead: { fontSize: 15, lineHeight: 20, fontFamily: Fonts.regular },
   footnote: { fontSize: 13, lineHeight: 18, fontFamily: Fonts.medium },
   caption1: { fontSize: 12, lineHeight: 16, fontFamily: Fonts.medium },
-  caption2: { fontSize: 11, lineHeight: 13, fontFamily: Fonts.bold },
+  caption2: { fontSize: 11, lineHeight: 13, fontFamily: Fonts.medium },
 } as const;
 
 export const LightNavigationTheme: Theme = {

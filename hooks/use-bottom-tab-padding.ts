@@ -10,5 +10,5 @@ export function useBottomTabPadding() {
         default: 0,
     });
 
-    return TAB_BAR_HEIGHT + insets.bottom + Spacing.xl;
+    return TAB_BAR_HEIGHT + insets.bottom + Spacing.s24;
 }

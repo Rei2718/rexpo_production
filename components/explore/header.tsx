@@ -19,7 +19,7 @@ import { ThemedText } from "../ui/themed-text";
 export default function Header() {
     const color = useThemeColor();
     const width = useWindowDimensions().width;
-    const height = width * (8 / 5);
+    const height = width * (7 / 5);
 
     const progress = useSharedValue<number>(0);
     const ref = useRef<ICarouselInstance>(null);
@@ -57,27 +57,27 @@ export default function Header() {
             />
 
             {/* Pagination */}
-            <ContainerAbsolute bottom={Spacing.l} left={0} right={0} alignItems="center" zIndex={10}>
+            <ContainerAbsolute bottom={Spacing.s16} left={0} right={0} alignItems="center" zIndex={10}>
                 <Pagination.Custom
                     progress={progress}
                     data={data}
-                    size={Spacing.s}
+                    size={Spacing.s8}
                     horizontal
                     dotStyle={{
-                        width: Spacing.s,
-                        height: Spacing.s,
+                        width: Spacing.s8,
+                        height: Spacing.s8,
                         borderRadius: Spacing.pill,
                         backgroundColor: color.natural_300,
                     }}
                     activeDotStyle={{
-                        width: Spacing.xl,
-                        height: Spacing.s,
+                        width: Spacing.s24,
+                        height: Spacing.s8,
                         borderRadius: Spacing.pill,
                         backgroundColor: color.natural_100,
                         overflow: "hidden",
                     }}
                     containerStyle={{
-                        gap: Spacing.s,
+                        gap: Spacing.s8,
                         alignItems: "center",
                     }}
                     onPress={onPressPagination}
@@ -106,10 +106,10 @@ export default function Header() {
             </ContainerAbsolute>
 
             {/* Header */}
-            <ContainerAbsolute top={0} left={0} right={0} paddingVertical="m" paddingHorizontal="xl">
+            <ContainerAbsolute top={0} left={0} right={0} paddingVertical="s12" paddingHorizontal="s20">
                 <SafeAreaView edges={['top']}>
                     <Container flexDirection="row" justifyContent="space-between" alignItems="center">
-                        <ThemedText type="largeTitle" color="natural_100">探索</ThemedText>
+                        <ThemedText type="largeTitle">探索</ThemedText>
                         <TouchableOpacity onPress={() => router.push('/')}>
                             <Icon size={Spacing.icon} icon="bookmark" color={color.natural_100} />
                         </TouchableOpacity>
@@ -123,6 +123,20 @@ export default function Header() {
 export function Item({ item }: { item: Feature }) {
     const color = useThemeColor();
 
+    const hexToRgba = (hex: string, alpha: number) => {
+        const cleanHex = hex.replace('#', '');
+
+        const expandedHex = cleanHex.length === 3
+            ? cleanHex.split('').map(char => char + char).join('')
+            : cleanHex;
+
+        const r = parseInt(expandedHex.substring(0, 2), 16);
+        const g = parseInt(expandedHex.substring(2, 4), 16);
+        const b = parseInt(expandedHex.substring(4, 6), 16);
+
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    };
+
     return (
         <ImageBackground
             source={{ uri: supabaseStorageUrl + item.image }}
@@ -133,18 +147,30 @@ export function Item({ item }: { item: Feature }) {
             }}
         >
             {/* Gradient */}
-            <ContainerAbsolute bottom={0} left={0} right={0} style={{ height: '25%' }}>
+            <ContainerAbsolute bottom={0} left={0} right={0} style={{ height: '48%' }}>
                 <LinearGradient
-                    colors={['transparent', color.natural_600]}
+                    colors={[
+                        hexToRgba(color.natural_600, 0.0),  // 0%
+                        hexToRgba(color.natural_600, 0.08), // 8%
+                        hexToRgba(color.natural_600, 0.15), // 15%
+                        hexToRgba(color.natural_600, 0.25), // 25%
+                        hexToRgba(color.natural_600, 0.35), // 35%
+                        hexToRgba(color.natural_600, 0.45), // 45%
+                        hexToRgba(color.natural_600, 0.55), // 55%
+                        hexToRgba(color.natural_600, 0.65), // 65%
+                        hexToRgba(color.natural_600, 0.75), // 75%
+                        hexToRgba(color.natural_600, 0.85), // 85%
+                        hexToRgba(color.natural_600, 1.0),  // 100%
+                    ]}
                     style={{ flex: 1 }}
                 />
             </ContainerAbsolute>
 
             {/* Text */}
-            <ContainerAbsolute bottom={0} flex={1} justifyContent="center" padding="xl" paddingBottom="xxl">
-                <Container flexDirection="column" justifyContent="center" alignItems="center" gap="xs">
-                    <ThemedText type="footnote" color="natural_100">TODAY'S PICK</ThemedText>
-                    <ThemedText type="title2" color="natural_100">{item.caption}</ThemedText>
+            <ContainerAbsolute bottom={0} flex={1} justifyContent="center" padding="s24" paddingBottom="s48">
+                <Container flexDirection="column" justifyContent="center" alignItems="center" gap="s4">
+                    <ThemedText type="footnote">TODAY'S PICK</ThemedText>
+                    <ThemedText type="title2">{item.caption}</ThemedText>
                     <ThemedText type="subhead" color="natural_200">{item.caption}</ThemedText>
                 </Container>
             </ContainerAbsolute>
