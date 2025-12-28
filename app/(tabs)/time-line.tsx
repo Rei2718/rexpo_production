@@ -1,10 +1,10 @@
-import { ThemedText } from "@/components/ui/themed-text";
+import TimelineContent from "@/components/time-line/timeline-content";
 import { ThemedView } from "@/components/ui/themed-view";
 
-export default function TimeLineScreen() {
+export default function TimeLine() {
     return (
         <ThemedView style={{ flex: 1 }}>
-            <ThemedText>Timeline</ThemedText>
+            <TimelineContent />
         </ThemedView>
     );
 }

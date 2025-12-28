@@ -31,6 +31,7 @@ DECLARE
     
     i INTEGER;
     j INTEGER;
+    k INTEGER;
     
     temp_id BIGINT;
     temp_count INTEGER;
@@ -51,12 +52,21 @@ DECLARE
     arr_event_titles_3 TEXT[] := ARRAY['フェスティバル', 'サミット', 'カンファレンス', '展', '博覧会', 'ミーティング'];
     
     arr_org_names TEXT[] := ARRAY['株式会社テックイノベーション', '一般社団法人アート振興会', 'Global Music Lab', 'Future Food Project', 'Next Gen Creators'];
-    arr_venue_primary TEXT[] := ARRAY['メインホール', 'グランドステージ', '展示ホールA', '展示ホールB', '国際会議場', '野外アリーナ', 'サウスウィング', 'ノースウィング', 'センターコート', 'スカイホール'];
+    arr_venue_primary TEXT[] := ARRAY['メインホール', 'グランドステージ', '展示ホールA', '国際会議場', '野外アリーナ'];
     arr_venue_others TEXT[] := ARRAY['第1会議室', '第2会議室', '休憩スペースA', '休憩スペースB', 'フードコート', 'キッチンカーエリア', '東側トイレ前', '西側エントランス', 'VIPラウンジ', 'ロッカールーム'];
     
     arr_performer_last TEXT[] := ARRAY['佐藤', '鈴木', '高橋', '田中', '伊藤', '渡辺', '山本', '中村', '小林', '加藤'];
     arr_performer_first TEXT[] := ARRAY['太郎', '次郎', '花子', '健太', '美咲', '翔', 'さくら', '大輔', '優', '直人'];
     arr_food_names TEXT[] := ARRAY['オーガニックカフェ', 'ステーキハウス', 'ラーメン横丁', 'イタリアンボッカ', '寿司処', 'バーガーキングダム'];
+
+    v_curr_time TIME := '10:00:00';
+    v_slot_display_order INTEGER := 1;
+    v_event_global_count INTEGER := 0;
+    v_events_in_slot INTEGER;
+    v_venue_indices INTEGER[];
+    v_rand_pos INTEGER;
+    v_swap_tmp INTEGER;
+    v_target_venue_idx INTEGER;
 
 BEGIN
     -- categories (6件)
@@ -65,7 +75,7 @@ BEGIN
         VALUES (
             arr_cat_names[i],
             arr_cat_names[i] || 'に関する最新情報が集まります。',
-            '/categories/' || i || '.jpg',
+            '/categories/' || i || '.png',
             i
         ) RETURNING category_id INTO temp_id;
         v_cat_ids := array_append(v_cat_ids, temp_id);
@@ -88,8 +98,8 @@ BEGIN
         END LOOP;
     END LOOP;
 
-    -- venues - primary (10件)
-    FOR i IN 1..10 LOOP
+    -- venues - primary (5件)
+    FOR i IN 1..5 LOOP
         INSERT INTO public.venues (name, icon, capacity, floor, map_latitude, map_longitude, is_primary, display_order)
         VALUES (
             arr_venue_primary[i],
@@ -115,7 +125,7 @@ BEGIN
             35.6895 - (i * 0.001),
             139.6917 - (i * 0.001),
             FALSE,
-            10 + i
+            5 + i
         ) RETURNING venue_id INTO temp_id;
         v_venue_ids := array_append(v_venue_ids, temp_id);
     END LOOP;
@@ -177,65 +187,91 @@ BEGIN
         v_perf_ids := array_append(v_perf_ids, temp_id);
     END LOOP;
 
-    -- slots (5件)
-    INSERT INTO public.slots (starts, ends, display_order) VALUES ('10:00', '11:00', 1) RETURNING slot_id INTO temp_id; v_slot_ids := array_append(v_slot_ids, temp_id);
-    INSERT INTO public.slots (starts, ends, display_order) VALUES ('11:00', '12:00', 2) RETURNING slot_id INTO temp_id; v_slot_ids := array_append(v_slot_ids, temp_id);
-    INSERT INTO public.slots (starts, ends, display_order) VALUES ('13:00', '14:00', 3) RETURNING slot_id INTO temp_id; v_slot_ids := array_append(v_slot_ids, temp_id);
-    INSERT INTO public.slots (starts, ends, display_order) VALUES ('14:00', '15:00', 4) RETURNING slot_id INTO temp_id; v_slot_ids := array_append(v_slot_ids, temp_id);
-    INSERT INTO public.slots (starts, ends, display_order) VALUES ('15:00', '16:00', 5) RETURNING slot_id INTO temp_id; v_slot_ids := array_append(v_slot_ids, temp_id);
-
-    -- events (200件)
-    FOR i IN 1..200 LOOP
-        INSERT INTO public.events (
-            name, caption, icon, description, header_image, images, 
-            organization_id, display_order
-        )
+    -- EVENTS & SLOTS GENERATION
+    -- 10:00 to 18:00 (Every 10 minutes)
+    WHILE v_curr_time <= '18:00:00'::TIME LOOP
+        
+        -- Create Slot
+        INSERT INTO public.slots (starts, ends, display_order)
         VALUES (
-            arr_event_titles_1[((i - 1) % 7) + 1] || arr_event_titles_2[((i - 1) % 6) + 1] || arr_event_titles_3[((i - 1) % 6) + 1] || ' Vol.' || i,
-            '心躍る体験をあなたに。',
-            'https://picsum.photos/512/512?random=ev_icon' || i,
-            'このイベントでは、最先端の技術と芸術が融合した素晴らしい展示をご覧いただけます。ぜひご参加ください。',
-            'https://picsum.photos/1920/1920?random=ev_head' || i,
-            ARRAY[
-                'https://picsum.photos/1920/1080?random=ev_img1_' || i, 
-                'https://picsum.photos/1920/1080?random=ev_img2_' || i,
-                'https://picsum.photos/1920/1080?random=ev_img3_' || i
-            ],
-            v_org_ids[((i - 1) % array_length(v_org_ids, 1)) + 1],
-            i
-        ) RETURNING event_id INTO v_event_id;
-
-        -- events_venues
-        INSERT INTO public.events_venues (event_id, venue_id, display_order)
-        VALUES (v_event_id, v_venue_ids[((i - 1) % array_length(v_venue_ids, 1)) + 1], 1);
-
-        -- events_slots
-        INSERT INTO public.events_slots (event_id, slot_id, display_order)
-        VALUES (v_event_id, v_slot_ids[((i - 1) % array_length(v_slot_ids, 1)) + 1], 1);
-
-        -- events_tags (1~3個ランダム)
-        temp_count := 1 + floor(random() * 3)::int;
-        FOR j IN 1..temp_count LOOP
-            random_idx := 1 + floor(random() * array_length(v_tag_ids, 1))::int;
-            IF random_idx > array_length(v_tag_ids, 1) THEN
-                random_idx := array_length(v_tag_ids, 1);
-            END IF;
-            INSERT INTO public.events_tags (event_id, tag_id, display_order)
-            VALUES (v_event_id, v_tag_ids[random_idx], j)
-            ON CONFLICT (event_id, tag_id) WHERE deleted_at IS NULL DO NOTHING;
+            v_curr_time,
+            v_curr_time + interval '10 minutes',
+            v_slot_display_order
+        ) RETURNING slot_id INTO temp_id;
+        
+        -- Generate 1 to 4 events for this slot
+        v_events_in_slot := 1 + floor(random() * 4)::int;
+        
+        -- Prepare valid primary venue indices (1..5)
+        v_venue_indices := ARRAY[1, 2, 3, 4, 5];
+        
+        -- Shuffle valid indices
+        FOR k IN 1..5 LOOP
+            v_rand_pos := 1 + floor(random() * 5)::int;
+            v_swap_tmp := v_venue_indices[k];
+            v_venue_indices[k] := v_venue_indices[v_rand_pos];
+            v_venue_indices[v_rand_pos] := v_swap_tmp;
         END LOOP;
+        
+        -- Create events
+        FOR k IN 1..v_events_in_slot LOOP
+            v_event_global_count := v_event_global_count + 1;
+            v_target_venue_idx := v_venue_indices[k]; -- Pick from shuffled
+            
+            INSERT INTO public.events (
+                name, caption, icon, description, header_image, images, 
+                organization_id, display_order
+            )
+            VALUES (
+                arr_event_titles_1[((v_event_global_count - 1) % 7) + 1] || arr_event_titles_2[((v_event_global_count - 1) % 6) + 1] || arr_event_titles_3[((v_event_global_count - 1) % 6) + 1] || ' Vol.' || v_event_global_count,
+                '心躍る体験をあなたに。',
+                'https://picsum.photos/512/512?random=ev_icon' || v_event_global_count,
+                'このイベントでは、最先端の技術と芸術が融合した素晴らしい展示をご覧いただけます。ぜひご参加ください。',
+                'https://picsum.photos/1920/1920?random=ev_head' || v_event_global_count,
+                ARRAY[
+                    'https://picsum.photos/1920/1080?random=ev_img1_' || v_event_global_count, 
+                    'https://picsum.photos/1920/1080?random=ev_img2_' || v_event_global_count,
+                    'https://picsum.photos/1920/1080?random=ev_img3_' || v_event_global_count
+                ],
+                v_org_ids[((v_event_global_count - 1) % array_length(v_org_ids, 1)) + 1],
+                v_event_global_count
+            ) RETURNING event_id INTO v_event_id;
 
-        -- events_performers (1~10人ランダム)
-        temp_count := 1 + floor(random() * 10)::int;
-        FOR j IN 1..temp_count LOOP
-            random_idx := 1 + floor(random() * array_length(v_perf_ids, 1))::int;
-            IF random_idx > array_length(v_perf_ids, 1) THEN
-                random_idx := array_length(v_perf_ids, 1);
-            END IF;
-            INSERT INTO public.events_performers (event_id, performer_id, display_order)
-            VALUES (v_event_id, v_perf_ids[random_idx], j)
-            ON CONFLICT (event_id, performer_id) WHERE deleted_at IS NULL DO NOTHING;
+            -- events_venues (Primary Venue)
+            INSERT INTO public.events_venues (event_id, venue_id, display_order)
+            VALUES (v_event_id, v_venue_ids[v_target_venue_idx], 1);
+
+            -- events_slots (Current Slot)
+            INSERT INTO public.events_slots (event_id, slot_id, display_order)
+            VALUES (v_event_id, temp_id, 1);
+
+            -- events_tags (1~3 items)
+            temp_count := 1 + floor(random() * 3)::int;
+            FOR j IN 1..temp_count LOOP
+                random_idx := 1 + floor(random() * array_length(v_tag_ids, 1))::int;
+                -- Safety check for index
+                IF random_idx > array_length(v_tag_ids, 1) THEN random_idx := 1; END IF;
+                
+                INSERT INTO public.events_tags (event_id, tag_id, display_order)
+                VALUES (v_event_id, v_tag_ids[random_idx], j)
+                ON CONFLICT (event_id, tag_id) WHERE deleted_at IS NULL DO NOTHING;
+            END LOOP;
+
+            -- events_performers (1~10 items)
+            temp_count := 1 + floor(random() * 10)::int;
+            FOR j IN 1..temp_count LOOP
+                random_idx := 1 + floor(random() * array_length(v_perf_ids, 1))::int;
+                 -- Safety check for index
+                IF random_idx > array_length(v_perf_ids, 1) THEN random_idx := 1; END IF;
+
+                INSERT INTO public.events_performers (event_id, performer_id, display_order)
+                VALUES (v_event_id, v_perf_ids[random_idx], j)
+                ON CONFLICT (event_id, performer_id) WHERE deleted_at IS NULL DO NOTHING;
+            END LOOP;
         END LOOP;
+        
+        v_slot_display_order := v_slot_display_order + 1;
+        v_curr_time := v_curr_time + interval '10 minutes';
     END LOOP;
 
     -- features (5件)

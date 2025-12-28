@@ -7,11 +7,8 @@ import { Container } from "../ui/container";
 import { Icon } from "../ui/icon";
 import { ThemedText } from "../ui/themed-text";
 
-type SectionHeaderProps = {
-    item: TagEvents;
-};
 
-export function SectionHeader({ item }: SectionHeaderProps) {
+export function SectionHeader({ item }: { item: TagEvents }) {
     const color = useThemeColor();
 
     return (
