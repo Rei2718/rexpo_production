@@ -21,7 +21,10 @@ export default function VenueFilter({ selectedVenueId, onVenueChange }: VenueFil
     if (!venues) return <StatusMessage status="empty" />;
 
     const handlePress = (venueId: string) => {
-        onVenueChange(selectedVenueId === venueId ? undefined : venueId);
+        // Only change if selecting a different venue (no deselection allowed)
+        if (selectedVenueId !== venueId) {
+            onVenueChange(venueId);
+        }
     };
 
     return (

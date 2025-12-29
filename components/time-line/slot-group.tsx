@@ -52,11 +52,12 @@ export function SlotGroup({ item, isFirst, isLast }: SlotGroupProps) {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: Spacing.s20,
+        paddingLeft: Spacing.s16,
+        paddingRight: Spacing.s20,
         overflow: 'hidden',
     },
     stepColumn: {
-        width: Spacing.s20,
+        width: Spacing.s8,
         marginRight: Spacing.s12,
     },
     contentColumn: {

@@ -13,7 +13,7 @@ export function TimelineSeparator() {
     const color = useThemeColor();
     return (
         <Container style={styles.separatorRoot}>
-            <Container alignItems="center" marginLeft="s20" style={styles.separatorInner}>
+            <Container alignItems="center" marginLeft="s16" style={styles.separatorInner}>
                 <Container backgroundColor={color.natural_400} style={styles.separatorLine} />
             </Container>
         </Container>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         height: Spacing.s40,
     },
     separatorInner: {
-        width: Spacing.s20,
+        width: Spacing.s8,
     },
     separatorLine: {
         width: 1,
