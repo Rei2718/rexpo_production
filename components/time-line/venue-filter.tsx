@@ -7,12 +7,12 @@ import { Container } from "../ui/container";
 import { StatusMessage } from "../ui/status-message";
 import { ThemedText } from "../ui/themed-text";
 
-interface VenueTabProps {
+interface VenueFilterProps {
     selectedVenueId?: string;
     onVenueChange: (venueId: string | undefined) => void;
 }
 
-export default function VenueTab({ selectedVenueId, onVenueChange }: VenueTabProps) {
+export default function VenueFilter({ selectedVenueId, onVenueChange }: VenueFilterProps) {
     const color = useThemeColor();
 
     const { data: venues, isPending, isError } = useDisplayVenue();
@@ -44,14 +44,21 @@ export default function VenueTab({ selectedVenueId, onVenueChange }: VenueTabPro
                             paddingHorizontal="s24"
                             paddingVertical="s12"
                             gap="s12"
-                            backgroundColor={isSelected ? color.tint : color.natural_500}
+                            backgroundColor={isSelected ? color.natural_100 : color.natural_500}
                             style={{
                                 borderRadius: Spacing.pill,
                                 flexDirection: "row",
                                 alignItems: "center",
                             }}
                         >
-                            <ThemedText type="caption1" numberOfLines={1} ellipsizeMode="tail">{venue.name}</ThemedText>
+                            <ThemedText
+                                type="caption1"
+                                color={isSelected ? "natural_600" : "natural_100"}
+                                numberOfLines={1}
+                                ellipsizeMode="tail"
+                            >
+                                {venue.name}
+                            </ThemedText>
                         </Container>
                     </TouchableOpacity>
                 );

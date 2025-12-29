@@ -1,14 +1,39 @@
 import { Spacing } from "@/constants/theme";
+import { useThemeColor } from "@/hooks/use-theme-color";
 import { useDisplayVenue, useEventsByVenue } from "@/supabase/api";
 import { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { Container } from "../ui/container";
 import { StatusMessage } from "../ui/status-message";
-import Header from "./header";
-import { TagSection } from "./tag-section";
-import VenueTab from "./venue-tab";
+import { SlotGroup } from "./slot-group";
+import TitleBar from "./title-bar";
+import VenueFilter from "./venue-filter";
 
-export default function TimelineContent() {
+export function TimelineSeparator() {
+    const color = useThemeColor();
+    return (
+        <Container style={styles.separatorRoot}>
+            <Container alignItems="center" marginLeft="s20" style={styles.separatorInner}>
+                <Container backgroundColor={color.natural_400} style={styles.separatorLine} />
+            </Container>
+        </Container>
+    );
+}
+
+const styles = StyleSheet.create({
+    separatorRoot: {
+        height: Spacing.s40,
+    },
+    separatorInner: {
+        width: Spacing.s20,
+    },
+    separatorLine: {
+        width: 1,
+        height: '100%',
+    }
+});;
+
+export default function TimelineMain() {
     const { data: venues, isPending: venuesPending, isError: venuesError } = useDisplayVenue();
 
     const [selectedVenueId, setSelectedVenueId] = useState<string | undefined>();
@@ -36,14 +61,20 @@ export default function TimelineContent() {
         <FlatList
             data={events || []}
             ListHeaderComponent={
-                <Container gap="s24" paddingBottom="s24">
-                    <Header />
-                    <VenueTab selectedVenueId={selectedVenueId} onVenueChange={setSelectedVenueId} />
+                <Container gap="s40" paddingBottom="s20">
+                    <TitleBar />
+                    <VenueFilter selectedVenueId={selectedVenueId} onVenueChange={setSelectedVenueId} />
                 </Container>
             }
             ListEmptyComponent={renderContent()}
-            renderItem={({ item }) => <TagSection item={item} />}
-            ItemSeparatorComponent={() => <Container style={{ height: Spacing.s48 }} />}
+            renderItem={({ item, index }) => (
+                <SlotGroup
+                    item={item}
+                    isFirst={index === 0}
+                    isLast={index === (events?.length ?? 0) - 1}
+                />
+            )}
+            ItemSeparatorComponent={TimelineSeparator}
             keyExtractor={(item) => item.starts}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={(!events || events.length === 0) ? { flex: 1 } : undefined}

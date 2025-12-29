@@ -16,7 +16,7 @@ import { StatusMessage } from "../ui/status-message";
 import { ThemedText } from "../ui/themed-text";
 
 
-export default function Header() {
+export default function FeatureCarousel() {
     const color = useThemeColor();
     const width = useWindowDimensions().width;
     const height = width * (7 / 5);

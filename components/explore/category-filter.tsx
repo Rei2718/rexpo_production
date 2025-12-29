@@ -10,7 +10,7 @@ import { Container } from "../ui/container";
 import { StatusMessage } from "../ui/status-message";
 import { ThemedText } from "../ui/themed-text";
 
-export default function CategoryTab() {
+export default function CategoryFilter() {
     const color = useThemeColor();
 
     const { data: categories, isPending, isError } = useCategories();
