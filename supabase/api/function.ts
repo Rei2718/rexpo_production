@@ -87,3 +87,9 @@ export async function get_categories() {
     if (error) throw error;
     return data as unknown as Category[];
 }
+
+export async function get_all_venues() {
+    const { data, error } = await supabase.rpc("get_all_venues");
+    if (error) throw error;
+    return data as unknown as DisplayVenue[];
+}

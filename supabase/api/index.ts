@@ -1,6 +1,7 @@
 import { useRefetchOnFocus } from "@/hooks/use-refetch-on-focus";
 import { useQuery } from "@tanstack/react-query";
 import {
+    get_all_venues,
     get_banners,
     get_categories,
     get_display_venue,
@@ -113,6 +114,15 @@ export function useCategories() {
     const { data, isPending, isError, refetch } = useQuery({
         queryKey: keys.get_categories(),
         queryFn: get_categories,
+    });
+    useRefetchOnFocus(refetch);
+    return { data, isPending, isError };
+}
+
+export function useAllVenues() {
+    const { data, isPending, isError, refetch } = useQuery({
+        queryKey: keys.get_all_venues(),
+        queryFn: get_all_venues,
     });
     useRefetchOnFocus(refetch);
     return { data, isPending, isError };

@@ -10,4 +10,5 @@ export const keys = {
     get_tag_and_events_by_category: (category_public_id?: string) => ['get_tag_and_events_by_category', category_public_id] as const,
     get_venue_details: (venue_public_id: string) => ['get_venue_details', venue_public_id] as const,
     get_categories: () => ['get_categories'] as const,
+    get_all_venues: () => ['get_all_venues'] as const,
 } as const;

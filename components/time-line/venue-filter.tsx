@@ -1,24 +1,18 @@
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { useDisplayVenue } from "@/supabase/api";
 import { DisplayVenue } from "@/supabase/api/types";
 import { ScrollView, TouchableOpacity } from "react-native";
 import { Container } from "../ui/container";
-import { StatusMessage } from "../ui/status-message";
 import { ThemedText } from "../ui/themed-text";
 
 interface VenueFilterProps {
+    venues: DisplayVenue[];
     selectedVenueId?: string;
     onVenueChange: (venueId: string | undefined) => void;
 }
 
-export default function VenueFilter({ selectedVenueId, onVenueChange }: VenueFilterProps) {
+export default function VenueFilter({ venues, selectedVenueId, onVenueChange }: VenueFilterProps) {
     const color = useThemeColor();
-
-    const { data: venues, isPending, isError } = useDisplayVenue();
-    if (isPending) return <StatusMessage status="loading" />;
-    if (isError) return <StatusMessage status="error" />;
-    if (!venues) return <StatusMessage status="empty" />;
 
     const handlePress = (venueId: string) => {
         // Only change if selecting a different venue (no deselection allowed)

@@ -6,7 +6,6 @@ export default function TabLayout() {
 
     return (
         <NativeTabs
-            minimizeBehavior="automatic"
             disableTransparentOnScrollEdge
             backgroundColor={color.natural_600}
             tintColor={color.tint}

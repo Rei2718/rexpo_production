@@ -99,6 +99,7 @@ BEGIN
     END LOOP;
 
     -- venues - primary (5件)
+    -- 札幌中心座標: 43.057149, 141.388626 (半径100m = 約0.0009度)
     FOR i IN 1..5 LOOP
         INSERT INTO public.venues (name, icon, capacity, floor, map_latitude, map_longitude, is_primary, display_order)
         VALUES (
@@ -106,8 +107,8 @@ BEGIN
             'https://picsum.photos/512/512?random=venue_p' || i,
             500 + (i * 100),
             1 + (i % 2),
-            35.6895 + (i * 0.001),
-            139.6917 + (i * 0.001),
+            43.057149 + ((i - 3) * 0.00015),
+            141.388626 + ((i - 3) * 0.00015),
             TRUE,
             i
         ) RETURNING venue_id INTO temp_id;
@@ -115,15 +116,16 @@ BEGIN
     END LOOP;
 
     -- venues - others (10件)
+    -- 札幌中心座標: 43.057149, 141.388626 (半径100m内に配置)
     FOR i IN 1..10 LOOP
         INSERT INTO public.venues (name, icon, capacity, floor, map_latitude, map_longitude, is_primary, display_order)
         VALUES (
             arr_venue_others[i],
             'https://picsum.photos/512/512?random=venue_o' || i,
             10 + (i * 5),
-            1,
-            35.6895 - (i * 0.001),
-            139.6917 - (i * 0.001),
+            1 + (i % 2),
+            43.057149 + (cos(i * 0.628) * 0.0005),
+            141.388626 + (sin(i * 0.628) * 0.0005),
             FALSE,
             5 + i
         ) RETURNING venue_id INTO temp_id;

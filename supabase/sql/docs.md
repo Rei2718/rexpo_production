@@ -85,6 +85,7 @@ Get-Content `
   supabase/sql/rpc/get-several-events-by-tag.sql, `
   supabase/sql/rpc/get-tag-and-events-by-category.sql, `
   supabase/sql/rpc/get-venue-details.sql, `
+  supabase/sql/rpc/get-all-venues.sql, `
   supabase/sql/rpc/get-categories.sql `
   | Set-Content supabase/migrations/20251227043328_init_schema.sql
 
