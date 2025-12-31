@@ -29,7 +29,7 @@ export default function EventDetails() {
                     headerTitle: "",
                     headerRight: () => (
                         <View style={{ marginLeft: Spacing.s4 }}>
-                            <BookmarkButton event_public_id={Array.isArray(id) ? id[0] : id} />
+                            <BookmarkButton {...data} />
                         </View>
                     ),
                 }}

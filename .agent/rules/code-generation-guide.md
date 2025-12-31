@@ -171,20 +171,50 @@ export const useEvents = () => {
 
 **File Location**: `components/**/*.tsx`
 
-### 6-1. Arguments and Props
+### 6-1. Arguments and Props (Unified Spread Pattern)
 
-* **Domain Components**: Must accept a single argument named `data`.
-* **Type Annotation**: Must use `Verified<Type>` directly.
-* **Destructuring**: Destructuring props in the function signature is PROHIBITED for Domain Components.
+To ensure consistency and type safety, all Domain Components must follow a unified pattern for receiving and passing data.
 
-```typescript
-// CORRECT:
-export default function EventCard(data: Verified<EventOverview>) { ... }
+* **Principle**: Treat the Component Argument (`props`) as the Data Entity itself.
+* **Argument Name**: The component argument MUST be named `data`.
 
-// INCORRECT (PROHIBITED):
-export default function EventCard({ name, image }: Verified<EventOverview>) { ... }
+#### A. Definition Rule
+Components must be defined to accept the **Entity Type** (wrapped in `Verified`) as their first argument.
 
-```
+* **Syntax**:
+    ```typescript
+    // Argument 'data' receives the spread properties of the entity
+    export function ComponentName(data: Verified<EntityType>) { ... }
+    ```
+
+* **List Components**: List components should typically accept the **Parent Entity** containing the list, rather than just the array itself. This preserves context.
+    ```typescript
+    // CORRECT: Accepts Parent Entity (e.g., TagEvents) which contains the list
+    export function EventList(data: Verified<TagEvents>) {
+        // Access array via data.events
+        return <FlatList data={data.events} ... />
+    }
+
+    // INCORRECT: Accepting just the array
+    export function EventList(data: Verified<EventOverview>[]) { ... }
+    ```
+
+#### B. Invocation Rule (Spread Syntax)
+Always use **JSX Spread Attributes** (`{...data}`) to pass data to child components. This maps the entity's properties directly to the component's `data` argument.
+
+* **Usage**:
+    ```tsx
+    // 1. Passing to a Child Component
+    <TagHeader {...data} />
+
+    // 2. Passing to a List Component (Pass the whole parent entity)
+    <EventList {...data} />
+
+    // 3. Inside RenderItem (Iterating)
+    renderItem={({ item }) => (
+        <EventListItem {...item} />
+    )}
+    ```
 
 ### 6-2. Implementation Logic
 
