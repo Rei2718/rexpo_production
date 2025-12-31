@@ -5,24 +5,23 @@ import { EventDetails, Verified } from "@/supabase/api/types";
 import {
     ImageBackground,
     StyleSheet,
-    View,
-    useWindowDimensions,
+    useWindowDimensions
 } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 
-export function EventGallery({ data }: { data: Verified<EventDetails> }) {
-    const { width: windowWidth } = useWindowDimensions();
-    const carouselWidth = windowWidth * 0.8;
+export function EventGallery(data: Verified<EventDetails>) {
+    const { width } = useWindowDimensions();
+    const carouselWidth = width * 0.8;
     const carouselHeight = carouselWidth * (9 / 16);
 
-    const validImages = (data.images ?? []).filter((url): url is string => !!url);
+    const validImages = data.images.filter((url): url is string => !!url);
 
     if (validImages.length === 0) {
         return null;
     }
 
     return (
-        <View id="gallery-component">
+        <ThemedView>
             <Carousel
                 loop={true}
                 width={carouselWidth}
@@ -41,7 +40,7 @@ export function EventGallery({ data }: { data: Verified<EventDetails> }) {
                     </ThemedView>
                 )}
             />
-        </View>
+        </ThemedView>
     );
 }
 

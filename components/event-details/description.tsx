@@ -9,7 +9,7 @@ import { EventDetails, Verified } from "@/supabase/api/types";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
-export function EventDescription({ data }: { data: Verified<EventDetails> }) {
+export function EventDescription(data: Verified<EventDetails>) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isTruncated, setIsTruncated] = useState(false);
     const color = useThemeColor();
