@@ -34,7 +34,7 @@ export default function TimelineMain() {
 
     return (
         <FlatList
-            data={events || []}
+            data={events}
             ListHeaderComponent={
                 <Container gap="s40" paddingBottom="s20">
                     <TitleBar />
@@ -54,7 +54,7 @@ export default function TimelineMain() {
                 />
             )}
             ItemSeparatorComponent={TimelineSeparator}
-            keyExtractor={(item) => item.starts ?? ""}
+            keyExtractor={(item) => item.starts}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: height }}
         />

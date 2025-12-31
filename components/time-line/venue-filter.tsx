@@ -1,21 +1,21 @@
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { DisplayVenue } from "@/supabase/api/types";
+import { DisplayVenue, Verified } from "@/supabase/api/types";
 import { ScrollView, TouchableOpacity } from "react-native";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 
 interface VenueFilterProps {
-    venues: DisplayVenue[];
+    venues: Verified<DisplayVenue>[]; // Verified型を使用
     selectedVenueId?: string;
     onVenueChange: (venueId: string | undefined) => void;
 }
 
-export default function VenueFilter({ venues, selectedVenueId, onVenueChange }: VenueFilterProps) {
+export default function VenueFilter(props: VenueFilterProps) {
     const color = useThemeColor();
+    const { venues, selectedVenueId, onVenueChange } = props;
 
     const handlePress = (venueId: string) => {
-        // Only change if selecting a different venue (no deselection allowed)
         if (selectedVenueId !== venueId) {
             onVenueChange(venueId);
         }
@@ -30,12 +30,13 @@ export default function VenueFilter({ venues, selectedVenueId, onVenueChange }: 
                 gap: Spacing.s8,
             }}
         >
-            {venues.map((venue: DisplayVenue) => {
+            {venues.map((venue) => {
                 const isSelected = selectedVenueId === venue.venue_public_id;
                 return (
                     <TouchableOpacity
-                        key={venue.venue_public_id ?? ""}
-                        onPress={() => handlePress(venue.venue_public_id ?? "")}
+                        // 修正: ?? "" を削除 (Verifiedによりstring保証)
+                        key={venue.venue_public_id}
+                        onPress={() => handlePress(venue.venue_public_id)}
                     >
                         <Container
                             paddingHorizontal="s24"
