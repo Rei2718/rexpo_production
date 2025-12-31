@@ -1,155 +1,165 @@
-export interface Banner {
+// transfer nullable
+export type Nullable<T> = {
+    [P in keyof T]: T[P] | null;
+};
+
+// transfer public_id to string
+export type Verified<T> = T & {
+    [K in keyof T as K extends `${string}_public_id` ? K : never]: string
+};
+
+
+export type Banner = Nullable<{
     banner_public_id: string;
     image: string;
-    link: string | null;
-    event_public_id: string | null;
+    link: string;
+    event_public_id: string;
     display_order: number;
-}
+}>;
 
-export interface Feature {
+export type Feature = Nullable<{
     feature_public_id: string;
     name: string;
     caption: string;
-    note: string | null;
+    note: string;
     image: string;
-    event_public_id: string | null;
+    event_public_id: string;
     display_order: number;
-}
+}>;
 
-export interface NewsPerformer {
+export type NewsPerformer = Nullable<{
     performer_public_id: string;
     name: string;
-    affiliation: string | null;
-    icon: string | null;
-}
+    affiliation: string;
+    icon: string;
+}>;
 
-export interface News {
+export type News = Nullable<{
     news_public_id: string;
     name: string;
     caption: string;
-    description: string | null;
-    header_image: string | null;
-    thumbnail: string | null;
-    website: string | null;
-    performer: NewsPerformer | null;
+    description: string;
+    header_image: string;
+    thumbnail: string;
+    website: string;
+    performer: NewsPerformer;
     display_order: number;
-}
+}>;
 
-export interface DisplayVenue {
+export type DisplayVenue = Nullable<{
     venue_public_id: string;
     name: string;
-    icon: string | null;
-    capacity: number | null;
-    floor: number | null;
+    icon: string;
+    capacity: number;
+    floor: number;
     map_latitude: number;
     map_longitude: number;
     display_order: number;
-}
+}>;
 
-export interface EventOverview {
+export type EventOverview = Nullable<{
     event_public_id: string;
     name: string;
     caption: string;
-    icon: string | null;
+    icon: string;
     display_order: number;
-}
+}>;
 
-export interface TagEvents {
+export type TagEvents = Nullable<{
     tag_public_id: string;
     name: string;
     caption: string;
     events: EventOverview[];
     display_order: number;
-}
+}>;
 
-export interface EventVenue {
+export type EventVenue = Nullable<{
     venue_public_id: string;
     name: string;
     display_order: number;
-}
+}>;
 
-export interface EventTag {
+export type EventTag = Nullable<{
     tag_public_id: string;
     name: string;
     display_order: number;
-}
+}>;
 
-export interface EventSlot {
+export type EventSlot = Nullable<{
     slot_public_id: string;
     starts: string;
     ends: string;
     display_order: number;
-}
+}>;
 
-export interface EventPerformer {
+export type EventPerformer = Nullable<{
     performer_public_id: string;
     name: string;
-    affiliation: string | null;
-    icon: string | null;
+    affiliation: string;
+    icon: string;
     display_order: number;
-}
+}>;
 
-export interface EventOrganization {
+export type EventOrganization = Nullable<{
     organization_public_id: string;
     name: string;
     caption: string;
-    icon: string | null;
-    sponsor: boolean | null;
-}
+    icon: string;
+    sponsor: boolean;
+}>;
 
-export interface EventDetails {
+export type EventDetails = Nullable<{
     event_public_id: string;
-    header_image: string | null;
-    icon: string | null;
+    header_image: string;
+    icon: string;
     name: string;
     caption: string;
-    description: string | null;
-    images: string[] | null;
+    description: string;
+    images: string[];
     organization: EventOrganization;
     venues: EventVenue[];
     tags: EventTag[];
     slots: EventSlot[];
     performers: EventPerformer[];
     display_order: number;
-}
+}>;
 
-export interface TimelineEvent {
+export type TimelineEvent = Nullable<{
     event_public_id: string;
     name: string;
     caption: string;
-    icon: string | null;
+    icon: string;
     venue_name: string;
     starts: string;
     ends: string;
     display_order: number;
-}
+}>;
 
-export interface TimelineSlot {
+export type TimelineSlot = Nullable<{
     starts: string;
     events: TimelineEvent[];
-}
+}>;
 
-// New Types based on recent RPCs
-export interface VenueOrganization {
+export type VenueOrganization = Nullable<{
     organization_public_id: string;
     name: string;
-    icon: string | null;
+    icon: string;
     display_order: number;
-}
+}>;
 
-export interface VenueDetails {
+export type VenueDetails = Nullable<{
     venue_public_id: string;
     name: string;
-    icon: string | null;
+    icon: string;
     map_latitude: number;
     map_longitude: number;
     is_primary: boolean;
     organizations: VenueOrganization[];
-}
+}>;
 
-export interface Category {
+export type Category = Nullable<{
     category_public_id: string;
     name: string;
-    icon: string | null;
+    icon: string;
     display_order: number;
-}
+}>;

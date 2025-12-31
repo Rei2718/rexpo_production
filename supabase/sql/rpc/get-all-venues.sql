@@ -22,6 +22,7 @@ BEGIN
             )
             FROM public.venues v
             WHERE v.deleted_at IS NULL
+            AND v.venue_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );
