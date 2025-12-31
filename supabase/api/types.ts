@@ -8,7 +8,7 @@ export type Verified<T> = {
     [P in keyof T]: P extends `${string}_public_id`
     ? string
     : NonNullable<T[P]> extends (infer U)[]
-    ? Verified<U>[] | Extract<T[P], null>
+    ? Verified<U>[]
     : T[P] extends object | null
     ? Verified<NonNullable<T[P]>> | null
     : T[P];

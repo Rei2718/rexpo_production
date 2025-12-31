@@ -16,7 +16,7 @@ export function TagHeader(data: Verified<TagEvents>) {
         <Link
             href={{
                 pathname: "/",
-                params: { id: data.tag_public_id, name: data.name ?? NO_DATA },
+                params: { id: data.tag_public_id },
             }}
             asChild
         >

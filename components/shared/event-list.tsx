@@ -5,17 +5,13 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { Container } from "../ui/container";
 import { EventListItem } from "./event-list-item";
 
-interface EventListProps {
-    events: Verified<EventOverview>[];
-}
-
-export function EventList({ events }: EventListProps) {
+export function EventList({ data }: { data: Verified<EventOverview>[] }) {
     const color = useThemeColor();
 
     return (
         <Container style={[styles.container, { backgroundColor: color.natural_500 }]}>
             <FlatList
-                data={events}
+                data={data}
                 keyExtractor={(event) => event.event_public_id}
                 renderItem={({ item }) => <EventListItem data={item} />}
                 ItemSeparatorComponent={() => (
