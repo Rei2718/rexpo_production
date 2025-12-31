@@ -9,7 +9,7 @@ Adherence to these guidelines is mandatory. Deviations, personal interpretations
 
 - **Server-Side Sanitization**: The database must never output data with missing primary keys (IDs). All filtering of invalid data occurs here.
 - **Type-Level Guarantee**: The API layer must guarantee to the frontend that IDs exist. The frontend must never doubt the existence of an ID.
-- **No Data Modification**: The UI layer receives data objects whole. Destructuring, remapping, or creating intermediate types for props is prohibited.
+- **No Data Modification**: The UI layer receives data objects as whole chunks. Destructuring, remapping, or creating intermediate types for props is prohibited.
 
 ## 2. Directory Structure and Roles
 
@@ -73,8 +73,9 @@ export interface EventOverview {
 
 ## 4. Server-Side Implementation Rules (RPC)
 
-- **File Location**: `supabase/sql/rpc/*.sql`
-- **Rule**: "Strict Parent, Flexible Child"
+**File Location**: `supabase/sql/rpc/*.sql`
+
+**Rule**: "Strict Parent, Flexible Child"
 
 Filtering logic in SQL/PLpgSQL is strict and follows these exact rules:
 
@@ -99,11 +100,53 @@ WHERE e.event_public_id IS NOT NULL
 - **List Iteration Variable**: MUST be named `item`.
 - **Exception for Multiple Fetches**: Only when a single file calls multiple APIs, variables may be renamed using the pattern: `[Entity]Data` (e.g., `eventsData`, `newsData`).
 
-### 5-2. API Implementation Flow
+### 5-2. API Implementation Flow (Detail)
 
-1. Define Key in `keys.ts`.
-2. Implement RPC wrapper in `function.ts` and cast result to `Verified<T>[]`.
-3. Expose Hook via `index.ts`.
+Data fetching logic is implemented in the following steps:
+
+#### Step 1: Define Query Keys (`supabase/api/keys.ts`)
+
+```typescript
+export const eventKeys = {
+  all: ['events'] as const,
+  lists: () => [...eventKeys.all, 'list'] as const,
+  // ...
+};
+```
+
+#### Step 2: Implement RPC Wrapper (`supabase/api/function.ts`)
+
+Perform the cast to `Verified` type here. This serves as the "boundary".
+
+```typescript
+import { supabase } from '@/supabase/supabase';
+import { EventOverview, Verified } from './types';
+
+export const fetchEvents = async (): Promise<Verified<EventOverview>[]> => {
+  const { data, error } = await supabase.rpc('get_events_json');
+  if (error) throw error;
+  
+  // Grant type-level guarantee here
+  return data as unknown as Verified<EventOverview>[];
+};
+```
+
+#### Step 3: Expose Custom Hook (`supabase/api/index.ts`)
+
+Define hooks for UI components.
+
+```typescript
+import { useQuery } from '@tanstack/react-query';
+import { eventKeys } from './keys';
+import { fetchEvents } from './function';
+
+export const useEvents = () => {
+  return useQuery({
+    queryKey: eventKeys.lists(),
+    queryFn: fetchEvents,
+  });
+};
+```
 
 ## 6. Component Implementation (UI)
 
@@ -130,27 +173,28 @@ export default function EventCard({ name, image }: Verified<EventOverview>) { ..
 
 ### 6-3. Prohibitions (Strictly Enforced)
 
-- **NO Intermediate Types**: Defining types like `type EventCardProps = ...` within component files is prohibited. Use `Verified<T>` directly.
+The following practices lead to type safety collapse and reduced readability, and are strictly prohibited.
+
+- **NO Intermediate Types**: Defining types like `type Props = ...` or `type SomeData = ...` within component files is prohibited. Use `Verified<T>` directly.
 - **NO Index Signatures**: Adding `& Record<string, unknown>` or `[key: string]: any` is prohibited.
 - **NO Nullable Props**: The prop itself (`data`) must NOT be nullable (`Verified<T> | null`). The API is guaranteed to return an array (empty or populated), never null for the list itself.
 - **NO Renaming**: Renaming the `data` prop to `event`, `info`, `item`, etc., is prohibited in Domain Components.
 
-**Example of Prohibited Code**:
+#### ❌ Example of Prohibited Code (Bad Practice)
 
 ```typescript
-// ❌ STRICTLY PROHIBITED
+// NEVER WRITE THIS
 type EventListData = Verified<EventSummary> & Record<string, unknown>; // Custom type & unsafe record
 
-export function EventList({ data }: { data: EventListData[] | null }) { // Nullable prop
+export function EventList({ data }: { data: EventListData[] | null }) { // Nullable Props
    if (!data) return null; // Unnecessary guard
    // ...
 }
 ```
 
-**Example of Mandated Code**:
+#### ⭕️ Example of Mandated Code (Correct Practice)
 
 ```tsx
-// ✅ MANDATORY STYLE
 // Parent Component
 <FlatList
   data={listData}
