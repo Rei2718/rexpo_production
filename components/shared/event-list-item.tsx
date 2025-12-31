@@ -22,7 +22,7 @@ export function EventListItem({ event }: SharedEventListItemProps) {
     return (
         <Link
             href={{
-                pathname: "/",
+                pathname: "/event-details",
                 params: { id: event.event_public_id, name: event.name },
             }}
             asChild

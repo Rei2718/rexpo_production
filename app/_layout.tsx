@@ -1,17 +1,18 @@
-import { DarkNavigationTheme, LightNavigationTheme } from '@/constants/theme';
+import { Icon } from '@/components/ui/icon';
+import { DarkNavigationTheme, LightNavigationTheme, Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { NotoSansJP_300Light, NotoSansJP_400Regular, NotoSansJP_500Medium, NotoSansJP_600SemiBold, NotoSansJP_700Bold, useFonts } from '@expo-google-fonts/noto-sans-jp';
 import { ThemeProvider } from '@react-navigation/native';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import 'expo-sqlite/localStorage/install';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from "expo-system-ui";
 import React, { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { Platform, TouchableOpacity, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
@@ -65,6 +66,20 @@ export default function RootLayout() {
               name="(tabs)"
               options={{
                 headerShown: false
+              }}
+            />
+            <Stack.Screen
+              name="event-details"
+              options={{
+                presentation: "modal",
+                headerTitle: "",
+                headerTransparent: true,
+                animation: "ios_from_right",
+                headerLeft: Platform.OS === 'ios' ? () => (
+                  <TouchableOpacity onPress={() => router.back()}>
+                    <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                  </TouchableOpacity>
+                ) : undefined,
               }}
             />
           </Stack>
