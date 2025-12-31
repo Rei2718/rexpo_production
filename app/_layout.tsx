@@ -69,7 +69,20 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
-              name="event-details"
+              name="category-modal"
+              options={{
+                presentation: "modal",
+                headerTransparent: true,
+                animation: "ios_from_right",
+                headerLeft: Platform.OS === 'ios' ? () => (
+                  <TouchableOpacity onPress={() => router.back()}>
+                    <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                  </TouchableOpacity>
+                ) : undefined,
+              }}
+            />
+            <Stack.Screen
+              name="event-details-modal"
               options={{
                 presentation: "modal",
                 headerTitle: "",

@@ -16,7 +16,7 @@ export function EventListItem(data: Verified<EventOverview>) {
     return (
         <Link
             href={{
-                pathname: "/event-details",
+                pathname: "/event-details-modal",
                 params: { event_public_id: data.event_public_id },
             }}
             asChild
