@@ -44,17 +44,17 @@ Get-Content `
   supabase/sql/rpc/get-all-venues.sql, `
   supabase/sql/rpc/get-categories.sql, `
   supabase/sql/storage/create-storage.sql `
-  | Set-Content supabase/migrations/20251227043328_init_schema.sql
+  | Set-Content supabase/migrations/20251231042430_init_schema.sql
 
 ### 4. Prepare seed data
-Copy-Item supabase/sql/seed-test.sql supabase/seed.sql
+Copy-Item supabase/seed-test.sql supabase/seed.sql
 
 ### 5. DB reset (migrate & seed)
 npx supabase db reset
 
 ### 6. Upload Storage Assets (New Step)
 # Upload images from supabase/seed-assets/ to storage buckets
-ts-node scripts/seed-storage.ts
+npx -y tsx supabase/sql/scripts/seed-storage.ts
 
 ### 7. Refresh Materialized Views
 SELECT refresh_all_mvs();

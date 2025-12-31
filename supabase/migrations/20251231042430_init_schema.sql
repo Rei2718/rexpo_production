@@ -566,7 +566,7 @@ WITH cte_tag_events AS (
                     'icon',            e.icon,
                     'display_order',   e.display_order
                 ) ORDER BY e.display_order DESC, e.event_id
-            ) FILTER (WHERE e.event_id IS NOT NULL),
+            ) FILTER (WHERE e.event_id IS NOT NULL AND e.event_public_id IS NOT NULL),
             '[]'::jsonb
         ) AS events
     FROM public.tags t
@@ -591,7 +591,7 @@ SELECT
                 'events',        te.events,
                 'display_order', tc.display_order
             ) ORDER BY tc.display_order DESC, te.tag_id
-        ) FILTER (WHERE te.tag_id IS NOT NULL),
+        ) FILTER (WHERE te.tag_id IS NOT NULL AND te.tag_public_id IS NOT NULL),
         '[]'::jsonb
     ) AS tags
 
@@ -599,6 +599,7 @@ FROM public.categories c
 LEFT JOIN public.tags_categories tc ON c.category_id = tc.category_id AND tc.deleted_at IS NULL
 LEFT JOIN cte_tag_events te ON tc.tag_id = te.tag_id
 WHERE c.deleted_at IS NULL
+AND c.category_public_id IS NOT NULL
 GROUP BY c.category_id, c.category_public_id, c.name, c.caption, c.icon, c.display_order;
 
 -- indexes
@@ -625,6 +626,7 @@ cte_venues AS (
     FROM public.events_venues ev
     JOIN public.venues v ON ev.venue_id = v.venue_id
     WHERE ev.deleted_at IS NULL AND v.deleted_at IS NULL
+    AND v.venue_public_id IS NOT NULL
     GROUP BY ev.event_id
 ),
 cte_tags AS (
@@ -640,6 +642,7 @@ cte_tags AS (
     FROM public.events_tags et
     JOIN public.tags t ON et.tag_id = t.tag_id
     WHERE et.deleted_at IS NULL AND t.deleted_at IS NULL
+    AND t.tag_public_id IS NOT NULL
     GROUP BY et.event_id
 ),
 cte_slots AS (
@@ -656,6 +659,7 @@ cte_slots AS (
     FROM public.events_slots es
     JOIN public.slots s ON es.slot_id = s.slot_id
     WHERE es.deleted_at IS NULL AND s.deleted_at IS NULL
+    AND s.slot_public_id IS NOT NULL
     GROUP BY es.event_id
 ),
 cte_performers AS (
@@ -673,6 +677,7 @@ cte_performers AS (
     FROM public.events_performers ep
     JOIN public.performers p ON ep.performer_id = p.performer_id
     WHERE ep.deleted_at IS NULL AND p.deleted_at IS NULL
+    AND p.performer_public_id IS NOT NULL
     GROUP BY ep.event_id
 )
 
@@ -685,13 +690,17 @@ SELECT
     e.description,
     e.images,
     
-    jsonb_build_object(
-        'organization_public_id', o.organization_public_id,
-        'name',                   o.name,
-        'caption',                o.caption,
-        'icon',                   o.icon,
-        'sponsor',                o.sponsor
-    ) AS organization,
+    CASE 
+        WHEN o.organization_id IS NOT NULL AND o.organization_public_id IS NOT NULL THEN
+            jsonb_build_object(
+                'organization_public_id', o.organization_public_id,
+                'name',                   o.name,
+                'caption',                o.caption,
+                'icon',                   o.icon,
+                'sponsor',                o.sponsor
+            )
+        ELSE NULL
+    END AS organization,
 
     COALESCE(v.data, '[]'::jsonb) AS venues,
     COALESCE(t.data, '[]'::jsonb) AS tags,
@@ -707,7 +716,8 @@ LEFT JOIN cte_tags t ON e.event_id = t.event_id
 LEFT JOIN cte_slots s ON e.event_id = s.event_id
 LEFT JOIN cte_performers p ON e.event_id = p.event_id
 
-WHERE e.deleted_at IS NULL;
+WHERE e.deleted_at IS NULL
+AND e.event_public_id IS NOT NULL;
 
 -- indexes
 CREATE UNIQUE INDEX idx_mv_event_details_public_id ON public.mv_event_details(event_public_id);
@@ -742,6 +752,7 @@ WITH cte_timeline AS (
     JOIN public.events_slots es ON e.event_id = es.event_id AND es.deleted_at IS NULL
     JOIN public.slots s ON es.slot_id = s.slot_id AND s.deleted_at IS NULL
     WHERE e.deleted_at IS NULL
+    AND e.event_public_id IS NOT NULL
     GROUP BY ev.venue_id, s.starts, v.name
 )
 
@@ -762,6 +773,7 @@ SELECT
 FROM public.venues v
 LEFT JOIN cte_timeline t ON v.venue_id = t.venue_id
 WHERE v.deleted_at IS NULL
+AND v.venue_public_id IS NOT NULL
 GROUP BY v.venue_id, v.venue_public_id, v.name, v.icon;
 
 -- indexes
@@ -809,6 +821,7 @@ BEGIN
             FROM public.banners b
             LEFT JOIN public.events e ON b.event_id = e.event_id AND e.deleted_at IS NULL
             WHERE b.deleted_at IS NULL
+            AND b.banner_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );
@@ -841,6 +854,7 @@ BEGIN
             FROM public.venues v
             WHERE v.is_primary = TRUE
             AND v.deleted_at IS NULL
+            AND v.venue_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );
@@ -902,6 +916,7 @@ BEGIN
             JOIN public.events e ON et.event_id = e.event_id AND e.deleted_at IS NULL
             WHERE t.tag_public_id = get_events_by_tag.tag_public_id
             AND t.deleted_at IS NULL
+            AND e.event_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );
@@ -957,6 +972,7 @@ BEGIN
             FROM public.features f
             LEFT JOIN public.events e ON f.event_id = e.event_id AND e.deleted_at IS NULL
             WHERE f.deleted_at IS NULL
+            AND f.feature_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );
@@ -984,7 +1000,7 @@ BEGIN
                     'thumbnail',      n.thumbnail,
                     'website',        n.website,
                     'performer',      CASE 
-                        WHEN p.performer_id IS NOT NULL THEN
+                        WHEN p.performer_id IS NOT NULL AND p.performer_public_id IS NOT NULL THEN
                             jsonb_build_object(
                                 'performer_public_id', p.performer_public_id,
                                 'name',                p.name,
@@ -999,6 +1015,7 @@ BEGIN
             FROM public.news n
             LEFT JOIN public.performers p ON n.performer_id = p.performer_id AND p.deleted_at IS NULL
             WHERE n.deleted_at IS NULL
+            AND n.news_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );
@@ -1032,13 +1049,14 @@ BEGIN
                                 'icon',            e.icon,
                                 'display_order',   e.display_order
                             ) ORDER BY e.display_order DESC, e.event_id
-                        ) FILTER (WHERE e.event_id IS NOT NULL),
+                        ) FILTER (WHERE e.event_id IS NOT NULL AND e.event_public_id IS NOT NULL),
                         '[]'::jsonb
                     ) AS events
                 FROM public.tags t
                 LEFT JOIN public.events_tags et ON t.tag_id = et.tag_id AND et.deleted_at IS NULL
                 LEFT JOIN public.events e ON et.event_id = e.event_id AND e.deleted_at IS NULL
                 WHERE t.deleted_at IS NULL
+                AND t.tag_public_id IS NOT NULL
                 GROUP BY t.tag_id, t.tag_public_id, t.name, t.caption, t.display_order
             )
             SELECT jsonb_agg(
@@ -1118,7 +1136,9 @@ BEGIN
             ) AS data
         FROM public.venues_organizations vo
         JOIN public.organizations o ON vo.organization_id = o.organization_id
+
         WHERE vo.deleted_at IS NULL AND o.deleted_at IS NULL
+        AND o.organization_public_id IS NOT NULL
         GROUP BY vo.venue_id
     )
     SELECT jsonb_build_object(
@@ -1134,13 +1154,46 @@ BEGIN
     FROM public.venues v
     LEFT JOIN cte_organizations o ON v.venue_id = o.venue_id
     WHERE v.venue_public_id = get_venue_details.venue_public_id
-    AND v.deleted_at IS NULL;
+    AND v.deleted_at IS NULL
+    AND v.venue_public_id IS NOT NULL;
 
     RETURN result;
 END;
 $$ LANGUAGE plpgsql;
 
 GRANT EXECUTE ON FUNCTION public.get_venue_details(UUID) TO anon;
+-- get_all_venues
+
+CREATE OR REPLACE FUNCTION get_all_venues()
+RETURNS JSONB
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+BEGIN
+    RETURN COALESCE(
+        (
+            SELECT jsonb_agg(
+                jsonb_build_object(
+                    'venue_public_id', v.venue_public_id,
+                    'name',            v.name,
+                    'icon',            v.icon,
+                    'capacity',        v.capacity,
+                    'floor',           v.floor,
+                    'map_latitude',    v.map_latitude,
+                    'map_longitude',   v.map_longitude,
+                    'display_order',   v.display_order
+                ) ORDER BY v.display_order DESC, v.venue_id
+            )
+            FROM public.venues v
+            WHERE v.deleted_at IS NULL
+            AND v.venue_public_id IS NOT NULL
+        ),
+        '[]'::jsonb
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+GRANT EXECUTE ON FUNCTION public.get_all_venues() TO anon;
 -- get_categories
 
 CREATE OR REPLACE FUNCTION get_categories()
@@ -1161,6 +1214,7 @@ BEGIN
             )
             FROM public.categories b
             WHERE b.deleted_at IS NULL
+            AND b.category_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );
@@ -1168,3 +1222,33 @@ END;
 $$ LANGUAGE plpgsql;
 
 GRANT EXECUTE ON FUNCTION public.get_categories() TO anon;
+-- storage buckets
+INSERT INTO storage.buckets (id, name, public)
+VALUES 
+    ('categories',    'categories',    true),
+    ('features',      'features',      true),
+    ('venues',        'venues',        true),
+    ('organizations', 'organizations', true),
+    ('foods',         'foods',         true),
+    ('performers',    'performers',    true),
+    ('events',        'events',        true),
+    ('news',          'news',          true),
+    ('banners',       'banners',       true)
+ON CONFLICT (id) DO NOTHING;
+
+-- storage policies
+DROP POLICY IF EXISTS "Public Access Multi" ON storage.objects;
+
+CREATE POLICY "Public Access Multi"
+ON storage.objects FOR SELECT
+USING ( bucket_id IN (
+    'categories', 
+    'features', 
+    'venues', 
+    'organizations', 
+    'foods', 
+    'performers', 
+    'events', 
+    'news', 
+    'banners'
+) );

@@ -1,4 +1,5 @@
 -- seed-test.sql
+
 TRUNCATE TABLE 
     public.events_tags,
     public.tags_categories,
@@ -31,32 +32,46 @@ DECLARE
     
     i INTEGER;
     j INTEGER;
+    k INTEGER;
     
     temp_id BIGINT;
     temp_count INTEGER;
     random_idx INTEGER;
     
-    arr_cat_names TEXT[] := ARRAY['テクノロジー', 'アート', '音楽', 'ビジネス', 'フード', 'ライフスタイル'];
+    -- Data Arrays
+    arr_cat_names TEXT[] := ARRAY['テクノロジー', 'Art & Design', '音楽 (Music)', 'Business', 'フード/食', 'Lifestyle'];
     arr_tag_names TEXT[] := ARRAY[
-        'AI', 'Web開発', 'VR/AR',
-        '絵画', '彫刻', 'デジタルアート',
-        'ロック', 'ジャズ', 'クラシック',
-        'スタートアップ', 'マーケティング', '投資',
-        'スイーツ', 'オーガニック', 'ワイン',
-        '健康', '旅行', 'ファッション'
+        'AI/ML', 'Web development', 'XR (VR/AR)', -- Tech
+        '油絵', 'Media Art', 'Sculpture', -- Art
+        'Rock', 'Jazz Session', 'Classic', -- Music
+        'Startup', 'Marketing', 'VC/Investment', -- Business
+        'Sweets', 'Organic Food', 'Craft Beer', -- Food
+        'Yoga/Health', 'Travel', 'Fashion' -- Lifestyle
     ];
     
-    arr_event_titles_1 TEXT[] := ARRAY['未来の', '革新的', '究極の', 'みんなの', '春の', '大', '世界'];
-    arr_event_titles_2 TEXT[] := ARRAY['技術', '芸術', '音楽', '食', '交流', '開発'];
-    arr_event_titles_3 TEXT[] := ARRAY['フェスティバル', 'サミット', 'カンファレンス', '展', '博覧会', 'ミーティング'];
+    arr_event_titles_1 TEXT[] := ARRAY['未来の', 'Innovative', '究極の', 'Official', '春の', 'Great', 'Global'];
+    arr_event_titles_2 TEXT[] := ARRAY['Tech', 'Art', 'Sound', 'Gourmet', 'Network', 'Dev'];
+    arr_event_titles_3 TEXT[] := ARRAY['Festival', 'Summit', 'Conference', 'Exhibition', 'Fair', 'Meetup'];
     
-    arr_org_names TEXT[] := ARRAY['株式会社テックイノベーション', '一般社団法人アート振興会', 'Global Music Lab', 'Future Food Project', 'Next Gen Creators'];
-    arr_venue_primary TEXT[] := ARRAY['メインホール', 'グランドステージ', '展示ホールA', '展示ホールB', '国際会議場', '野外アリーナ', 'サウスウィング', 'ノースウィング', 'センターコート', 'スカイホール'];
-    arr_venue_others TEXT[] := ARRAY['第1会議室', '第2会議室', '休憩スペースA', '休憩スペースB', 'フードコート', 'キッチンカーエリア', '東側トイレ前', '西側エントランス', 'VIPラウンジ', 'ロッカールーム'];
+    arr_org_names TEXT[] := ARRAY['Tech Innovation Inc.', '一般社団法人アート振興会', 'Global Music Lab', 'Future Food Project', 'Next Gen Creators'];
+    arr_venue_primary TEXT[] := ARRAY['Main Hall', 'Grand Stage', 'Exhibition Hall A', 'International Conference Room', 'Outdoor Arena'];
+    arr_venue_others TEXT[] := ARRAY['Room 101', 'Room 102', 'Lounge A', 'Lounge B', 'Food Court', 'Kitchen Car Area', 'Restroom East', 'Entrance West', 'VIP Lounge', 'Locker Room'];
     
-    arr_performer_last TEXT[] := ARRAY['佐藤', '鈴木', '高橋', '田中', '伊藤', '渡辺', '山本', '中村', '小林', '加藤'];
-    arr_performer_first TEXT[] := ARRAY['太郎', '次郎', '花子', '健太', '美咲', '翔', 'さくら', '大輔', '優', '直人'];
-    arr_food_names TEXT[] := ARRAY['オーガニックカフェ', 'ステーキハウス', 'ラーメン横丁', 'イタリアンボッカ', '寿司処', 'バーガーキングダム'];
+    arr_performer_last TEXT[] := ARRAY['佐藤 (Sato)', 'Smith', '高橋', 'Johnson', '伊藤', 'Williams', '山本', 'Brown', '小林', 'Miller'];
+    arr_performer_first TEXT[] := ARRAY['Taro', 'John', 'Hanako', 'David', 'Misaki', 'Michael', 'Sakura', 'Chris', 'Yu', 'Sarah'];
+    arr_food_names TEXT[] := ARRAY['Organic Cafe', 'Steak House 29', 'Sapporo Ramen', 'Bocca Italian', 'Sushi Dokoro', 'Burger King'];
+
+    v_curr_time TIME := '10:00:00';
+    v_slot_display_order INTEGER := 1;
+    v_event_global_count INTEGER := 0;
+    v_events_in_slot INTEGER;
+    v_venue_indices INTEGER[];
+    v_rand_pos INTEGER;
+    v_swap_tmp INTEGER;
+    v_target_venue_idx INTEGER;
+
+    -- Helper variables for randomness
+    v_random_val FLOAT;
 
 BEGIN
     -- categories (6件)
@@ -64,8 +79,8 @@ BEGIN
         INSERT INTO public.categories (name, caption, icon, display_order)
         VALUES (
             arr_cat_names[i],
-            arr_cat_names[i] || 'に関する最新情報が集まります。',
-            '/categories/' || i || '.jpg',
+            CASE WHEN (random() < 0.2) THEN NULL ELSE arr_cat_names[i] || 'に関する最新情報が集まります。' END,
+            CASE WHEN (random() < 0.1) THEN NULL ELSE '/categories/' || i || '.png' END,
             i
         ) RETURNING category_id INTO temp_id;
         v_cat_ids := array_append(v_cat_ids, temp_id);
@@ -77,7 +92,7 @@ BEGIN
             INSERT INTO public.tags (name, caption, display_order)
             VALUES (
                 arr_tag_names[(i - 1) * 3 + j],
-                'これは' || arr_tag_names[(i - 1) * 3 + j] || 'に関するタグです。',
+                CASE WHEN (random() < 0.3) THEN NULL ELSE 'About ' || arr_tag_names[(i - 1) * 3 + j] END,
                 (i - 1) * 3 + j
             ) RETURNING tag_id INTO temp_id;
             
@@ -88,16 +103,17 @@ BEGIN
         END LOOP;
     END LOOP;
 
-    -- venues - primary (10件)
-    FOR i IN 1..10 LOOP
+    -- venues - primary (5件)
+    -- 札幌中心座標: 43.057149, 141.388626
+    FOR i IN 1..5 LOOP
         INSERT INTO public.venues (name, icon, capacity, floor, map_latitude, map_longitude, is_primary, display_order)
         VALUES (
             arr_venue_primary[i],
-            'https://picsum.photos/512/512?random=venue_p' || i,
-            500 + (i * 100),
-            1 + (i % 2),
-            35.6895 + (i * 0.001),
-            139.6917 + (i * 0.001),
+            CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=venue_p' || i END,
+            CASE WHEN (random() < 0.2) THEN NULL ELSE 500 + (i * 100) END,
+            CASE WHEN (random() < 0.2) THEN NULL ELSE 1 + (i % 2) END,
+            43.057149 + ((i - 3) * 0.00015),
+            141.388626 + ((i - 3) * 0.00015),
             TRUE,
             i
         ) RETURNING venue_id INTO temp_id;
@@ -109,13 +125,13 @@ BEGIN
         INSERT INTO public.venues (name, icon, capacity, floor, map_latitude, map_longitude, is_primary, display_order)
         VALUES (
             arr_venue_others[i],
-            'https://picsum.photos/512/512?random=venue_o' || i,
-            10 + (i * 5),
-            1,
-            35.6895 - (i * 0.001),
-            139.6917 - (i * 0.001),
+            CASE WHEN (random() < 0.3) THEN NULL ELSE 'https://picsum.photos/512/512?random=venue_o' || i END,
+            CASE WHEN (random() < 0.5) THEN NULL ELSE 10 + (i * 5) END,
+            CASE WHEN (random() < 0.5) THEN NULL ELSE 1 + (i % 2) END,
+            43.057149 + (cos(i * 0.628) * 0.0005),
+            141.388626 + (sin(i * 0.628) * 0.0005),
             FALSE,
-            10 + i
+            5 + i
         ) RETURNING venue_id INTO temp_id;
         v_venue_ids := array_append(v_venue_ids, temp_id);
     END LOOP;
@@ -125,24 +141,32 @@ BEGIN
         INSERT INTO public.organizations (name, caption, icon, sponsor, description, header_image, images)
         VALUES (
             arr_org_names[((i - 1) % array_length(arr_org_names, 1)) + 1] || ' ' || i,
-            '業界をリードする企業です。',
-            'https://picsum.photos/512/512?random=org_icon' || i,
-            CASE WHEN i % 3 = 0 THEN 'Gold Sponsor' ELSE NULL END,
-            '私たちのミッションは、世界をより良くすることです。',
-            'https://picsum.photos/1920/1920?random=org_head' || i,
-            ARRAY['https://picsum.photos/1920/1080?random=org_img1_'||i, 'https://picsum.photos/1920/1080?random=org_img2_'||i]
+            CASE WHEN (random() < 0.2) THEN NULL ELSE 'Leading the industry.' END,
+            CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=org_icon' || i END,
+            CASE 
+                WHEN (random() < 0.7) THEN NULL 
+                WHEN (random() < 0.9) THEN 'Gold Sponsor'
+                ELSE 'Silver Sponsor'
+            END,
+            CASE WHEN (random() < 0.4) THEN NULL ELSE 'Our mission is to innovate the world with technology and passion.' END,
+            CASE WHEN (random() < 0.3) THEN NULL ELSE 'https://picsum.photos/1920/1920?random=org_head' || i END,
+            CASE 
+                WHEN (random() < 0.3) THEN NULL 
+                WHEN (random() < 0.6) THEN ARRAY['https://picsum.photos/1920/1080?random=org_img1_'||i]
+                ELSE ARRAY['https://picsum.photos/1920/1080?random=org_img1_'||i, 'https://picsum.photos/1920/1080?random=org_img2_'||i]
+            END
         ) RETURNING organization_id INTO temp_id;
         v_org_ids := array_append(v_org_ids, temp_id);
     END LOOP;
 
     -- venues_organizations
     FOR i IN 1..array_length(v_venue_ids, 1) LOOP
-        temp_count := 1 + floor(random() * 3)::int;
+        -- Randomly 0 to 3 organizations per venue
+        temp_count := floor(random() * 4)::int;
         FOR j IN 1..temp_count LOOP
             random_idx := 1 + floor(random() * array_length(v_org_ids, 1))::int;
-            IF random_idx > array_length(v_org_ids, 1) THEN
-                random_idx := array_length(v_org_ids, 1);
-            END IF;
+            IF random_idx > array_length(v_org_ids, 1) THEN random_idx := array_length(v_org_ids, 1); END IF;
+            
             INSERT INTO public.venues_organizations (venue_id, organization_id, display_order)
             VALUES (v_venue_ids[i], v_org_ids[random_idx], j)
             ON CONFLICT (venue_id, organization_id) WHERE deleted_at IS NULL DO NOTHING;
@@ -154,13 +178,13 @@ BEGIN
         INSERT INTO public.foods (name, caption, description, icon, minutes, distance, address, website, display_order)
         VALUES (
             arr_food_names[i],
-            '美味しい' || arr_food_names[i],
-            arr_food_names[i] || 'では、厳選された食材を使用しています。',
+            'Delicious ' || arr_food_names[i],
+            CASE WHEN (random() < 0.3) THEN NULL ELSE 'Fresh ingredients used.' END,
             'https://picsum.photos/512/512?random=food' || i,
             5 + (i * 2),
             100 + (i * 50),
-            '東京都渋谷区' || i || '-' || i,
-            'https://example.com/food' || i,
+            CASE WHEN (random() < 0.2) THEN NULL ELSE 'Shibuya, Tokyo ' || i END,
+            CASE WHEN (random() < 0.5) THEN NULL ELSE 'https://example.com/food' || i END,
             i
         );
     END LOOP;
@@ -170,105 +194,152 @@ BEGIN
         INSERT INTO public.performers (name, affiliation, icon, display_order)
         VALUES (
             arr_performer_last[((i - 1) % 10) + 1] || ' ' || arr_performer_first[((i * 3 - 1) % 10) + 1],
-            CASE WHEN i % 2 = 0 THEN 'フリーランス' ELSE '株式会社XX' END,
-            'https://picsum.photos/512/512?random=perf' || i,
+            CASE 
+                WHEN (random() < 0.3) THEN NULL 
+                WHEN (random() < 0.6) THEN 'Freelance' 
+                ELSE 'Company XX' 
+            END,
+            CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=perf' || i END,
             i
         ) RETURNING performer_id INTO temp_id;
         v_perf_ids := array_append(v_perf_ids, temp_id);
     END LOOP;
 
-    -- slots (5件)
-    INSERT INTO public.slots (starts, ends, display_order) VALUES ('10:00', '11:00', 1) RETURNING slot_id INTO temp_id; v_slot_ids := array_append(v_slot_ids, temp_id);
-    INSERT INTO public.slots (starts, ends, display_order) VALUES ('11:00', '12:00', 2) RETURNING slot_id INTO temp_id; v_slot_ids := array_append(v_slot_ids, temp_id);
-    INSERT INTO public.slots (starts, ends, display_order) VALUES ('13:00', '14:00', 3) RETURNING slot_id INTO temp_id; v_slot_ids := array_append(v_slot_ids, temp_id);
-    INSERT INTO public.slots (starts, ends, display_order) VALUES ('14:00', '15:00', 4) RETURNING slot_id INTO temp_id; v_slot_ids := array_append(v_slot_ids, temp_id);
-    INSERT INTO public.slots (starts, ends, display_order) VALUES ('15:00', '16:00', 5) RETURNING slot_id INTO temp_id; v_slot_ids := array_append(v_slot_ids, temp_id);
-
-    -- events (200件)
-    FOR i IN 1..200 LOOP
-        INSERT INTO public.events (
-            name, caption, icon, description, header_image, images, 
-            organization_id, display_order
-        )
+    -- EVENTS & SLOTS GENERATION
+    -- 10:00 to 18:00 (Every 10 minutes)
+    WHILE v_curr_time <= '18:00:00'::TIME LOOP
+        
+        -- Create Slot
+        INSERT INTO public.slots (starts, ends, display_order)
         VALUES (
-            arr_event_titles_1[((i - 1) % 7) + 1] || arr_event_titles_2[((i - 1) % 6) + 1] || arr_event_titles_3[((i - 1) % 6) + 1] || ' Vol.' || i,
-            '心躍る体験をあなたに。',
-            'https://picsum.photos/512/512?random=ev_icon' || i,
-            'このイベントでは、最先端の技術と芸術が融合した素晴らしい展示をご覧いただけます。ぜひご参加ください。',
-            'https://picsum.photos/1920/1920?random=ev_head' || i,
-            ARRAY[
-                'https://picsum.photos/1920/1080?random=ev_img1_' || i, 
-                'https://picsum.photos/1920/1080?random=ev_img2_' || i,
-                'https://picsum.photos/1920/1080?random=ev_img3_' || i
-            ],
-            v_org_ids[((i - 1) % array_length(v_org_ids, 1)) + 1],
-            i
-        ) RETURNING event_id INTO v_event_id;
-
-        -- events_venues
-        INSERT INTO public.events_venues (event_id, venue_id, display_order)
-        VALUES (v_event_id, v_venue_ids[((i - 1) % array_length(v_venue_ids, 1)) + 1], 1);
-
-        -- events_slots
-        INSERT INTO public.events_slots (event_id, slot_id, display_order)
-        VALUES (v_event_id, v_slot_ids[((i - 1) % array_length(v_slot_ids, 1)) + 1], 1);
-
-        -- events_tags (1~3個ランダム)
-        temp_count := 1 + floor(random() * 3)::int;
-        FOR j IN 1..temp_count LOOP
-            random_idx := 1 + floor(random() * array_length(v_tag_ids, 1))::int;
-            IF random_idx > array_length(v_tag_ids, 1) THEN
-                random_idx := array_length(v_tag_ids, 1);
-            END IF;
-            INSERT INTO public.events_tags (event_id, tag_id, display_order)
-            VALUES (v_event_id, v_tag_ids[random_idx], j)
-            ON CONFLICT (event_id, tag_id) WHERE deleted_at IS NULL DO NOTHING;
+            v_curr_time,
+            v_curr_time + interval '10 minutes',
+            v_slot_display_order
+        ) RETURNING slot_id INTO temp_id;
+        
+        -- Generate 0 to 4 events for this slot (occasionally empty slots)
+        -- 10% chance of empty slot
+        IF random() < 0.1 THEN
+            v_events_in_slot := 0;
+        ELSE
+            v_events_in_slot := 1 + floor(random() * 4)::int;
+        END IF;
+        
+        -- Prepare valid primary venue indices (1..5)
+        v_venue_indices := ARRAY[1, 2, 3, 4, 5];
+        
+        -- Shuffle valid indices
+        FOR k IN 1..5 LOOP
+            v_rand_pos := 1 + floor(random() * 5)::int;
+            v_swap_tmp := v_venue_indices[k];
+            v_venue_indices[k] := v_venue_indices[v_rand_pos];
+            v_venue_indices[v_rand_pos] := v_swap_tmp;
         END LOOP;
+        
+        -- Create events
+        FOR k IN 1..v_events_in_slot LOOP
+            v_event_global_count := v_event_global_count + 1;
+            v_target_venue_idx := v_venue_indices[k]; -- Pick from shuffled
+            
+            INSERT INTO public.events (
+                name, caption, icon, description, header_image, images, 
+                organization_id, display_order
+            )
+            VALUES (
+                -- Random mix of titles
+                arr_event_titles_1[((v_event_global_count - 1) % 7) + 1] || 
+                ' ' || arr_event_titles_2[((v_event_global_count - 1) % 6) + 1] || 
+                ' ' || arr_event_titles_3[((v_event_global_count - 1) % 6) + 1] || 
+                ' Vol.' || v_event_global_count,
+                
+                CASE WHEN (random() < 0.2) THEN NULL ELSE 'Exciting experience.' END,
+                CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=ev_icon' || v_event_global_count END,
+                CASE WHEN (random() < 0.4) THEN NULL ELSE 'Cutting edge technology meets art. Don''t miss it!' END,
+                CASE WHEN (random() < 0.2) THEN NULL ELSE 'https://picsum.photos/1920/1920?random=ev_head' || v_event_global_count END,
+                
+                -- Random images array (NULL, Empty, or populated)
+                CASE 
+                    WHEN (random() < 0.2) THEN NULL 
+                    WHEN (random() < 0.3) THEN ARRAY[]::text[] 
+                    ELSE ARRAY[
+                        'https://picsum.photos/1920/1080?random=ev_img1_' || v_event_global_count, 
+                        'https://picsum.photos/1920/1080?random=ev_img2_' || v_event_global_count
+                    ]
+                END,
+                
+                -- Random Organization (sometimes NULL if allowed, though logic usually expects one. Let's make 10% NULL)
+                CASE WHEN (random() < 0.1) THEN NULL ELSE v_org_ids[((v_event_global_count - 1) % array_length(v_org_ids, 1)) + 1] END,
+                v_event_global_count
+            ) RETURNING event_id INTO v_event_id;
 
-        -- events_performers (1~10人ランダム)
-        temp_count := 1 + floor(random() * 10)::int;
-        FOR j IN 1..temp_count LOOP
-            random_idx := 1 + floor(random() * array_length(v_perf_ids, 1))::int;
-            IF random_idx > array_length(v_perf_ids, 1) THEN
-                random_idx := array_length(v_perf_ids, 1);
+            -- events_venues (Primary Venue, always present for now, or maybe 5% NULL?)
+            IF random() > 0.05 THEN
+               INSERT INTO public.events_venues (event_id, venue_id, display_order)
+               VALUES (v_event_id, v_venue_ids[v_target_venue_idx], 1);
             END IF;
-            INSERT INTO public.events_performers (event_id, performer_id, display_order)
-            VALUES (v_event_id, v_perf_ids[random_idx], j)
-            ON CONFLICT (event_id, performer_id) WHERE deleted_at IS NULL DO NOTHING;
+
+            -- events_slots (Current Slot)
+            INSERT INTO public.events_slots (event_id, slot_id, display_order)
+            VALUES (v_event_id, temp_id, 1);
+
+            -- events_tags (0~3 items)
+            temp_count := floor(random() * 4)::int;
+            FOR j IN 1..temp_count LOOP
+                random_idx := 1 + floor(random() * array_length(v_tag_ids, 1))::int;
+                IF random_idx > array_length(v_tag_ids, 1) THEN random_idx := 1; END IF;
+                
+                INSERT INTO public.events_tags (event_id, tag_id, display_order)
+                VALUES (v_event_id, v_tag_ids[random_idx], j)
+                ON CONFLICT (event_id, tag_id) WHERE deleted_at IS NULL DO NOTHING;
+            END LOOP;
+
+            -- events_performers (0~5 items)
+            temp_count := floor(random() * 6)::int;
+            FOR j IN 1..temp_count LOOP
+                random_idx := 1 + floor(random() * array_length(v_perf_ids, 1))::int;
+                IF random_idx > array_length(v_perf_ids, 1) THEN random_idx := 1; END IF;
+
+                INSERT INTO public.events_performers (event_id, performer_id, display_order)
+                VALUES (v_event_id, v_perf_ids[random_idx], j)
+                ON CONFLICT (event_id, performer_id) WHERE deleted_at IS NULL DO NOTHING;
+            END LOOP;
         END LOOP;
+        
+        v_slot_display_order := v_slot_display_order + 1;
+        v_curr_time := v_curr_time + interval '10 minutes';
     END LOOP;
 
-    -- features (5件)
-    FOR i IN 1..5 LOOP
+    -- features (2~5 items)
+    FOR i IN 1..(2 + floor(random() * 4)::int) LOOP
         INSERT INTO public.features (name, caption, note, image, display_order)
         VALUES (
-            '特集: ' || arr_cat_names[i],
-            '見逃せない注目ポイント',
-            '詳細はこちらをご覧ください。',
+            'Feature: ' || arr_cat_names[i],
+            CASE WHEN (random() < 0.3) THEN NULL ELSE 'Must see point' END,
+            CASE WHEN (random() < 0.5) THEN NULL ELSE 'Check details.' END,
             '/features/' || i || '.jpg',
             i
         );
     END LOOP;
     
-    -- news (10件)
-    FOR i IN 1..10 LOOP
+    -- news (5~15 items)
+    FOR i IN 1..(5 + floor(random() * 11)::int) LOOP
         INSERT INTO public.news (name, caption, description, header_image, thumbnail, display_order)
         VALUES (
-            'お知らせ ' || i,
-            '重要なお知らせです。',
-            'イベントの開催時間が変更になりました。ご注意ください。',
-            'https://picsum.photos/1920/1920?random=news_h' || i,
-            'https://picsum.photos/512/512?random=news_t' || i,
+            'News ' || i,
+            CASE WHEN (random() < 0.2) THEN NULL ELSE 'Important notice' END,
+            CASE WHEN (random() < 0.4) THEN NULL ELSE 'Details about news ' || i END,
+            CASE WHEN (random() < 0.3) THEN NULL ELSE 'https://picsum.photos/1920/1920?random=news_h' || i END,
+            CASE WHEN (random() < 0.2) THEN NULL ELSE 'https://picsum.photos/512/512?random=news_t' || i END,
             i
         );
     END LOOP;
 
-    -- banners (5件)
-    FOR i IN 1..5 LOOP
+    -- banners (3~8 items)
+    FOR i IN 1..(3 + floor(random() * 6)::int) LOOP
         INSERT INTO public.banners (image, link, display_order)
         VALUES (
             'https://picsum.photos/1920/1080?random=ban' || i,
-            'https://example.com',
+            CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://example.com' END,
             i
         );
     END LOOP;

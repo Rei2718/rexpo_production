@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const SUPABASE_URL = 'http://127.0.0.1:54321';
-const SERVICE_KEY = '';
+const SERVICE_KEY = 'sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz';
 
 const supabase = createClient(SUPABASE_URL, SERVICE_KEY, {
     auth: {

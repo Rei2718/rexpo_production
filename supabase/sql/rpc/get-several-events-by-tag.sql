@@ -24,7 +24,6 @@ BEGIN
                                 'icon',            e.icon,
                                 'display_order',   e.display_order
                             ) ORDER BY e.display_order DESC, e.event_id
-                            ) ORDER BY e.display_order DESC, e.event_id
                         ) FILTER (WHERE e.event_id IS NOT NULL AND e.event_public_id IS NOT NULL),
                         '[]'::jsonb
                     ) AS events
