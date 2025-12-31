@@ -6,11 +6,11 @@ import { StatusMessage } from "../ui/status-message";
 import CategoryCard from "./category-card";
 
 export default function CategoryFilter() {
-    const { data: categories, isPending, isError } = useCategories();
+    const { data, isPending, isError } = useCategories();
 
     if (isPending) return <StatusMessage status="loading" />;
     if (isError) return <StatusMessage status="error" />;
-    if (!categories) return <StatusMessage status="empty" />;
+    if (!data) return <StatusMessage status="empty" />;
 
     return (
         <Container>
@@ -23,8 +23,11 @@ export default function CategoryFilter() {
                     gap: Spacing.s8,
                 }}
             >
-                {categories.map((item) => (
-                    <CategoryCard key={item.category_public_id} {...item} />
+                {data.map((item) => (
+                    <CategoryCard
+                        key={item.category_public_id}
+                        {...item}
+                    />
                 ))}
             </ScrollView>
         </Container>
