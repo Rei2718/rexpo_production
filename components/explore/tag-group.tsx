@@ -13,7 +13,7 @@ export function TagGroup(data: Verified<TagEvents>) {
             <TagHeader {...data} />
 
             {/* Events List */}
-            <EventList data={data.events} />
+            <EventList {...data} />
         </Container>
     );
 }
