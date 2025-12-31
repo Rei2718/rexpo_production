@@ -34,8 +34,8 @@ export default function VenueFilter({ venues, selectedVenueId, onVenueChange }: 
                 const isSelected = selectedVenueId === venue.venue_public_id;
                 return (
                     <TouchableOpacity
-                        key={venue.venue_public_id}
-                        onPress={() => handlePress(venue.venue_public_id)}
+                        key={venue.venue_public_id ?? ""}
+                        onPress={() => handlePress(venue.venue_public_id ?? "")}
                     >
                         <Container
                             paddingHorizontal="s24"

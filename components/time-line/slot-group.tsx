@@ -1,6 +1,6 @@
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { TimelineSlot } from "@/supabase/api/types";
+import { TimelineEvent, TimelineSlot, Verified } from "@/supabase/api/types";
 import { StyleSheet, View } from "react-native";
 import { EventList } from "../shared/event-list";
 import { Container, ContainerAbsolute } from "../ui/container";
@@ -44,7 +44,7 @@ export function SlotGroup({ item, isFirst, isLast }: SlotGroupProps) {
                 <SlotHeader item={item} />
 
                 {/* Events List */}
-                <EventList events={item.events} />
+                <EventList events={(item.events ?? []) as Verified<TimelineEvent>[]} />
             </Container>
         </Container>
     );

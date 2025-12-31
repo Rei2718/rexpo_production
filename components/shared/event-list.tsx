@@ -1,11 +1,12 @@
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
+import { EventOverview, Verified } from "@/supabase/api/types";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Container } from "../ui/container";
-import { EventListItem, SharedEventListItemProps } from "./event-list-item";
+import { EventListItem } from "./event-list-item";
 
 interface EventListProps {
-    events: SharedEventListItemProps['event'][];
+    events: Verified<EventOverview>[];
 }
 
 export function EventList({ events }: EventListProps) {
@@ -16,7 +17,7 @@ export function EventList({ events }: EventListProps) {
             <FlatList
                 data={events}
                 keyExtractor={(event) => event.event_public_id}
-                renderItem={({ item: event }) => <EventListItem event={event} />}
+                renderItem={({ item }) => <EventListItem data={item} />}
                 ItemSeparatorComponent={() => (
                     <View
                         style={[

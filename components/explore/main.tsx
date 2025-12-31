@@ -20,7 +20,7 @@ export default function ExploreMain() {
         <FlatList
             data={data}
             ListHeaderComponent={<StickyHeader />}
-            renderItem={({ item }) => <TagGroup item={item} />}
+            renderItem={({ item }) => <TagGroup {...item} />}
             ItemSeparatorComponent={() => <Container style={{ height: Spacing.s40 }} />}
             keyExtractor={(item) => item.tag_public_id}
             showsVerticalScrollIndicator={false}

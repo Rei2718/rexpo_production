@@ -1,12 +1,13 @@
+import { Row } from "@/components/ui/flex";
 import { Icon } from "@/components/ui/icon";
 import { Section } from "@/components/ui/section";
 import { ThemedText } from "@/components/ui/themed-text";
+import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { EventDetails, Verified } from "@/supabase/api/types";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Row } from "../ui/flex";
 
 export function EventDescription({ data }: { data: Verified<EventDetails> }) {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -23,9 +24,7 @@ export function EventDescription({ data }: { data: Verified<EventDetails> }) {
                     setIsTruncated(e.nativeEvent.lines.length > 4);
                 }}
             >
-                {data.description}
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit beatae animi neque debitis, veritatis vel praesentium fugiat repellendus hic officiis. Libero, omnis? At voluptate excepturi quam ad iste. Praesentium, explicabo!
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, velit animi in et sit quia nulla aspernatur molestiae alias odio voluptates iure dolore error veritatis maxime, provident, vero illum ducimus.
+                {data.description ?? NO_DATA}
             </ThemedText>
 
             {/* Visible text */}
@@ -34,9 +33,7 @@ export function EventDescription({ data }: { data: Verified<EventDetails> }) {
                 color="natural_200"
                 numberOfLines={isExpanded ? undefined : 4}
             >
-                {data.description}
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit beatae animi neque debitis, veritatis vel praesentium fugiat repellendus hic officiis. Libero, omnis? At voluptate excepturi quam ad iste. Praesentium, explicabo!
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus, tenetur id exercitationem ad maiores inventore vitae sint consectetur quasi consequuntur quae cum asperiores assumenda minus quam molestias at officia maxime.
+                {data.description ?? NO_DATA}
             </ThemedText>
 
             {/* Toggle button */}

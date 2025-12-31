@@ -7,27 +7,29 @@ import { EventDetails, Verified } from "@/supabase/api/types";
 import { Image } from "expo-image";
 import { StyleSheet } from "react-native";
 
+import { NO_DATA } from "@/constants/no-data";
+
 export function EventHeader({ data }: { data: Verified<EventDetails> }) {
     return (
         <Column>
             {/* Cover Image */}
             <Image
-                source={data.header_image ? { uri: data.header_image } : { uri: FALLBACK_IMAGE_URL }}
+                source={data.header_image ? { uri: data.header_image } : FALLBACK_IMAGE_URL}
                 style={styles.coverImage}
             />
 
             {/* Logo */}
             <ThemedView style={styles.logoFrame}>
                 <Image
-                    source={data.icon ? { uri: data.icon } : { uri: FALLBACK_IMAGE_URL }}
+                    source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}
                     style={styles.logoImage}
                 />
             </ThemedView>
 
             {/* HeaderTitle */}
             <Column gap="s8" paddingHorizontal="s20" alignItems="center" marginTop="s20">
-                <ThemedText type="title1" style={styles.centerText}>{data.name}</ThemedText>
-                <ThemedText type="subhead" color="natural_200" style={styles.centerText}>{data.caption}</ThemedText>
+                <ThemedText type="title1" style={styles.centerText}>{data.name ?? NO_DATA}</ThemedText>
+                <ThemedText type="subhead" color="natural_200" style={styles.centerText}>{data.caption ?? NO_DATA}</ThemedText>
             </Column>
         </Column>
     );
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
     coverImage: {
         width: "100%",
         aspectRatio: 1,
-        maxHeight: 500,
+
         borderRadius: Spacing.s20,
         overflow: 'hidden',
     },

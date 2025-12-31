@@ -2,7 +2,6 @@
 trigger: always_on
 ---
 
-
 # R-EXPO Application Development Guidelines (Absolute Rules)
 
 This document serves as the absolute rulebook for development within the R-EXPO project.
@@ -12,9 +11,9 @@ Adherence to these guidelines is mandatory. Deviations, personal interpretations
 
 **"Pass Data Assets as Whole Chunks without Modification"**
 
-- **Server-Side Sanitization**: The database must never output data with missing primary keys (IDs). All filtering of invalid data occurs here.
-- **Type-Level Guarantee**: The API layer must guarantee to the frontend that IDs exist. The frontend must never doubt the existence of an ID.
-- **No Data Modification**: The UI layer receives data objects as whole chunks. Destructuring, remapping, or creating intermediate types for props is prohibited.
+* **Server-Side Sanitization**: The database must never output data with missing primary keys (IDs). All filtering of invalid data occurs here.
+* **Type-Level Guarantee**: The API layer must guarantee to the frontend that IDs exist. The frontend must never doubt the existence of an ID.
+* **No Data Modification**: The UI layer receives data objects as whole chunks. Destructuring, remapping, or creating intermediate types for props is prohibited.
 
 ## 2. Directory Structure and Roles
 
@@ -24,16 +23,18 @@ Data access logic is strictly consolidated within the `supabase/` directory.
 
 This directory contains ALL client-side data fetching logic.
 
-- **`types.ts`**: The ONLY source of truth for application-wide type definitions.
-  - **Utility Types**: `Nullable` (all properties nullable), `Verified` (converts `*_public_id` to string).
-  - **Domain Types**: All domain entities (e.g., `EventOverview`).
-- **`keys.ts`**: The ONLY place for defining TanStack Query Keys. Hardcoding string keys in components is prohibited.
-- **`function.ts`**: Wrapper functions for Supabase RPC calls. This is the ONLY place where casting to `Verified<T>` is permitted.
-- **`index.ts`**: Entry point for custom hooks. UI components must import hooks from here, never directly from `function.ts`.
+* **`types.ts`**: The ONLY source of truth for application-wide type definitions.
+* **Utility Types**: `Nullable` (all properties nullable), `Verified` (converts `*_public_id` to string).
+* **Domain Types**: All domain entities (e.g., `EventOverview`).
+
+
+* **`keys.ts`**: The ONLY place for defining TanStack Query Keys. Hardcoding string keys in components is prohibited.
+* **`function.ts`**: Wrapper functions for Supabase RPC calls. This is the **ONLY** place where casting to `Verified<T>` is permitted.
+* **`index.ts`**: Entry point for custom hooks. UI components must import hooks from here, never directly from `function.ts`.
 
 ### 2-2. Server Logic Layer (`supabase/sql/`)
 
-- **`rpc/*.sql`**: Database functions (Stored Procedures). All business logic for data retrieval and filtering resides here.
+* **`rpc/*.sql`**: Database functions (Stored Procedures). All business logic for data retrieval and filtering resides here.
 
 ## 3. Type Definitions (Strict Rules)
 
@@ -41,7 +42,7 @@ This directory contains ALL client-side data fetching logic.
 
 ### 3-1. Utility Types (Mandatory)
 
-These types must be defined and used.
+These types must be defined and used. `Verified<T>` MUST be recursive to handle nested relations.
 
 ```typescript
 // 1. Nullable: All properties must be nullable to reflect DB reality.
@@ -50,9 +51,15 @@ export type Nullable<T> = {
 };
 
 // 2. Verified: The ONLY mechanism to guarantee ID existence.
-// Transforms *_public_id from string | null to string.
-export type Verified<T> = T & {
-  [K in keyof T as K extends `${string}_public_id` ? K : never]: string
+// recursively transforms *_public_id from string | null to string.
+export type Verified<T> = {
+  [P in keyof T]: P extends `${string}_public_id`
+  ? string
+  : T[P] extends (infer U)[] | null
+  ? Verified<U>[]
+  : T[P] extends object | null
+  ? Verified<NonNullable<T[P]>> | null
+  : T[P];
 };
 
 ```
@@ -107,6 +114,7 @@ WHERE e.event_public_id IS NOT NULL
 * **Component Argument (Generic)**: May use `props` or specific names.
 * **List Iteration Variable**: MUST be named `item`.
 * **Exception for Multiple Fetches**: Only when a single file calls multiple APIs, variables may be renamed using the pattern: `[Entity]Data` (e.g., `eventsData`, `newsData`).
+* **ID Naming**: All identifiers MUST strictly follow the `[entity]_public_id` format (e.g., `event_public_id`, `user_public_id`). The use of generic `id` or `uuid` is PROHIBITED.
 
 ### 5-2. API Implementation Flow (Detail)
 
@@ -180,14 +188,24 @@ export default function EventCard({ name, image }: Verified<EventOverview>) { ..
 
 ### 6-2. Implementation Logic
 
-* **Guard Clauses**: Writing `if (!data.id) return null` is PROHIBITED. The `Verified` type guarantees existence.
-* **Display Logic**: Handle null values for non-ID fields using conditional rendering (e.g., `data.image ? <Image... /> : null`).
+- **Guard Clauses**: Writing `if (!data.id) return null` is PROHIBITED. The `Verified` type guarantees existence.
+- **Display Logic**:
+  - **General**: Handle null values for non-ID fields using conditional rendering.
+  - **Text Content**: For nullable text fields, MUST display a unified fallback message defined in `@/constants/no-data`. **Hardcoding fallback strings is PROHIBITED.**
+    - ❌ `data.description ?? "No data"` (Do not hardcode)
+    - ⭕️ `data.description ?? NO_DATA` (Import from `@/constants/no-data`)
 
 ### 6-3. Prohibitions (Strictly Enforced)
 
 The following practices lead to type safety collapse and reduced readability, and are strictly prohibited.
 
-* **NO Intermediate Types**: Defining types like `type Props = ...` or `type SomeData = ...` within component files is prohibited. Use `Verified<T>` directly.
-* **NO Index Signatures**: Adding `& Record<string, unknown>` or `[key: string]: any` is prohibited.
-* **NO Nullable Props**: The prop itself (`data`) must NOT be nullable (`Verified<T> | null`). The API is guaranteed to return an array (empty or populated), never null for the list itself.
-* **NO Renaming**: Renaming the `data` prop to `event`, `info`, `item`, etc., is prohibited in Domain Components.
+- **NO Prop Casting**: Explicit type assertions (casting) in JSX props are PROHIBITED.
+  - ❌ `<Component data={item as Verified<Type>} />`
+  - ⭕️ Fix the parent data type or API response instead.
+- **NO Intermediate Types**: Defining types like `type Props = ...` or `type SomeData = ...` within component files is prohibited. Use `Verified<T>` directly.
+- **NO Index Signatures**: Adding `& Record<string, unknown>` or `[key: string]: any` is prohibited.
+- **NO Nullable Props**: The prop itself (`data`) must NOT be nullable (`Verified<T> | null`). The API is guaranteed to return an array (empty or populated), never null for the list itself.
+- **NO Renaming**: Renaming the `data` prop to `event`, `info`, `item`, etc., is prohibited in Domain Components.
+- **NO Empty String Fallback**: Using empty strings `""` to suppress output for nullable text is PROHIBITED. This hides potential data issues and confuses users.
+  - ❌ `data.bio ?? ""` (Do not silence missing data)
+  - ⭕️ `data.bio ?? NO_DATA` (Always be explicit)

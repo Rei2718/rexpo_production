@@ -1,5 +1,6 @@
 import { Row } from '@/components/ui/flex';
 import { ThemedText } from '@/components/ui/themed-text';
+import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { EventDetails, Verified } from '@/supabase/api/types';
@@ -22,7 +23,7 @@ export function EventTags({ data }: { data: Verified<EventDetails> }) {
                     key={tag.tag_public_id}
                     href={{
                         pathname: "/tag-feed",
-                        params: { id: tag.tag_public_id, name: tag.name },
+                        params: { id: tag.tag_public_id, name: tag.name ?? NO_DATA },
                     }}
                     asChild
                 >
@@ -42,7 +43,7 @@ export function EventTags({ data }: { data: Verified<EventDetails> }) {
                                 color="natural_100"
                                 numberOfLines={1}
                             >
-                                {tag.name}
+                                {tag.name ?? NO_DATA}
                             </ThemedText>
                         </Row>
                     </TouchableOpacity>

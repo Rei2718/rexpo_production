@@ -12,13 +12,15 @@ Consistency in styling, component usage, and imports is mandatory to maintain a 
 **Principle**: Never hardcode colors. Always adapt to the active theme (light/dark) dynamically.
 
 ### 1-1. Accessing Colors
+
 To apply colors in styles, **ALWAYS** retrieve the current theme palette using the `useThemeColor` hook at the top of the component.
 
-- **Mandatory Pattern**:
+* **Mandatory Pattern**:
 ```typescript
-  const color = useThemeColor();
+const color = useThemeColor();
 
 ```
+
 
 * **Usage**: Access colors via the returned object.
 ```typescript
@@ -83,6 +85,25 @@ styles = StyleSheet.create({
 * **Prohibitions**:
 * ❌ **Magic Numbers**: Never use raw numbers for spacing (e.g., `padding: 15`).
 * ❌ **Approximations**: Do not "eyeball" values. If a design looks like 18px, use the closest defined spacing (e.g., `Spacing.s16` or `Spacing.s20`).
+
+
+
+### 3-2. Screen Containers (Scrollable)
+
+* **Standard Padding**:
+* **Horizontal**: Scrollable containers MUST apply `Spacing.s20` to the left and right edges (`paddingHorizontal`).
+* **Bottom**: Scrollable containers MUST apply `Spacing.s20` to the bottom (`paddingBottom`) to ensure content is not cut off at the screen edge.
+* **Implementation**: Typically applied via `contentContainerStyle` in `FlatList` or `ScrollView`.
+
+
+```typescript
+// Example
+contentContainerStyle={{
+  paddingHorizontal: Spacing.s20,
+  paddingBottom: Spacing.s20,
+}}
+
+```
 
 
 

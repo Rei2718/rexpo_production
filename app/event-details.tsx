@@ -1,4 +1,3 @@
-import BookmarkButton from "@/components/bookmark/bookmark-button";
 import { EventDescription } from "@/components/event-details/description";
 import { EventGallery } from "@/components/event-details/gallery";
 import { EventHeader } from "@/components/event-details/header";
@@ -6,6 +5,7 @@ import { EventInfoCard } from "@/components/event-details/info-card";
 import { EventOrganization } from "@/components/event-details/organization";
 import { EventPerformers } from "@/components/event-details/performers";
 import { EventTags } from "@/components/event-details/tags";
+import BookmarkButton from "@/components/ui/bookmark-button";
 import { Column } from "@/components/ui/flex";
 import { StatusMessage } from "@/components/ui/status-message";
 import { Spacing } from "@/constants/theme";
@@ -13,6 +13,7 @@ import { useEventDetails } from "@/supabase/api";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 
 export default function EventDetails() {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -37,8 +38,8 @@ export default function EventDetails() {
                 options={{
                     headerTitle: "",
                     headerRight: () => (
-                        <View style={{ marginLeft: 5.5 }}>
-                            <BookmarkButton eventId={id} />
+                        <View style={{ marginLeft: Spacing.s4 }}>
+                            <BookmarkButton event_public_id={Array.isArray(id) ? id[0] : id} />
                         </View>
                     ),
                 }}
@@ -56,7 +57,9 @@ export default function EventDetails() {
                         </Column>
 
                         {/* Overview */}
-                        <EventDescription data={data} />
+                        <Column paddingHorizontal="s20">
+                            <EventDescription data={data} />
+                        </Column>
 
                         {/* Tags and Gallery */}
                         <Column gap="s12">
@@ -66,12 +69,16 @@ export default function EventDetails() {
 
                         {/* Organization */}
                         {data.organization && (
-                            <EventOrganization data={data.organization as any} />
+                            <Column paddingHorizontal="s20">
+                                <EventOrganization data={data.organization} />
+                            </Column>
                         )}
 
                         {/* Performers */}
                         {data.performers && (
-                            <EventPerformers data={data.performers as any} />
+                            <Column paddingHorizontal="s20">
+                                <EventPerformers data={data.performers} />
+                            </Column>
                         )}
 
                     </Column >

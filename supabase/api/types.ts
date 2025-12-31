@@ -4,8 +4,14 @@ export type Nullable<T> = {
 };
 
 // transfer public_id to string
-export type Verified<T> = T & {
-    [K in keyof T as K extends `${string}_public_id` ? K : never]: string
+export type Verified<T> = {
+    [P in keyof T]: P extends `${string}_public_id`
+    ? string
+    : NonNullable<T[P]> extends (infer U)[]
+    ? Verified<U>[] | Extract<T[P], null>
+    : T[P] extends object | null
+    ? Verified<NonNullable<T[P]>> | null
+    : T[P];
 };
 
 

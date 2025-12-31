@@ -23,23 +23,25 @@ export default function VenueMarker({ venue, isSelected, onSelect }: VenueMarker
     }, [isSelected]);
 
     return (
-        <Marker
-            coordinate={{
-                latitude: venue.map_latitude,
-                longitude: venue.map_longitude,
-            }}
-            onPress={(e: MarkerPressEvent) => {
-                e.stopPropagation();
-                onSelect?.(venue);
-            }}
-            tracksViewChanges={tracksViewChanges}
-        >
-            <Icon
-                icon={isSelected ? "locationOnFill" : "locationOn"}
-                size={32}
-                color={color.tint}
-                onLoad={onIconLoad}
-            />
-        </Marker>
+        venue.map_latitude && venue.map_longitude ? (
+            <Marker
+                coordinate={{
+                    latitude: venue.map_latitude,
+                    longitude: venue.map_longitude,
+                }}
+                onPress={(e: MarkerPressEvent) => {
+                    e.stopPropagation();
+                    onSelect?.(venue);
+                }}
+                tracksViewChanges={tracksViewChanges}
+            >
+                <Icon
+                    icon={isSelected ? "locationOnFill" : "locationOn"}
+                    size={32}
+                    color={color.tint}
+                    onLoad={onIconLoad}
+                />
+            </Marker>
+        ) : null
     );
 }

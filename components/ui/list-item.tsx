@@ -19,7 +19,7 @@ export function ListItem({ image, title, subtitle, color, style, ...props }: Lis
         <ThemedView color={color || "natural_600"} style={[styles.container, style]} {...props}>
             <Row alignItems="center" gap="s12" padding="s12">
                 <Image
-                    source={image ? { uri: image } : { uri: FALLBACK_IMAGE_URL }}
+                    source={image ? { uri: image } : FALLBACK_IMAGE_URL}
                     style={styles.image}
                 />
                 <Column flex={1} gap="s2">

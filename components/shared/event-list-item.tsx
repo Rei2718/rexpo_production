@@ -1,29 +1,20 @@
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
+import { EventOverview, Verified } from "@/supabase/api/types";
 import { Link } from "expo-router";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Container } from "../ui/container";
 import { Icon } from "../ui/icon";
 import { ThemedText } from "../ui/themed-text";
 
-// Define a minimal interface for what EventListItem needs
-export interface SharedEventListItemProps {
-    event: {
-        event_public_id: string;
-        name: string;
-        caption: string;
-        icon: string | null;
-    };
-}
-
-export function EventListItem({ event }: SharedEventListItemProps) {
+export function EventListItem({ data }: { data: Verified<EventOverview> }) {
     const color = useThemeColor();
 
     return (
         <Link
             href={{
                 pathname: "/event-details",
-                params: { id: event.event_public_id, name: event.name },
+                params: { id: data.event_public_id, name: data.name ?? "" },
             }}
             asChild
         >
@@ -31,15 +22,15 @@ export function EventListItem({ event }: SharedEventListItemProps) {
                 <Container flexDirection="row" alignItems="center" style={styles.container}>
                     <Image
                         source={
-                            event.icon
-                                ? { uri: event.icon }
+                            data.icon
+                                ? { uri: data.icon }
                                 : require("@/assets/logo/icon.png")
                         }
                         style={styles.image}
                     />
                     <Container flexDirection="column" flex={1} style={styles.textContainer}>
-                        <ThemedText type="footnote">{event.name}</ThemedText>
-                        <ThemedText type="caption2" color="natural_200">{event.caption}</ThemedText>
+                        <ThemedText type="footnote">{data.name}</ThemedText>
+                        <ThemedText type="caption2" color="natural_200">{data.caption}</ThemedText>
                     </Container>
                     <Icon icon="right" color={color.natural_300} />
                 </Container>

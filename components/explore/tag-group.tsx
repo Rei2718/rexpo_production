@@ -1,19 +1,19 @@
 import { Spacing } from "@/constants/theme";
-import { TagEvents } from "@/supabase/api/types";
+import { TagEvents, Verified } from "@/supabase/api/types";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { EventList } from "../shared/event-list";
 import { Container } from "../ui/container";
 import { TagHeader } from "./tag-header";
 
-export function TagGroup({ item }: { item: TagEvents }) {
+export function TagGroup(data: Verified<TagEvents>) {
     return (
         <Container style={styles.container}>
             {/* Tag Header */}
-            <TagHeader item={item} />
+            <TagHeader {...data} />
 
             {/* Events List */}
-            <EventList events={item.events} />
+            {data.events && <EventList events={data.events} />}
         </Container>
     );
 }

@@ -1,7 +1,8 @@
+import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useFeatures } from "@/supabase/api";
-import { Feature } from "@/supabase/api/types";
+import { Feature, Verified } from "@/supabase/api/types";
 import { supabaseStorageUrl } from "@/supabase/supabase";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -52,8 +53,8 @@ export default function FeatureCarousel() {
                 pagingEnabled={true}
                 autoPlay={true}
                 autoPlayInterval={4000}
-                data={data as Feature[]}
-                renderItem={({ item }) => <Item item={item} />}
+                data={data}
+                renderItem={({ item }) => <FeatureItem data={item} />}
             />
 
             {/* Pagination */}
@@ -74,7 +75,6 @@ export default function FeatureCarousel() {
                         height: Spacing.s8,
                         borderRadius: Spacing.pill,
                         backgroundColor: color.natural_100,
-                        overflow: "hidden",
                     }}
                     containerStyle={{
                         gap: Spacing.s8,
@@ -120,22 +120,23 @@ export default function FeatureCarousel() {
     );
 }
 
-export function Item({ item }: { item: Feature }) {
+const hexToRgba = (hex: string, alpha: number) => {
+    const cleanHex = hex.replace('#', '');
+
+    const expandedHex = cleanHex.length === 3
+        ? cleanHex.split('').map(char => char + char).join('')
+        : cleanHex;
+
+    const r = parseInt(expandedHex.substring(0, 2), 16);
+    const g = parseInt(expandedHex.substring(2, 4), 16);
+    const b = parseInt(expandedHex.substring(4, 6), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+export function FeatureItem(data: { data: Verified<Feature> }) {
     const color = useThemeColor();
-
-    const hexToRgba = (hex: string, alpha: number) => {
-        const cleanHex = hex.replace('#', '');
-
-        const expandedHex = cleanHex.length === 3
-            ? cleanHex.split('').map(char => char + char).join('')
-            : cleanHex;
-
-        const r = parseInt(expandedHex.substring(0, 2), 16);
-        const g = parseInt(expandedHex.substring(2, 4), 16);
-        const b = parseInt(expandedHex.substring(4, 6), 16);
-
-        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-    };
+    const item = data.data;
 
     return (
         <ImageBackground
@@ -170,8 +171,8 @@ export function Item({ item }: { item: Feature }) {
             <ContainerAbsolute bottom={0} flex={1} justifyContent="center" padding="s24" paddingBottom="s48">
                 <Container flexDirection="column" justifyContent="center" alignItems="center" gap="s4">
                     <ThemedText type="footnote">TODAY'S PICK</ThemedText>
-                    <ThemedText type="title2">{item.caption}</ThemedText>
-                    <ThemedText type="subhead" color="natural_200">{item.caption}</ThemedText>
+                    <ThemedText type="title2">{item.caption ?? NO_DATA}</ThemedText>
+                    <ThemedText type="subhead" style={{ color: color.natural_200 }}>{item.caption ?? NO_DATA}</ThemedText>
                 </Container>
             </ContainerAbsolute>
         </ImageBackground>

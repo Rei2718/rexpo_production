@@ -1,13 +1,13 @@
 import { Icon } from '@/components/ui/icon';
 import { Spacing } from '@/constants/theme';
+import { useBookmarkStore } from '@/hooks/use-bookmark-store';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import * as Haptics from 'expo-haptics';
 import { TouchableOpacity } from 'react-native';
-import { useBookmarkStore } from './use-bookmark-store';
 
-export default function BookmarkButton({ eventId }: { eventId: string }) {
+export default function BookmarkButton({ event_public_id }: { event_public_id: string }) {
     const color = useThemeColor();
-    const id = Array.isArray(eventId) ? eventId[0] : eventId;
+    const id = Array.isArray(event_public_id) ? event_public_id[0] : event_public_id;
 
     const isBookmarked = useBookmarkStore(
         (state) => !!state.bookmarks[id]

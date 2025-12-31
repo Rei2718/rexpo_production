@@ -5,8 +5,9 @@ import { ThemedView } from '@/components/ui/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { EventDetails, Verified } from '@/supabase/api/types';
-import { formatTime } from '@/utils/date';
 import { StyleSheet, View } from 'react-native';
+
+import { NO_DATA } from "@/constants/no-data";
 
 export function EventInfoCard({ data }: { data: Verified<EventDetails> }) {
     const color = useThemeColor();
@@ -18,7 +19,7 @@ export function EventInfoCard({ data }: { data: Verified<EventDetails> }) {
                 <Row>
                     <View style={styles.labelContainer}>
                         <Row alignItems="center" gap="s4">
-                            <Icon icon="clock" color={color.natural_200} size={14} />
+                            <Icon icon="clock" color={color.natural_200} size={Spacing.s12} />
                             <ThemedText type="footnote" color="natural_200" style={styles.centerText}>
                                 時間
                             </ThemedText>
@@ -26,7 +27,7 @@ export function EventInfoCard({ data }: { data: Verified<EventDetails> }) {
                     </View>
                     <View style={styles.labelContainer}>
                         <Row alignItems="center" gap="s4">
-                            <Icon icon="explore" color={color.natural_200} size={14} />
+                            <Icon icon="explore" color={color.natural_200} size={Spacing.s12} />
                             <ThemedText type="footnote" color="natural_200" style={styles.centerText}>
                                 会場
                             </ThemedText>
@@ -40,7 +41,7 @@ export function EventInfoCard({ data }: { data: Verified<EventDetails> }) {
                     <Column flex={1} alignItems="center" gap="s4" paddingHorizontal="s20">
                         {(data.slots ?? []).map((slot) => (
                             <ThemedText key={slot.slot_public_id} type="callout" style={styles.tabularNums}>
-                                {formatTime(slot.starts ?? "")} ~ {formatTime(slot.ends ?? "")}
+                                {slot.starts ?? NO_DATA} ~ {slot.ends ?? NO_DATA}
                             </ThemedText>
                         ))}
                     </Column>
@@ -52,7 +53,7 @@ export function EventInfoCard({ data }: { data: Verified<EventDetails> }) {
                     <Column flex={1} alignItems="center" paddingHorizontal="s20">
                         {(data.venues ?? []).map((venue) => (
                             <ThemedText key={venue.venue_public_id} type="callout" style={styles.centerText}>
-                                {venue.name}
+                                {venue.name ?? NO_DATA}
                             </ThemedText>
                         ))}
                     </Column>
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     separator: {
-        width: 1,
+        width: Spacing.s2,
         height: '100%',
         alignSelf: 'center',
     },
