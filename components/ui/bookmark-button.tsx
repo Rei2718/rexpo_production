@@ -21,10 +21,10 @@ export default function BookmarkButton(data: Verified<EventOverview>) {
 
     return (
         <Haptic type="Heavy">
-            <TouchableOpacity onPress={handlePress}>
+            <TouchableOpacity onPressIn={handlePress}>
                 <Icon
                     icon={isBookmarked ? "bookmarkFill" : "bookmark"}
-                    size={Spacing.s24}
+                    size={Spacing.icon}
                     color={color.natural_100}
                 />
             </TouchableOpacity>

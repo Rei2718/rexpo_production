@@ -1,12 +1,13 @@
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { TagEvents, Verified } from "@/supabase/api/types";
+import { EventOverview, Verified } from "@/supabase/api/types";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Container } from "../ui/container";
 import { EventListItem } from "./event-list-item";
 
 
-export function EventList(data: Verified<TagEvents>) {
+// 参照元が複数あるため、ここは"data: {}"の形式で書く
+export function EventList(data: { events: Verified<EventOverview>[] }) {
     const color = useThemeColor();
 
     return (
@@ -14,16 +15,9 @@ export function EventList(data: Verified<TagEvents>) {
             <FlatList
                 data={data.events}
                 keyExtractor={(event) => event.event_public_id}
-                renderItem={({ item }) => (
-                    <EventListItem {...item} />
-                )}
+                renderItem={({ item }) => <EventListItem {...item} />}
                 ItemSeparatorComponent={() => (
-                    <View
-                        style={[
-                            styles.separator,
-                            { backgroundColor: color.natural_400 }
-                        ]}
-                    />
+                    <View style={[styles.separator, { backgroundColor: color.natural_400 }]} />
                 )}
                 scrollEnabled={false}
             />

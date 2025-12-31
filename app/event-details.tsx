@@ -15,8 +15,8 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function EventDetails() {
-    const { id } = useLocalSearchParams<{ id: string }>();
-    const { data, isPending, isError } = useEventDetails(id);
+    const { event_public_id } = useLocalSearchParams<{ event_public_id: string }>();
+    const { data, isPending, isError } = useEventDetails(event_public_id);
 
     if (isPending) return <StatusMessage status="loading" />;
     if (isError) return <StatusMessage status="error" />;

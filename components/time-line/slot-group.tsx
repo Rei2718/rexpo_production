@@ -38,7 +38,7 @@ export function SlotGroup(props: {
             {/* Content Column */}
             <Container flex={1} style={styles.contentColumn}>
                 <SlotHeader {...item} />
-                <EventList data={item.events} />
+                <EventList {...item} />
             </Container>
 
         </Container>
