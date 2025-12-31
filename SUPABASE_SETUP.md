@@ -52,5 +52,9 @@ Copy-Item supabase/sql/seed-test.sql supabase/seed.sql
 ### 5. DB reset (migrate & seed)
 npx supabase db reset
 
-### 6. Refresh Materialized Views
+### 6. Upload Storage Assets (New Step)
+# Upload images from supabase/seed-assets/ to storage buckets
+ts-node scripts/seed-storage.ts
+
+### 7. Refresh Materialized Views
 SELECT refresh_all_mvs();
