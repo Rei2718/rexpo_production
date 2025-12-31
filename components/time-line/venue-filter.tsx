@@ -5,13 +5,12 @@ import { ScrollView, TouchableOpacity } from "react-native";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 
-interface VenueFilterProps {
-    venues: Verified<DisplayVenue>[]; // Verified型を使用
+
+export default function VenueFilter(props: {
+    venues: Verified<DisplayVenue>[];
     selectedVenueId?: string;
     onVenueChange: (venueId: string | undefined) => void;
-}
-
-export default function VenueFilter(props: VenueFilterProps) {
+}) {
     const color = useThemeColor();
     const { venues, selectedVenueId, onVenueChange } = props;
 
@@ -34,7 +33,6 @@ export default function VenueFilter(props: VenueFilterProps) {
                 const isSelected = selectedVenueId === venue.venue_public_id;
                 return (
                     <TouchableOpacity
-                        // 修正: ?? "" を削除 (Verifiedによりstring保証)
                         key={venue.venue_public_id}
                         onPress={() => handlePress(venue.venue_public_id)}
                     >

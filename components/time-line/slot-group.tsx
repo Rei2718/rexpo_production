@@ -6,18 +6,18 @@ import { EventList } from "../shared/event-list";
 import { Container, ContainerAbsolute } from "../ui/container";
 import { SlotHeader } from "./slot-header";
 
-interface SlotGroupProps {
-    item: Verified<TimelineSlot>; // Verified型を使用
+
+export function SlotGroup(props: {
+    item: Verified<TimelineSlot>;
     isFirst?: boolean;
     isLast?: boolean;
-}
-
-export function SlotGroup(props: SlotGroupProps) {
+}) {
     const color = useThemeColor();
-    const { item, isFirst, isLast } = props; // 内部で分割代入
+    const { item, isFirst, isLast } = props;
 
     return (
         <Container flexDirection="row" style={styles.container}>
+
             {/* Step UI Column */}
             <Container alignItems="center" style={styles.stepColumn}>
                 {!isLast && (
@@ -37,10 +37,10 @@ export function SlotGroup(props: SlotGroupProps) {
 
             {/* Content Column */}
             <Container flex={1} style={styles.contentColumn}>
-                <SlotHeader item={item} />
-                {/* 修正: ?? [] を削除し、Verifiedされた配列を直接渡す */}
-                <EventList events={item.events} />
+                <SlotHeader {...item} />
+                <EventList data={item.events} />
             </Container>
+
         </Container>
     );
 }

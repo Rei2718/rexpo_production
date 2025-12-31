@@ -28,7 +28,7 @@ export default function TimelineMain() {
     const renderContent = () => {
         if (eventsPending) return <StatusMessage status="loading" />;
         if (eventsError) return <StatusMessage status="error" />;
-        if (!events || events.length === 0) return <StatusMessage status="empty" />;
+        if (events && events.length === 0) return <StatusMessage status="empty" />;
         return null;
     };
 
@@ -54,7 +54,7 @@ export default function TimelineMain() {
                 />
             )}
             ItemSeparatorComponent={TimelineSeparator}
-            keyExtractor={(item) => item.starts}
+            keyExtractor={(item, index) => item.starts ?? `slot-${index}`}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: height }}
         />
