@@ -10,15 +10,12 @@ import {
 import Carousel from "react-native-reanimated-carousel";
 
 export function EventGallery(data: Verified<EventDetails>) {
+
+    if (!data.images || data.images.length === 0) return null;
+
     const { width } = useWindowDimensions();
     const carouselWidth = width * 0.8;
     const carouselHeight = carouselWidth * (9 / 16);
-
-    const validImages = data.images.filter((url): url is string => !!url);
-
-    if (validImages.length === 0) {
-        return null;
-    }
 
     return (
         <ThemedView>
@@ -28,7 +25,7 @@ export function EventGallery(data: Verified<EventDetails>) {
                 height={carouselHeight}
                 snapEnabled={true}
                 pagingEnabled={true}
-                data={validImages}
+                data={data.images}
                 style={styles.carousel}
                 renderItem={({ item }) => (
                     <ThemedView style={styles.itemContainer}>

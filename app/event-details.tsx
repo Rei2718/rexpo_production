@@ -14,26 +14,16 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
 export default function EventDetails() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const { data, isPending, isError } = useEventDetails(id);
 
-    if (isPending) {
-        return <StatusMessage status="loading" />;
-    }
-
-    if (isError) {
-        return <StatusMessage status="error" />;
-    }
-
-    if (!data) {
-        return <StatusMessage status="empty" />;
-    }
+    if (isPending) return <StatusMessage status="loading" />;
+    if (isError) return <StatusMessage status="error" />;
+    if (!data) return <StatusMessage status="empty" />;
 
     return (
         <>
-            {/* アイコンを中央に配置できなくてmarginで相殺してる */}
             <Stack.Screen
                 options={{
                     headerTitle: "",
@@ -49,35 +39,35 @@ export default function EventDetails() {
                     <Column gap="s48">
 
                         {/* Header */}
-                        <EventHeader data={data} />
+                        <EventHeader {...data} />
 
                         {/* Info */}
                         <Column paddingHorizontal="s20">
-                            <EventInfoCard data={data} />
+                            <EventInfoCard {...data} />
                         </Column>
 
                         {/* Overview */}
                         <Column paddingHorizontal="s20">
-                            <EventDescription data={data} />
+                            <EventDescription {...data} />
                         </Column>
 
                         {/* Tags and Gallery */}
                         <Column gap="s12">
-                            <EventTags data={data} />
-                            <EventGallery data={data} />
+                            <EventTags {...data} />
+                            <EventGallery {...data} />
                         </Column>
 
                         {/* Organization */}
                         {data.organization && (
                             <Column paddingHorizontal="s20">
-                                <EventOrganization data={data.organization} />
+                                <EventOrganization {...data} />
                             </Column>
                         )}
 
                         {/* Performers */}
                         {data.performers && (
                             <Column paddingHorizontal="s20">
-                                <EventPerformers data={data.performers} />
+                                <EventPerformers {...data} />
                             </Column>
                         )}
 

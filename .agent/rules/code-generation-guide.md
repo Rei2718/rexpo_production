@@ -194,6 +194,9 @@ export default function EventCard({ name, image }: Verified<EventOverview>) { ..
   - **Text Content**: For nullable text fields, MUST display a unified fallback message defined in `@/constants/no-data`. **Hardcoding fallback strings is PROHIBITED.**
     - ❌ `data.description ?? "No data"` (Do not hardcode)
     - ⭕️ `data.description ?? NO_DATA` (Import from `@/constants/no-data`)
+  - **Image Content**: For nullable image URL fields (icons, headers, cards), MUST display a fallback image defined in `@/constants/fallback-image`.
+    - ❌ `source={{ uri: data.image }}` (Avoid potential blank space)
+    - ⭕️ `source={data.image ? { uri: data.image } : FALLBACK_IMAGE_URL}` (Always provide a fallback)
 
 ### 6-3. Prohibitions (Strictly Enforced)
 

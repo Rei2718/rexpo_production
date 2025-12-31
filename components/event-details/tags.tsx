@@ -7,7 +7,7 @@ import { EventDetails, Verified } from '@/supabase/api/types';
 import { Link } from 'expo-router';
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
-export function EventTags({ data }: { data: Verified<EventDetails> }) {
+export function EventTags(data: Verified<EventDetails>) {
     const color = useThemeColor();
 
     if (!data.tags || data.tags.length === 0) return null;

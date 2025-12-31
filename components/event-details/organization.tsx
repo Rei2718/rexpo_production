@@ -1,18 +1,21 @@
 import { ListItem } from "@/components/ui/list-item";
 import { Section } from "@/components/ui/section";
+import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
-import { EventOrganization as EventOrganizationType, Verified } from "@/supabase/api/types";
+import { EventDetails, Verified } from "@/supabase/api/types";
 import { StyleSheet } from "react-native";
 
-import { NO_DATA } from "@/constants/no-data";
+export function EventOrganization(data: Verified<EventDetails>) {
+    if (!data.organization) return null;
 
-export function EventOrganization({ data }: { data: Verified<EventOrganizationType> }) {
+    const org = data.organization;
+
     return (
         <Section title="主催">
             <ListItem
-                image={data.icon}
-                title={data.name ?? NO_DATA}
-                subtitle={data.caption ?? NO_DATA}
+                image={org.icon}
+                title={org.name ?? NO_DATA}
+                subtitle={org.caption ?? NO_DATA}
                 color="natural_400"
                 style={styles.card}
             />

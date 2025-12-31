@@ -9,7 +9,7 @@ import { StyleSheet } from "react-native";
 
 import { NO_DATA } from "@/constants/no-data";
 
-export function EventHeader({ data }: { data: Verified<EventDetails> }) {
+export function EventHeader(data: Verified<EventDetails>) {
     return (
         <Column>
             {/* Cover Image */}

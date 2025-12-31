@@ -9,7 +9,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { NO_DATA } from "@/constants/no-data";
 
-export function EventInfoCard({ data }: { data: Verified<EventDetails> }) {
+export function EventInfoCard(data: Verified<EventDetails>) {
     const color = useThemeColor();
 
     return (
@@ -39,7 +39,7 @@ export function EventInfoCard({ data }: { data: Verified<EventDetails> }) {
                 <Row alignItems="center">
                     {/* Time Content */}
                     <Column flex={1} alignItems="center" gap="s4" paddingHorizontal="s20">
-                        {(data.slots ?? []).map((slot) => (
+                        {data.slots.map((slot) => (
                             <ThemedText key={slot.slot_public_id} type="callout" style={styles.tabularNums}>
                                 {slot.starts ?? NO_DATA} ~ {slot.ends ?? NO_DATA}
                             </ThemedText>
@@ -51,7 +51,7 @@ export function EventInfoCard({ data }: { data: Verified<EventDetails> }) {
 
                     {/* Venue Content */}
                     <Column flex={1} alignItems="center" paddingHorizontal="s20">
-                        {(data.venues ?? []).map((venue) => (
+                        {data.venues.map((venue) => (
                             <ThemedText key={venue.venue_public_id} type="callout" style={styles.centerText}>
                                 {venue.name ?? NO_DATA}
                             </ThemedText>
