@@ -54,7 +54,7 @@ export default function FeatureCarousel() {
                 autoPlay={true}
                 autoPlayInterval={4000}
                 data={data}
-                renderItem={({ item }) => <FeatureItem data={item} />}
+                renderItem={({ item }) => <FeatureItem {...item} />}
             />
 
             {/* Pagination */}
@@ -134,13 +134,12 @@ const hexToRgba = (hex: string, alpha: number) => {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-export function FeatureItem(data: { data: Verified<Feature> }) {
+export function FeatureItem(data: Verified<Feature>) {
     const color = useThemeColor();
-    const item = data.data;
 
     return (
         <ImageBackground
-            source={{ uri: supabaseStorageUrl + item.image }}
+            source={{ uri: supabaseStorageUrl + data.image }}
             style={{
                 flex: 1,
                 justifyContent: "center",
@@ -171,8 +170,8 @@ export function FeatureItem(data: { data: Verified<Feature> }) {
             <ContainerAbsolute bottom={0} flex={1} justifyContent="center" padding="s24" paddingBottom="s48">
                 <Container flexDirection="column" justifyContent="center" alignItems="center" gap="s4">
                     <ThemedText type="footnote">TODAY'S PICK</ThemedText>
-                    <ThemedText type="title2">{item.caption ?? NO_DATA}</ThemedText>
-                    <ThemedText type="subhead" style={{ color: color.natural_200 }}>{item.caption ?? NO_DATA}</ThemedText>
+                    <ThemedText type="title2">{data.caption ?? NO_DATA}</ThemedText>
+                    <ThemedText type="subhead" style={{ color: color.natural_200 }}>{data.caption ?? NO_DATA}</ThemedText>
                 </Container>
             </ContainerAbsolute>
         </ImageBackground>

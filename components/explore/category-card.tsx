@@ -4,7 +4,6 @@ import { useThemeColor } from "@/hooks/use-theme-color";
 import { Category, Verified } from "@/supabase/api/types";
 import { supabaseStorageUrl } from "@/supabase/supabase";
 import { Link } from "expo-router";
-import React from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
@@ -24,7 +23,7 @@ export default function CategoryCard(data: Verified<Category>) {
                 <Container
                     paddingHorizontal="s16"
                     paddingVertical="s8"
-                    gap="s12"
+                    gap="s8"
                     backgroundColor={color.natural_500}
                     flexDirection="row"
                     alignItems="center"

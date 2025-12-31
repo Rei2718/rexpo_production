@@ -1,6 +1,5 @@
 import { Spacing } from "@/constants/theme";
 import { useCategories } from "@/supabase/api";
-import React from "react";
 import { ScrollView } from "react-native";
 import { Container } from "../ui/container";
 import { StatusMessage } from "../ui/status-message";
@@ -21,7 +20,6 @@ export default function CategoryFilter() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                     paddingHorizontal: Spacing.s20,
-                    paddingBottom: Spacing.s20,
                     gap: Spacing.s8,
                 }}
             >
