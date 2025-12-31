@@ -23,6 +23,7 @@ BEGIN
             FROM public.venues v
             WHERE v.is_primary = TRUE
             AND v.deleted_at IS NULL
+            AND v.venue_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );

@@ -20,6 +20,7 @@ BEGIN
             FROM public.banners b
             LEFT JOIN public.events e ON b.event_id = e.event_id AND e.deleted_at IS NULL
             WHERE b.deleted_at IS NULL
+            AND b.banner_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );

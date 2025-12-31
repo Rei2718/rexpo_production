@@ -18,6 +18,7 @@ BEGIN
             )
             FROM public.categories b
             WHERE b.deleted_at IS NULL
+            AND b.category_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );

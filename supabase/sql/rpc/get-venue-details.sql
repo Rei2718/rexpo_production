@@ -25,7 +25,9 @@ BEGIN
             ) AS data
         FROM public.venues_organizations vo
         JOIN public.organizations o ON vo.organization_id = o.organization_id
+
         WHERE vo.deleted_at IS NULL AND o.deleted_at IS NULL
+        AND o.organization_public_id IS NOT NULL
         GROUP BY vo.venue_id
     )
     SELECT jsonb_build_object(
@@ -41,7 +43,8 @@ BEGIN
     FROM public.venues v
     LEFT JOIN cte_organizations o ON v.venue_id = o.venue_id
     WHERE v.venue_public_id = get_venue_details.venue_public_id
-    AND v.deleted_at IS NULL;
+    AND v.deleted_at IS NULL
+    AND v.venue_public_id IS NOT NULL;
 
     RETURN result;
 END;

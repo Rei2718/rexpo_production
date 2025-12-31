@@ -18,7 +18,7 @@ BEGIN
                     'thumbnail',      n.thumbnail,
                     'website',        n.website,
                     'performer',      CASE 
-                        WHEN p.performer_id IS NOT NULL THEN
+                        WHEN p.performer_id IS NOT NULL AND p.performer_public_id IS NOT NULL THEN
                             jsonb_build_object(
                                 'performer_public_id', p.performer_public_id,
                                 'name',                p.name,
@@ -33,6 +33,7 @@ BEGIN
             FROM public.news n
             LEFT JOIN public.performers p ON n.performer_id = p.performer_id AND p.deleted_at IS NULL
             WHERE n.deleted_at IS NULL
+            AND n.news_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );

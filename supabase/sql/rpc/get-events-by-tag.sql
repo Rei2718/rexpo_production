@@ -28,6 +28,7 @@ BEGIN
             JOIN public.events e ON et.event_id = e.event_id AND e.deleted_at IS NULL
             WHERE t.tag_public_id = get_events_by_tag.tag_public_id
             AND t.deleted_at IS NULL
+            AND e.event_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );

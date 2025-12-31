@@ -17,7 +17,7 @@ WITH cte_tag_events AS (
                     'icon',            e.icon,
                     'display_order',   e.display_order
                 ) ORDER BY e.display_order DESC, e.event_id
-            ) FILTER (WHERE e.event_id IS NOT NULL),
+            ) FILTER (WHERE e.event_id IS NOT NULL AND e.event_public_id IS NOT NULL),
             '[]'::jsonb
         ) AS events
     FROM public.tags t
@@ -42,7 +42,7 @@ SELECT
                 'events',        te.events,
                 'display_order', tc.display_order
             ) ORDER BY tc.display_order DESC, te.tag_id
-        ) FILTER (WHERE te.tag_id IS NOT NULL),
+        ) FILTER (WHERE te.tag_id IS NOT NULL AND te.tag_public_id IS NOT NULL),
         '[]'::jsonb
     ) AS tags
 
@@ -50,6 +50,7 @@ FROM public.categories c
 LEFT JOIN public.tags_categories tc ON c.category_id = tc.category_id AND tc.deleted_at IS NULL
 LEFT JOIN cte_tag_events te ON tc.tag_id = te.tag_id
 WHERE c.deleted_at IS NULL
+AND c.category_public_id IS NOT NULL
 GROUP BY c.category_id, c.category_public_id, c.name, c.caption, c.icon, c.display_order;
 
 -- indexes

@@ -22,6 +22,7 @@ BEGIN
             FROM public.features f
             LEFT JOIN public.events e ON f.event_id = e.event_id AND e.deleted_at IS NULL
             WHERE f.deleted_at IS NULL
+            AND f.feature_public_id IS NOT NULL
         ),
         '[]'::jsonb
     );

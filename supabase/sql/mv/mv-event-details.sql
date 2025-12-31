@@ -16,6 +16,7 @@ cte_venues AS (
     FROM public.events_venues ev
     JOIN public.venues v ON ev.venue_id = v.venue_id
     WHERE ev.deleted_at IS NULL AND v.deleted_at IS NULL
+    AND v.venue_public_id IS NOT NULL
     GROUP BY ev.event_id
 ),
 cte_tags AS (
@@ -31,6 +32,7 @@ cte_tags AS (
     FROM public.events_tags et
     JOIN public.tags t ON et.tag_id = t.tag_id
     WHERE et.deleted_at IS NULL AND t.deleted_at IS NULL
+    AND t.tag_public_id IS NOT NULL
     GROUP BY et.event_id
 ),
 cte_slots AS (
@@ -47,6 +49,7 @@ cte_slots AS (
     FROM public.events_slots es
     JOIN public.slots s ON es.slot_id = s.slot_id
     WHERE es.deleted_at IS NULL AND s.deleted_at IS NULL
+    AND s.slot_public_id IS NOT NULL
     GROUP BY es.event_id
 ),
 cte_performers AS (
@@ -64,6 +67,7 @@ cte_performers AS (
     FROM public.events_performers ep
     JOIN public.performers p ON ep.performer_id = p.performer_id
     WHERE ep.deleted_at IS NULL AND p.deleted_at IS NULL
+    AND p.performer_public_id IS NOT NULL
     GROUP BY ep.event_id
 )
 
@@ -76,13 +80,17 @@ SELECT
     e.description,
     e.images,
     
-    jsonb_build_object(
-        'organization_public_id', o.organization_public_id,
-        'name',                   o.name,
-        'caption',                o.caption,
-        'icon',                   o.icon,
-        'sponsor',                o.sponsor
-    ) AS organization,
+    CASE 
+        WHEN o.organization_id IS NOT NULL AND o.organization_public_id IS NOT NULL THEN
+            jsonb_build_object(
+                'organization_public_id', o.organization_public_id,
+                'name',                   o.name,
+                'caption',                o.caption,
+                'icon',                   o.icon,
+                'sponsor',                o.sponsor
+            )
+        ELSE NULL
+    END AS organization,
 
     COALESCE(v.data, '[]'::jsonb) AS venues,
     COALESCE(t.data, '[]'::jsonb) AS tags,
@@ -98,7 +106,8 @@ LEFT JOIN cte_tags t ON e.event_id = t.event_id
 LEFT JOIN cte_slots s ON e.event_id = s.event_id
 LEFT JOIN cte_performers p ON e.event_id = p.event_id
 
-WHERE e.deleted_at IS NULL;
+WHERE e.deleted_at IS NULL
+AND e.event_public_id IS NOT NULL;
 
 -- indexes
 CREATE UNIQUE INDEX idx_mv_event_details_public_id ON public.mv_event_details(event_public_id);

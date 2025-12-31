@@ -24,6 +24,7 @@ WITH cte_timeline AS (
     JOIN public.events_slots es ON e.event_id = es.event_id AND es.deleted_at IS NULL
     JOIN public.slots s ON es.slot_id = s.slot_id AND s.deleted_at IS NULL
     WHERE e.deleted_at IS NULL
+    AND e.event_public_id IS NOT NULL
     GROUP BY ev.venue_id, s.starts, v.name
 )
 
@@ -44,6 +45,7 @@ SELECT
 FROM public.venues v
 LEFT JOIN cte_timeline t ON v.venue_id = t.venue_id
 WHERE v.deleted_at IS NULL
+AND v.venue_public_id IS NOT NULL
 GROUP BY v.venue_id, v.venue_public_id, v.name, v.icon;
 
 -- indexes
