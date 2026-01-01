@@ -149,6 +149,7 @@ export type TimelineSlot = Nullable<{
 export type VenueOrganization = Nullable<{
     organization_public_id: string;
     name: string;
+    caption: string;
     icon: string;
     display_order: number;
 }>;

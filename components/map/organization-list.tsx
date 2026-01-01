@@ -27,6 +27,9 @@ export function OrganizationList(data: Verified<VenueDetails>) {
                                     <ThemedText type="footnote" numberOfLines={1}>
                                         {org.name ?? NO_DATA}
                                     </ThemedText>
+                                    <ThemedText type="caption2" color="natural_200" numberOfLines={1}>
+                                        {org.caption ?? NO_DATA}
+                                    </ThemedText>
                                 </Column>
                             </Row>
                         </ThemedView>
