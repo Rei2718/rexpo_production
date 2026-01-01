@@ -44,7 +44,13 @@
           }
         }
       ],
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "現在地周辺のイベントを表示するために、位置情報を使用します。"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
