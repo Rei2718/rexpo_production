@@ -1,13 +1,13 @@
 import { Icon } from '@/components/ui/icon';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { DisplayVenue } from '@/supabase/api/types';
-import React, { useEffect, useState } from 'react';
+import { DisplayVenue, Verified } from '@/supabase/api/types';
+import { useEffect, useState } from 'react';
 import { Marker, MarkerPressEvent } from 'react-native-maps';
 
 interface VenueMarkerProps {
-    venue: DisplayVenue;
+    venue: Verified<DisplayVenue>;
     isSelected: boolean;
-    onSelect?: (venue: DisplayVenue) => void;
+    onSelect?: (venue: Verified<DisplayVenue>) => void;
 }
 
 export default function VenueMarker({ venue, isSelected, onSelect }: VenueMarkerProps) {

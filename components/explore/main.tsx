@@ -21,7 +21,7 @@ export default function ExploreMain() {
             data={data}
             ListHeaderComponent={<StickyHeader />}
             renderItem={({ item }) => <TagGroup {...item} />}
-            ItemSeparatorComponent={() => <Container style={{ height: Spacing.s40 }} />}
+            ItemSeparatorComponent={() => <Container style={{ height: Spacing.s32 }} />}
             keyExtractor={(item) => item.tag_public_id}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: height }}

@@ -8,7 +8,7 @@ export function EventOrganization(data: Verified<EventDetails>) {
 
     return (
         <Section title="主催">
-            <Container flexDirection="column" gap="s12">
+            <Container flexDirection="column" gap="s8">
                 <OrganizerCard {...data.organization} />
             </Container>
         </Section>

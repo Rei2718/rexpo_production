@@ -12,7 +12,7 @@ import { ThemedView } from "../ui/themed-view";
 export const OrganizerCard = memo((data: Verified<EventOrganization>) => {
     return (
         <ThemedView color="natural_500" style={styles.container}>
-            <Row alignItems="center" gap="s16" padding="s8">
+            <Row alignItems="center" gap="s16" padding="s4">
                 <Image
                     source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}
                     style={styles.image}

@@ -9,7 +9,7 @@ export function EventPerformers(data: Verified<EventDetails>) {
 
     return (
         <Section title="出演">
-            <Container flexDirection="column" gap="s12">
+            <Container flexDirection="column" gap="s8">
                 {data.performers.map((item) => (
                     <PerformerCard {...item} key={item.performer_public_id} />
                 ))}

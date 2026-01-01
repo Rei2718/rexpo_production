@@ -1,10 +1,9 @@
-import { DisplayVenue } from '@/supabase/api/types';
-import React from 'react';
+import { DisplayVenue, Verified } from '@/supabase/api/types';
 import VenueMarker from './venue-marker';
 
 interface VenueMarkerListProps {
-    venues: DisplayVenue[];
-    onSelect?: (venue: DisplayVenue) => void;
+    venues: Verified<DisplayVenue>[];
+    onSelect?: (venue: Verified<DisplayVenue>) => void;
     selectedVenueId?: string | null;
 }
 

@@ -34,9 +34,11 @@ export default function EventDetails() {
                     ),
                 }}
             />
-            <ScrollView>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+            >
                 <SafeAreaView edges={["bottom"]} style={styles.container}>
-                    <Column gap="s48">
+                    <Column gap="s32">
 
                         {/* Header */}
                         <EventHeader {...data} />

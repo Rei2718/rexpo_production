@@ -12,6 +12,10 @@ CREATE TABLE public.venues (
     map_longitude DOUBLE PRECISION,
     is_primary BOOLEAN DEFAULT FALSE,
 
+    operational_status TEXT DEFAULT '準備中',
+    congestion_status TEXT DEFAULT '余裕あり',
+    entry_type TEXT DEFAULT '自由入場',
+
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW(),
     deleted_at TIMESTAMPTZ DEFAULT NULL
@@ -30,3 +34,16 @@ CREATE TRIGGER update_venues
 ALTER TABLE public.venues ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "No direct access" ON public.venues FOR ALL USING (false);
 REVOKE ALL ON public.venues FROM public;
+
+
+
+
+-- constraints
+ALTER TABLE public.venues ADD CONSTRAINT check_operational_status 
+    CHECK (operational_status IN ('公開中', '準備中', '終了'));
+
+ALTER TABLE public.venues ADD CONSTRAINT check_congestion_status 
+    CHECK (congestion_status IN ('余裕あり', 'やや混雑', '混雑', '制限中'));
+
+ALTER TABLE public.venues ADD CONSTRAINT check_entry_type 
+    CHECK (entry_type IN ('自由入場', '整理券配布', '予約制'));

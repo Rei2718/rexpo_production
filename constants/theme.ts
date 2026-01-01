@@ -31,9 +31,10 @@ export const Spacing = {
   s8: 8,
   s12: 12,
   s16: 16,
-  s20: 20, // Previous xl
-  s24: 24, // Previous xxl (value changed from 48 -> 24 if following dense grid, but strictly mapping: xl(24)->s24)
+  s20: 20,
+  s24: 24,
   s32: 32,
+  s36: 36,
   s40: 40,
   s48: 48,
   s56: 56,

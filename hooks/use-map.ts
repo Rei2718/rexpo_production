@@ -1,5 +1,5 @@
 import { useAllVenues } from '@/supabase/api';
-import { DisplayVenue } from '@/supabase/api/types';
+import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { useCallback, useRef, useState } from 'react';
 import MapView, { Region } from 'react-native-maps';
 
@@ -26,7 +26,7 @@ export const MIN_ZOOM_LEVEL = 18;
 
 export default function useMap() {
     const mapRef = useRef<MapView>(null);
-    const [selectedVenue, setSelectedVenue] = useState<DisplayVenue | null>(null);
+    const [selectedVenue, setSelectedVenue] = useState<Verified<DisplayVenue> | null>(null);
 
     const { data, isPending, isError } = useAllVenues();
 
@@ -36,7 +36,7 @@ export default function useMap() {
         }
     }, []);
 
-    const onSelectVenue = useCallback((venue: DisplayVenue) => {
+    const onSelectVenue = useCallback((venue: Verified<DisplayVenue>) => {
         setSelectedVenue(venue);
     }, []);
 

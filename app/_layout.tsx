@@ -2,6 +2,7 @@ import { Icon } from '@/components/ui/icon';
 import { DarkNavigationTheme, LightNavigationTheme, Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { NotoSansJP_300Light, NotoSansJP_400Regular, NotoSansJP_500Medium, NotoSansJP_600SemiBold, NotoSansJP_700Bold, useFonts } from '@expo-google-fonts/noto-sans-jp';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider } from '@react-navigation/native';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { QueryClient } from '@tanstack/react-query';
@@ -61,42 +62,44 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkNavigationTheme : LightNavigationTheme}>
       <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
         <GestureHandlerRootView>
-          <Stack>
-            <Stack.Screen
-              name="(tabs)"
-              options={{
-                headerShown: false
-              }}
-            />
-            <Stack.Screen
-              name="category-modal"
-              options={{
-                presentation: "modal",
-                headerTransparent: true,
-                animation: "ios_from_right",
-                headerLeft: Platform.OS === 'ios' ? () => (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
-                  </TouchableOpacity>
-                ) : undefined,
-              }}
-            />
-            <Stack.Screen
-              name="event-details-modal"
-              options={{
-                presentation: "modal",
-                headerTitle: "",
-                headerTransparent: true,
-                animation: "ios_from_right",
-                headerLeft: Platform.OS === 'ios' ? () => (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
-                  </TouchableOpacity>
-                ) : undefined,
-              }}
-            />
-          </Stack>
-          <StatusBar style="auto" />
+          <BottomSheetModalProvider>
+            <Stack>
+              <Stack.Screen
+                name="(tabs)"
+                options={{
+                  headerShown: false
+                }}
+              />
+              <Stack.Screen
+                name="category-modal"
+                options={{
+                  presentation: "modal",
+                  headerTransparent: true,
+                  animation: "ios_from_right",
+                  headerLeft: Platform.OS === 'ios' ? () => (
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                    </TouchableOpacity>
+                  ) : undefined,
+                }}
+              />
+              <Stack.Screen
+                name="event-details-modal"
+                options={{
+                  presentation: "modal",
+                  headerTitle: "",
+                  headerTransparent: true,
+                  animation: "ios_from_right",
+                  headerLeft: Platform.OS === 'ios' ? () => (
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                    </TouchableOpacity>
+                  ) : undefined,
+                }}
+              />
+            </Stack>
+            <StatusBar style="auto" />
+          </BottomSheetModalProvider>
         </GestureHandlerRootView>
       </PersistQueryClientProvider>
     </ThemeProvider>

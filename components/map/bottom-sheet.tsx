@@ -1,52 +1,54 @@
 import { Container } from '@/components/ui/container';
+import { Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import GorhomBottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import React, { useEffect, useRef } from 'react';
+import { DisplayVenue, Verified } from '@/supabase/api/types';
+import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import VenueProfile from './venue-profile';
+import { VenueContent } from './venue-content';
+
 
 interface MapBottomSheetProps {
-    venuePublicId: string | null;
+    data: Verified<DisplayVenue> | null;
     onClose: () => void;
 }
 
-export default function MapBottomSheet({ venuePublicId, onClose }: MapBottomSheetProps) {
-    const bottomSheetRef = useRef<GorhomBottomSheet>(null);
+export default function MapBottomSheet({ data, onClose }: MapBottomSheetProps) {
+    const bottomSheetRef = useRef<BottomSheetModal>(null);
     const color = useThemeColor();
 
+    const snapPoints = useMemo(() => ['50%', '90%'], []);
+
     useEffect(() => {
-        if (venuePublicId) {
-            bottomSheetRef.current?.snapToIndex(0);
+        if (data) {
+            bottomSheetRef.current?.present();
         } else {
-            bottomSheetRef.current?.close();
+            bottomSheetRef.current?.dismiss();
         }
-    }, [venuePublicId]);
+    }, [data]);
 
     return (
-        <GorhomBottomSheet
+        <BottomSheetModal
             ref={bottomSheetRef}
-            index={-1}
             enableDynamicSizing={false}
-            snapPoints={["50%", '90%']}
+            snapPoints={snapPoints}
             enablePanDownToClose={true}
-            backgroundStyle={{ backgroundColor: color.natural_600 }}
+            backgroundStyle={{ backgroundColor: color.natural_600, borderRadius: Spacing.s36 }}
+            handleStyle={{ height: Spacing.s20 }}
             handleIndicatorStyle={{ backgroundColor: color.natural_300 }}
-            onClose={onClose}
-            onChange={(index: number) => {
-                if (index === -1) {
-                    onClose();
-                }
-            }}
+            onDismiss={onClose}
         >
             <BottomSheetScrollView
                 style={styles.sheetView}
                 contentContainerStyle={styles.contentContainer}
             >
-                <Container flex={1}>
-                    {venuePublicId && <VenueProfile venuePublicId={venuePublicId} />}
-                </Container>
+                {data && (
+                    <Container flex={1}>
+                        <VenueContent {...data} />
+                    </Container>
+                )}
             </BottomSheetScrollView>
-        </GorhomBottomSheet>
+        </BottomSheetModal>
     );
 }
 

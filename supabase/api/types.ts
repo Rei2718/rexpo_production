@@ -160,6 +160,11 @@ export type VenueDetails = Nullable<{
     map_latitude: number;
     map_longitude: number;
     is_primary: boolean;
+
+    operational_status: string;
+    congestion_status: string;
+    entry_type: string;
+
     organizations: VenueOrganization[];
 }>;
 

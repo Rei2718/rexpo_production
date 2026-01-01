@@ -21,17 +21,9 @@ export default function MapMain() {
         onMapPress,
     } = useMap();
 
-    if (isPending) {
-        return <StatusMessage status="loading" />;
-    }
-
-    if (isError) {
-        return <StatusMessage status="error" />;
-    }
-
-    if (!data || data.length === 0) {
-        return <StatusMessage status="empty" message="会場情報がありません。" />;
-    }
+    if (isPending) return <StatusMessage status="loading" />;
+    if (isError) return <StatusMessage status="error" />;
+    if (!data || data.length === 0) return <StatusMessage status="empty" />;
 
     return (
         <View style={{ flex: 1 }}>
@@ -67,7 +59,7 @@ export default function MapMain() {
             </MapView>
 
             <MapBottomSheet
-                venuePublicId={selectedVenue?.venue_public_id ?? null}
+                data={selectedVenue}
                 onClose={onCloseSheet}
             />
         </View>
