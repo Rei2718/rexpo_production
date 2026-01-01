@@ -25,6 +25,7 @@ export default function CategoryModal() {
             <FlatList
                 data={data}
                 renderItem={({ item }) => <TagGroup {...item} />}
+                keyExtractor={(item) => item.tag_public_id}
                 ItemSeparatorComponent={() => <Container style={{ height: Spacing.s40 }} />}
                 contentContainerStyle={{
                     paddingBottom: Spacing.s20,

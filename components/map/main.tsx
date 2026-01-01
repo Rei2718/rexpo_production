@@ -44,7 +44,7 @@ export default function MapMain() {
                 pitchEnabled={false}
                 loadingEnabled={true}
                 loadingIndicatorColor={color.tint}
-                loadingBackgroundColor={color.natural_400}
+                loadingBackgroundColor={color.natural_500}
                 minZoomLevel={MIN_ZOOM_LEVEL}
                 showsCompass={false}
                 showsScale={false}

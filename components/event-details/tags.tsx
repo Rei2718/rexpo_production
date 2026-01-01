@@ -35,7 +35,7 @@ export function EventTags(data: Verified<EventDetails>) {
                             paddingVertical="s12"
                             style={[
                                 styles.tagContainer,
-                                { backgroundColor: color.natural_400 }
+                                { backgroundColor: color.natural_500 }
                             ]}
                         >
                             <ThemedText
