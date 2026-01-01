@@ -4,6 +4,7 @@ import { VenueDetails, Verified } from '@/supabase/api/types';
 import { Header } from './header';
 import { InfoCard } from './info-card';
 import { Organization } from './organization';
+import { TimelinePreview } from './timeline-preview';
 
 
 export default function Details(data: Verified<VenueDetails>) {
@@ -16,6 +17,8 @@ export default function Details(data: Verified<VenueDetails>) {
             <Container paddingHorizontal="s20">
                 <InfoCard {...data} />
             </Container>
+
+            <TimelinePreview {...data} />
 
             <Organization {...data} />
         </Container>
