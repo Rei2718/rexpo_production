@@ -26,7 +26,7 @@ export default function CategoryModal() {
                 data={data}
                 renderItem={({ item }) => <TagGroup {...item} />}
                 keyExtractor={(item) => item.tag_public_id}
-                ItemSeparatorComponent={() => <Container style={{ height: Spacing.s40 }} />}
+                ItemSeparatorComponent={() => <Container style={{ height: Spacing.s32 }} />}
                 contentContainerStyle={{
                     paddingBottom: Spacing.s20,
                 }}
