@@ -18,10 +18,10 @@ export const OrganizerCard = memo((data: Verified<EventOrganization>) => {
                     style={styles.image}
                 />
                 <Column flex={1} gap="s2">
-                    <ThemedText type="callout" numberOfLines={1}>
+                    <ThemedText type="footnote" numberOfLines={1}>
                         {data.name ?? NO_DATA}
                     </ThemedText>
-                    <ThemedText type="caption1" color="natural_200" numberOfLines={1}>
+                    <ThemedText type="caption2" color="natural_200" numberOfLines={1}>
                         {data.caption ?? NO_DATA}
                     </ThemedText>
                 </Column>

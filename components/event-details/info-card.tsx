@@ -40,7 +40,7 @@ export function EventInfoCard(data: Verified<EventDetails>) {
                     {/* Time Content */}
                     <Column flex={1} alignItems="center" gap="s4" paddingHorizontal="s20">
                         {data.slots.map((slot) => (
-                            <ThemedText key={slot.slot_public_id} type="callout" style={styles.tabularNums}>
+                            <ThemedText key={slot.slot_public_id} type="footnote" style={styles.tabularNums}>
                                 {slot.starts ?? NO_DATA} ~ {slot.ends ?? NO_DATA}
                             </ThemedText>
                         ))}
@@ -52,7 +52,7 @@ export function EventInfoCard(data: Verified<EventDetails>) {
                     {/* Venue Content */}
                     <Column flex={1} alignItems="center" paddingHorizontal="s20">
                         {data.venues.map((venue) => (
-                            <ThemedText key={venue.venue_public_id} type="callout" style={styles.centerText}>
+                            <ThemedText key={venue.venue_public_id} type="footnote" style={styles.centerText}>
                                 {venue.name ?? NO_DATA}
                             </ThemedText>
                         ))}
