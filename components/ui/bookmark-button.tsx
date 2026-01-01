@@ -4,7 +4,7 @@ import { Spacing } from '@/constants/theme';
 import { useBookmarkStore } from '@/hooks/use-bookmark-store';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { EventOverview, Verified } from '@/supabase/api/types';
-import { TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 
 export default function BookmarkButton(data: Verified<EventOverview>) {
@@ -21,7 +21,10 @@ export default function BookmarkButton(data: Verified<EventOverview>) {
 
     return (
         <Haptic type="Heavy">
-            <TouchableOpacity onPressIn={handlePress}>
+            <TouchableOpacity
+                onPressIn={handlePress}
+                style={styles.button}
+            >
                 <Icon
                     icon={isBookmarked ? "bookmarkFill" : "bookmark"}
                     size={Spacing.icon}
@@ -31,3 +34,13 @@ export default function BookmarkButton(data: Verified<EventOverview>) {
         </Haptic>
     );
 }
+
+const styles = StyleSheet.create({
+    button: {
+        width: Spacing.icon,
+        height: Spacing.icon,
+        margin: Spacing.s2,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});

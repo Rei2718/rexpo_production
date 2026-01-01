@@ -4,7 +4,6 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import React, { useEffect, useMemo, useRef } from 'react';
-import { StyleSheet } from 'react-native';
 import { Content } from './content';
 
 
@@ -38,12 +37,9 @@ export default function Sheet({ data, onClose }: SheetProps) {
             handleIndicatorStyle={{ backgroundColor: color.natural_300 }}
             onDismiss={onClose}
         >
-            <BottomSheetScrollView
-                style={styles.sheetView}
-                contentContainerStyle={styles.contentContainer}
-            >
+            <BottomSheetScrollView>
                 {data && (
-                    <Container flex={1}>
+                    <Container>
                         <Content {...data} />
                     </Container>
                 )}
@@ -51,12 +47,3 @@ export default function Sheet({ data, onClose }: SheetProps) {
         </BottomSheetModal>
     );
 }
-
-const styles = StyleSheet.create({
-    sheetView: {
-        flex: 1,
-    },
-    contentContainer: {
-        flex: 1,
-    },
-});

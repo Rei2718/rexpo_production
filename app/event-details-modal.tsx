@@ -28,15 +28,13 @@ export default function EventDetails() {
                 options={{
                     headerTitle: "",
                     headerRight: () => (
-                        <View style={{ marginLeft: Spacing.s4 }}>
+                        <View>
                             <BookmarkButton {...data} />
                         </View>
                     ),
                 }}
             />
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-            >
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <SafeAreaView edges={["bottom"]} style={styles.container}>
                     <Column gap="s32">
 
@@ -82,7 +80,6 @@ export default function EventDetails() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         paddingBottom: Spacing.s20,
     },
 });

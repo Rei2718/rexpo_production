@@ -1,5 +1,5 @@
 {
-  "name": "rexpo_production",
+  "name": "rexpo",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
