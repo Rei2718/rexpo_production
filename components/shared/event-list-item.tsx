@@ -4,13 +4,14 @@ import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { EventOverview, Verified } from "@/supabase/api/types";
 import { Link } from "expo-router";
+import { memo } from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Container } from "../ui/container";
 import { Icon } from "../ui/icon";
 import { ThemedText } from "../ui/themed-text";
 
 
-export function EventListItem(data: Verified<EventOverview>) {
+export const EventListItem = memo((data: Verified<EventOverview>) => {
     const color = useThemeColor();
 
     return (
@@ -28,8 +29,10 @@ export function EventListItem(data: Verified<EventOverview>) {
                         style={styles.image}
                     />
                     <Container flexDirection="column" flex={1} style={styles.textContainer}>
-                        <ThemedText type="footnote">{data.name ?? NO_DATA}</ThemedText>
-                        <ThemedText type="caption2" color="natural_200">
+                        <ThemedText type="footnote" numberOfLines={1}>
+                            {data.name ?? NO_DATA}
+                        </ThemedText>
+                        <ThemedText type="caption2" color="natural_200" numberOfLines={1}>
                             {data.caption ?? NO_DATA}
                         </ThemedText>
                     </Container>
@@ -38,7 +41,7 @@ export function EventListItem(data: Verified<EventOverview>) {
             </TouchableOpacity>
         </Link>
     );
-}
+});
 
 const styles = StyleSheet.create({
     container: {

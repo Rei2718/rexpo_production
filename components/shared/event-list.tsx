@@ -1,7 +1,7 @@
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { EventOverview, Verified } from "@/supabase/api/types";
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Container } from "../ui/container";
 import { EventListItem } from "./event-list-item";
 
@@ -10,17 +10,20 @@ import { EventListItem } from "./event-list-item";
 export function EventList(data: { events: Verified<EventOverview>[] }) {
     const color = useThemeColor();
 
+    if (!data.events || data.events.length === 0) return null;
+
     return (
         <Container style={[styles.container, { backgroundColor: color.natural_500 }]}>
-            <FlatList
-                data={data.events}
-                keyExtractor={(event) => event.event_public_id}
-                renderItem={({ item }) => <EventListItem {...item} />}
-                ItemSeparatorComponent={() => (
-                    <View style={[styles.separator, { backgroundColor: color.natural_400 }]} />
-                )}
-                scrollEnabled={false}
-            />
+            <Container flexDirection="column">
+                {data.events.map((event, index) => (
+                    <View key={event.event_public_id}>
+                        <EventListItem {...event} />
+                        {index < data.events.length - 1 && (
+                            <View style={[styles.separator, { backgroundColor: color.natural_400 }]} />
+                        )}
+                    </View>
+                ))}
+            </Container>
         </Container>
     );
 }
