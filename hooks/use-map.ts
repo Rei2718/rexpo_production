@@ -12,7 +12,7 @@ export const INITIAL_REGION: Region = {
 };
 
 // 0.00005;
-const BOUNDARY_BUFFER = 0.01;
+const BOUNDARY_BUFFER = 0.00005;
 const MAP_BOUNDARIES = {
     northEast: {
         latitude: INITIAL_REGION.latitude + INITIAL_REGION.latitudeDelta / 2 + BOUNDARY_BUFFER,
@@ -26,7 +26,7 @@ const MAP_BOUNDARIES = {
 
 
 // 18
-export const MIN_ZOOM_LEVEL = 10;
+export const MIN_ZOOM_LEVEL = 18;
 
 export default function useMap() {
     const mapRef = useRef<MapView>(null);
