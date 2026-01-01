@@ -8,10 +8,12 @@ import {
     Feature,
     News,
     TagEvents,
+    TimelineEvent,
     TimelineSlot,
     VenueDetails,
     Verified,
 } from "./types";
+
 
 export async function get_banners() {
     const { data, error } = await supabase.rpc("get_banners");
@@ -93,4 +95,12 @@ export async function get_all_venues() {
     const { data, error } = await supabase.rpc("get_all_venues");
     if (error) throw error;
     return data as unknown as Verified<DisplayVenue>[];
+}
+
+export async function get_events_by_ids(event_public_ids: string[]) {
+    const { data, error } = await supabase.rpc("get_events_by_ids", {
+        event_public_ids,
+    });
+    if (error) throw error;
+    return data as unknown as Verified<TimelineEvent>[];
 }

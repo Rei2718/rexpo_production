@@ -101,7 +101,7 @@ export default function FeatureCarousel() {
                 <SafeAreaView edges={['top']}>
                     <Container flexDirection="row" justifyContent="space-between" alignItems="center">
                         <ThemedText type="largeTitle">探索</ThemedText>
-                        <TouchableOpacity onPress={() => router.push('/')}>
+                        <TouchableOpacity onPress={() => router.push('/bookmark-modal')}>
                             <Icon size={Spacing.icon} icon="bookmark" color={color.natural_100} />
                         </TouchableOpacity>
                     </Container>

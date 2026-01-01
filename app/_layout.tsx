@@ -99,6 +99,21 @@ export default function RootLayout() {
                 }}
               />
               <Stack.Screen
+                name="bookmark-modal"
+                options={{
+                  presentation: "modal",
+                  headerTransparent: false,
+                  headerTitle: "ブックマーク",
+                  headerTitleAlign: "center",
+                  animation: "ios_from_right",
+                  headerLeft: Platform.OS === 'ios' ? () => (
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                    </TouchableOpacity>
+                  ) : undefined,
+                }}
+              />
+              <Stack.Screen
                 name="event-details-modal"
                 options={{
                   presentation: "modal",

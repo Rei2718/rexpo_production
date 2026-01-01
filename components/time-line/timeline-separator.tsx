@@ -16,7 +16,7 @@ export default function TimelineSeparator() {
 
 const styles = StyleSheet.create({
     separatorRoot: {
-        height: Spacing.s40,
+        height: Spacing.s32,
     },
     separatorInner: {
         width: Spacing.s8,

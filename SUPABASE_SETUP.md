@@ -43,6 +43,7 @@ Get-Content `
   supabase/sql/rpc/get-venue-details.sql, `
   supabase/sql/rpc/get-all-venues.sql, `
   supabase/sql/rpc/get-categories.sql, `
+  supabase/sql/rpc/get-events-by-ids.sql, `
   supabase/sql/storage/create-storage.sql `
   | Set-Content supabase/migrations/20260101182955_init_schema.sql
 

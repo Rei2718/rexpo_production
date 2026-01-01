@@ -4,7 +4,7 @@ import FeatureCarousel from "./feature-carousel";
 
 export function StickyHeader() {
     return (
-        <Container gap="s40" paddingBottom="s20">
+        <Container gap="s32" paddingBottom="s20">
             <FeatureCarousel />
             <CategoryFilter />
         </Container>

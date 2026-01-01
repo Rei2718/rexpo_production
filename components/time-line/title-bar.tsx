@@ -15,7 +15,7 @@ export default function TitleBar() {
         <SafeAreaView edges={['top']}>
             <Container flexDirection="row" justifyContent="space-between" alignItems="center" paddingTop="s12" paddingHorizontal="s20">
                 <ThemedText type="largeTitle">タイムライン</ThemedText>
-                <TouchableOpacity onPress={() => router.push('/')}>
+                <TouchableOpacity onPress={() => router.push('/bookmark-modal')}>
                     <Icon size={Spacing.icon} icon="bookmark" color={color.natural_100} />
                 </TouchableOpacity>
             </Container>

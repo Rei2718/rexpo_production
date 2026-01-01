@@ -6,6 +6,7 @@ import {
     get_categories,
     get_display_venue,
     get_event_details,
+    get_events_by_ids,
     get_events_by_tag,
     get_events_by_venue,
     get_features,
@@ -124,6 +125,16 @@ export function useAllVenues() {
     const { data, isPending, isError, refetch } = useQuery({
         queryKey: keys.get_all_venues(),
         queryFn: get_all_venues,
+    });
+    useRefetchOnFocus(refetch);
+    return { data, isPending, isError };
+}
+
+export function useEventsByIds(event_public_ids: string[]) {
+    const { data, isPending, isError, refetch } = useQuery({
+        queryKey: keys.get_events_by_ids(event_public_ids),
+        queryFn: () => get_events_by_ids(event_public_ids),
+        enabled: event_public_ids.length > 0,
     });
     useRefetchOnFocus(refetch);
     return { data, isPending, isError };

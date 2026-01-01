@@ -36,7 +36,7 @@ export default function TimelineMain() {
         <FlatList
             data={events}
             ListHeaderComponent={
-                <Container gap="s40" paddingBottom="s20">
+                <Container gap="s32" paddingBottom="s20">
                     <TitleBar />
                     <VenueFilter
                         venues={venues}
