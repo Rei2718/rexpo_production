@@ -14,8 +14,11 @@ export function TagHeader(data: Verified<TagEvents>) {
     return (
         <Link
             href={{
-                pathname: "/",
-                params: { id: data.tag_public_id },
+                pathname: "/tag-modal",
+                params: {
+                    tag_public_id: data.tag_public_id,
+                    name: data.name
+                },
             }}
             asChild
         >

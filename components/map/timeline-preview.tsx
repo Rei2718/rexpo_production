@@ -1,8 +1,8 @@
 import { Column } from '@/components/ui/flex';
 import { Section } from '@/components/ui/section';
 import { VenueDetails, Verified } from '@/supabase/api/types';
+import { useTimelinePreview } from '../../hooks/use-timeline-preview';
 import { PreviewSlotGroup } from './preview-slot-group';
-import { useTimelinePreview } from './use-timeline-preview';
 
 export function TimelinePreview(data: Verified<VenueDetails>) {
     const {

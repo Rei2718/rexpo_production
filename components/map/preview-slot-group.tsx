@@ -59,6 +59,7 @@ export function PreviewSlotGroup({
                     flexDirection="row"
                     justifyContent="space-between"
                     alignItems="center"
+                    marginHorizontal="s8"
                 >
                     <ThemedText type="caption2" color={isActive ? "natural_100" : "natural_200"}>
                         {headerText}
