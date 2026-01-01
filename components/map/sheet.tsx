@@ -39,7 +39,7 @@ export default function Sheet({ data, onClose }: SheetProps) {
         >
             <BottomSheetScrollView>
                 {data && (
-                    <Container>
+                    <Container paddingBottom="s20">
                         <Content {...data} />
                     </Container>
                 )}

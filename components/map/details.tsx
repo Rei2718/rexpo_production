@@ -8,7 +8,7 @@ import { TimelinePreview } from './timeline-preview';
 
 export default function Details(data: Verified<VenueDetails>) {
     return (
-        <Container flex={1} gap="s32">
+        <Container gap="s32">
             <Header {...data} />
 
             <Container paddingHorizontal="s20">
