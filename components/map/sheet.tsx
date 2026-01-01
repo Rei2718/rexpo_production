@@ -5,15 +5,15 @@ import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import { VenueContent } from './venue-content';
+import { Content } from './content';
 
 
-interface MapBottomSheetProps {
+interface SheetProps {
     data: Verified<DisplayVenue> | null;
     onClose: () => void;
 }
 
-export default function MapBottomSheet({ data, onClose }: MapBottomSheetProps) {
+export default function Sheet({ data, onClose }: SheetProps) {
     const bottomSheetRef = useRef<BottomSheetModal>(null);
     const color = useThemeColor();
 
@@ -44,7 +44,7 @@ export default function MapBottomSheet({ data, onClose }: MapBottomSheetProps) {
             >
                 {data && (
                     <Container flex={1}>
-                        <VenueContent {...data} />
+                        <Content {...data} />
                     </Container>
                 )}
             </BottomSheetScrollView>

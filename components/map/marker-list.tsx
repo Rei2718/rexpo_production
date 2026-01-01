@@ -1,17 +1,17 @@
 import { DisplayVenue, Verified } from '@/supabase/api/types';
-import VenueMarker from './venue-marker';
+import Marker from './marker';
 
-interface VenueMarkerListProps {
+interface MarkerListProps {
     venues: Verified<DisplayVenue>[];
     onSelect?: (venue: Verified<DisplayVenue>) => void;
     selectedVenueId?: string | null;
 }
 
-export default function VenueMarkerList({ venues, onSelect, selectedVenueId }: VenueMarkerListProps) {
+export default function MarkerList({ venues, onSelect, selectedVenueId }: MarkerListProps) {
     return (
         <>
             {venues.map((venue) => (
-                <VenueMarker
+                <Marker
                     key={venue.venue_public_id}
                     venue={venue}
                     isSelected={selectedVenueId === venue.venue_public_id}

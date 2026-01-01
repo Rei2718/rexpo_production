@@ -9,7 +9,7 @@ import { Spacing } from '@/constants/theme';
 import { VenueDetails, Verified } from '@/supabase/api/types';
 import { Image, StyleSheet } from 'react-native';
 
-export function OrganizationList(data: Verified<VenueDetails>) {
+export function Organization(data: Verified<VenueDetails>) {
     if (!data.organizations || data.organizations.length === 0) return null;
 
     return (

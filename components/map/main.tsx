@@ -3,8 +3,8 @@ import useMap, { INITIAL_REGION, MIN_ZOOM_LEVEL } from '@/hooks/use-map';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { View } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import MapBottomSheet from './bottom-sheet';
-import VenueMarkerList from './venue-marker-list';
+import MarkerList from './marker-list';
+import Sheet from './sheet';
 
 export default function MapMain() {
     const color = useThemeColor();
@@ -51,14 +51,14 @@ export default function MapMain() {
                 onMapReady={onMapReady}
                 onPress={onMapPress}
             >
-                <VenueMarkerList
+                <MarkerList
                     venues={data}
                     onSelect={onSelectVenue}
                     selectedVenueId={selectedVenue?.venue_public_id}
                 />
             </MapView>
 
-            <MapBottomSheet
+            <Sheet
                 data={selectedVenue}
                 onClose={onCloseSheet}
             />

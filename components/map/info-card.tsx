@@ -10,7 +10,7 @@ import { VenueDetails, Verified } from '@/supabase/api/types';
 import { StyleSheet, View } from 'react-native';
 
 
-export function VenueInfoCard(data: Verified<VenueDetails>) {
+export function InfoCard(data: Verified<VenueDetails>) {
     const color = useThemeColor();
     const congestionColor = useCongestionStatusColor(data.congestion_status);
 

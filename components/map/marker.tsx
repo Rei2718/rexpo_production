@@ -2,15 +2,15 @@ import { Icon } from '@/components/ui/icon';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { useEffect, useState } from 'react';
-import { Marker, MarkerPressEvent } from 'react-native-maps';
+import { MarkerPressEvent, Marker as RNMarker } from 'react-native-maps';
 
-interface VenueMarkerProps {
+interface MarkerProps {
     venue: Verified<DisplayVenue>;
     isSelected: boolean;
     onSelect?: (venue: Verified<DisplayVenue>) => void;
 }
 
-export default function VenueMarker({ venue, isSelected, onSelect }: VenueMarkerProps) {
+export default function Marker({ venue, isSelected, onSelect }: MarkerProps) {
     const [tracksViewChanges, setTracksViewChanges] = useState(true);
     const color = useThemeColor();
 
@@ -24,7 +24,7 @@ export default function VenueMarker({ venue, isSelected, onSelect }: VenueMarker
 
     return (
         venue.map_latitude && venue.map_longitude ? (
-            <Marker
+            <RNMarker
                 coordinate={{
                     latitude: venue.map_latitude,
                     longitude: venue.map_longitude,
@@ -41,7 +41,7 @@ export default function VenueMarker({ venue, isSelected, onSelect }: VenueMarker
                     color={color.tint}
                     onLoad={onIconLoad}
                 />
-            </Marker>
+            </RNMarker>
         ) : null
     );
 }

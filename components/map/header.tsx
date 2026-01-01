@@ -7,7 +7,7 @@ import { useOperationalStatusColor } from '@/hooks/use-venue-status';
 import { VenueDetails, Verified } from '@/supabase/api/types';
 import { Image, StyleSheet, View } from 'react-native';
 
-export function VenueHeader(data: Verified<VenueDetails>) {
+export function Header(data: Verified<VenueDetails>) {
     const statusBadgeColor = useOperationalStatusColor(data.operational_status);
 
     return (
