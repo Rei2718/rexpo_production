@@ -16,8 +16,7 @@
     "production": {
       "channel": "production",
       "autoIncrement": true,
-      "distribution": "store",
-      "requireCommit": true
+      "distribution": "store"
     }
   },
   "submit": {}
