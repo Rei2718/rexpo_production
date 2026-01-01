@@ -76,6 +76,7 @@ export function useEventsByVenue(venue_public_id?: string) {
     const { data, isPending, isError, refetch } = useQuery({
         queryKey: keys.get_events_by_venue(venue_public_id),
         queryFn: () => get_events_by_venue(venue_public_id),
+        enabled: !!venue_public_id,
     });
     useRefetchOnFocus(refetch);
     return { data, isPending, isError };

@@ -39,29 +39,29 @@ DECLARE
     random_idx INTEGER;
     
     -- Data Arrays
-    arr_cat_names TEXT[] := ARRAY['テクノロジー', 'Art & Design', '音楽 (Music)', 'Business', 'フード/食', 'Lifestyle'];
+    arr_cat_names TEXT[] := ARRAY['テクノロジー', 'アート＆デザイン', '音楽', 'ビジネス', 'フード・食', 'ライフスタイル'];
     arr_tag_names TEXT[] := ARRAY[
-        'AI/ML', 'Web development', 'XR (VR/AR)', -- Tech
-        '油絵', 'Media Art', 'Sculpture', -- Art
-        'Rock', 'Jazz Session', 'Classic', -- Music
-        'Startup', 'Marketing', 'VC/Investment', -- Business
-        'Sweets', 'Organic Food', 'Craft Beer', -- Food
-        'Yoga/Health', 'Travel', 'Fashion' -- Lifestyle
+        'AI/機械学習', 'Web開発', 'XR (VR/AR)', -- Tech
+        '油絵', 'メディアアート', '彫刻', -- Art
+        'ロック', 'ジャズセッション', 'クラシック', -- Music
+        'スタートアップ', 'マーケティング', '投資/VC', -- Business
+        'スイーツ', 'オーガニック', 'クラフトビール', -- Food
+        'ヨガ', '旅行', 'ファッション' -- Lifestyle
     ];
     
-    arr_event_titles_1 TEXT[] := ARRAY['未来の', 'Innovative', '究極の', 'Official', '春の', 'Great', 'Global'];
-    arr_event_titles_2 TEXT[] := ARRAY['Tech', 'Art', 'Sound', 'Gourmet', 'Network', 'Dev'];
-    arr_event_titles_3 TEXT[] := ARRAY['Festival', 'Summit', 'Conference', 'Exhibition', 'Fair', 'Meetup'];
+    arr_event_titles_1 TEXT[] := ARRAY['未来の', '革新的な', '究極の', '公式', '春の', '素晴らしい', 'グローバル'];
+    arr_event_titles_2 TEXT[] := ARRAY['テック', 'アート', 'サウンド', 'グルメ', 'ネットワーク', '開発'];
+    arr_event_titles_3 TEXT[] := ARRAY['フェスティバル', 'サミット', 'カンファレンス', '展示会', 'フェア', 'ミートアップ'];
     
-    arr_org_names TEXT[] := ARRAY['Tech Innovation Inc.', '一般社団法人アート振興会', 'Global Music Lab', 'Future Food Project', 'Next Gen Creators'];
-    arr_venue_primary TEXT[] := ARRAY['Main Hall', 'Grand Stage', 'Exhibition Hall A', 'International Conference Room', 'Outdoor Arena'];
-    arr_venue_others TEXT[] := ARRAY['Room 101', 'Room 102', 'Lounge A', 'Lounge B', 'Food Court', 'Kitchen Car Area', 'Restroom East', 'Entrance West', 'VIP Lounge', 'Locker Room'];
+    arr_org_names TEXT[] := ARRAY['株式会社テックイノベーション', '一般社団法人アート振興会', 'グローバルミュージックラボ', '未来食プロジェクト', 'ネクストジェネレーション'];
+    arr_venue_primary TEXT[] := ARRAY['メインホール', 'グランドステージ', '展示ホールA', '国際会議室', '屋外アリーナ'];
+    arr_venue_others TEXT[] := ARRAY['101号室', '102号室', 'ラウンジA', 'ラウンジB', 'フードコート', 'キッチンカーエリア', '東トイレ前', '西エントランス', 'VIPラウンジ', 'ロッカー室'];
     
-    arr_performer_last TEXT[] := ARRAY['佐藤 (Sato)', 'Smith', '高橋', 'Johnson', '伊藤', 'Williams', '山本', 'Brown', '小林', 'Miller'];
-    arr_performer_first TEXT[] := ARRAY['Taro', 'John', 'Hanako', 'David', 'Misaki', 'Michael', 'Sakura', 'Chris', 'Yu', 'Sarah'];
-    arr_food_names TEXT[] := ARRAY['Organic Cafe', 'Steak House 29', 'Sapporo Ramen', 'Bocca Italian', 'Sushi Dokoro', 'Burger King'];
+    arr_performer_last TEXT[] := ARRAY['佐藤', '鈴木', '高橋', '田中', '伊藤', '渡辺', '山本', '中村', '小林', '加藤'];
+    arr_performer_first TEXT[] := ARRAY['太郎', '次郎', '花子', '美咲', '健太', 'さくら', '大輔', '結衣', '翔太', '陽菜'];
+    arr_food_names TEXT[] := ARRAY['オーガニックカフェ', 'ステーキハウス29', '札幌ラーメン', 'ボッカ・イタリアン', '寿司処', 'バーガーキング'];
 
-    v_curr_time TIME := '10:00:00';
+    v_curr_time TIME := '00:00:00';
     v_slot_display_order INTEGER := 1;
     v_event_global_count INTEGER := 0;
     v_events_in_slot INTEGER;
@@ -92,7 +92,7 @@ BEGIN
             INSERT INTO public.tags (name, caption, display_order)
             VALUES (
                 arr_tag_names[(i - 1) * 3 + j],
-                CASE WHEN (random() < 0.3) THEN NULL ELSE 'About ' || arr_tag_names[(i - 1) * 3 + j] END,
+                CASE WHEN (random() < 0.3) THEN NULL ELSE arr_tag_names[(i - 1) * 3 + j] || 'について' END,
                 (i - 1) * 3 + j
             ) RETURNING tag_id INTO temp_id;
             
@@ -141,14 +141,14 @@ BEGIN
         INSERT INTO public.organizations (name, caption, icon, sponsor, description, header_image, images)
         VALUES (
             arr_org_names[((i - 1) % array_length(arr_org_names, 1)) + 1] || ' ' || i,
-            CASE WHEN (random() < 0.2) THEN NULL ELSE 'Leading the industry.' END,
+            CASE WHEN (random() < 0.2) THEN NULL ELSE '業界をリードする企業です。' END,
             CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=org_icon' || i END,
             CASE 
                 WHEN (random() < 0.7) THEN NULL 
-                WHEN (random() < 0.9) THEN 'Gold Sponsor'
-                ELSE 'Silver Sponsor'
+                WHEN (random() < 0.9) THEN 'ゴールドスポンサー'
+                ELSE 'シルバースポンサー'
             END,
-            CASE WHEN (random() < 0.4) THEN NULL ELSE 'Our mission is to innovate the world with technology and passion.' END,
+            CASE WHEN (random() < 0.4) THEN NULL ELSE '私たちのミッションは技術と情熱で世界を変えることです。' END,
             CASE WHEN (random() < 0.3) THEN NULL ELSE 'https://picsum.photos/1920/1920?random=org_head' || i END,
             CASE 
                 WHEN (random() < 0.3) THEN NULL 
@@ -178,12 +178,12 @@ BEGIN
         INSERT INTO public.foods (name, caption, description, icon, minutes, distance, address, website, display_order)
         VALUES (
             arr_food_names[i],
-            'Delicious ' || arr_food_names[i],
-            CASE WHEN (random() < 0.3) THEN NULL ELSE 'Fresh ingredients used.' END,
+            '美味しい ' || arr_food_names[i],
+            CASE WHEN (random() < 0.3) THEN NULL ELSE '新鮮な食材を使用しています。' END,
             'https://picsum.photos/512/512?random=food' || i,
             5 + (i * 2),
             100 + (i * 50),
-            CASE WHEN (random() < 0.2) THEN NULL ELSE 'Shibuya, Tokyo ' || i END,
+            CASE WHEN (random() < 0.2) THEN NULL ELSE '東京都渋谷区 ' || i END,
             CASE WHEN (random() < 0.5) THEN NULL ELSE 'https://example.com/food' || i END,
             i
         );
@@ -196,8 +196,8 @@ BEGIN
             arr_performer_last[((i - 1) % 10) + 1] || ' ' || arr_performer_first[((i * 3 - 1) % 10) + 1],
             CASE 
                 WHEN (random() < 0.3) THEN NULL 
-                WHEN (random() < 0.6) THEN 'Freelance' 
-                ELSE 'Company XX' 
+                WHEN (random() < 0.6) THEN 'フリーランス' 
+                ELSE '株式会社XX' 
             END,
             CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=perf' || i END,
             i
@@ -205,10 +205,13 @@ BEGIN
         v_perf_ids := array_append(v_perf_ids, temp_id);
     END LOOP;
 
-    -- EVENTS & SLOTS GENERATION
-    -- 10:00 to 18:00 (Every 10 minutes)
-    WHILE v_curr_time <= '18:00:00'::TIME LOOP
-        
+    -- EVENTS & SLOTS GENERATION (24 Hours Coverage)
+    -- Loop from 00:00:00 to 23:50:00 (144 slots)
+    
+    FOR i IN 0..143 LOOP
+        -- Calculate current time based on index * 10 minutes
+        v_curr_time := make_time(0, 0, 0) + (i * interval '10 minutes');
+
         -- Create Slot
         INSERT INTO public.slots (starts, ends, display_order)
         VALUES (
@@ -217,29 +220,39 @@ BEGIN
             v_slot_display_order
         ) RETURNING slot_id INTO temp_id;
         
-        -- Generate 0 to 4 events for this slot (occasionally empty slots)
-        -- 10% chance of empty slot
-        IF random() < 0.1 THEN
+        -- Generate events for this slot
+        -- 10% chance: 0 events (Empty)
+        -- 60% chance: 1-2 events (Sparse)
+        -- 30% chance: 3-5 events (Dense - as requested)
+        
+        v_random_val := random();
+        IF v_random_val < 0.1 THEN
             v_events_in_slot := 0;
+        ELSIF v_random_val < 0.7 THEN
+            v_events_in_slot := 1 + floor(random() * 2)::int; -- 1 to 2
         ELSE
-            v_events_in_slot := 1 + floor(random() * 4)::int;
+            v_events_in_slot := 3 + floor(random() * 3)::int; -- 3 to 5
         END IF;
         
         -- Prepare valid primary venue indices (1..5)
         v_venue_indices := ARRAY[1, 2, 3, 4, 5];
         
-        -- Shuffle valid indices
-        FOR k IN 1..5 LOOP
-            v_rand_pos := 1 + floor(random() * 5)::int;
-            v_swap_tmp := v_venue_indices[k];
-            v_venue_indices[k] := v_venue_indices[v_rand_pos];
-            v_venue_indices[v_rand_pos] := v_swap_tmp;
-        END LOOP;
+        -- Shuffle valid indices (so we distribute events to different venues if possible, or repeat same venue if dense?
+        -- User said "Same time slot, 4-5 events".
+        -- Usually in one venue? Or across venues?
+        -- "Events grouped by venue" is the view logic usually.
+        -- If I put 5 events in *one* slot (Global), they might be distributed across venues.
+        -- TimelinePreview scans a *specific* venue.
+        -- So for a *specific venue* to have 4-5 events at once, we need to assign multiple events to the *same venue* in the *same slot*.
+        -- My logic below assigns venue randomly.
+        -- To ensure density *per venue*, I should perhaps just pick venues randomly with replacement.
         
-        -- Create events
         FOR k IN 1..v_events_in_slot LOOP
             v_event_global_count := v_event_global_count + 1;
-            v_target_venue_idx := v_venue_indices[k]; -- Pick from shuffled
+            
+            -- Pick a random venue (1..5 main + 1..10 sub? Just main logic used mostly)
+            -- Let's stick to v_venue_ids logic.
+            v_target_venue_idx := 1 + floor(random() * 5)::int; -- Pick one of the primary venues randomly
             
             INSERT INTO public.events (
                 name, caption, icon, description, header_image, images, 
@@ -252,9 +265,9 @@ BEGIN
                 ' ' || arr_event_titles_3[((v_event_global_count - 1) % 6) + 1] || 
                 ' Vol.' || v_event_global_count,
                 
-                CASE WHEN (random() < 0.2) THEN NULL ELSE 'Exciting experience.' END,
+                CASE WHEN (random() < 0.2) THEN NULL ELSE 'ワクワクする体験。' END,
                 CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=ev_icon' || v_event_global_count END,
-                CASE WHEN (random() < 0.4) THEN NULL ELSE 'Cutting edge technology meets art. Don''t miss it!' END,
+                CASE WHEN (random() < 0.4) THEN NULL ELSE '最新技術とアートの融合。お見逃しなく！' END,
                 CASE WHEN (random() < 0.2) THEN NULL ELSE 'https://picsum.photos/1920/1920?random=ev_head' || v_event_global_count END,
                 
                 -- Random images array (NULL, Empty, or populated)
@@ -267,16 +280,14 @@ BEGIN
                     ]
                 END,
                 
-                -- Random Organization (sometimes NULL if allowed, though logic usually expects one. Let's make 10% NULL)
+                -- Random Organization
                 CASE WHEN (random() < 0.1) THEN NULL ELSE v_org_ids[((v_event_global_count - 1) % array_length(v_org_ids, 1)) + 1] END,
                 v_event_global_count
             ) RETURNING event_id INTO v_event_id;
 
-            -- events_venues (Primary Venue, always present for now, or maybe 5% NULL?)
-            IF random() > 0.05 THEN
-               INSERT INTO public.events_venues (event_id, venue_id, display_order)
-               VALUES (v_event_id, v_venue_ids[v_target_venue_idx], 1);
-            END IF;
+            -- events_venues (Primary Venue - always assign to ensure density)
+            INSERT INTO public.events_venues (event_id, venue_id, display_order)
+            VALUES (v_event_id, v_venue_ids[v_target_venue_idx], 1);
 
             -- events_slots (Current Slot)
             INSERT INTO public.events_slots (event_id, slot_id, display_order)
@@ -306,16 +317,15 @@ BEGIN
         END LOOP;
         
         v_slot_display_order := v_slot_display_order + 1;
-        v_curr_time := v_curr_time + interval '10 minutes';
     END LOOP;
 
     -- features (2~5 items)
     FOR i IN 1..(2 + floor(random() * 4)::int) LOOP
         INSERT INTO public.features (name, caption, note, image, display_order)
         VALUES (
-            'Feature: ' || arr_cat_names[i],
-            CASE WHEN (random() < 0.3) THEN NULL ELSE 'Must see point' END,
-            CASE WHEN (random() < 0.5) THEN NULL ELSE 'Check details.' END,
+            '特集: ' || arr_cat_names[i],
+            CASE WHEN (random() < 0.3) THEN NULL ELSE '必見ポイント' END,
+            CASE WHEN (random() < 0.5) THEN NULL ELSE '詳細をチェック。' END,
             '/features/' || i || '.jpg',
             i
         );
@@ -325,9 +335,9 @@ BEGIN
     FOR i IN 1..(5 + floor(random() * 11)::int) LOOP
         INSERT INTO public.news (name, caption, description, header_image, thumbnail, display_order)
         VALUES (
-            'News ' || i,
-            CASE WHEN (random() < 0.2) THEN NULL ELSE 'Important notice' END,
-            CASE WHEN (random() < 0.4) THEN NULL ELSE 'Details about news ' || i END,
+            'ニュース ' || i,
+            CASE WHEN (random() < 0.2) THEN NULL ELSE '重要なお知らせ' END,
+            CASE WHEN (random() < 0.4) THEN NULL ELSE 'ニュース ' || i || ' に関する詳細情報です。' END,
             CASE WHEN (random() < 0.3) THEN NULL ELSE 'https://picsum.photos/1920/1920?random=news_h' || i END,
             CASE WHEN (random() < 0.2) THEN NULL ELSE 'https://picsum.photos/512/512?random=news_t' || i END,
             i

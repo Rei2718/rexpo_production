@@ -19,7 +19,6 @@ BEGIN
                 jsonb_build_object(
                     'organization_public_id', o.organization_public_id,
                     'name',                   o.name,
-                    'caption',                o.caption,
                     'icon',                   o.icon,
                     'display_order',          vo.display_order
                 ) ORDER BY vo.display_order DESC, o.organization_id

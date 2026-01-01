@@ -44,7 +44,7 @@ Get-Content `
   supabase/sql/rpc/get-all-venues.sql, `
   supabase/sql/rpc/get-categories.sql, `
   supabase/sql/storage/create-storage.sql `
-  | Set-Content supabase/migrations/20251231042430_init_schema.sql
+  | Set-Content supabase/migrations/20260101182955_init_schema.sql
 
 ### 4. Prepare seed data
 Copy-Item supabase/seed-test.sql supabase/seed.sql
@@ -58,3 +58,16 @@ npx -y tsx supabase/sql/scripts/seed-storage.ts
 
 ### 7. Refresh Materialized Views
 SELECT refresh_all_mvs();
+
+
+
+### 8. Sync to Cloud
+npx supabase login
+npx supabase link --project-ref blmzflkpvksjqkajrzhs
+
+npx supabase db push
+
+#### 環境変数を指定して実行
+$env:SUPABASE_URL="https://blmzflkpvksjqkajrzhs.supabase.co"
+$env:SUPABASE_SERVICE_ROLE_KEY=""
+npx tsx supabase/sql/scripts/sync-to-cloud.ts
