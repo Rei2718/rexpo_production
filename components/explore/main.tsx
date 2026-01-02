@@ -25,6 +25,11 @@ export default function ExploreMain() {
             keyExtractor={(item) => item.tag_public_id}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: height }}
+
+            initialNumToRender={5}
+            windowSize={10}
+            maxToRenderPerBatch={5}
+            removeClippedSubviews={true}
         />
     );
 }
