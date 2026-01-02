@@ -1,13 +1,14 @@
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { EventOverview, Verified } from "@/supabase/api/types";
+import { memo } from "react";
 import { StyleSheet, View } from "react-native";
 import { Container } from "../ui/container";
 import { EventListItem } from "./event-list-item";
 
 
 // 参照元が複数あるため、ここは"data: {}"の形式で書く
-export function EventList(data: { events: Verified<EventOverview>[] }) {
+export const EventList = memo((data: { events: Verified<EventOverview>[] }) => {
     const color = useThemeColor();
 
     if (!data.events || data.events.length === 0) return null;
@@ -26,7 +27,7 @@ export function EventList(data: { events: Verified<EventOverview>[] }) {
             </Container>
         </Container>
     );
-}
+});
 
 const styles = StyleSheet.create({
     container: {

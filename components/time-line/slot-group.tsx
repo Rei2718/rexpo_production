@@ -1,17 +1,18 @@
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { TimelineSlot, Verified } from "@/supabase/api/types";
+import { memo } from "react";
 import { StyleSheet, View } from "react-native";
 import { EventList } from "../shared/event-list";
 import { Container, ContainerAbsolute } from "../ui/container";
 import { SlotHeader } from "./slot-header";
 
 
-export function SlotGroup(props: {
+export const SlotGroup = memo((props: {
     item: Verified<TimelineSlot>;
     isFirst?: boolean;
     isLast?: boolean;
-}) {
+}) => {
     const color = useThemeColor();
     const { item, isFirst, isLast } = props;
 
@@ -43,7 +44,7 @@ export function SlotGroup(props: {
 
         </Container>
     );
-}
+});
 
 const styles = StyleSheet.create({
     container: {
