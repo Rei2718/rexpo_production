@@ -3,8 +3,9 @@ import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Category, Verified } from "@/supabase/api/types";
 import { supabaseStorageUrl } from "@/supabase/supabase";
+import { Image } from "expo-image";
 import { Link } from "expo-router";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 

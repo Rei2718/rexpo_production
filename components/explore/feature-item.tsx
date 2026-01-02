@@ -3,8 +3,9 @@ import { useThemeColor } from "@/hooks/use-theme-color";
 import { Feature, Verified } from "@/supabase/api/types";
 import { supabaseStorageUrl } from "@/supabase/supabase";
 import { hexToRgba } from "@/utils/color";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { ImageBackground } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Container, ContainerAbsolute } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 
@@ -12,14 +13,13 @@ export function FeatureItem(data: Verified<Feature>) {
     const color = useThemeColor();
 
     return (
-        <ImageBackground
-            source={{ uri: supabaseStorageUrl + data.image }}
-            style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-            }}
-        >
+        <View style={styles.container}>
+            <Image
+                source={{ uri: supabaseStorageUrl + data.image }}
+                style={StyleSheet.absoluteFill}
+                contentFit="cover"
+            />
+
             {/* Gradient */}
             <ContainerAbsolute bottom={0} left={0} right={0} style={{ height: '50%' }}>
                 <LinearGradient
@@ -48,6 +48,14 @@ export function FeatureItem(data: Verified<Feature>) {
                     <ThemedText type="subhead" color="natural_200">{data.caption ?? NO_DATA}</ThemedText>
                 </Container>
             </ContainerAbsolute>
-        </ImageBackground>
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    }
+});

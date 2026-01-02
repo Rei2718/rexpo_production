@@ -2,8 +2,8 @@ import { ThemedView } from "@/components/ui/themed-view";
 import { FALLBACK_IMAGE_URL } from "@/constants/fallback-image";
 import { Spacing } from "@/constants/theme";
 import { EventDetails, Verified } from "@/supabase/api/types";
+import { Image } from "expo-image";
 import {
-    ImageBackground,
     StyleSheet,
     useWindowDimensions
 } from "react-native";
@@ -29,9 +29,9 @@ export function EventGallery(data: Verified<EventDetails>) {
                 style={styles.carousel}
                 renderItem={({ item }) => (
                     <ThemedView style={styles.itemContainer}>
-                        <ImageBackground
+                        <Image
                             source={item ? { uri: item } : FALLBACK_IMAGE_URL}
-                            resizeMode="cover"
+                            contentFit="cover"
                             style={styles.imageBackground}
                         />
                     </ThemedView>

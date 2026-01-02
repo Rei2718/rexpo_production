@@ -9,6 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "icon": {
+        "dark": "./assets/logo/ios-dark.png",
+        "light": "./assets/logo/ios-light.png",
+        "tinted": "./assets/logo/ios-tinted.png"
+      },
       "config": {
         "googleMapsApiKey": "AIzaSyBY4YTVW45Xyfn5E97SNEU9P74o2_E6Pu0"
       },
