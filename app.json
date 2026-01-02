@@ -8,6 +8,10 @@
     "scheme": "rexpo",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "ios": {
       "icon": {
         "dark": "./assets/logo/ios-dark.png",
