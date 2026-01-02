@@ -39,9 +39,10 @@ export default function BookmarkModal() {
             });
     }, [data]);
 
+    if (bookmarkIds.length === 0) return <StatusMessage status="empty" message="ブックマークがありません" />;
     if (isPending) return <StatusMessage status="loading" />;
     if (isError) return <StatusMessage status="error" />;
-    if (!data || data.length === 0) return <StatusMessage status="empty" />;
+    if (!data || data.length === 0) return <StatusMessage status="empty" message="ブックマークがありません" />;
 
     return (
         <FlatList

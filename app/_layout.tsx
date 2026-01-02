@@ -74,6 +74,7 @@ export default function RootLayout() {
                 name="category-modal"
                 options={{
                   presentation: "modal",
+                  headerShadowVisible: false,
                   headerTransparent: false,
                   headerTitleAlign: "center",
                   animation: "ios_from_right",
@@ -88,6 +89,7 @@ export default function RootLayout() {
                 name="tag-modal"
                 options={{
                   presentation: "modal",
+                  headerShadowVisible: false,
                   headerTransparent: false,
                   headerTitleAlign: "center",
                   animation: "ios_from_right",
@@ -102,6 +104,7 @@ export default function RootLayout() {
                 name="bookmark-modal"
                 options={{
                   presentation: "modal",
+                  headerShadowVisible: false,
                   headerTransparent: false,
                   headerTitle: "ブックマーク",
                   headerTitleAlign: "center",
@@ -117,6 +120,7 @@ export default function RootLayout() {
                 name="event-details-modal"
                 options={{
                   presentation: "modal",
+                  headerShadowVisible: false,
                   headerTitle: "",
                   headerTransparent: true,
                   animation: "ios_from_right",
