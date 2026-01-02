@@ -20,6 +20,10 @@ import 'react-native-reanimated';
 SystemUI.setBackgroundColorAsync("transparent");
 
 SplashScreen.preventAutoHideAsync();
+SplashScreen.setOptions({
+  fade: true,
+  duration: 500,
+});
 
 export const unstable_settings = {
   anchor: 'Home',

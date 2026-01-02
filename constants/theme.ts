@@ -14,12 +14,12 @@ export const Colors = {
     tint: tintColorLight,
   },
   dark: {
-    natural_100: '#FFFFFFFF', // FillesPrimary
+    natural_100: '#EEEEEEFF', // FillesPrimary
     natural_200: '#EBEBF599', // Filles Secondary
     natural_300: '#EBEBF54D', // Filles Tertiary
-    natural_400: '#2C2C2EFF', // Grouped Background Quaternary
-    natural_500: '#1C1C1EFF', // Grouped Background Secondary
-    natural_600: '#000000FF', // Grouped Background Primary
+    natural_400: '#222222FF', // Grouped Background Quaternary
+    natural_500: '#191919FF', // Grouped Background Secondary
+    natural_600: '#090909FF', // Grouped Background Primary
     tint: tintColorDark,
   },
 };
