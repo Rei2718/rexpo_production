@@ -21,6 +21,10 @@ export default function IndexScreen() {
 
         <Container gap="s24" alignItems="center">
           <ProgressItem
+            title="Githubリポジトリ - バグや修正などはこちらから"
+            description="https://github.com/Rei2718/rexpo_production/issues"
+          />
+          <ProgressItem
             title="データ"
             description="現在表示されているデータは全てダミーデータです。"
           />
