@@ -9,8 +9,8 @@ import { ThemedText } from "../ui/themed-text";
 
 export default function VenueFilter(props: {
     venues: Verified<DisplayVenue>[];
-    selectedVenueId?: string;
-    onVenueChange: (venueId: string | undefined) => void;
+    selectedVenueId: string;
+    onVenueChange: (venueId: string) => void;
 }) {
     const color = useThemeColor();
     const { venues, selectedVenueId, onVenueChange } = props;

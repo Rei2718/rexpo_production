@@ -7,22 +7,21 @@ export default function TimelineSeparator() {
     const color = useThemeColor();
     return (
         <Container style={styles.separatorRoot}>
-            <Container alignItems="center" marginLeft="s16" style={styles.separatorInner}>
-                <Container backgroundColor={color.natural_400} style={styles.separatorLine} />
-            </Container>
+            <Container backgroundColor={color.natural_400} style={styles.verticalLine} />
         </Container>
     );
 }
 
+
+// ドット(s4)とライン(1px)の中心を揃えるため、paddingLeftを s20 - (s2 + 0.5) に調整
 const styles = StyleSheet.create({
     separatorRoot: {
         height: Spacing.s32,
+        paddingLeft: Spacing.s20 - (Spacing.s2 + 0.5),
     },
-    separatorInner: {
-        width: Spacing.s8,
-    },
-    separatorLine: {
+    verticalLine: {
         width: 1,
-        height: '100%',
-    }
+        flex: 1,
+        marginBottom: -(Spacing.s8 + Spacing.s20),
+    },
 });

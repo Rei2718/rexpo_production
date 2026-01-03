@@ -42,12 +42,7 @@ export function PreviewSlotGroup({
 
                     {/* Line fills the remaining space (Content + Spacing) */}
                     {!isLast && (
-                        <View
-                            style={[
-                                styles.verticalLine,
-                                { backgroundColor: color.natural_400 }
-                            ]}
-                        />
+                        <Container backgroundColor={color.natural_400} style={styles.verticalLine} />
                     )}
                 </Container>
             )}

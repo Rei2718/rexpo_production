@@ -49,7 +49,6 @@ export default function TimelineMain() {
             renderItem={({ item, index }) => (
                 <SlotGroup
                     item={item}
-                    isFirst={index === 0}
                     isLast={index === (events?.length ?? 0) - 1}
                 />
             )}
