@@ -1,4 +1,5 @@
 import { Spacing } from "@/constants/theme";
+import { ALL_VENUE_ID } from "@/constants/venue-constants";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { DisplayVenue, Verified } from "@/supabase/api/types";
 import { ScrollView, TouchableOpacity } from "react-native";
@@ -13,6 +14,7 @@ export default function VenueFilter(props: {
 }) {
     const color = useThemeColor();
     const { venues, selectedVenueId, onVenueChange } = props;
+    const isAllSelected = selectedVenueId === ALL_VENUE_ID;
 
     const handlePress = (venueId: string) => {
         if (selectedVenueId !== venueId) {
@@ -29,8 +31,34 @@ export default function VenueFilter(props: {
                 gap: Spacing.s8,
             }}
         >
+            <TouchableOpacity
+                key={ALL_VENUE_ID}
+                onPress={() => handlePress(ALL_VENUE_ID)}
+            >
+                <Container
+                    paddingHorizontal="s24"
+                    paddingVertical="s12"
+                    gap="s12"
+                    backgroundColor={isAllSelected ? color.natural_100 : color.natural_500}
+                    style={{
+                        borderRadius: Spacing.pill,
+                        flexDirection: "row",
+                        alignItems: "center",
+                    }}
+                >
+                    <ThemedText
+                        type="caption1"
+                        color={isAllSelected ? "natural_600" : "natural_100"}
+                        numberOfLines={1}
+                    >
+                        すべて
+                    </ThemedText>
+                </Container>
+            </TouchableOpacity>
+
             {venues.map((venue) => {
                 const isSelected = selectedVenueId === venue.venue_public_id;
+
                 return (
                     <TouchableOpacity
                         key={venue.venue_public_id}

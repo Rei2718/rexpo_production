@@ -14,3 +14,5 @@ export const VENUE_STATUS_COLORS = {
         default: '#8E8E93', // Gray
     }
 } as const;
+
+export const ALL_VENUE_ID = "all";

@@ -30,6 +30,7 @@ Get-Content `
   supabase/sql/mv/mv-category-tree.sql, `
   supabase/sql/mv/mv-event-details.sql, `
   supabase/sql/mv/mv-venue-timeline.sql, `
+  supabase/sql/mv/mv-primary-timeline.sql, `
   supabase/sql/function/refresh-all-mvs.sql, `
   supabase/sql/rpc/get-banners.sql, `
   supabase/sql/rpc/get-display-venue.sql, `
@@ -44,6 +45,7 @@ Get-Content `
   supabase/sql/rpc/get-all-venues.sql, `
   supabase/sql/rpc/get-categories.sql, `
   supabase/sql/rpc/get-events-by-ids.sql, `
+  supabase/sql/rpc/get_primary_timeline.sql, `
   supabase/sql/storage/create-storage.sql `
   | Set-Content supabase/migrations/20260101182955_init_schema.sql
 
