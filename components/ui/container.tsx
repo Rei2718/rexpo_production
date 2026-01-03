@@ -24,6 +24,9 @@ interface ContainerProps extends ViewProps {
     alignItems?: ViewStyle['alignItems'];
     backgroundColor?: string;
     flexDirection?: ViewStyle['flexDirection'];
+    flexWrap?: ViewStyle['flexWrap'];
+    borderRadius?: SpacingKey;
+    alignSelf?: ViewStyle['alignSelf'];
 }
 
 function getSpacing(key?: SpacingKey) {
@@ -52,6 +55,8 @@ export function Container({
     alignItems,
     backgroundColor,
     flexDirection = 'column',
+    borderRadius,
+    alignSelf,
     ...props
 }: ContainerProps) {
     return (
@@ -59,6 +64,7 @@ export function Container({
             style={[
                 {
                     flexDirection,
+                    flexWrap: props.flexWrap,
                     gap: getSpacing(gap),
                     padding: getSpacing(padding),
                     paddingHorizontal: getSpacing(paddingHorizontal),
@@ -78,6 +84,8 @@ export function Container({
                     justifyContent,
                     alignItems,
                     backgroundColor,
+                    borderRadius: getSpacing(borderRadius),
+                    alignSelf,
                 },
                 style,
             ]}

@@ -46,6 +46,7 @@ Get-Content `
   supabase/sql/rpc/get-categories.sql, `
   supabase/sql/rpc/get-events-by-ids.sql, `
   supabase/sql/rpc/get_primary_timeline.sql, `
+  supabase/sql/rpc/get-organization-details.sql, `
   supabase/sql/storage/create-storage.sql `
   | Set-Content supabase/migrations/20260101182955_init_schema.sql
 

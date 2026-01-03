@@ -175,3 +175,20 @@ export type Category = Nullable<{
     icon: string;
     display_order: number;
 }>;
+
+export type OrganizationDetails = Nullable<{
+    organization_public_id: string;
+    display_order: number;
+    name: string;
+    caption: string;
+    header_image: string;
+    icon: string;
+    sponsor: string;
+    description: string;
+    images: string[];
+    website: string;
+    instagram: string;
+    linkedin: string;
+    twitter: string;
+    youtube: string;
+}>;

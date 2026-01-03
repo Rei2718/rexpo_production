@@ -8,11 +8,12 @@ import {
     EventOverview,
     Feature,
     News,
+    OrganizationDetails,
     TagEvents,
     TimelineEvent,
     TimelineSlot,
     VenueDetails,
-    Verified,
+    Verified
 } from "./types";
 
 
@@ -109,4 +110,12 @@ export async function get_events_by_ids(event_public_ids: string[]) {
     });
     if (error) throw error;
     return data as unknown as Verified<TimelineEvent>[];
+}
+
+export async function get_organization_details(organization_public_id: string) {
+    const { data, error } = await supabase.rpc("get_organization_details", {
+        organization_public_id,
+    });
+    if (error) throw error;
+    return data as unknown as Verified<OrganizationDetails>;
 }

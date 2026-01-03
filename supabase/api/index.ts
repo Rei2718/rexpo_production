@@ -11,6 +11,7 @@ import {
     get_events_by_venue,
     get_features,
     get_news,
+    get_organization_details,
     get_several_events_by_tag,
     get_tag_and_events_by_category,
     get_venue_details
@@ -135,6 +136,16 @@ export function useEventsByIds(event_public_ids: string[]) {
         queryKey: keys.get_events_by_ids(event_public_ids),
         queryFn: () => get_events_by_ids(event_public_ids),
         enabled: event_public_ids.length > 0,
+    });
+    useRefetchOnFocus(refetch);
+    return { data, isPending, isError };
+}
+
+export function useOrganizationDetails(organization_public_id: string) {
+    const { data, isPending, isError, refetch } = useQuery({
+        queryKey: keys.get_organization_details(organization_public_id),
+        queryFn: () => get_organization_details(organization_public_id),
+        enabled: !!organization_public_id,
     });
     useRefetchOnFocus(refetch);
     return { data, isPending, isError };

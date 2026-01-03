@@ -20,6 +20,11 @@ export const icons = {
     humanFill: require('./humanFill.svg'),
     FloorFill: require('./FloorFill.svg'),
     clockFill: require('./clockFill.svg'),
+    link: require('./link.svg'),
+    twitter: require('./twitter.svg'),
+    instagram: require('./instagram.svg'),
+    youtube: require('./youtube.svg'),
+    linkedin: require('./linkedin.svg'),
 };
 
 export type IconName = keyof typeof icons;

@@ -50,7 +50,6 @@ export default function BookmarkModal() {
             renderItem={({ item, index }) => (
                 <SlotGroup
                     item={item}
-                    isFirst={index === 0}
                     isLast={index === slots.length - 1}
                 />
             )}

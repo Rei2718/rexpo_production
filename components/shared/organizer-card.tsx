@@ -1,32 +1,48 @@
 import { FALLBACK_IMAGE_URL } from "@/constants/fallback-image";
 import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
-import { EventOrganization, Verified } from "@/supabase/api/types";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { EventOrganization, VenueOrganization, Verified } from "@/supabase/api/types";
 import { Image } from "expo-image";
+import { Link } from "expo-router";
 import { memo } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { Column, Row } from "../ui/flex";
+import { Icon } from "../ui/icon";
 import { ThemedText } from "../ui/themed-text";
 import { ThemedView } from "../ui/themed-view";
 
-export const OrganizerCard = memo((data: Verified<EventOrganization>) => {
+export const OrganizerCard = memo((data: Verified<EventOrganization | VenueOrganization>) => {
+    const color = useThemeColor();
+
     return (
-        <ThemedView color="natural_500" style={styles.container}>
-            <Row alignItems="center" gap="s16" padding="s4">
-                <Image
-                    source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}
-                    style={styles.image}
-                />
-                <Column flex={1} gap="s2">
-                    <ThemedText type="footnote" numberOfLines={1}>
-                        {data.name ?? NO_DATA}
-                    </ThemedText>
-                    <ThemedText type="caption2" color="natural_200" numberOfLines={1}>
-                        {data.caption ?? NO_DATA}
-                    </ThemedText>
-                </Column>
-            </Row>
-        </ThemedView>
+        <Link
+            href={{
+                pathname: "/organization-details-modal",
+                params: { organization_public_id: data.organization_public_id },
+            }}
+            asChild
+        >
+            <TouchableOpacity>
+                <ThemedView color="natural_500" style={styles.container}>
+                    <Row alignItems="center" gap="s16" padding="s4">
+                        <Image
+                            source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}
+                            style={styles.image}
+                        />
+                        <Column flex={1} gap="s2">
+                            <ThemedText type="footnote" numberOfLines={1}>
+                                {data.name ?? NO_DATA}
+                            </ThemedText>
+                            <ThemedText type="caption2" color="natural_200" numberOfLines={1}>
+                                {data.caption ?? NO_DATA}
+                            </ThemedText>
+                        </Column>
+                        <Icon icon="right" color={color.natural_300} />
+                    </Row>
+                </ThemedView>
+            </TouchableOpacity>
+        </Link>
     );
 });
 

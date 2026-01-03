@@ -135,6 +135,21 @@ export default function RootLayout() {
                   ) : undefined,
                 }}
               />
+              <Stack.Screen
+                name="organization-details-modal"
+                options={{
+                  presentation: "modal",
+                  headerShadowVisible: false,
+                  headerTitle: "",
+                  headerTransparent: true,
+                  animation: "ios_from_right",
+                  headerLeft: Platform.OS === 'ios' ? () => (
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                    </TouchableOpacity>
+                  ) : undefined,
+                }}
+              />
             </Stack>
             <StatusBar style="auto" />
           </BottomSheetModalProvider>
