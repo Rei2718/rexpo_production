@@ -24,34 +24,27 @@ export const TimelineEventListItem = memo((data: Verified<TimelineEvent>) => {
             asChild
         >
             <TouchableOpacity>
-                <Container paddingBottom="s8">
-                    {data.venue_name && (
-                        <Container
-                            backgroundColor={color.natural_400}
-                            paddingHorizontal="s8"
-                            paddingVertical="s4"
-                            alignItems="center"
-                            style={{ borderRadius: Spacing.pill }}
-                        >
-                            <ThemedText type="caption2" color="natural_200" numberOfLines={1}>
-                                {data.venue_name}
-                            </ThemedText>
-                        </Container>
-                    )}
-                </Container>
+
                 <Container flexDirection="row" alignItems="center" style={styles.container}>
                     <Image
                         source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}
                         style={styles.image}
                     />
 
-                    <Container flexDirection="column" flex={1} style={styles.textContainer}>
+                    <Container flexDirection="column" flex={1} gap="s4">
+                        {data.venue_name && (
+                            <ThemedText type="caption2" color="tint" numberOfLines={1}>
+                                {data.venue_name}
+                            </ThemedText>
+                        )}
                         <ThemedText type="footnote" numberOfLines={1}>
                             {data.name ?? NO_DATA}
                         </ThemedText>
-                        <ThemedText type="caption2" color="natural_200" numberOfLines={1}>
-                            {data.caption ?? NO_DATA}
-                        </ThemedText>
+                        {!data.venue_name && (
+                            <ThemedText type="caption2" color="natural_200" numberOfLines={1}>
+                                {data.caption ?? NO_DATA}
+                            </ThemedText>
+                        )}
                     </Container>
                     <Icon icon="right" color={color.natural_300} />
                 </Container>
@@ -68,8 +61,5 @@ const styles = StyleSheet.create({
         width: Spacing.s56,
         height: Spacing.s56,
         borderRadius: Spacing.s12,
-    },
-    textContainer: {
-        gap: Spacing.s4,
     },
 });
