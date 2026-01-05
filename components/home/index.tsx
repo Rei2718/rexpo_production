@@ -1,9 +1,11 @@
 import { Container } from "@/components/ui/container";
 import { ThemedText } from "@/components/ui/themed-text";
 import { Spacing } from "@/constants/theme";
+import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { ScrollView } from 'react-native';
 
 export default function HomeScreen() {
+    const { tab } = useBottomPadding();
     return (
         <Container flex={1}>
             <ScrollView
@@ -12,7 +14,7 @@ export default function HomeScreen() {
                     justifyContent: 'center',
                     alignItems: 'center',
                     padding: Spacing.s20,
-                    paddingBottom: Spacing.s80
+                    paddingBottom: tab
                 }}
                 contentInsetAdjustmentBehavior="automatic"
             >

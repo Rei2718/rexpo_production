@@ -3,6 +3,7 @@ import { StatusMessage } from "@/components/ui/status-message";
 import { ThemedText } from "@/components/ui/themed-text";
 import { ThemedView } from "@/components/ui/themed-view";
 import { Spacing } from "@/constants/theme";
+import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useEventsByTag } from "@/supabase/api";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StyleSheet } from "react-native";
@@ -12,6 +13,7 @@ import { FlatList } from "react-native-gesture-handler";
 export default function TagScreen() {
     const { tag_public_id, name } = useLocalSearchParams<{ tag_public_id: string; name: string }>();
     const { data, isPending, isError } = useEventsByTag(tag_public_id);
+    const { modal } = useBottomPadding();
 
     if (isPending) return <StatusMessage status="loading" />;
     if (isError) return <StatusMessage status="error" />;
@@ -32,7 +34,9 @@ export default function TagScreen() {
                     <ThemedView color="natural_500" style={styles.separator} />
                 )}
                 contentContainerStyle={{
-                    padding: Spacing.s20,
+                    paddingHorizontal: Spacing.s20,
+                    paddingTop: Spacing.s20,
+                    paddingBottom: modal,
                 }}
                 contentInsetAdjustmentBehavior="automatic"
             />

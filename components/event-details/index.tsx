@@ -8,6 +8,7 @@ import { EventTags } from "@/components/event-details/tags";
 import BookmarkButton from "@/components/ui/bookmark-button";
 import { Column } from "@/components/ui/flex";
 import { StatusMessage } from "@/components/ui/status-message";
+import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useEventDetails } from "@/supabase/api";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView, View } from "react-native";
@@ -15,6 +16,7 @@ import { ScrollView, View } from "react-native";
 export default function EventDetailsScreen() {
     const { event_public_id } = useLocalSearchParams<{ event_public_id: string }>();
     const { data, isPending, isError } = useEventDetails(event_public_id);
+    const { modal } = useBottomPadding();
 
     if (isPending) return <StatusMessage status="loading" />;
     if (isError) return <StatusMessage status="error" />;
@@ -35,6 +37,7 @@ export default function EventDetailsScreen() {
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentInsetAdjustmentBehavior="automatic"
+                contentContainerStyle={{ paddingBottom: modal }}
             >
                 <Column gap="s32">
 

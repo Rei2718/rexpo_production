@@ -3,6 +3,7 @@ import TimelineSeparator from "@/components/time-line/timeline-separator";
 import { StatusMessage } from "@/components/ui/status-message";
 import { Spacing } from "@/constants/theme";
 import { useBookmarkStore } from "@/hooks/use-bookmark-store";
+import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useEventsByIds } from "@/supabase/api";
 import { TimelineEvent, TimelineSlot, Verified } from "@/supabase/api/types";
 import { useMemo } from "react";
@@ -14,6 +15,7 @@ export default function BookmarkScreen() {
     const { bookmarks } = useBookmarkStore();
     const bookmarkIds = Object.keys(bookmarks);
     const { data, isPending, isError } = useEventsByIds(bookmarkIds);
+    const { modal } = useBottomPadding();
 
     const slots = useMemo(() => {
         if (!data) return [];
@@ -58,7 +60,8 @@ export default function BookmarkScreen() {
                 )}
                 keyExtractor={(item, index) => item.starts ?? `slot-${index}`}
                 contentContainerStyle={{
-                    paddingVertical: Spacing.s20,
+                    paddingTop: Spacing.s20,
+                    paddingBottom: modal,
                 }}
                 ItemSeparatorComponent={TimelineSeparator}
                 contentInsetAdjustmentBehavior="automatic"

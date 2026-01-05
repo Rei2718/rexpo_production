@@ -1,5 +1,5 @@
 import { Spacing } from "@/constants/theme";
-import { useBottomTabPadding } from "@/hooks/use-bottom-tab-padding";
+import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useSeveralEventsByTag } from "@/supabase/api";
 import { FlatList } from "react-native";
 import { Container } from "../ui/container";
@@ -9,7 +9,7 @@ import { TagGroup } from "./tag-group";
 
 
 export default function ExploreMain() {
-    const height = useBottomTabPadding();
+    const { tab } = useBottomPadding();
     const { data, isPending, isError } = useSeveralEventsByTag();
 
     if (isPending) return <StatusMessage status="loading" />;
@@ -24,7 +24,7 @@ export default function ExploreMain() {
             ItemSeparatorComponent={() => <Container style={{ height: Spacing.s32 }} />}
             keyExtractor={(item) => item.tag_public_id}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: height }}
+            contentContainerStyle={{ paddingBottom: tab }}
 
             initialNumToRender={5}
             windowSize={10}

@@ -1,4 +1,4 @@
-import { useBottomTabPadding } from "@/hooks/use-bottom-tab-padding";
+import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useTimeline } from "@/hooks/use-timeline";
 import { FlatList } from "react-native";
 import { Container } from "../ui/container";
@@ -9,7 +9,7 @@ import TitleBar from "./title-bar";
 import VenueFilter from "./venue-filter";
 
 export default function TimelineMain() {
-    const height = useBottomTabPadding();
+    const { tab } = useBottomPadding();
     const {
         venues,
         selectedVenueId,
@@ -55,7 +55,7 @@ export default function TimelineMain() {
             ItemSeparatorComponent={TimelineSeparator}
             keyExtractor={(item, index) => item.starts ?? `slot-${index}`}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: height }}
+            contentContainerStyle={{ paddingBottom: tab }}
         />
     );
 }

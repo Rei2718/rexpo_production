@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/container";
 import { StatusMessage } from "@/components/ui/status-message";
 import { ThemedText } from "@/components/ui/themed-text";
 import { Spacing } from "@/constants/theme";
+import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useTagAndEventsByCategory } from "@/supabase/api";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { FlatList } from "react-native-gesture-handler";
@@ -10,6 +11,7 @@ import { FlatList } from "react-native-gesture-handler";
 export default function CategoryScreen() {
     const { category_public_id, name } = useLocalSearchParams<{ category_public_id: string; name: string }>();
     const { data, isPending, isError } = useTagAndEventsByCategory(category_public_id);
+    const { modal } = useBottomPadding();
 
     if (isPending) return <StatusMessage status="loading" />
     if (isError) return <StatusMessage status="error" />
@@ -28,7 +30,8 @@ export default function CategoryScreen() {
                 keyExtractor={(item) => item.tag_public_id}
                 ItemSeparatorComponent={() => <Container style={{ height: Spacing.s32 }} />}
                 contentContainerStyle={{
-                    paddingVertical: Spacing.s20,
+                    paddingTop: Spacing.s20,
+                    paddingBottom: modal,
                 }}
                 contentInsetAdjustmentBehavior="automatic"
             />
