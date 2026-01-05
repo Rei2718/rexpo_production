@@ -58,9 +58,10 @@ export default function BookmarkScreen() {
                 )}
                 keyExtractor={(item, index) => item.starts ?? `slot-${index}`}
                 contentContainerStyle={{
-                    paddingTop: Spacing.s20,
+                    paddingVertical: Spacing.s20,
                 }}
                 ItemSeparatorComponent={TimelineSeparator}
+                contentInsetAdjustmentBehavior="automatic"
             />
         </>
     );

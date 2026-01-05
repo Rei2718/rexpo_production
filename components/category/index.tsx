@@ -28,8 +28,9 @@ export default function CategoryScreen() {
                 keyExtractor={(item) => item.tag_public_id}
                 ItemSeparatorComponent={() => <Container style={{ height: Spacing.s32 }} />}
                 contentContainerStyle={{
-                    paddingBottom: Spacing.s20,
+                    paddingVertical: Spacing.s20,
                 }}
+                contentInsetAdjustmentBehavior="automatic"
             />
         </>
     );

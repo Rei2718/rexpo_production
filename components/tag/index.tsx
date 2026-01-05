@@ -34,6 +34,7 @@ export default function TagScreen() {
                 contentContainerStyle={{
                     padding: Spacing.s20,
                 }}
+                contentInsetAdjustmentBehavior="automatic"
             />
         </>
     );
