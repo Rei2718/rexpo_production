@@ -1,10 +1,3 @@
-import ExploreMain from "@/components/explore/main";
-import { ThemedView } from "@/components/ui/themed-view";
+import ExploreScreen from "@/components/explore";
 
-export default function Explore() {
-    return (
-        <ThemedView style={{ flex: 1 }}>
-            <ExploreMain />
-        </ThemedView>
-    );
-}
+export default ExploreScreen;

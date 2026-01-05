@@ -3,8 +3,9 @@ import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useFeatures } from "@/supabase/api";
 import { router } from "expo-router";
+import { PressableScale } from "pressto";
 import { useRef } from "react";
-import { TouchableOpacity, useWindowDimensions, View } from "react-native";
+import { useWindowDimensions, View } from "react-native";
 import { Extrapolation, interpolate, useSharedValue } from "react-native-reanimated";
 import Carousel, { ICarouselInstance, Pagination } from "react-native-reanimated-carousel";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -101,9 +102,9 @@ export default function FeatureCarousel() {
                 <SafeAreaView edges={['top']}>
                     <Container flexDirection="row" justifyContent="space-between" alignItems="center">
                         <ThemedText type="largeTitle">探索</ThemedText>
-                        <TouchableOpacity onPress={() => router.push('/bookmark-modal')}>
+                        <PressableScale onPress={() => router.push('/bookmark')}>
                             <Icon size={Spacing.icon} icon="bookmark" color={color.natural_100} />
-                        </TouchableOpacity>
+                        </PressableScale>
                     </Container>
                 </SafeAreaView>
             </ContainerAbsolute>

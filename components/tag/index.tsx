@@ -9,7 +9,7 @@ import { StyleSheet } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
 
-export default function TagModal() {
+export default function TagScreen() {
     const { tag_public_id, name } = useLocalSearchParams<{ tag_public_id: string; name: string }>();
     const { data, isPending, isError } = useEventsByTag(tag_public_id);
 

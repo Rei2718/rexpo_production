@@ -5,7 +5,8 @@ import { Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { EventDetails, Verified } from '@/supabase/api/types';
 import { Link } from 'expo-router';
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { PressableScale } from 'pressto';
+import { ScrollView, StyleSheet } from 'react-native';
 
 export function EventTags(data: Verified<EventDetails>) {
     const color = useThemeColor();
@@ -17,12 +18,13 @@ export function EventTags(data: Verified<EventDetails>) {
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.scrollContainer}
+            contentInsetAdjustmentBehavior="automatic"
         >
             {data.tags.map((tag) => (
                 <Link
                     key={tag.tag_public_id}
                     href={{
-                        pathname: "/tag-modal",
+                        pathname: "/tag",
                         params: {
                             tag_public_id: tag.tag_public_id,
                             name: tag.name,
@@ -30,7 +32,7 @@ export function EventTags(data: Verified<EventDetails>) {
                     }}
                     asChild
                 >
-                    <TouchableOpacity>
+                    <PressableScale>
                         <Row
                             alignItems="center"
                             gap="s12"
@@ -49,7 +51,7 @@ export function EventTags(data: Verified<EventDetails>) {
                                 {tag.name ?? NO_DATA}
                             </ThemedText>
                         </Row>
-                    </TouchableOpacity>
+                    </PressableScale>
                 </Link>
             ))}
         </ScrollView>

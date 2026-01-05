@@ -8,9 +8,9 @@ import { Spacing } from "@/constants/theme";
 import { useOrganizationDetails } from "@/supabase/api";
 import { useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function OrganizationDetails() {
+
+export default function OrganizationDetailsScreen() {
     const { organization_public_id } = useLocalSearchParams<{ organization_public_id: string }>();
     const { data, isPending, isError } = useOrganizationDetails(organization_public_id);
 
@@ -20,26 +20,28 @@ export default function OrganizationDetails() {
 
     return (
         <>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <SafeAreaView edges={["bottom"]} style={styles.container}>
-                    <Column gap="s32">
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentInsetAdjustmentBehavior="automatic"
+                contentContainerStyle={styles.container}
+            >
+                <Column gap="s32">
 
-                        {/* Header */}
-                        <OrganizationHeader {...data} />
+                    {/* Header */}
+                    <OrganizationHeader {...data} />
 
-                        {/* Info */}
-                        <OrganizationSns {...data} />
+                    {/* Info */}
+                    <OrganizationSns {...data} />
 
-                        {/* Gallery */}
-                        <OrganizationGallery {...data} />
+                    {/* Gallery */}
+                    <OrganizationGallery {...data} />
 
-                        {/* Overview */}
-                        <Column paddingHorizontal="s20">
-                            <OrganizationDescription {...data} />
-                        </Column>
+                    {/* Overview */}
+                    <Column paddingHorizontal="s20">
+                        <OrganizationDescription {...data} />
+                    </Column>
 
-                    </Column >
-                </SafeAreaView >
+                </Column >
             </ScrollView >
         </>
     );

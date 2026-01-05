@@ -8,13 +8,11 @@ import { EventTags } from "@/components/event-details/tags";
 import BookmarkButton from "@/components/ui/bookmark-button";
 import { Column } from "@/components/ui/flex";
 import { StatusMessage } from "@/components/ui/status-message";
-import { Spacing } from "@/constants/theme";
 import { useEventDetails } from "@/supabase/api";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, View } from "react-native";
 
-export default function EventDetails() {
+export default function EventDetailsScreen() {
     const { event_public_id } = useLocalSearchParams<{ event_public_id: string }>();
     const { data, isPending, isError } = useEventDetails(event_public_id);
 
@@ -34,52 +32,47 @@ export default function EventDetails() {
                     ),
                 }}
             />
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <SafeAreaView edges={["bottom"]} style={styles.container}>
-                    <Column gap="s32">
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentInsetAdjustmentBehavior="automatic"
+            >
+                <Column gap="s32">
 
-                        {/* Header */}
-                        <EventHeader {...data} />
+                    {/* Header */}
+                    <EventHeader {...data} />
 
-                        {/* Info */}
+                    {/* Info */}
+                    <Column paddingHorizontal="s20">
+                        <EventInfoCard {...data} />
+                    </Column>
+
+                    {/* Overview */}
+                    <Column paddingHorizontal="s20">
+                        <EventDescription {...data} />
+                    </Column>
+
+                    {/* Tags and Gallery */}
+                    <Column gap="s12">
+                        <EventTags {...data} />
+                        <EventGallery {...data} />
+                    </Column>
+
+                    {/* Organization */}
+                    {data.organization && (
                         <Column paddingHorizontal="s20">
-                            <EventInfoCard {...data} />
+                            <EventOrganization {...data} />
                         </Column>
+                    )}
 
-                        {/* Overview */}
+                    {/* Performers */}
+                    {data.performers && (
                         <Column paddingHorizontal="s20">
-                            <EventDescription {...data} />
+                            <EventPerformers {...data} />
                         </Column>
+                    )}
 
-                        {/* Tags and Gallery */}
-                        <Column gap="s12">
-                            <EventTags {...data} />
-                            <EventGallery {...data} />
-                        </Column>
-
-                        {/* Organization */}
-                        {data.organization && (
-                            <Column paddingHorizontal="s20">
-                                <EventOrganization {...data} />
-                            </Column>
-                        )}
-
-                        {/* Performers */}
-                        {data.performers && (
-                            <Column paddingHorizontal="s20">
-                                <EventPerformers {...data} />
-                            </Column>
-                        )}
-
-                    </Column >
-                </SafeAreaView >
+                </Column >
             </ScrollView >
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        paddingBottom: Spacing.s20,
-    },
-});

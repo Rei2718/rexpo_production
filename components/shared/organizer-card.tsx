@@ -5,8 +5,9 @@ import { useThemeColor } from "@/hooks/use-theme-color";
 import { EventOrganization, VenueOrganization, Verified } from "@/supabase/api/types";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
+import { PressableScale } from "pressto";
 import { memo } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import { Column, Row } from "../ui/flex";
 import { Icon } from "../ui/icon";
 import { ThemedText } from "../ui/themed-text";
@@ -18,12 +19,12 @@ export const OrganizerCard = memo((data: Verified<EventOrganization | VenueOrgan
     return (
         <Link
             href={{
-                pathname: "/organization-details-modal",
+                pathname: "/organization-details",
                 params: { organization_public_id: data.organization_public_id },
             }}
             asChild
         >
-            <TouchableOpacity>
+            <PressableScale>
                 <ThemedView color="natural_500" style={styles.container}>
                     <Row alignItems="center" gap="s16" padding="s4">
                         <Image
@@ -41,7 +42,7 @@ export const OrganizerCard = memo((data: Verified<EventOrganization | VenueOrgan
                         <Icon icon="right" color={color.natural_300} />
                     </Row>
                 </ThemedView>
-            </TouchableOpacity>
+            </PressableScale>
         </Link>
     );
 });

@@ -6,8 +6,9 @@ import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { OrganizationDetails, Verified } from "@/supabase/api/types";
+import { PressableScale } from "pressto";
 import { useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export function OrganizationDescription(data: Verified<OrganizationDetails>) {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -38,7 +39,7 @@ export function OrganizationDescription(data: Verified<OrganizationDetails>) {
 
             {/* Toggle button */}
             {isTruncated && (
-                <TouchableOpacity
+                <PressableScale
                     onPress={() => setIsExpanded(!isExpanded)}
                 >
                     <Row alignItems="center" gap="s4">
@@ -53,7 +54,7 @@ export function OrganizationDescription(data: Verified<OrganizationDetails>) {
                             {isExpanded ? "閉じる" : "もっと見る"}
                         </ThemedText>
                     </Row>
-                </TouchableOpacity>
+                </PressableScale>
             )}
         </Section>
     );

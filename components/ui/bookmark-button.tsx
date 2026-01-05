@@ -4,7 +4,8 @@ import { Spacing } from '@/constants/theme';
 import { useBookmarkStore } from '@/hooks/use-bookmark-store';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { EventOverview, Verified } from '@/supabase/api/types';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { PressableScale } from 'pressto';
+import { StyleSheet } from 'react-native';
 
 
 export default function BookmarkButton(data: Verified<EventOverview>) {
@@ -21,8 +22,8 @@ export default function BookmarkButton(data: Verified<EventOverview>) {
 
     return (
         <Haptic type="Heavy">
-            <TouchableOpacity
-                onPressIn={handlePress}
+            <PressableScale
+                onPress={handlePress}
                 style={styles.button}
             >
                 <Icon
@@ -30,7 +31,7 @@ export default function BookmarkButton(data: Verified<EventOverview>) {
                     size={Spacing.icon}
                     color={color.natural_100}
                 />
-            </TouchableOpacity>
+            </PressableScale>
         </Haptic>
     );
 }

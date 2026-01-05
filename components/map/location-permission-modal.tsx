@@ -2,7 +2,8 @@ import { Container } from '@/components/ui/container';
 import { ThemedText } from '@/components/ui/themed-text';
 import { ThemedView } from '@/components/ui/themed-view';
 import { Spacing } from '@/constants/theme';
-import { Linking, Modal, StyleSheet, TouchableOpacity } from 'react-native';
+import { PressableScale } from 'pressto';
+import { Linking, Modal, StyleSheet } from 'react-native';
 
 interface LocationPermissionModalProps {
     visible: boolean;
@@ -56,7 +57,7 @@ export function LocationPermissionModal({ visible, onClose }: LocationPermission
                     </Container>
 
                     <Container flexDirection="row" gap="s16">
-                        <TouchableOpacity
+                        <PressableScale
                             onPress={onClose}
                             style={{ flex: 1 }}
                         >
@@ -70,9 +71,9 @@ export function LocationPermissionModal({ visible, onClose }: LocationPermission
                             >
                                 <ThemedText type="subhead">キャンセル</ThemedText>
                             </Container>
-                        </TouchableOpacity>
+                        </PressableScale>
 
-                        <TouchableOpacity
+                        <PressableScale
                             onPress={onOpenSettings}
                             style={{ flex: 1 }}
                         >
@@ -87,7 +88,7 @@ export function LocationPermissionModal({ visible, onClose }: LocationPermission
                             >
                                 <ThemedText type="subhead" color="tint">設定を開く</ThemedText>
                             </ThemedView>
-                        </TouchableOpacity>
+                        </PressableScale>
                     </Container>
                 </ThemedView>
             </Container>

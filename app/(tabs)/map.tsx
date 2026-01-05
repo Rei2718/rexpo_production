@@ -1,10 +1,3 @@
-import MapMain from '@/components/map/main';
-import { ThemedView } from '@/components/ui/themed-view';
+import MapScreen from "@/components/map";
 
-export default function MapScreen() {
-    return (
-        <ThemedView style={{ flex: 1 }}>
-            <MapMain />
-        </ThemedView>
-    );
-}
+export default MapScreen;

@@ -7,7 +7,7 @@ import { useTagAndEventsByCategory } from "@/supabase/api";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { FlatList } from "react-native-gesture-handler";
 
-export default function CategoryModal() {
+export default function CategoryScreen() {
     const { category_public_id, name } = useLocalSearchParams<{ category_public_id: string; name: string }>();
     const { data, isPending, isError } = useTagAndEventsByCategory(category_public_id);
 

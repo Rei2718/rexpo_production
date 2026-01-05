@@ -8,7 +8,9 @@ import { TimelineEvent, TimelineSlot, Verified } from "@/supabase/api/types";
 import { useMemo } from "react";
 import { FlatList } from "react-native";
 
-export default function BookmarkModal() {
+
+export default function BookmarkScreen() {
+
     const { bookmarks } = useBookmarkStore();
     const bookmarkIds = Object.keys(bookmarks);
     const { data, isPending, isError } = useEventsByIds(bookmarkIds);
@@ -45,19 +47,21 @@ export default function BookmarkModal() {
     if (!data || data.length === 0) return <StatusMessage status="empty" message="ブックマークがありません" />;
 
     return (
-        <FlatList
-            data={slots}
-            renderItem={({ item, index }) => (
-                <SlotGroup
-                    item={item}
-                    isLast={index === slots.length - 1}
-                />
-            )}
-            keyExtractor={(item, index) => item.starts ?? `slot-${index}`}
-            contentContainerStyle={{
-                paddingTop: Spacing.s20,
-            }}
-            ItemSeparatorComponent={TimelineSeparator}
-        />
+        <>
+            <FlatList
+                data={slots}
+                renderItem={({ item, index }) => (
+                    <SlotGroup
+                        item={item}
+                        isLast={index === slots.length - 1}
+                    />
+                )}
+                keyExtractor={(item, index) => item.starts ?? `slot-${index}`}
+                contentContainerStyle={{
+                    paddingTop: Spacing.s20,
+                }}
+                ItemSeparatorComponent={TimelineSeparator}
+            />
+        </>
     );
 }

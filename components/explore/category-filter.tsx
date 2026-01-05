@@ -22,6 +22,7 @@ export default function CategoryFilter() {
                     paddingHorizontal: Spacing.s20,
                     gap: Spacing.s8,
                 }}
+                contentInsetAdjustmentBehavior="automatic"
             >
                 {data.map((item) => (
                     <CategoryCard

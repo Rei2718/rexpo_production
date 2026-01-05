@@ -5,8 +5,9 @@ import { useThemeColor } from "@/hooks/use-theme-color";
 import { TimelineEvent, Verified } from "@/supabase/api/types";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
+import { PressableScale } from "pressto";
 import { memo } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import { Container } from "../ui/container";
 import { Icon } from "../ui/icon";
 import { ThemedText } from "../ui/themed-text";
@@ -18,12 +19,12 @@ export const TimelineEventListItem = memo((data: Verified<TimelineEvent>) => {
     return (
         <Link
             href={{
-                pathname: "/event-details-modal",
+                pathname: "/event-details",
                 params: { event_public_id: data.event_public_id },
             }}
             asChild
         >
-            <TouchableOpacity>
+            <PressableScale>
 
                 <Container flexDirection="row" alignItems="center" style={styles.container}>
                     <Image
@@ -48,7 +49,7 @@ export const TimelineEventListItem = memo((data: Verified<TimelineEvent>) => {
                     </Container>
                     <Icon icon="right" color={color.natural_300} />
                 </Container>
-            </TouchableOpacity>
+            </PressableScale>
         </Link>
     );
 });

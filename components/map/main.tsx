@@ -5,7 +5,7 @@ import { ThemedView } from '@/components/ui/themed-view';
 import { Spacing } from '@/constants/theme';
 import useMap, { INITIAL_REGION, MIN_ZOOM_LEVEL } from '@/hooks/use-map';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { TouchableOpacity } from 'react-native';
+import { PressableScale } from 'pressto';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LocationPermissionModal } from './location-permission-modal';
@@ -121,9 +121,8 @@ export default function MapMain() {
                 right={Spacing.s16}
                 zIndex={100}
             >
-                <TouchableOpacity
+                <PressableScale
                     onPress={onCurrentLocationPress}
-                    activeOpacity={0.7}
                 >
                     <ThemedView
                         color="natural_500"
@@ -137,7 +136,7 @@ export default function MapMain() {
                     >
                         <Icon icon="locationOnFill" size={Spacing.s24} color={color.tint} />
                     </ThemedView>
-                </TouchableOpacity>
+                </PressableScale>
             </ContainerAbsolute>
 
             <Sheet

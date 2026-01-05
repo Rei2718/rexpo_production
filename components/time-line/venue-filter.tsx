@@ -2,7 +2,8 @@ import { Spacing } from "@/constants/theme";
 import { ALL_VENUE_ID } from "@/constants/venue-constants";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { DisplayVenue, Verified } from "@/supabase/api/types";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { PressableScale } from "pressto";
+import { ScrollView } from "react-native";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 
@@ -30,8 +31,9 @@ export default function VenueFilter(props: {
                 paddingHorizontal: Spacing.s20,
                 gap: Spacing.s8,
             }}
+            contentInsetAdjustmentBehavior="automatic"
         >
-            <TouchableOpacity
+            <PressableScale
                 key={ALL_VENUE_ID}
                 onPress={() => handlePress(ALL_VENUE_ID)}
             >
@@ -54,13 +56,13 @@ export default function VenueFilter(props: {
                         すべて
                     </ThemedText>
                 </Container>
-            </TouchableOpacity>
+            </PressableScale>
 
             {venues.map((venue) => {
                 const isSelected = selectedVenueId === venue.venue_public_id;
 
                 return (
-                    <TouchableOpacity
+                    <PressableScale
                         key={venue.venue_public_id}
                         onPress={() => handlePress(venue.venue_public_id)}
                     >
@@ -84,7 +86,7 @@ export default function VenueFilter(props: {
                                 {venue.name}
                             </ThemedText>
                         </Container>
-                    </TouchableOpacity>
+                    </PressableScale>
                 );
             })}
         </ScrollView>
