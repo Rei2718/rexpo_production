@@ -1,6 +1,7 @@
 import { FALLBACK_IMAGE_URL } from "@/constants/fallback-image";
 import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
+import { useThemeColor } from "@/hooks/use-theme-color";
 import { EventPerformer, Verified } from "@/supabase/api/types";
 import { Image } from "expo-image";
 import { memo } from "react";
@@ -10,8 +11,19 @@ import { ThemedText } from "../ui/themed-text";
 import { ThemedView } from "../ui/themed-view";
 
 export const PerformerCard = memo((data: Verified<EventPerformer>) => {
+    const color = useThemeColor();
+
     return (
-        <ThemedView color="natural_500" style={styles.container}>
+        <ThemedView
+            color="natural_500"
+            style={[
+                styles.container,
+                {
+                    borderWidth: Spacing.s2,
+                    borderColor: color.border,
+                },
+            ]}
+        >
             <Row alignItems="center" gap="s16" padding="s4">
                 <Image
                     source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}

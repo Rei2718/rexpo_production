@@ -32,7 +32,13 @@ export default function CategoryCard(data: Verified<Category>) {
                     backgroundColor={color.natural_500}
                     flexDirection="row"
                     alignItems="center"
-                    style={styles.container}
+                    style={[
+                        styles.container,
+                        {
+                            borderWidth: Spacing.s2,
+                            borderColor: color.border,
+                        },
+                    ]}
                 >
                     {data.icon && (
                         <Image

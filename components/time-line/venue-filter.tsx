@@ -46,6 +46,8 @@ export default function VenueFilter(props: {
                         borderRadius: Spacing.pill,
                         flexDirection: "row",
                         alignItems: "center",
+                        borderWidth: Spacing.s2,
+                        borderColor: isAllSelected ? "transparent" : color.border,
                     }}
                 >
                     <ThemedText
@@ -75,6 +77,8 @@ export default function VenueFilter(props: {
                                 borderRadius: Spacing.pill,
                                 flexDirection: "row",
                                 alignItems: "center",
+                                borderWidth: Spacing.s2,
+                                borderColor: isSelected ? "transparent" : color.border,
                             }}
                         >
                             <ThemedText

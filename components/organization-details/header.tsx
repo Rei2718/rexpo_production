@@ -8,7 +8,10 @@ import { StyleSheet } from "react-native";
 
 import { NO_DATA } from "@/constants/no-data";
 
+import { useThemeColor } from "@/hooks/use-theme-color";
+
 export function OrganizationHeader(data: Verified<OrganizationDetails>) {
+    const color = useThemeColor();
     return (
         <Column>
             {/* Cover Image */}
@@ -17,7 +20,13 @@ export function OrganizationHeader(data: Verified<OrganizationDetails>) {
                 paddingHorizontal="s80">
                 <Image
                     source={data.header_image ? { uri: data.header_image } : FALLBACK_IMAGE_URL}
-                    style={styles.coverImage}
+                    style={[
+                        styles.coverImage,
+                        {
+                            borderWidth: Spacing.s2,
+                            borderColor: color.border,
+                        }
+                    ]}
                 />
             </Column>
 

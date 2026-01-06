@@ -25,7 +25,16 @@ export const OrganizerCard = memo((data: Verified<EventOrganization | VenueOrgan
             asChild
         >
             <PressableScale>
-                <ThemedView color="natural_500" style={styles.container}>
+                <ThemedView
+                    color="natural_500"
+                    style={[
+                        styles.container,
+                        {
+                            borderWidth: Spacing.s2,
+                            borderColor: color.border,
+                        },
+                    ]}
+                >
                     <Row alignItems="center" gap="s16" padding="s4">
                         <Image
                             source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}

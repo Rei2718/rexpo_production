@@ -15,7 +15,16 @@ export function InfoCard(data: Verified<VenueDetails>) {
     const congestionColor = useCongestionStatusColor(data.congestion_status);
 
     return (
-        <ThemedView style={styles.container} color="natural_500">
+        <ThemedView
+            style={[
+                styles.container,
+                {
+                    borderWidth: Spacing.s2,
+                    borderColor: color.border,
+                },
+            ]}
+            color="natural_500"
+        >
             <Column gap="s8" paddingVertical="s20">
 
                 <Row>

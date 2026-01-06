@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 
+import { useThemeColor } from "@/hooks/use-theme-color";
+
 export function EventGallery(data: Verified<EventDetails>) {
+    const color = useThemeColor();
 
     if (!data.images || data.images.length === 0) return null;
 
@@ -28,7 +31,13 @@ export function EventGallery(data: Verified<EventDetails>) {
                 data={data.images}
                 style={styles.carousel}
                 renderItem={({ item }) => (
-                    <ThemedView style={styles.itemContainer}>
+                    <ThemedView style={[
+                        styles.itemContainer,
+                        {
+                            borderWidth: Spacing.s2,
+                            borderColor: color.border,
+                        }
+                    ]}>
                         <Image
                             source={item ? { uri: item } : FALLBACK_IMAGE_URL}
                             contentFit="cover"
@@ -47,7 +56,7 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         flex: 1,
-        borderRadius: Spacing.s16,
+        borderRadius: Spacing.s20,
         marginLeft: Spacing.s20,
         overflow: "hidden",
     },

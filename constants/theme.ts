@@ -12,6 +12,7 @@ export const Colors = {
     natural_500: '#FFFFFFFF', // Grouped Background Secondary
     natural_600: '#F2F2F7FF', // Grouped Background Primary
     tint: tintColorLight,
+    border: '#3C3C4308',
   },
   dark: {
     natural_100: '#EEEEEEFF', // FillesPrimary
@@ -21,6 +22,7 @@ export const Colors = {
     natural_500: '#191919FF', // Grouped Background Secondary
     natural_600: '#090909FF', // Grouped Background Primary
     tint: tintColorDark,
+    border: '#EBEBF508',
   },
 };
 

@@ -13,7 +13,16 @@ export function EventInfoCard(data: Verified<EventDetails>) {
     const color = useThemeColor();
 
     return (
-        <ThemedView style={styles.container} color="natural_500">
+        <ThemedView
+            style={[
+                styles.container,
+                {
+                    borderWidth: Spacing.s2,
+                    borderColor: color.border,
+                },
+            ]}
+            color="natural_500"
+        >
             <Column gap="s8" paddingVertical="s20">
                 {/* Labels Row */}
                 <Row>

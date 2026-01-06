@@ -1,6 +1,7 @@
 import { Row } from '@/components/ui/flex';
 import { Icon } from '@/components/ui/icon';
 import { PressableScale } from '@/components/ui/pressable-scale';
+import { Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { OrganizationDetails, Verified } from '@/supabase/api/types';
 import { Linking } from 'react-native';
@@ -20,6 +21,10 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
             borderRadius="pill"
             alignSelf="center"
             backgroundColor={color.natural_500}
+            style={{
+                borderWidth: Spacing.s2,
+                borderColor: color.border,
+            }}
         >
             <Row flexWrap="wrap" paddingHorizontal='s8'>
                 {data.instagram && (
