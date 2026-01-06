@@ -28,6 +28,8 @@ export default function DetailLayout() {
             <Stack.Screen name="category" />
             <Stack.Screen name="bookmark" />
             <Stack.Screen name="settings" />
+            <Stack.Screen name="terms" />
+            <Stack.Screen name="privacy" />
         </Stack>
     );
 }
