@@ -31,17 +31,18 @@ export function OrganizationGallery(data: Verified<OrganizationDetails>) {
                 data={data.images}
                 style={styles.carousel}
                 renderItem={({ item }) => (
-                    <ThemedView style={[
-                        styles.itemContainer,
-                        {
-                            borderWidth: Spacing.s2,
-                            borderColor: color.border,
-                        }
-                    ]}>
+                    <ThemedView style={styles.itemContainer}>
                         <Image
                             source={item ? { uri: item } : FALLBACK_IMAGE_URL}
                             contentFit="cover"
-                            style={styles.imageBackground}
+                            style={[
+                                styles.imageBackground,
+                                {
+                                    borderRadius: Spacing.s20,
+                                    borderWidth: Spacing.s2,
+                                    borderColor: color.border,
+                                }
+                            ]}
                         />
                     </ThemedView>
                 )}
@@ -56,9 +57,7 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         flex: 1,
-        borderRadius: Spacing.s20,
         marginLeft: Spacing.s20,
-        overflow: "hidden",
     },
     imageBackground: {
         width: "100%",
