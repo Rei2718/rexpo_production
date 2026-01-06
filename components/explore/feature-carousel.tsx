@@ -1,8 +1,8 @@
 
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { router } from "expo-router";
-import { PressableScale } from "pressto";
 import { useRef } from "react";
 import { useWindowDimensions, View } from "react-native";
 import { Extrapolation, interpolate, useSharedValue } from "react-native-reanimated";

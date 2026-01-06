@@ -1,11 +1,11 @@
 import { Row } from '@/components/ui/flex';
+import { PressableScale } from '@/components/ui/pressable-scale';
 import { ThemedText } from '@/components/ui/themed-text';
 import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { EventDetails, Verified } from '@/supabase/api/types';
 import { Link } from 'expo-router';
-import { PressableScale } from 'pressto';
 import { ScrollView, StyleSheet } from 'react-native';
 
 export function EventTags(data: Verified<EventDetails>) {

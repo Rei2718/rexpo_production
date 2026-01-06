@@ -1,8 +1,8 @@
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { Spacing } from "@/constants/theme";
 import { ALL_VENUE_ID } from "@/constants/venue-constants";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { DisplayVenue, Verified } from "@/supabase/api/types";
-import { PressableScale } from "pressto";
 import { ScrollView } from "react-native";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";

@@ -1,3 +1,4 @@
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
@@ -5,7 +6,6 @@ import { Category, Verified } from "@/supabase/api/types";
 import { supabaseStorageUrl } from "@/supabase/supabase";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
-import { PressableScale } from "pressto";
 import { StyleSheet } from "react-native";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";

@@ -1,8 +1,8 @@
 import { Container } from '@/components/ui/container';
+import { PressableScale } from '@/components/ui/pressable-scale';
 import { ThemedText } from '@/components/ui/themed-text';
 import { ThemedView } from '@/components/ui/themed-view';
 import { Spacing } from '@/constants/theme';
-import { PressableScale } from 'pressto';
 import { Linking, Modal, StyleSheet } from 'react-native';
 
 interface LocationPermissionModalProps {

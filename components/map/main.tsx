@@ -1,11 +1,11 @@
 import { Container, ContainerAbsolute } from '@/components/ui/container';
 import { Icon } from '@/components/ui/icon';
+import { PressableScale } from '@/components/ui/pressable-scale';
 import { StatusMessage } from '@/components/ui/status-message';
 import { ThemedView } from '@/components/ui/themed-view';
 import { Spacing } from '@/constants/theme';
 import useMap, { INITIAL_REGION, MIN_ZOOM_LEVEL } from '@/hooks/use-map';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { PressableScale } from 'pressto';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LocationPermissionModal } from './location-permission-modal';

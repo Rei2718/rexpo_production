@@ -14,7 +14,7 @@ export function EventHeader(data: Verified<EventDetails>) {
             {/* Cover Image */}
             <Column
                 paddingTop="s20"
-                paddingHorizontal="s64">
+                paddingHorizontal="s80">
                 <Image
                     source={data.header_image ? { uri: data.header_image } : FALLBACK_IMAGE_URL}
                     style={styles.coverImage}

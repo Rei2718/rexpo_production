@@ -1,8 +1,8 @@
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { NO_DATA } from "@/constants/no-data";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { TagEvents, Verified } from "@/supabase/api/types";
 import { Link } from "expo-router";
-import { PressableScale } from "pressto";
 import { Container } from "../ui/container";
 import { Icon } from "../ui/icon";
 import { ThemedText } from "../ui/themed-text";

@@ -1,4 +1,5 @@
 import { Icon } from '@/components/ui/icon';
+import { PressableScale } from '@/components/ui/pressable-scale';
 import { DarkNavigationTheme, LightNavigationTheme } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { NotoSansJP_300Light, NotoSansJP_400Regular, NotoSansJP_500Medium, NotoSansJP_600SemiBold, NotoSansJP_700Bold, useFonts } from '@expo-google-fonts/noto-sans-jp';
@@ -13,7 +14,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import 'expo-sqlite/localStorage/install';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from "expo-system-ui";
-import { PressableScale, PressablesConfig } from 'pressto';
+import { PressablesConfig } from 'pressto';
 import React, { useEffect } from 'react';
 import { Platform, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -141,7 +142,7 @@ export default function RootLayout() {
                     presentation: "modal",
                     headerTitle: "",
                     headerTitleAlign: "center",
-                    headerTransparent: true,
+                    headerTransparent: Platform.OS === 'ios' ? true : false,
                     headerShadowVisible: false,
                     animation: "ios_from_right",
                     headerLeft: Platform.OS === 'ios' ? () => (
@@ -157,7 +158,7 @@ export default function RootLayout() {
                     presentation: "modal",
                     headerTitle: "",
                     headerTitleAlign: "center",
-                    headerTransparent: true,
+                    headerTransparent: Platform.OS === 'ios' ? true : false,
                     headerShadowVisible: false,
                     animation: "ios_from_right",
                     headerLeft: Platform.OS === 'ios' ? () => (

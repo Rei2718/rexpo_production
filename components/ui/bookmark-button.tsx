@@ -1,10 +1,10 @@
 import { Haptic } from '@/components/ui/haptic';
 import { Icon } from '@/components/ui/icon';
+import { PressableScale } from '@/components/ui/pressable-scale';
 import { Spacing } from '@/constants/theme';
 import { useBookmarkStore } from '@/hooks/use-bookmark-store';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { EventOverview, Verified } from '@/supabase/api/types';
-import { PressableScale } from 'pressto';
 import { StyleSheet } from 'react-native';
 
 

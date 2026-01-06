@@ -1,12 +1,12 @@
 import { Row } from "@/components/ui/flex";
 import { Icon } from "@/components/ui/icon";
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { Section } from "@/components/ui/section";
 import { ThemedText } from "@/components/ui/themed-text";
 import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { OrganizationDetails, Verified } from "@/supabase/api/types";
-import { PressableScale } from "pressto";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 

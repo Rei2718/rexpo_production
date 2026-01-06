@@ -1,8 +1,8 @@
 import { Row } from '@/components/ui/flex';
 import { Icon } from '@/components/ui/icon';
+import { PressableScale } from '@/components/ui/pressable-scale';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { OrganizationDetails, Verified } from '@/supabase/api/types';
-import { PressableScale } from 'pressto';
 import { Linking } from 'react-native';
 import { Container } from '../ui/container';
 

@@ -1,7 +1,7 @@
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { router } from "expo-router";
-import { PressableScale } from "pressto";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Container } from "../ui/container";
 import { Icon } from "../ui/icon";
