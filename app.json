@@ -29,7 +29,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#000000",
+        "backgroundColor": "#090909",
         "foregroundImage": "./assets/logo/adaptive-icon.png"
       },
       "config": {
@@ -53,10 +53,10 @@
           "image": "./assets/logo/splash-icon-light.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#FFFFFF",
+          "backgroundColor": "#F2F2F7",
           "dark": {
             "image": "./assets/logo/splash-icon-dark.png",
-            "backgroundColor": "#000000"
+            "backgroundColor": "#090909"
           }
         }
       ],
@@ -64,7 +64,8 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "現在地周辺のイベントを表示するために、位置情報を使用します。"
+          "locationAlwaysAndWhenInUsePermission": "マップ上で現在地を示し、ユーザーが今どこにいるのかを把握しやすくするために位置情報を利用します。",
+          "locationWhenInUsePermission": "マップ上で現在地を示し、ユーザーが今どこにいるのかを把握しやすくするために位置情報を利用します。"
         }
       ]
     ],

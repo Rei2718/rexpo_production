@@ -6,6 +6,7 @@ import { useBookmarkStore } from "@/hooks/use-bookmark-store";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useEventsByIds } from "@/supabase/api";
 import { TimelineEvent, TimelineSlot, Verified } from "@/supabase/api/types";
+import { Stack } from "expo-router";
 import { useMemo } from "react";
 import { FlatList } from "react-native";
 
@@ -50,6 +51,11 @@ export default function BookmarkScreen() {
 
     return (
         <>
+            <Stack.Screen
+                options={{
+                    headerTitle: "ブックマーク"
+                }}
+            />
             <FlatList
                 data={slots}
                 showsVerticalScrollIndicator={false}
