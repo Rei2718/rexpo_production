@@ -11,7 +11,7 @@ import { StatusMessage } from "@/components/ui/status-message";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useEventDetails } from "@/supabase/api";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 
 export default function EventDetailsScreen() {
     const { event_public_id } = useLocalSearchParams<{ event_public_id: string }>();
@@ -28,9 +28,7 @@ export default function EventDetailsScreen() {
                 options={{
                     headerTitle: "",
                     headerRight: () => (
-                        <View>
-                            <BookmarkButton {...data} />
-                        </View>
+                        <BookmarkButton {...data} />
                     ),
                 }}
             />
