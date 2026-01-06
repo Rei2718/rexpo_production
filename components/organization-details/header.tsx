@@ -23,7 +23,7 @@ export function OrganizationHeader(data: Verified<OrganizationDetails>) {
                     style={[
                         styles.coverImage,
                         {
-                            borderWidth: Spacing.s2,
+                            borderWidth: Spacing.s1,
                             borderColor: color.border,
                         }
                     ]}

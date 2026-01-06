@@ -42,7 +42,7 @@ export function EventTags(data: Verified<EventDetails>) {
                                 styles.tagContainer,
                                 {
                                     backgroundColor: color.natural_500,
-                                    borderWidth: Spacing.s2,
+                                    borderWidth: Spacing.s1,
                                     borderColor: color.border,
                                 }
                             ]}

@@ -30,7 +30,7 @@ export const OrganizerCard = memo((data: Verified<EventOrganization | VenueOrgan
                     style={[
                         styles.container,
                         {
-                            borderWidth: Spacing.s2,
+                            borderWidth: Spacing.s1,
                             borderColor: color.border,
                         },
                     ]}

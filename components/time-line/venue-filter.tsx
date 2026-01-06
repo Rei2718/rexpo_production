@@ -34,7 +34,7 @@ const VenueItem = memo(({
                     borderRadius: Spacing.pill,
                     flexDirection: "row",
                     alignItems: "center",
-                    borderWidth: Spacing.s2,
+                    borderWidth: Spacing.s1,
                     borderColor: isSelected ? "transparent" : color.border,
                 }}
             >

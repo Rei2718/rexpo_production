@@ -39,7 +39,7 @@ export function EventGallery(data: Verified<EventDetails>) {
                                 styles.imageBackground,
                                 {
                                     borderRadius: Spacing.s20,
-                                    borderWidth: Spacing.s2,
+                                    borderWidth: Spacing.s1,
                                     borderColor: color.border,
                                 }
                             ]}

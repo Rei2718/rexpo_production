@@ -22,7 +22,7 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
             alignSelf="center"
             backgroundColor={color.natural_500}
             style={{
-                borderWidth: Spacing.s2,
+                borderWidth: Spacing.s1,
                 borderColor: color.border,
             }}
         >

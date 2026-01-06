@@ -106,7 +106,7 @@ export default function MapMain() {
                                     width: Spacing.s12,
                                     height: Spacing.s12,
                                     borderRadius: Spacing.pill,
-                                    borderWidth: Spacing.s2,
+                                    borderWidth: Spacing.s1,
                                     borderColor: color.natural_500,
                                 }}
                             />

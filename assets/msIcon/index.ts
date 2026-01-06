@@ -26,6 +26,9 @@ export const icons = {
     youtube: require('./youtube.svg'),
     linkedin: require('./linkedin.svg'),
     bookmarks: require('./bookmarks.svg'),
+    gear: require('./gear.svg'),
+    contract: require('./contract.svg'),
+    verified: require('./verified.svg'),
 };
 
 export type IconName = keyof typeof icons;

@@ -19,7 +19,7 @@ export const PerformerCard = memo((data: Verified<EventPerformer>) => {
             style={[
                 styles.container,
                 {
-                    borderWidth: Spacing.s2,
+                    borderWidth: Spacing.s1,
                     borderColor: color.border,
                 },
             ]}

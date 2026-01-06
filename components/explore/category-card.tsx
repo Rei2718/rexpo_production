@@ -35,7 +35,7 @@ export default function CategoryCard(data: Verified<Category>) {
                     style={[
                         styles.container,
                         {
-                            borderWidth: Spacing.s2,
+                            borderWidth: Spacing.s1,
                             borderColor: color.border,
                         },
                     ]}
