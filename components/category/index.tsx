@@ -25,6 +25,7 @@ export default function CategoryScreen() {
             />
             <FlatList
                 data={data}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <TagGroup {...item} />}
                 keyExtractor={(item) => item.tag_public_id}
                 ItemSeparatorComponent={() => <Container style={{ height: Spacing.s32 }} />}

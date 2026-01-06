@@ -37,7 +37,7 @@ export default function Sheet({ data, onClose }: SheetProps) {
             handleIndicatorStyle={{ backgroundColor: color.natural_300 }}
             onDismiss={onClose}
         >
-            <BottomSheetScrollView contentInsetAdjustmentBehavior="automatic">
+            <BottomSheetScrollView showsVerticalScrollIndicator={false} contentInsetAdjustmentBehavior="automatic">
                 {data && (
                     <Container paddingBottom="s20">
                         <Content {...data} />

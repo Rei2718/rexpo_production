@@ -9,6 +9,7 @@ export default function HomeScreen() {
     return (
         <Container flex={1}>
             <ScrollView
+                showsVerticalScrollIndicator={false}
                 contentContainerStyle={{
                     flexGrow: 1,
                     justifyContent: 'center',

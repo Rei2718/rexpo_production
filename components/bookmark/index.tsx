@@ -52,6 +52,7 @@ export default function BookmarkScreen() {
         <>
             <FlatList
                 data={slots}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item, index }) => (
                     <SlotGroup
                         item={item}

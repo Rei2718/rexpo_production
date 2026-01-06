@@ -27,6 +27,7 @@ export default function TagScreen() {
             />
             <FlatList
                 data={data}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <EventListItem {...item} />}
                 keyExtractor={(item) => item.event_public_id}
                 ItemSeparatorComponent={() => (
