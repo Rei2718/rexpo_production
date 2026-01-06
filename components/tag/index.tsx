@@ -1,6 +1,5 @@
 import { EventListItem } from "@/components/shared/event-list-item";
 import { StatusMessage } from "@/components/ui/status-message";
-import { ThemedText } from "@/components/ui/themed-text";
 import { ThemedView } from "@/components/ui/themed-view";
 import { Spacing } from "@/constants/theme";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
@@ -23,7 +22,7 @@ export default function TagScreen() {
         <>
             <Stack.Screen
                 options={{
-                    headerTitle: () => <ThemedText type="headline">{name}</ThemedText>
+                    headerTitle: name
                 }}
             />
             <FlatList

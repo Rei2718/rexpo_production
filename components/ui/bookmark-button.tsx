@@ -28,8 +28,7 @@ export default function BookmarkButton(data: Verified<EventOverview>) {
             >
                 <Icon
                     icon={isBookmarked ? "bookmarkFill" : "bookmark"}
-                    size={Spacing.icon}
-                    color={color.natural_100}
+                    color={color.tint}
                 />
             </PressableScale>
         </Haptic>
@@ -40,7 +39,6 @@ const styles = StyleSheet.create({
     button: {
         width: Spacing.icon,
         height: Spacing.icon,
-        margin: Spacing.s2,
         justifyContent: 'center',
         alignItems: 'center',
     },

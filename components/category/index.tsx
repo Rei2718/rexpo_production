@@ -1,7 +1,6 @@
 import { TagGroup } from "@/components/explore/tag-group";
 import { Container } from "@/components/ui/container";
 import { StatusMessage } from "@/components/ui/status-message";
-import { ThemedText } from "@/components/ui/themed-text";
 import { Spacing } from "@/constants/theme";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useTagAndEventsByCategory } from "@/supabase/api";
@@ -21,7 +20,7 @@ export default function CategoryScreen() {
         <>
             <Stack.Screen
                 options={{
-                    headerTitle: () => <ThemedText type="headline">{name}</ThemedText>
+                    headerTitle: name
                 }}
             />
             <FlatList

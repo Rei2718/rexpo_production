@@ -16,7 +16,7 @@ export default function TitleBar() {
             <Container flexDirection="row" justifyContent="space-between" alignItems="center" paddingTop="s12" paddingHorizontal="s20">
                 <ThemedText type="largeTitle">タイムライン</ThemedText>
                 <PressableScale onPress={() => router.push('/bookmark')}>
-                    <Icon size={Spacing.icon} icon="bookmark" color={color.natural_100} />
+                    <Icon size={Spacing.icon} icon="bookmarks" color={color.natural_100} />
                 </PressableScale>
             </Container>
         </SafeAreaView>

@@ -1,6 +1,5 @@
 import { Column } from "@/components/ui/flex";
 import { ThemedText } from "@/components/ui/themed-text";
-import { ThemedView } from "@/components/ui/themed-view";
 import { FALLBACK_IMAGE_URL } from "@/constants/fallback-image";
 import { Spacing } from "@/constants/theme";
 import { OrganizationDetails, Verified } from "@/supabase/api/types";
@@ -13,21 +12,17 @@ export function OrganizationHeader(data: Verified<OrganizationDetails>) {
     return (
         <Column>
             {/* Cover Image */}
-            <Image
-                source={data.header_image ? { uri: data.header_image } : FALLBACK_IMAGE_URL}
-                style={styles.coverImage}
-            />
-
-            {/* Logo */}
-            <ThemedView style={styles.logoFrame}>
+            <Column
+                paddingTop="s20"
+                paddingHorizontal="s64">
                 <Image
-                    source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}
-                    style={styles.logoImage}
+                    source={data.header_image ? { uri: data.header_image } : FALLBACK_IMAGE_URL}
+                    style={styles.coverImage}
                 />
-            </ThemedView>
+            </Column>
 
             {/* HeaderTitle */}
-            <Column gap="s8" paddingHorizontal="s20" alignItems="center" marginTop="s20">
+            <Column gap="s8" paddingHorizontal="s32" alignItems="center" marginTop="s20">
                 <ThemedText type="footnote" color="tint">
                     {data.sponsor ?? NO_DATA}
                 </ThemedText>
@@ -45,17 +40,6 @@ const styles = StyleSheet.create({
 
         borderRadius: Spacing.s20,
         overflow: 'hidden',
-    },
-    logoFrame: {
-        marginTop: -(Spacing.s80 / 2) - Spacing.s4,
-        padding: Spacing.s4,
-        borderRadius: Spacing.s20 + Spacing.s4,
-        alignSelf: 'center',
-    },
-    logoImage: {
-        width: Spacing.s80,
-        height: Spacing.s80,
-        borderRadius: Spacing.s20,
     },
     centerText: {
         textAlign: 'center',

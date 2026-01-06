@@ -103,7 +103,7 @@ export default function FeatureCarousel() {
                     <Container flexDirection="row" justifyContent="space-between" alignItems="center">
                         <ThemedText type="largeTitle">探索</ThemedText>
                         <PressableScale onPress={() => router.push('/bookmark')}>
-                            <Icon size={Spacing.icon} icon="bookmark" color={color.natural_100} />
+                            <Icon size={Spacing.icon} icon="bookmarks" color={color.natural_100} />
                         </PressableScale>
                     </Container>
                 </SafeAreaView>

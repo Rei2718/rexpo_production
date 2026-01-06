@@ -1,5 +1,5 @@
 import { Icon } from '@/components/ui/icon';
-import { DarkNavigationTheme, LightNavigationTheme, Spacing } from '@/constants/theme';
+import { DarkNavigationTheme, LightNavigationTheme } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { NotoSansJP_300Light, NotoSansJP_400Regular, NotoSansJP_500Medium, NotoSansJP_600SemiBold, NotoSansJP_700Bold, useFonts } from '@expo-google-fonts/noto-sans-jp';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -98,7 +98,7 @@ export default function RootLayout() {
                     animation: "ios_from_right",
                     headerLeft: Platform.OS === 'ios' ? () => (
                       <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                        <Icon icon="left" color={color.tint} />
                       </PressableScale>
                     ) : undefined,
                   }}
@@ -114,7 +114,7 @@ export default function RootLayout() {
                     animation: "ios_from_right",
                     headerLeft: Platform.OS === 'ios' ? () => (
                       <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                        <Icon icon="left" color={color.tint} />
                       </PressableScale>
                     ) : undefined,
                   }}
@@ -123,14 +123,14 @@ export default function RootLayout() {
                   name="bookmark"
                   options={{
                     presentation: "modal",
-                    headerTitle: "",
+                    headerTitle: "ブックマーク",
                     headerTitleAlign: "center",
                     headerTransparent: Platform.OS === 'ios' ? true : false,
                     headerShadowVisible: false,
                     animation: "ios_from_right",
                     headerLeft: Platform.OS === 'ios' ? () => (
                       <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                        <Icon icon="left" color={color.tint} />
                       </PressableScale>
                     ) : undefined,
                   }}
@@ -146,7 +146,7 @@ export default function RootLayout() {
                     animation: "ios_from_right",
                     headerLeft: Platform.OS === 'ios' ? () => (
                       <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                        <Icon icon="left" color={color.tint} />
                       </PressableScale>
                     ) : undefined,
                   }}
@@ -162,7 +162,7 @@ export default function RootLayout() {
                     animation: "ios_from_right",
                     headerLeft: Platform.OS === 'ios' ? () => (
                       <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" size={Spacing.icon} color={color.natural_100} />
+                        <Icon icon="left" color={color.tint} />
                       </PressableScale>
                     ) : undefined,
                   }}

@@ -13,6 +13,9 @@
       "android": {
         "gradleCommand": ":app:assembleDebug"
       },
+      "ios": {
+        "simulator": true
+      },
       "channel": "development"
     },
     "preview": {
@@ -27,3 +30,4 @@
   },
   "submit": {}
 }
+// npx expo run:ios
