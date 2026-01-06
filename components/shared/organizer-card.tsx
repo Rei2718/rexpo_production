@@ -19,7 +19,7 @@ export const OrganizerCard = memo((data: Verified<EventOrganization | VenueOrgan
     return (
         <Link
             href={{
-                pathname: "/organization-details",
+                pathname: "/(detail)/organization-details",
                 params: { organization_public_id: data.organization_public_id },
             }}
             asChild

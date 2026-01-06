@@ -24,7 +24,7 @@ export function EventTags(data: Verified<EventDetails>) {
                 <Link
                     key={tag.tag_public_id}
                     href={{
-                        pathname: "/tag",
+                        pathname: "/(detail)/tag",
                         params: {
                             tag_public_id: tag.tag_public_id,
                             name: tag.name,

@@ -16,7 +16,7 @@ export default function CategoryCard(data: Verified<Category>) {
     return (
         <Link
             href={{
-                pathname: "/category",
+                pathname: "/(detail)/category",
                 params: {
                     category_public_id: data.category_public_id,
                     name: data.name,

@@ -1,5 +1,3 @@
-import { Icon } from '@/components/ui/icon';
-import { PressableScale } from '@/components/ui/pressable-scale';
 import { DarkNavigationTheme, LightNavigationTheme } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { NotoSansJP_300Light, NotoSansJP_400Regular, NotoSansJP_500Medium, NotoSansJP_600SemiBold, NotoSansJP_700Bold, useFonts } from '@expo-google-fonts/noto-sans-jp';
@@ -9,14 +7,14 @@ import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persi
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import * as Haptics from 'expo-haptics';
-import { router, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import 'expo-sqlite/localStorage/install';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from "expo-system-ui";
 import { PressablesConfig } from 'pressto';
 import React, { useEffect } from 'react';
-import { Platform, useColorScheme } from 'react-native';
+import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
@@ -89,83 +87,10 @@ export default function RootLayout() {
                   }}
                 />
                 <Stack.Screen
-                  name="category"
+                  name="(detail)"
                   options={{
                     presentation: "modal",
-                    headerTitle: "",
-                    headerTitleAlign: "center",
-                    headerTransparent: Platform.OS === 'ios' ? true : false,
-                    headerShadowVisible: false,
-                    animation: "ios_from_right",
-                    headerLeft: Platform.OS === 'ios' ? () => (
-                      <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" color={color.tint} />
-                      </PressableScale>
-                    ) : undefined,
-                  }}
-                />
-                <Stack.Screen
-                  name="tag"
-                  options={{
-                    presentation: "modal",
-                    headerTitle: "",
-                    headerTitleAlign: "center",
-                    headerTransparent: Platform.OS === 'ios' ? true : false,
-                    headerShadowVisible: false,
-                    animation: "ios_from_right",
-                    headerLeft: Platform.OS === 'ios' ? () => (
-                      <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" color={color.tint} />
-                      </PressableScale>
-                    ) : undefined,
-                  }}
-                />
-                <Stack.Screen
-                  name="bookmark"
-                  options={{
-                    presentation: "modal",
-                    headerTitle: "ブックマーク",
-                    headerTitleAlign: "center",
-                    headerTransparent: Platform.OS === 'ios' ? true : false,
-                    headerShadowVisible: false,
-                    animation: "ios_from_right",
-                    headerLeft: Platform.OS === 'ios' ? () => (
-                      <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" color={color.tint} />
-                      </PressableScale>
-                    ) : undefined,
-                  }}
-                />
-                <Stack.Screen
-                  name="event-details"
-                  options={{
-                    presentation: "modal",
-                    headerTitle: "",
-                    headerTitleAlign: "center",
-                    headerTransparent: Platform.OS === 'ios' ? true : false,
-                    headerShadowVisible: false,
-                    animation: "ios_from_right",
-                    headerLeft: Platform.OS === 'ios' ? () => (
-                      <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" color={color.tint} />
-                      </PressableScale>
-                    ) : undefined,
-                  }}
-                />
-                <Stack.Screen
-                  name="organization-details"
-                  options={{
-                    presentation: "modal",
-                    headerTitle: "",
-                    headerTitleAlign: "center",
-                    headerTransparent: Platform.OS === 'ios' ? true : false,
-                    headerShadowVisible: false,
-                    animation: "ios_from_right",
-                    headerLeft: Platform.OS === 'ios' ? () => (
-                      <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" color={color.tint} />
-                      </PressableScale>
-                    ) : undefined,
+                    headerShown: false,
                   }}
                 />
               </Stack>

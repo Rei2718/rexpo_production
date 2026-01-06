@@ -19,7 +19,7 @@ export const EventListItem = memo((data: Verified<EventOverview>) => {
     return (
         <Link
             href={{
-                pathname: "/event-details",
+                pathname: "/(detail)/event-details",
                 params: { event_public_id: data.event_public_id },
             }}
             asChild

@@ -19,7 +19,7 @@ export const TimelineEventListItem = memo((data: Verified<TimelineEvent>) => {
     return (
         <Link
             href={{
-                pathname: "/event-details",
+                pathname: "/(detail)/event-details",
                 params: { event_public_id: data.event_public_id },
             }}
             asChild
