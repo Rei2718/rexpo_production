@@ -17,15 +17,26 @@ export const EventList = memo((data: { events: Verified<EventOverview>[] }) => {
         <Container style={[styles.container, { backgroundColor: color.natural_500 }]}>
             <Container flexDirection="column">
                 {data.events.map((event, index) => (
-                    <View key={event.event_public_id}>
-                        <EventListItem {...event} />
-                        {index < data.events.length - 1 && (
-                            <View style={[styles.separator, { backgroundColor: color.natural_400 }]} />
-                        )}
-                    </View>
+                    <MemoizedEventRow
+                        key={event.event_public_id}
+                        event={event}
+                        isLast={index === data.events.length - 1}
+                    />
                 ))}
             </Container>
         </Container>
+    );
+});
+
+const MemoizedEventRow = memo(({ event, isLast }: { event: Verified<EventOverview>; isLast: boolean }) => {
+    const color = useThemeColor();
+    return (
+        <View>
+            <EventListItem {...event} />
+            {!isLast && (
+                <View style={[styles.separator, { backgroundColor: color.natural_400 }]} />
+            )}
+        </View>
     );
 });
 

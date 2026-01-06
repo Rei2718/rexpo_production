@@ -1,10 +1,11 @@
 import { NO_DATA } from "@/constants/no-data";
 import { TimelineSlot, Verified } from "@/supabase/api/types";
+import { memo } from "react";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 
 
-export function SlotHeader(data: Verified<TimelineSlot>) {
+export const SlotHeader = memo((data: Verified<TimelineSlot>) => {
     return (
         <Container flexDirection="column" justifyContent="center" paddingHorizontal="s8">
             <ThemedText type="footnote" style={{ fontStyle: 'italic' }}>
@@ -12,4 +13,4 @@ export function SlotHeader(data: Verified<TimelineSlot>) {
             </ThemedText>
         </Container>
     );
-}
+});

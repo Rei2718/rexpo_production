@@ -3,28 +3,87 @@ import { Spacing } from "@/constants/theme";
 import { ALL_VENUE_ID } from "@/constants/venue-constants";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { DisplayVenue, Verified } from "@/supabase/api/types";
-import { ScrollView } from "react-native";
+import { memo, useCallback, useMemo } from "react";
+import { FlatList } from "react-native";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 
+
+const VenueItem = memo(({
+    item,
+    isSelected,
+    onPress
+}: {
+    item: Verified<DisplayVenue> | typeof ALL_VENUE_ID_OBJ;
+    isSelected: boolean;
+    onPress: (id: string) => void;
+}) => {
+    const color = useThemeColor();
+    const isAll = item === ALL_VENUE_ID_OBJ;
+    const name = isAll ? "すべて" : (item as Verified<DisplayVenue>).name;
+    const id = isAll ? ALL_VENUE_ID : (item as Verified<DisplayVenue>).venue_public_id;
+
+    return (
+        <PressableScale onPress={() => onPress(id)}>
+            <Container
+                paddingHorizontal="s24"
+                paddingVertical="s12"
+                gap="s12"
+                backgroundColor={isSelected ? color.natural_100 : color.natural_500}
+                style={{
+                    borderRadius: Spacing.pill,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    borderWidth: Spacing.s2,
+                    borderColor: isSelected ? "transparent" : color.border,
+                }}
+            >
+                <ThemedText
+                    type="caption1"
+                    color={isSelected ? "natural_600" : "natural_100"}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                >
+                    {name}
+                </ThemedText>
+            </Container>
+        </PressableScale>
+    );
+});
+
+const ALL_VENUE_ID_OBJ = { venue_public_id: ALL_VENUE_ID } as const;
 
 export default function VenueFilter(props: {
     venues: Verified<DisplayVenue>[];
     selectedVenueId: string;
     onVenueChange: (venueId: string) => void;
 }) {
-    const color = useThemeColor();
     const { venues, selectedVenueId, onVenueChange } = props;
-    const isAllSelected = selectedVenueId === ALL_VENUE_ID;
 
-    const handlePress = (venueId: string) => {
+    const handlePress = useCallback((venueId: string) => {
         if (selectedVenueId !== venueId) {
             onVenueChange(venueId);
         }
-    };
+    }, [selectedVenueId, onVenueChange]);
+
+    const data = useMemo(() => [ALL_VENUE_ID_OBJ, ...venues], [venues]);
+
+    const renderItem = useCallback(({ item }: { item: typeof ALL_VENUE_ID_OBJ | Verified<DisplayVenue> }) => {
+        const id = item === ALL_VENUE_ID_OBJ ? ALL_VENUE_ID : item.venue_public_id;
+        return (
+            <VenueItem
+                item={item}
+                isSelected={selectedVenueId === id}
+                onPress={handlePress}
+            />
+        );
+    }, [selectedVenueId, handlePress]);
 
     return (
-        <ScrollView
+        <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.venue_public_id}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
@@ -32,67 +91,10 @@ export default function VenueFilter(props: {
                 gap: Spacing.s8,
             }}
             contentInsetAdjustmentBehavior="automatic"
-        >
-            <PressableScale
-                key={ALL_VENUE_ID}
-                onPress={() => handlePress(ALL_VENUE_ID)}
-            >
-                <Container
-                    paddingHorizontal="s24"
-                    paddingVertical="s12"
-                    gap="s12"
-                    backgroundColor={isAllSelected ? color.natural_100 : color.natural_500}
-                    style={{
-                        borderRadius: Spacing.pill,
-                        flexDirection: "row",
-                        alignItems: "center",
-                        borderWidth: Spacing.s2,
-                        borderColor: isAllSelected ? "transparent" : color.border,
-                    }}
-                >
-                    <ThemedText
-                        type="caption1"
-                        color={isAllSelected ? "natural_600" : "natural_100"}
-                        numberOfLines={1}
-                    >
-                        すべて
-                    </ThemedText>
-                </Container>
-            </PressableScale>
-
-            {venues.map((venue) => {
-                const isSelected = selectedVenueId === venue.venue_public_id;
-
-                return (
-                    <PressableScale
-                        key={venue.venue_public_id}
-                        onPress={() => handlePress(venue.venue_public_id)}
-                    >
-                        <Container
-                            paddingHorizontal="s24"
-                            paddingVertical="s12"
-                            gap="s12"
-                            backgroundColor={isSelected ? color.natural_100 : color.natural_500}
-                            style={{
-                                borderRadius: Spacing.pill,
-                                flexDirection: "row",
-                                alignItems: "center",
-                                borderWidth: Spacing.s2,
-                                borderColor: isSelected ? "transparent" : color.border,
-                            }}
-                        >
-                            <ThemedText
-                                type="caption1"
-                                color={isSelected ? "natural_600" : "natural_100"}
-                                numberOfLines={1}
-                                ellipsizeMode="tail"
-                            >
-                                {venue.name}
-                            </ThemedText>
-                        </Container>
-                    </PressableScale>
-                );
-            })}
-        </ScrollView>
+            initialNumToRender={5}
+            windowSize={3}
+            maxToRenderPerBatch={3}
+            removeClippedSubviews={true}
+        />
     );
 }

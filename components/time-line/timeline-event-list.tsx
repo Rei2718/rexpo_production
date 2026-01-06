@@ -1,6 +1,6 @@
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { TimelineSlot, Verified } from "@/supabase/api/types";
+import { TimelineEvent, TimelineSlot, Verified } from "@/supabase/api/types";
 import { memo } from "react";
 import { StyleSheet, View } from "react-native";
 import { Container } from "../ui/container";
@@ -14,15 +14,26 @@ export const TimelineEventList = memo((data: Verified<TimelineSlot>) => {
         <Container style={[styles.container, { backgroundColor: color.natural_500 }]}>
             <Container flexDirection="column">
                 {data.events.map((event, index) => (
-                    <View key={event.event_public_id}>
-                        <TimelineEventListItem {...event} />
-                        {index < data.events.length - 1 && (
-                            <View style={[styles.separator, { backgroundColor: color.natural_400 }]} />
-                        )}
-                    </View>
+                    <MemoizedTimelineEventRow
+                        key={event.event_public_id}
+                        event={event}
+                        isLast={index === data.events.length - 1}
+                    />
                 ))}
             </Container>
         </Container>
+    );
+});
+
+const MemoizedTimelineEventRow = memo(({ event, isLast }: { event: Verified<TimelineEvent>; isLast: boolean }) => {
+    const color = useThemeColor();
+    return (
+        <View>
+            <TimelineEventListItem {...event} />
+            {!isLast && (
+                <View style={[styles.separator, { backgroundColor: color.natural_400 }]} />
+            )}
+        </View>
     );
 });
 

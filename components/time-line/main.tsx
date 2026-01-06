@@ -56,6 +56,10 @@ export default function TimelineMain() {
             keyExtractor={(item, index) => item.starts ?? `slot-${index}`}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: tab }}
+            initialNumToRender={5}
+            windowSize={5}
+            maxToRenderPerBatch={5}
+            removeClippedSubviews={true}
         />
     );
 }
