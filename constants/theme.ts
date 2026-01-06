@@ -5,10 +5,10 @@ const tintColorDark = '#0091FF';
 
 export const Colors = {
   light: {
-    natural_100: '#000000FF', // Filles Primary
+    natural_100: '#111111FF', // FillesPrimary
     natural_200: '#3C3C4399', // Filles Secondary
     natural_300: '#3C3C434D', // Filles Tertiary
-    natural_400: '#F2F2F7FF', // Grouped Background Quaternary
+    natural_400: '#EBEBEBFF', // Grouped Background Quaternary
     natural_500: '#FFFFFFFF', // Grouped Background Secondary
     natural_600: '#F2F2F7FF', // Grouped Background Primary
     tint: tintColorLight,
