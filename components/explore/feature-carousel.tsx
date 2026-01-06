@@ -1,7 +1,6 @@
 
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { useFeatures } from "@/supabase/api";
 import { router } from "expo-router";
 import { PressableScale } from "pressto";
 import { useRef } from "react";
@@ -11,9 +10,10 @@ import Carousel, { ICarouselInstance, Pagination } from "react-native-reanimated
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Container, ContainerAbsolute } from "../ui/container";
 import { Icon } from "../ui/icon";
-import { StatusMessage } from "../ui/status-message";
 import { ThemedText } from "../ui/themed-text";
 import { FeatureItem } from "./feature-item";
+
+import { STATIC_FEATURES } from "@/constants/features";
 
 
 export default function FeatureCarousel() {
@@ -31,10 +31,7 @@ export default function FeatureCarousel() {
     };
 
     // Features
-    const { data, isPending, isError } = useFeatures();
-    if (isPending) return <StatusMessage status="loading" />;
-    if (isError) return <StatusMessage status="error" />;
-    if (!data) return <StatusMessage status="empty" />;
+    const data = STATIC_FEATURES;
 
     return (
         <View id="carousel-component">

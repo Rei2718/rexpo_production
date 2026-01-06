@@ -1,7 +1,6 @@
 import { NO_DATA } from "@/constants/no-data";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Feature, Verified } from "@/supabase/api/types";
-import { supabaseStorageUrl } from "@/supabase/supabase";
 import { hexToRgba } from "@/utils/color";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -9,13 +8,14 @@ import { StyleSheet, View } from "react-native";
 import { Container, ContainerAbsolute } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 
+
 export function FeatureItem(data: Verified<Feature>) {
     const color = useThemeColor();
 
     return (
         <View style={styles.container}>
             <Image
-                source={{ uri: supabaseStorageUrl + data.image }}
+                source={data.image}
                 style={StyleSheet.absoluteFill}
                 contentFit="cover"
             />
