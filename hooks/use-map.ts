@@ -1,5 +1,6 @@
 import { useAllVenues } from '@/supabase/api';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
+import { useFocusEffect } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
 import MapView, { Region } from 'react-native-maps';
 import { useUserLocation } from './use-user-location';
@@ -40,6 +41,15 @@ export default function useMap() {
         location: userLocation,
         requestLocation,
     } = useUserLocation();
+
+    // 画面から離れた時にシートを閉じる
+    useFocusEffect(
+        useCallback(() => {
+            return () => {
+                setSelectedVenue(null);
+            };
+        }, [])
+    );
 
     const onMapReady = useCallback(() => {
         if (mapRef.current) {
