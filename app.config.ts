@@ -13,6 +13,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         ios: {
             ...config.ios,
             bundleIdentifier: isDev ? 'com.ichi.dev.rexpo' : config.ios?.bundleIdentifier,
-        }
+        },
+        plugins: [
+            "expo-video"
+        ]
     };
 };

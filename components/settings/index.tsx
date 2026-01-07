@@ -40,6 +40,11 @@ export default function SettingsScreen() {
                     {/* About App */}
                     <SettingsSection title="アプリについて">
                         <SettingsLinkItem
+                            label="コア・コンセプト"
+                            icon="pentagon"
+                            href="/onboarding"
+                        />
+                        <SettingsLinkItem
                             label="利用規約"
                             icon="contract"
                             href="/(detail)/terms"

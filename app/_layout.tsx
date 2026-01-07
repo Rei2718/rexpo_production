@@ -1,5 +1,6 @@
 import { DarkNavigationTheme, LightNavigationTheme } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { useLaunchStore } from '@/store/use-launch-store';
 import { NotoSansJP_300Light, NotoSansJP_400Regular, NotoSansJP_500Medium, NotoSansJP_600SemiBold, NotoSansJP_700Bold, useFonts } from '@expo-google-fonts/noto-sans-jp';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider } from '@react-navigation/native';
@@ -7,7 +8,7 @@ import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persi
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import * as Haptics from 'expo-haptics';
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import 'expo-sqlite/localStorage/install';
 import { StatusBar } from 'expo-status-bar';
@@ -53,14 +54,27 @@ export default function RootLayout() {
     NotoSansJP_600SemiBold,
     NotoSansJP_700Bold,
   });
+  const { hasLaunched, checkHasLaunched } = useLaunchStore();
 
   useEffect(() => {
-    if (loaded) {
+    checkHasLaunched();
+  }, []);
+
+  useEffect(() => {
+    if (hasLaunched !== null) {
+      if (!hasLaunched) {
+        router.replace('/onboarding');
+      }
+    }
+  }, [hasLaunched]);
+
+  useEffect(() => {
+    if (loaded && hasLaunched !== null) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, hasLaunched]);
 
-  if (!loaded) {
+  if (!loaded || hasLaunched === null) {
     return null;
   }
 
@@ -91,6 +105,14 @@ export default function RootLayout() {
                   options={{
                     presentation: "modal",
                     headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="onboarding"
+                  options={{
+                    headerShown: false,
+                    presentation: 'fullScreenModal',
+                    gestureEnabled: false,
                   }}
                 />
               </Stack>

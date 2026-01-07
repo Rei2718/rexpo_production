@@ -1,0 +1,1 @@
+export const HAS_LAUNCHED_KEY = 'HAS_LAUNCHED';
