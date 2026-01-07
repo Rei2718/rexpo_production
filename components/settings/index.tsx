@@ -42,7 +42,7 @@ export default function SettingsScreen() {
                         <SettingsLinkItem
                             label="コア・コンセプト"
                             icon="pentagon"
-                            href="/onboarding"
+                            href="/(detail)/core-concept"
                         />
                         <SettingsLinkItem
                             label="利用規約"
