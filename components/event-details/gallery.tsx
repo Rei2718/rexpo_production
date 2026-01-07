@@ -10,6 +10,7 @@ import {
 import Carousel from "react-native-reanimated-carousel";
 
 import { useThemeColor } from "@/hooks/use-theme-color";
+import { supabaseStorageUrl } from "@/supabase/supabase";
 
 export function EventGallery(data: Verified<EventDetails>) {
     const color = useThemeColor();
@@ -33,7 +34,7 @@ export function EventGallery(data: Verified<EventDetails>) {
                 renderItem={({ item }) => (
                     <ThemedView style={styles.itemContainer}>
                         <Image
-                            source={item ? { uri: item } : FALLBACK_IMAGE_URL}
+                            source={item ? { uri: supabaseStorageUrl + item } : FALLBACK_IMAGE_URL}
                             contentFit="cover"
                             style={[
                                 styles.imageBackground,
