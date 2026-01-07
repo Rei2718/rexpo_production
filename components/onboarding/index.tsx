@@ -65,13 +65,13 @@ export default function OnboardingScreen() {
                     </PressableScale>
 
                     <View style={styles.linksContainer}>
-                        <PressableScale onPress={() => openLink('/(detail)/terms')}>
+                        <PressableScale onPress={() => openLink('/onboarding/terms')}>
                             <ThemedText type="caption1" style={[styles.linkText, { color: color.natural_200 }]}>
                                 利用規約
                             </ThemedText>
                         </PressableScale>
                         <ThemedText type="caption1" style={[styles.separator, { color: color.natural_200 }]}>・</ThemedText>
-                        <PressableScale onPress={() => openLink('/(detail)/privacy')}>
+                        <PressableScale onPress={() => openLink('/onboarding/privacy')}>
                             <ThemedText type="caption1" style={[styles.linkText, { color: color.natural_200 }]}>
                                 プライバシーポリシー
                             </ThemedText>
