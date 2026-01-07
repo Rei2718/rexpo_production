@@ -16,7 +16,7 @@ export default function TitleBar() {
             <Container flexDirection="row" justifyContent="space-between" alignItems="center" paddingTop="s12" paddingHorizontal="s20">
                 <ThemedText type="largeTitle">ホーム</ThemedText>
                 <PressableScale onPress={() => router.push('/(detail)/settings')}>
-                    <Icon size={Spacing.icon} icon="gear" color={color.natural_100} />
+                    <Icon size={Spacing.icon} icon="menu" color={color.natural_100} />
                 </PressableScale>
             </Container>
         </SafeAreaView>

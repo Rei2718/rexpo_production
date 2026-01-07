@@ -50,7 +50,7 @@ export default function OnboardingScreen() {
             <ThemedView style={[styles.contentSection, { paddingBottom: insets.bottom + Spacing.s20 }]}>
                 <View style={styles.titleContainer}>
                     <ThemedText type="title1" style={styles.title}>
-                        Calorie tracking{'\n'}made easy
+                        Discover Your{'\n'}R-EXPO
                     </ThemedText>
                 </View>
 
@@ -60,22 +60,23 @@ export default function OnboardingScreen() {
                         style={[styles.button, { backgroundColor: color.natural_100 }]}
                     >
                         <ThemedText type="headline" style={{ color: color.natural_600 }}>
-                            Get Started
+                            スタート
                         </ThemedText>
                     </PressableScale>
 
                     <View style={styles.linksContainer}>
                         <PressableScale onPress={() => openLink('/onboarding/terms')}>
-                            <ThemedText type="caption1" style={[styles.linkText, { color: color.natural_200 }]}>
+                            <ThemedText type="caption1" style={[styles.linkText, { color: color.tint }]}>
                                 利用規約
                             </ThemedText>
                         </PressableScale>
-                        <ThemedText type="caption1" style={[styles.separator, { color: color.natural_200 }]}>・</ThemedText>
+                        <ThemedText type="caption1" style={{ color: color.natural_200 }}>と</ThemedText>
                         <PressableScale onPress={() => openLink('/onboarding/privacy')}>
-                            <ThemedText type="caption1" style={[styles.linkText, { color: color.natural_200 }]}>
+                            <ThemedText type="caption1" style={[styles.linkText, { color: color.tint }]}>
                                 プライバシーポリシー
                             </ThemedText>
                         </PressableScale>
+                        <ThemedText type="caption1" style={{ color: color.natural_200 }}>に同意して続行</ThemedText>
                     </View>
                 </View>
             </ThemedView>

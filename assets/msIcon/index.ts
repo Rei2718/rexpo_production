@@ -30,6 +30,7 @@ export const icons = {
     contract: require('./contract.svg'),
     verified: require('./verified.svg'),
     pentagon: require('./pentagon.svg'),
+    menu: require('./menu.svg'),
 };
 
 export type IconName = keyof typeof icons;

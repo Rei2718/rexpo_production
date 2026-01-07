@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 export function useFormattedText(text: string, props?: ThemedTextProps) {
     return useMemo(() => {
         return text.split('\n').map((line, index) => (
-            <ThemedText key={index} {...props}>
+            <ThemedText type="footnote" key={index} {...props}>
                 {line}
             </ThemedText>
         ));
