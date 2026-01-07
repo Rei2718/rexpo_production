@@ -37,6 +37,16 @@ export default function SettingsScreen() {
                         />
                     </SettingsSection>
 
+                    {/* Data */}
+                    <SettingsSection title="データ">
+                        <SettingsLinkItem
+                            label="開発者メニュー"
+                            icon="gear"
+                            href="/(detail)/developer"
+                            isLast={true}
+                        />
+                    </SettingsSection>
+
                     {/* About App */}
                     <SettingsSection title="アプリについて">
                         <SettingsLinkItem

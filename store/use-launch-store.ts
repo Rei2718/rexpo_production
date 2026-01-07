@@ -6,6 +6,7 @@ interface LaunchState {
     hasLaunched: boolean | null;
     checkHasLaunched: () => Promise<void>;
     completeOnboarding: () => Promise<void>;
+    resetOnboarding: () => Promise<void>;
 }
 
 export const useLaunchStore = create<LaunchState>((set) => ({
@@ -17,6 +18,14 @@ export const useLaunchStore = create<LaunchState>((set) => ({
         } catch (e) {
             console.error('Failed to check launch status', e);
             set({ hasLaunched: false });
+        }
+    },
+    resetOnboarding: async () => {
+        try {
+            await AsyncStorage.removeItem(HAS_LAUNCHED_KEY);
+            set({ hasLaunched: false });
+        } catch (e) {
+            console.error('Failed to reset launch status', e);
         }
     },
     completeOnboarding: async () => {

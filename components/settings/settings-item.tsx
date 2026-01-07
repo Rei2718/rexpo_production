@@ -10,12 +10,14 @@ export interface SettingsItemProps {
     label: string;
     icon?: IconName;
     children?: ReactNode;
+    labelStyle?: object;
 }
 
 export function SettingsItem({
     label,
     icon,
     children,
+    labelStyle,
 }: SettingsItemProps) {
     const color = useThemeColor();
 
@@ -36,7 +38,7 @@ export function SettingsItem({
                 alignItems="center"
                 justifyContent="space-between"
             >
-                <ThemedText type="body">
+                <ThemedText type="body" style={labelStyle}>
                     {label}
                 </ThemedText>
 
