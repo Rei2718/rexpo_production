@@ -28,6 +28,7 @@ export default function BookmarkButton(data: Verified<EventOverview>) {
             >
                 <Icon
                     icon={isBookmarked ? "bookmarkFill" : "bookmark"}
+                    size={Spacing.icon}
                     color={color.tint}
                 />
             </PressableScale>
