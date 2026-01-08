@@ -94,7 +94,6 @@ export default function VenueFilter(props: {
             initialNumToRender={5}
             windowSize={3}
             maxToRenderPerBatch={3}
-            removeClippedSubviews={true}
         />
     );
 }

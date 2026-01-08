@@ -34,7 +34,6 @@ export default function CategoryFilter() {
                 initialNumToRender={5}
                 windowSize={3}
                 maxToRenderPerBatch={3}
-                removeClippedSubviews={true}
             />
         </Container>
     );

@@ -1,1 +1,1 @@
-export const NO_DATA = 'データがありません';
+export const NO_DATA = '詳細は会場にてご確認ください';

@@ -59,7 +59,6 @@ export default function TimelineMain() {
             initialNumToRender={5}
             windowSize={5}
             maxToRenderPerBatch={5}
-            removeClippedSubviews={true}
         />
     );
 }
