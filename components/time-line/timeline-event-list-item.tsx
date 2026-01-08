@@ -4,6 +4,7 @@ import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { TimelineEvent, Verified } from "@/supabase/api/types";
+import { supabaseStorageUrl } from "@/supabase/supabase";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { memo } from "react";
@@ -28,7 +29,7 @@ export const TimelineEventListItem = memo((data: Verified<TimelineEvent>) => {
 
                 <Container flexDirection="row" alignItems="center" style={styles.container}>
                     <Image
-                        source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}
+                        source={data.icon ? { uri: supabaseStorageUrl + data.icon } : FALLBACK_IMAGE_URL}
                         style={styles.image}
                     />
 

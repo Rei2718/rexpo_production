@@ -53,7 +53,7 @@ export default function TimelineMain() {
                 />
             )}
             ItemSeparatorComponent={TimelineSeparator}
-            keyExtractor={(item, index) => item.starts ?? `slot-${index}`}
+            keyExtractor={(item) => `${item.starts}-${item.ends}`}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: tab }}
             initialNumToRender={5}
