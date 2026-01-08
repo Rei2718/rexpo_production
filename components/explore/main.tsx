@@ -1,7 +1,7 @@
 import { Spacing } from "@/constants/theme";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useSeveralEventsByTag } from "@/supabase/api";
-import { FlatList } from "react-native";
+import { FlatList, Platform } from "react-native";
 import { Container } from "../ui/container";
 import { StatusMessage } from "../ui/status-message";
 import { StickyHeader } from "./sticky-header";
@@ -29,7 +29,7 @@ export default function ExploreMain() {
             initialNumToRender={5}
             windowSize={10}
             maxToRenderPerBatch={5}
-            removeClippedSubviews={true}
+            removeClippedSubviews={Platform.OS !== 'ios'}
         />
     );
 }
