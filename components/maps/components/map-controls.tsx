@@ -29,14 +29,6 @@ export function MapControls({ onPress }: Props) {
                         borderRadius: Spacing.pill,
                         alignItems: 'center',
                         justifyContent: 'center',
-                        shadowColor: "#000",
-                        shadowOffset: {
-                            width: 0,
-                            height: 2,
-                        },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 3.84,
-                        elevation: 5,
                     }}
                 >
                     <Icon icon="locationOnFill" size={Spacing.icon} color={color.tint} />

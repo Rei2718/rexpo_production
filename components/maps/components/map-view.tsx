@@ -2,7 +2,7 @@ import { Container } from '@/components/ui/container';
 import { StatusMessage } from '@/components/ui/status-message';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Canvas, ImageSVG, useSVG } from "@shopify/react-native-skia";
-import { StyleSheet, View, useWindowDimensions } from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import { GestureDetector } from "react-native-gesture-handler";
 import { withTiming } from 'react-native-reanimated';
 import { useMapGestures } from "../hooks/use-map-gestures";
@@ -44,9 +44,6 @@ export default function MapsView({ venues = [], onMarkerPress }: Props) {
             const pixelX = (xPct / 100) * svgWidth;
             const pixelY = (yPct / 100) * svgHeight;
 
-            // Center the location
-            // Target Translate = Center - (Pixel * Scale)
-            // Using current scale or resetting? Let's use current scale for smooth transition.
             const targetX = (width / 2) - (pixelX * scale.value);
             const targetY = (height / 2) - (pixelY * scale.value);
 
@@ -73,9 +70,7 @@ export default function MapsView({ venues = [], onMarkerPress }: Props) {
     return (
         <Container flex={1} backgroundColor="tint">
             <GestureDetector gesture={gesture}>
-                <View style={styles.container}>
-
-                    {/* Layer 1: Skia Canvas (GPU rendering) */}
+                <Container flex={1} style={{ overflow: 'hidden' }}>
                     <Canvas style={StyleSheet.absoluteFill}>
                         <ImageSVG
                             svg={svg}
@@ -87,7 +82,6 @@ export default function MapsView({ venues = [], onMarkerPress }: Props) {
                         />
                     </Canvas>
 
-                    {/* Layer 2: Markers (Absolute positioning) */}
                     {venues.map((venue) => {
                         if (!venue.map_latitude || !venue.map_longitude) return null;
                         const { x, y } = getPixelCoords(venue.map_latitude, venue.map_longitude);
@@ -115,8 +109,7 @@ export default function MapsView({ venues = [], onMarkerPress }: Props) {
                             translateY={translateY}
                         />
                     )}
-
-                </View>
+                </Container>
             </GestureDetector>
 
             <MapControls onPress={handleCurrentLocationPress} />
@@ -128,10 +121,3 @@ export default function MapsView({ venues = [], onMarkerPress }: Props) {
         </Container>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        overflow: 'hidden',
-    }
-});

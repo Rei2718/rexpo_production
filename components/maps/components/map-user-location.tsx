@@ -25,9 +25,8 @@ export function MapUserLocation({ x, y, scale, translateX, translateY }: Props) 
             transform: [
                 { translateX: screenX },
                 { translateY: screenY },
-                // Center alignment
-                { translateX: -12 }, // Half of width (24)
-                { translateY: -12 }, // Half of height (24)
+                { translateX: -Spacing.s24 / 2 },
+                { translateY: -Spacing.s24 / 2 },
             ],
             zIndex: 999,
         };
@@ -53,7 +52,7 @@ export function MapUserLocation({ x, y, scale, translateX, translateY }: Props) 
                     borderRadius: Spacing.pill,
                     borderWidth: Spacing.s1,
                     borderColor: color.natural_500,
-                    margin: 6, // (24 - 12) / 2
+                    margin: (Spacing.s24 - Spacing.s12) / 2,
                 }}
             />
         </Animated.View>
