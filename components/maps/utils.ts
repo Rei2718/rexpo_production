@@ -1,24 +1,23 @@
-// Map boundaries derived from hooks/use-map.ts INITIAL_REGION
-// Latitude: 43.057149, Longitude: 141.388626, Delta: 0.003, Buffer: 0.00005
+// 全体的にピンが「右」にズレている → centerLng を少し「増やす」
+// 全体的にピンが「上」にズレている → centerLat を少し「増やす」
+// ピンの間隔が広すぎて画面外にはみ出る → 値を「大きく」する (0.0040など)
+// ピンが中央に集まりすぎている → 値を「小さく」する (0.0025など)
 
 const MAP_CONFIG = {
-    minLat: 43.055599, // South
-    maxLat: 43.058699, // North
-    minLng: 141.387076, // West
-    maxLng: 141.390176, // East
+    centerLat: 43.057055,
+    centerLng: 141.388655,
+    latRange: 0.0034,
 };
 
-/**
- * Converts Latitude/Longitude to percentage coordinates (0-100) on the map.
- * Returns { x: 0..100, y: 0..100 }
- */
-export function convertLatLngToXY(latitude: number, longitude: number) {
-    // X: Longitude (West -> East maps to 0 -> 100)
-    const xPct = ((longitude - MAP_CONFIG.minLng) / (MAP_CONFIG.maxLng - MAP_CONFIG.minLng)) * 100;
+const ASPECT_RATIO = Math.cos(MAP_CONFIG.centerLat * (Math.PI / 180));
+const LNG_RANGE = MAP_CONFIG.latRange / ASPECT_RATIO;
 
-    // Y: Latitude (North -> South maps to 0 -> 100)
-    // Note: Screen Y grows downwards, so MaxLat (North) is 0%, MinLat (South) is 100%
-    const yPct = ((MAP_CONFIG.maxLat - latitude) / (MAP_CONFIG.maxLat - MAP_CONFIG.minLat)) * 100;
+export function convertLatLngToXY(latitude: number, longitude: number) {
+    const latDiff = MAP_CONFIG.centerLat - latitude;
+    const lngDiff = longitude - MAP_CONFIG.centerLng;
+
+    const xPct = 50 + (lngDiff / LNG_RANGE) * 100;
+    const yPct = 50 + (latDiff / MAP_CONFIG.latRange) * 100;
 
     return { x: xPct, y: yPct };
 }
