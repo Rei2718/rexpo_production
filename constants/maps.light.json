@@ -1,10 +1,10 @@
 [
     {
-        "featureType": "road",
-        "elementType": "geometry",
+        "featureType": "all",
+        "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#ffffff"
+                "color": "#eeeeee"
             },
             {
                 "visibility": "on"
@@ -15,11 +15,11 @@
         ]
     },
     {
-        "featureType": "road.highway",
+        "featureType": "road",
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#ffffff"
+                "color": "FFFFFF"
             },
             {
                 "visibility": "on"
@@ -34,37 +34,7 @@
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#f2f2f7"
-            },
-            {
-                "visibility": "on"
-            },
-            {
-                "saturation": 0
-            }
-        ]
-    },
-    {
-        "featureType": "landscape.man_made",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f2f2f7"
-            },
-            {
-                "visibility": "on"
-            },
-            {
-                "saturation": 0
-            }
-        ]
-    },
-    {
-        "featureType": "landscape.natural",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f2f2f7"
+                "color": "F2F2F7"
             },
             {
                 "visibility": "on"
@@ -79,7 +49,7 @@
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#f2f2f7"
+                "color": "FFFFFF"
             },
             {
                 "visibility": "on"
@@ -94,7 +64,7 @@
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#ffffff"
+                "color": "EBEBEB"
             },
             {
                 "visibility": "on"
@@ -109,22 +79,7 @@
         "elementType": "",
         "stylers": [
             {
-                "color": "#f2f2f7"
-            },
-            {
-                "visibility": "on"
-            },
-            {
-                "saturation": 0
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.icon",
-        "stylers": [
-            {
-                "color": "#f2f2f7"
+                "color": "EBEBEB"
             },
             {
                 "visibility": "on"
