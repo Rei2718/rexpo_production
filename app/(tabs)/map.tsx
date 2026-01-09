@@ -1,3 +1,3 @@
-import MapScreen from "@/components/map";
+import MapsScreen from "@/components/maps";
 
-export default MapScreen;
+export default MapsScreen;
