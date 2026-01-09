@@ -1,10 +1,10 @@
-import Sheet from "@/components/map/sheet";
 import { StatusMessage } from "@/components/ui/status-message";
 import { useAllVenues } from "@/supabase/api";
 import { DisplayVenue, Verified } from "@/supabase/api/types";
 import { useState } from "react";
 import { View } from "react-native";
-import MapsView from "./maps-view";
+import Sheet from "./components/map-bottom-sheet";
+import MapsView from "./components/map-view";
 
 export default function MapsScreen() {
     const { data: venues, isPending, isError } = useAllVenues();
