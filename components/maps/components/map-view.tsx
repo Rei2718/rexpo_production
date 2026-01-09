@@ -1,84 +1,24 @@
 import { Container } from '@/components/ui/container';
 import { StatusMessage } from '@/components/ui/status-message';
-import { Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
-import { Canvas, Circle, Group, ImageSVG, Path, Skia, SkPath, useSVG } from "@shopify/react-native-skia";
+import { Canvas, Group, ImageSVG, Skia, useSVG } from "@shopify/react-native-skia";
 import { useMemo } from 'react';
 import { StyleSheet, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import { DerivedValue, runOnJS, useDerivedValue, withTiming } from 'react-native-reanimated';
+import { runOnJS, useDerivedValue, withTiming } from 'react-native-reanimated';
+import { useMapCoordinates } from "../hooks/use-map-coordinates";
 import { useMapGestures } from "../hooks/use-map-gestures";
 import { useMapUserLocation } from '../hooks/use-map-user-location';
-import { convertLatLngToXY } from "../utils";
 import { LocationPermissionModal } from './location-permission-modal';
 import { MapControls } from './map-controls';
-import { LOCATION_PIN_PATH } from './map-shapes';
+import { MapMarker } from './map-marker';
+import { HIT_RADIUS, LOCATION_PIN_PATH, MARKER_ANCHOR, MARKER_SIZE } from './map-shapes';
+import { UserLocationMarker } from './user-location-marker';
 
 type Props = {
     venues?: Verified<DisplayVenue>[];
     onMarkerPress?: (venue: Verified<DisplayVenue>) => void;
-};
-
-const HIT_RADIUS = 44;
-
-type MarkerProps = {
-    x: number;
-    y: number;
-    inverseScale: DerivedValue<number>;
-    path: SkPath;
-    color: string;
-};
-
-const Marker = ({ x, y, inverseScale, path, color }: MarkerProps) => {
-    const transform = useDerivedValue(() => {
-        return [
-            { translateX: x },
-            { translateY: y },
-            { scale: inverseScale.value },
-            { translateX: -12 },
-            { translateY: -24 }
-        ];
-    }, [x, y, inverseScale]);
-
-    return (
-        <Group transform={transform}>
-            <Path path={path} color={color} />
-        </Group>
-    );
-};
-
-type UserLocationProps = {
-    x: number;
-    y: number;
-    inverseScale: DerivedValue<number>;
-    color: string;
-    strokeColor: string;
-};
-
-const UserLocationMarker = ({ x, y, inverseScale, color, strokeColor }: UserLocationProps) => {
-    const transform = useDerivedValue(() => {
-        return [
-            { translateX: x },
-            { translateY: y },
-            { scale: inverseScale.value }
-        ];
-    }, [x, y, inverseScale]);
-
-    return (
-        <Group transform={transform}>
-            <Circle cx={0} cy={0} r={Spacing.s24 / 2} color={color} opacity={0.3} />
-            <Circle cx={0} cy={0} r={Spacing.s12 / 2} color={color} />
-            <Circle
-                cx={0}
-                cy={0}
-                r={Spacing.s12 / 2}
-                color={strokeColor}
-                style="stroke"
-                strokeWidth={1}
-            />
-        </Group>
-    );
 };
 
 export default function MapsView({ venues = [], onMarkerPress }: Props) {
@@ -101,6 +41,8 @@ export default function MapsView({ venues = [], onMarkerPress }: Props) {
         contentDimensions: { width: svgWidth, height: svgHeight }
     });
 
+    const { getPixelCoords } = useMapCoordinates({ svgWidth, svgHeight });
+
     const {
         userLocation,
         checkLocationPermission,
@@ -109,14 +51,6 @@ export default function MapsView({ venues = [], onMarkerPress }: Props) {
     } = useMapUserLocation();
 
     const inverseScale = useDerivedValue(() => 1 / scale.value);
-
-    const getPixelCoords = (lat: number, lng: number) => {
-        const { x: xPct, y: yPct } = convertLatLngToXY(lat, lng);
-        return {
-            x: (xPct / 100) * svgWidth,
-            y: (yPct / 100) * svgHeight
-        };
-    };
 
     const handleCurrentLocationPress = async () => {
         const status = await checkLocationPermission();
@@ -147,10 +81,14 @@ export default function MapsView({ venues = [], onMarkerPress }: Props) {
             const screenX = vx * currentScale + tx;
             const screenY = vy * currentScale + ty;
 
-            const centerX = screenX;
-            const centerY = screenY - 12;
+            // Calculate the visual center of the marker for hit testing
+            // Using unified constants from map-shapes
+            const centerX = screenX - MARKER_ANCHOR.x * currentScale + (MARKER_SIZE / 2) * currentScale;
+            // screenX/Y above are the Map Point coordinates on screen.
+            const visualCenterX = screenX - MARKER_ANCHOR.x + (MARKER_SIZE / 2);
+            const visualCenterY = screenY - MARKER_ANCHOR.y + (MARKER_SIZE / 2);
 
-            const dist = Math.hypot(x - centerX, y - centerY);
+            const dist = Math.hypot(x - visualCenterX, y - visualCenterY);
 
             if (dist < HIT_RADIUS && dist < minDist) {
                 minDist = dist;
@@ -198,7 +136,7 @@ export default function MapsView({ venues = [], onMarkerPress }: Props) {
                                 const { x, y } = getPixelCoords(venue.map_latitude, venue.map_longitude);
 
                                 return (
-                                    <Marker
+                                    <MapMarker
                                         key={venue.venue_public_id}
                                         x={x}
                                         y={y}
