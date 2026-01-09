@@ -3,9 +3,12 @@ import { Icon } from '@/components/ui/icon';
 import { PressableScale } from '@/components/ui/pressable-scale';
 import { StatusMessage } from '@/components/ui/status-message';
 import { ThemedView } from '@/components/ui/themed-view';
+import mapStyleDark from '@/constants/maps.dark.json';
+import mapStyleLight from '@/constants/maps.light.json';
 import { Spacing } from '@/constants/theme';
 import useMap, { INITIAL_REGION, MIN_ZOOM_LEVEL } from '@/hooks/use-map';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColorScheme } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LocationPermissionModal } from './location-permission-modal';
@@ -15,6 +18,8 @@ import Sheet from './sheet';
 export default function MapMain() {
     const color = useThemeColor();
     const insets = useSafeAreaInsets();
+    const theme = useColorScheme() ?? 'light';
+    const mapStyle = theme === 'dark' ? mapStyleDark : mapStyleLight;
 
     const {
         mapRef,
@@ -45,6 +50,7 @@ export default function MapMain() {
             <MapView
                 ref={mapRef}
                 provider={PROVIDER_GOOGLE}
+                customMapStyle={mapStyle}
                 style={{ flex: 1 }}
                 initialRegion={INITIAL_REGION}
                 mapType="standard"
