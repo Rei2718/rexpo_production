@@ -1,4 +1,5 @@
 import { Group, Path, SkPath } from "@shopify/react-native-skia";
+import React from 'react';
 import { DerivedValue, useDerivedValue } from 'react-native-reanimated';
 import { MARKER_ANCHOR } from "./map-shapes";
 
@@ -10,7 +11,7 @@ type MapMarkerProps = {
     color: string;
 };
 
-export const MapMarker = ({ x, y, inverseScale, path, color }: MapMarkerProps) => {
+export const MapMarker = React.memo(({ x, y, inverseScale, path, color }: MapMarkerProps) => {
     const transform = useDerivedValue(() => {
         return [
             { translateX: x },
@@ -27,4 +28,4 @@ export const MapMarker = ({ x, y, inverseScale, path, color }: MapMarkerProps) =
             <Path path={path} color={color} />
         </Group>
     );
-};
+});
