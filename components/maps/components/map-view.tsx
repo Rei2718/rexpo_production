@@ -5,6 +5,7 @@ import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Canvas, Group, ImageSVG } from "@shopify/react-native-skia";
 import { StyleSheet } from 'react-native';
 import { GestureDetector } from "react-native-gesture-handler";
+import { useDerivedValue } from 'react-native-reanimated';
 import { useMapsView } from "../hooks/use-maps-view";
 import { MapControls } from './map-controls';
 import { MapMarker } from './map-marker';
@@ -20,7 +21,9 @@ type Props = {
 export default function MapsView({ venues = [], selectedVenueId, onMarkerPress, onMapPress }: Props) {
     const {
         themeColor,
-        svg,
+        currentSvg,
+        previousSvg,
+        fadeProgress,
         svgWidth,
         svgHeight,
         transform,
@@ -37,7 +40,9 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress, 
         handleFloorToggle,
     } = useMapsView({ venues, onMarkerPress, onMapPress });
 
-    if (!svg || !markerPath) {
+    const previousSvgOpacity = useDerivedValue(() => 1 - fadeProgress.value);
+
+    if (!currentSvg || !markerPath) {
         return <StatusMessage status="loading" />;
     }
 
@@ -47,14 +52,31 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress, 
                 <Container flex={1} style={{ overflow: 'hidden' }}>
                     <Canvas style={StyleSheet.absoluteFill}>
 
-                        <ImageSVG
-                            svg={svg}
-                            x={0}
-                            y={0}
-                            width={svgWidth}
-                            height={svgHeight}
-                            transform={transform}
-                        />
+                        <Group opacity={previousSvgOpacity}>
+                            {previousSvg && (
+                                <ImageSVG
+                                    svg={previousSvg}
+                                    x={0}
+                                    y={0}
+                                    width={svgWidth}
+                                    height={svgHeight}
+                                    transform={transform}
+                                />
+                            )}
+                        </Group>
+
+                        <Group opacity={fadeProgress}>
+                            {currentSvg && (
+                                <ImageSVG
+                                    svg={currentSvg}
+                                    x={0}
+                                    y={0}
+                                    width={svgWidth}
+                                    height={svgHeight}
+                                    transform={transform}
+                                />
+                            )}
+                        </Group>
 
                         <Group transform={transform}>
                             {processedVenues.map((venue) => (

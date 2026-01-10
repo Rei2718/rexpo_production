@@ -2,9 +2,9 @@ import { IconName } from '@/assets/msIcon';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Skia, useSVG } from "@shopify/react-native-skia";
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useColorScheme, useWindowDimensions } from 'react-native';
-import { useDerivedValue, withTiming } from 'react-native-reanimated';
+import { useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
 import { LOCATION_PIN_PATH, MARKER_SIZE, PIN_OFFSET_Y, PIN_VIEW_BOX_SIZE } from '../components/map-shapes';
 import { useMapFloor } from './use-map-floor';
 import { useMapGestures } from "./use-map-gestures";
@@ -36,6 +36,19 @@ export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewPr
     }, [colorScheme, currentFloor]);
 
     const svg = useSVG(svgSource);
+
+    const [currentSvg, setCurrentSvg] = useState<ReturnType<typeof useSVG>>(null);
+    const [previousSvg, setPreviousSvg] = useState<ReturnType<typeof useSVG>>(null);
+    const fadeProgress = useSharedValue(1);
+
+    useEffect(() => {
+        if (svg && svg !== currentSvg) {
+            setPreviousSvg(currentSvg);
+            setCurrentSvg(svg);
+            fadeProgress.value = 0;
+            fadeProgress.value = withTiming(1, { duration: 300 });
+        }
+    }, [svg]);
 
     const markerPath = useMemo(() => {
         const path = Skia.Path.MakeFromSVGString(LOCATION_PIN_PATH);
@@ -130,7 +143,9 @@ export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewPr
 
     return {
         themeColor,
-        svg,
+        currentSvg,
+        previousSvg,
+        fadeProgress,
         svgWidth,
         svgHeight,
         transform,
