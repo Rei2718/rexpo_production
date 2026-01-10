@@ -18,10 +18,11 @@ import { UserLocationMarker } from './user-location-marker';
 
 type Props = {
     venues?: Verified<DisplayVenue>[];
+    selectedVenueId: string | null;
     onMarkerPress?: (venue: Verified<DisplayVenue>) => void;
 };
 
-export default function MapsView({ venues = [], onMarkerPress }: Props) {
+export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }: Props) {
     const themeColor = useThemeColor();
     const { width, height } = useWindowDimensions();
     const svg = useSVG(require('@/assets/map/maps.dark.svg'));
@@ -168,6 +169,7 @@ export default function MapsView({ venues = [], onMarkerPress }: Props) {
                                     inverseScale={inverseScale}
                                     path={markerPath}
                                     color={themeColor.tint}
+                                    isSelected={venue.venue_public_id === selectedVenueId}
                                 />
                             ))}
 

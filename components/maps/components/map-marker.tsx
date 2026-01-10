@@ -1,5 +1,5 @@
 import { Group, Path, SkPath } from "@shopify/react-native-skia";
-import React from 'react';
+import { memo } from "react";
 import { DerivedValue, useDerivedValue } from 'react-native-reanimated';
 import { MARKER_ANCHOR } from "./map-shapes";
 
@@ -9,15 +9,15 @@ type MapMarkerProps = {
     inverseScale: DerivedValue<number>;
     path: SkPath;
     color: string;
+    isSelected: boolean;
 };
 
-export const MapMarker = React.memo(({ x, y, inverseScale, path, color }: MapMarkerProps) => {
+export const MapMarker = memo(({ x, y, inverseScale, path, color, isSelected }: MapMarkerProps) => {
     const transform = useDerivedValue(() => {
         return [
             { translateX: x },
             { translateY: y },
             { scale: inverseScale.value },
-            // Unified Anchor Offset using the constant
             { translateX: -MARKER_ANCHOR.x },
             { translateY: -MARKER_ANCHOR.y }
         ];
@@ -25,7 +25,12 @@ export const MapMarker = React.memo(({ x, y, inverseScale, path, color }: MapMar
 
     return (
         <Group transform={transform}>
-            <Path path={path} color={color} />
+            <Path
+                path={path}
+                color={color}
+                style={isSelected ? "fill" : "stroke"}
+                strokeWidth={isSelected ? 0 : 2}
+            />
         </Group>
     );
 });
