@@ -22,9 +22,8 @@ export function convertLatLngToXY(latitude: number, longitude: number) {
     return { x: xPct, y: yPct };
 }
 
-// Haversine formula to calculate distance in meters
 export function getDistanceFromCenter(latitude: number, longitude: number): number {
-    const R = 6371e3; // Earth radius in meters
+    const R = 6371e3;
     const lat1 = (latitude * Math.PI) / 180;
     const lat2 = (MAP_CONFIG.centerLat * Math.PI) / 180;
     const dLat = ((MAP_CONFIG.centerLat - latitude) * Math.PI) / 180;

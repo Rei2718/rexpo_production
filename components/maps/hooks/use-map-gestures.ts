@@ -13,12 +13,10 @@ interface UseMapGesturesProps {
 }
 
 export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMapGesturesProps) => {
-    // アニメーション値 (内部的には translationX/Y という名前で管理)
     const translationX = useSharedValue(0);
     const translationY = useSharedValue(0);
     const scale = useSharedValue(1);
 
-    // ジェスチャー開始時の状態保存用
     const originX = useSharedValue(0);
     const originY = useSharedValue(0);
     const startScale = useSharedValue(1);
@@ -30,15 +28,12 @@ export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMa
     const contentWidth = useSharedValue(contentDimensions.width);
     const contentHeight = useSharedValue(contentDimensions.height);
 
-    // 最小スケール計算
     const calculateMinScale = (cW: number, cH: number, imgW: number, imgH: number) => {
         "worklet";
         if (imgW === 0 || imgH === 0) return 1;
-        // contain (全体収める) か cover (埋める) か。ここでは cover 寄りの挙動
         return Math.max(cW / imgW, cH / imgH);
     };
 
-    // 範囲制限関数
     const clamp = (value: number, min: number, max: number) => {
         "worklet";
         return Math.min(Math.max(value, min), max);
@@ -57,11 +52,9 @@ export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMa
             contentDimensions.height
         );
 
-        // 初期化やリサイズ時のリセット
         if (scale.value === 0 || scale.value === 1 || scale.value < minScale) {
             scale.value = minScale;
 
-            // 中央寄せ
             const centeredX = (containerDimensions.width - contentDimensions.width * minScale) / 2;
             const centeredY = (containerDimensions.height - contentDimensions.height * minScale) / 2;
 
@@ -70,11 +63,9 @@ export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMa
         }
     }, [containerDimensions, contentDimensions]);
 
-    // --- Gestures ---
-
     const panGesture = Gesture.Pan()
         .averageTouches(true)
-        .maxPointers(1) // 1本指のみ許可（ピンチとの競合防止）
+        .maxPointers(1)
         .onStart(() => {
             startTranslationX.value = translationX.value;
             startTranslationY.value = translationY.value;
@@ -83,12 +74,9 @@ export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMa
             let nextTx = startTranslationX.value + e.translationX;
             let nextTy = startTranslationY.value + e.translationY;
 
-            // ▼▼▼ 移動制限 (Clamp) ▼▼▼
             const currentScale = scale.value;
             const scaledWidth = contentWidth.value * currentScale;
             const scaledHeight = contentHeight.value * currentScale;
-
-            // 幅が画面より小さい時は中央寄せ、大きい時は端で止める
             if (scaledWidth < containerWidth.value) {
                 nextTx = (containerWidth.value - scaledWidth) / 2;
             } else {
@@ -104,7 +92,6 @@ export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMa
                 const maxY = 0;
                 nextTy = clamp(nextTy, minY, maxY);
             }
-            // ▲▲▲ 移動制限終了 ▲▲▲
 
             translationX.value = nextTx;
             translationY.value = nextTy;
@@ -120,13 +107,10 @@ export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMa
         })
         .onUpdate((e) => {
             const nextScale = startScale.value * e.scale;
-            // スケール制限 (例: 0.1倍〜10倍)
-            // 必要であれば calculateMinScale の値も考慮できます
             const clampedScale = Math.max(0.1, Math.min(nextScale, 10));
 
             scale.value = clampedScale;
 
-            // Focal Point (指の中心) に向かってズームする補正計算
             const scaleRatio = clampedScale / startScale.value;
             const focusX = originX.value - startTranslationX.value;
             const focusY = originY.value - startTranslationY.value;
@@ -134,8 +118,6 @@ export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMa
             let nextTx = startTranslationX.value + (1 - scaleRatio) * focusX;
             let nextTy = startTranslationY.value + (1 - scaleRatio) * focusY;
 
-            // ▼▼▼ ズーム中の移動制限 (Clamp) ▼▼▼
-            // ここが重要：ズーム中も常に枠内に収まるよう計算する
             const scaledWidth = contentWidth.value * clampedScale;
             const scaledHeight = contentHeight.value * clampedScale;
 
@@ -154,7 +136,6 @@ export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMa
                 const maxY = 0;
                 nextTy = clamp(nextTy, minY, maxY);
             }
-            // ▲▲▲ 移動制限終了 ▲▲▲
 
             translationX.value = nextTx;
             translationY.value = nextTy;
@@ -174,7 +155,6 @@ export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMa
         gesture: composedGesture,
         transform,
         scale,
-        // 呼び出し元のインターフェースに合わせてマッピング
         translateX: translationX,
         translateY: translationY,
     };

@@ -16,8 +16,8 @@ export function MapControls({ onPress }: Props) {
 
     return (
         <ContainerAbsolute
-            top={Spacing.s16 + insets.top}
-            right={Spacing.s16}
+            top={insets.top}
+            right={Spacing.s20}
             zIndex={100}
         >
             <PressableScale onPress={onPress}>
