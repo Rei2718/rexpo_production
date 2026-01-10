@@ -1,12 +1,14 @@
 import { Container } from '@/components/ui/container';
+import { FlashMessage } from '@/components/ui/flash-message';
 import { StatusMessage } from '@/components/ui/status-message';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Canvas, Group, ImageSVG, Skia, useSVG } from "@shopify/react-native-skia";
-import { useMemo } from 'react';
-import { Alert, StyleSheet, useWindowDimensions } from 'react-native';
+import { useMemo, useState } from 'react';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import { runOnJS, useDerivedValue, withTiming } from 'react-native-reanimated';
+import { useDerivedValue, withTiming } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import { useMapCoordinates } from "../hooks/use-map-coordinates";
 import { useMapGestures } from "../hooks/use-map-gestures";
 import { useMapUserLocation } from '../hooks/use-map-user-location';
@@ -85,16 +87,18 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
 
     const inverseScale = useDerivedValue(() => 1 / scale.value);
 
+    const [flashMessage, setFlashMessage] = useState<string | null>(null);
+
     const handleCurrentLocationPress = async () => {
         // If user location is not yet available (permission denied or loading)
         if (!userLocation) {
-            Alert.alert("位置を確認できません", "位置情報の取得が許可されていないか、現在地を取得中です。");
+            setFlashMessage("位置情報の取得が許可されていないか、現在地を取得中です。");
             return;
         }
 
         // If out of range, show alert and do not move map
         if (isOutOfRange) {
-            Alert.alert("範囲外です", "現在地がマップの表示範囲外(400m以上)にあるため、移動できません。");
+            setFlashMessage("現在地がマップの表示範囲外(400m以上)にあるため、移動できません。");
             return;
         }
 
@@ -143,7 +147,7 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
     const tapGesture = Gesture.Tap()
         .maxDistance(10)
         .onEnd((e) => {
-            runOnJS(handleTap)(e.x, e.y);
+            scheduleOnRN(() => handleTap(e.x, e.y));
         });
 
     const composedGesture = Gesture.Simultaneous(mapGestures, tapGesture);
@@ -197,6 +201,11 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
             </GestureDetector>
 
             <MapControls onPress={handleCurrentLocationPress} />
+
+            <FlashMessage
+                message={flashMessage}
+                onDismiss={() => setFlashMessage(null)}
+            />
         </Container>
     );
 }
