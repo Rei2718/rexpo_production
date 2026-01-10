@@ -1,6 +1,8 @@
 import { IconName } from "@/assets/msIcon";
+import { Container } from "@/components/ui/container";
 import { Icon } from "@/components/ui/icon";
 import { PressableScale } from "@/components/ui/pressable-scale";
+import { ThemedText } from "@/components/ui/themed-text";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { View } from "react-native";
@@ -13,6 +15,7 @@ export interface SettingsActionItemProps {
     onPress: () => void;
     isLast?: boolean;
     isDestructive?: boolean;
+    value?: string;
 }
 
 export function SettingsActionItem({
@@ -21,6 +24,7 @@ export function SettingsActionItem({
     onPress,
     isLast = false,
     isDestructive = false,
+    value,
 }: SettingsActionItemProps) {
     const color = useThemeColor();
 
@@ -28,7 +32,14 @@ export function SettingsActionItem({
         <>
             <PressableScale onPress={onPress}>
                 <SettingsItem label={label} icon={icon} labelStyle={isDestructive ? { color: color.red_500 } : undefined}>
-                    <Icon icon="right" color={color.natural_300} />
+                    <Container flexDirection="row" alignItems="center" gap="s8">
+                        {value && (
+                            <ThemedText type="caption1" style={{ color: color.natural_300 }}>
+                                {value}
+                            </ThemedText>
+                        )}
+                        <Icon icon="right" color={color.natural_300} />
+                    </Container>
                 </SettingsItem>
             </PressableScale>
             {!isLast && (

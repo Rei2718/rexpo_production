@@ -3,9 +3,8 @@ import { ThemedText } from "@/components/ui/themed-text";
 import { Spacing } from "@/constants/theme";
 import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from "react-native-reanimated";
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { scheduleOnRN } from "react-native-worklets";
 
 type FlashMessageProps = {
     message: string | null;
@@ -23,7 +22,7 @@ export function FlashMessage({ message, duration = 3000, onDismiss }: FlashMessa
                 withTiming(1, { duration: 300 }),
                 withDelay(duration, withTiming(0, { duration: 300 }, (finished) => {
                     if (finished && onDismiss) {
-                        scheduleOnRN(onDismiss);
+                        runOnJS(onDismiss)();
                     }
                 }))
             );

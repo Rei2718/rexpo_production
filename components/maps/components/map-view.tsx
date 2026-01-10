@@ -7,8 +7,7 @@ import { Canvas, Group, ImageSVG, Skia, useSVG } from "@shopify/react-native-ski
 import { useMemo, useState } from 'react';
 import { StyleSheet, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import { useDerivedValue, withTiming } from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
+import { runOnJS, useDerivedValue, withTiming } from 'react-native-reanimated';
 import { useMapCoordinates } from "../hooks/use-map-coordinates";
 import { useMapGestures } from "../hooks/use-map-gestures";
 import { useMapUserLocation } from '../hooks/use-map-user-location';
@@ -25,6 +24,7 @@ type Props = {
 
 export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }: Props) {
     const themeColor = useThemeColor();
+    // const { isLocationVisible } = useSettingStore(); // Removed
     const { width, height } = useWindowDimensions();
     const svg = useSVG(require('@/assets/map/maps.dark.svg'));
 
@@ -76,6 +76,8 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
     const {
         userLocation,
         isOutOfRange,
+        status, // location permission status
+        checkLocationPermission,
     } = useMapUserLocation();
 
     const userLocationCoords = useMemo(() => {
@@ -90,19 +92,33 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
     const [flashMessage, setFlashMessage] = useState<string | null>(null);
 
     const handleCurrentLocationPress = async () => {
-        // If user location is not yet available (permission denied or loading)
+        // Pattern 1: Setting is OFF - REMOVED (Always ON if permission granted)
+
+        // Pattern 2: Setting ON, Permission NOT Granted (denied or undetermined)
+        // If status is not granted, we should try to request it or warn user.
+        if (status !== 'granted') {
+            // Try to request/check again
+            const newStatus = await checkLocationPermission();
+            if (newStatus !== 'granted') {
+                setFlashMessage("位置情報の取得が許可されていません。設定アプリから許可してください。");
+                return;
+            }
+            // If granted now, let it fall through to location check
+        }
+
+        // Pattern 3: Setting ON, Permission GRANTED, but location not ready
         if (!userLocation) {
-            setFlashMessage("位置情報の取得が許可されていないか、現在地を取得中です。");
+            setFlashMessage("現在地を取得中です...");
             return;
         }
 
-        // If out of range, show alert and do not move map
+        // Check range
         if (isOutOfRange) {
             setFlashMessage("現在地がマップの表示範囲外(400m以上)にあるため、移動できません。");
             return;
         }
 
-        // In range, move map to user location
+        // Valid execution
         const { x, y } = getPixelCoords(userLocation.coords.latitude, userLocation.coords.longitude);
 
         const targetX = (width / 2) - (x * scale.value);
@@ -121,9 +137,9 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
         let minDist = Infinity;
 
         // Use pre-calculated coordinates for hit testing O(1) per item
-        for (const venue of processedVenues) {
-            const screenX = venue.x * currentScale + tx;
-            const screenY = venue.y * currentScale + ty;
+        for (const processedVenue of processedVenues) {
+            const screenX = processedVenue.x * currentScale + tx;
+            const screenY = processedVenue.y * currentScale + ty;
 
             // Calculate the visual center of the marker for hit testing
             // Using unified constants from map-shapes
@@ -135,7 +151,7 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
 
             if (dist < HIT_RADIUS && dist < minDist) {
                 minDist = dist;
-                closestVenue = venue;
+                closestVenue = processedVenue;
             }
         }
 
@@ -147,7 +163,7 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
     const tapGesture = Gesture.Tap()
         .maxDistance(10)
         .onEnd((e) => {
-            scheduleOnRN(() => handleTap(e.x, e.y));
+            runOnJS(handleTap)(e.x, e.y);
         });
 
     const composedGesture = Gesture.Simultaneous(mapGestures, tapGesture);
