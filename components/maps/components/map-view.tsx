@@ -4,13 +4,12 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Canvas, Group, ImageSVG, Skia, useSVG } from "@shopify/react-native-skia";
 import { useMemo } from 'react';
-import { StyleSheet, useWindowDimensions } from 'react-native';
+import { Alert, StyleSheet, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { runOnJS, useDerivedValue, withTiming } from 'react-native-reanimated';
 import { useMapCoordinates } from "../hooks/use-map-coordinates";
 import { useMapGestures } from "../hooks/use-map-gestures";
 import { useMapUserLocation } from '../hooks/use-map-user-location';
-import { LocationPermissionModal } from './location-permission-modal';
 import { MapControls } from './map-controls';
 import { MapMarker } from './map-marker';
 import { HIT_RADIUS, LOCATION_PIN_PATH, MARKER_ANCHOR, MARKER_SIZE, PIN_OFFSET_Y, PIN_VIEW_BOX_SIZE } from './map-shapes';
@@ -74,29 +73,39 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
 
     const {
         userLocation,
-        checkLocationPermission,
-        showPermissionModal,
-        setShowPermissionModal
+        isOutOfRange,
     } = useMapUserLocation();
 
     const userLocationCoords = useMemo(() => {
-        if (!userLocation) return null;
+        // Only calculate if user is within valid range to avoid drawing it in weird places
+        // or leading user to believe they are on the map when they are far away.
+        if (!userLocation || isOutOfRange) return null;
         return getPixelCoords(userLocation.coords.latitude, userLocation.coords.longitude);
-    }, [userLocation, getPixelCoords]);
+    }, [userLocation, isOutOfRange, getPixelCoords]);
 
     const inverseScale = useDerivedValue(() => 1 / scale.value);
 
     const handleCurrentLocationPress = async () => {
-        const status = await checkLocationPermission();
-        if (status === 'granted' && userLocation) {
-            const { x, y } = getPixelCoords(userLocation.coords.latitude, userLocation.coords.longitude);
-
-            const targetX = (width / 2) - (x * scale.value);
-            const targetY = (height / 2) - (y * scale.value);
-
-            translateX.value = withTiming(targetX);
-            translateY.value = withTiming(targetY);
+        // If user location is not yet available (permission denied or loading)
+        if (!userLocation) {
+            Alert.alert("位置を確認できません", "位置情報の取得が許可されていないか、現在地を取得中です。");
+            return;
         }
+
+        // If out of range, show alert and do not move map
+        if (isOutOfRange) {
+            Alert.alert("範囲外です", "現在地がマップの表示範囲外(400m以上)にあるため、移動できません。");
+            return;
+        }
+
+        // In range, move map to user location
+        const { x, y } = getPixelCoords(userLocation.coords.latitude, userLocation.coords.longitude);
+
+        const targetX = (width / 2) - (x * scale.value);
+        const targetY = (height / 2) - (y * scale.value);
+
+        translateX.value = withTiming(targetX);
+        translateY.value = withTiming(targetY);
     };
 
     const handleTap = (x: number, y: number) => {
@@ -188,11 +197,6 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
             </GestureDetector>
 
             <MapControls onPress={handleCurrentLocationPress} />
-
-            <LocationPermissionModal
-                visible={showPermissionModal}
-                onClose={() => setShowPermissionModal(false)}
-            />
         </Container>
     );
 }

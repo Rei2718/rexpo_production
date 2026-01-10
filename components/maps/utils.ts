@@ -3,7 +3,7 @@
 // ピンの間隔が広すぎて画面外にはみ出る → 値を「大きく」する (0.0040など)
 // ピンが中央に集まりすぎている → 値を「小さく」する (0.0025など)
 
-const MAP_CONFIG = {
+export const MAP_CONFIG = {
     centerLat: 43.057055,
     centerLng: 141.388655,
     latRange: 0.0034,
@@ -20,4 +20,20 @@ export function convertLatLngToXY(latitude: number, longitude: number) {
     const yPct = 50 + (latDiff / MAP_CONFIG.latRange) * 100;
 
     return { x: xPct, y: yPct };
+}
+
+// Haversine formula to calculate distance in meters
+export function getDistanceFromCenter(latitude: number, longitude: number): number {
+    const R = 6371e3; // Earth radius in meters
+    const lat1 = (latitude * Math.PI) / 180;
+    const lat2 = (MAP_CONFIG.centerLat * Math.PI) / 180;
+    const dLat = ((MAP_CONFIG.centerLat - latitude) * Math.PI) / 180;
+    const dLng = ((MAP_CONFIG.centerLng - longitude) * Math.PI) / 180;
+
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
 }
