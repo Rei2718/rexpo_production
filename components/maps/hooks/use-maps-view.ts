@@ -14,9 +14,10 @@ import { useMapUserLocation } from './use-map-user-location';
 type UseMapsViewProps = {
     venues: Verified<DisplayVenue>[];
     onMarkerPress?: (venue: Verified<DisplayVenue>) => void;
+    onMapPress?: () => void;
 };
 
-export function useMapsView({ venues, onMarkerPress }: UseMapsViewProps) {
+export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewProps) {
     const themeColor = useThemeColor();
     const { width, height } = useWindowDimensions();
     const svg = useSVG(require('@/assets/map/maps.dark.svg'));
@@ -61,6 +62,7 @@ export function useMapsView({ venues, onMarkerPress }: UseMapsViewProps) {
         translateY,
         processedVenues,
         onMarkerPress,
+        onMapPress,
         mapGestures
     });
 

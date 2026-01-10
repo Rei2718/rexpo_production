@@ -16,6 +16,7 @@ export default function MapsScreen() {
                 venues={venues ?? []}
                 selectedVenueId={selectedVenue?.venue_public_id}
                 onMarkerPress={setSelectedVenue}
+                onMapPress={() => setSelectedVenue(null)}
             />
             <Sheet
                 data={selectedVenue}

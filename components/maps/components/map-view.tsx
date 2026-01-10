@@ -14,9 +14,10 @@ type Props = {
     venues?: Verified<DisplayVenue>[];
     selectedVenueId?: string | null;
     onMarkerPress?: (venue: Verified<DisplayVenue>) => void;
+    onMapPress?: () => void;
 };
 
-export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }: Props) {
+export default function MapsView({ venues = [], selectedVenueId, onMarkerPress, onMapPress }: Props) {
     const {
         themeColor,
         svg,
@@ -32,7 +33,7 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
         flashMessage,
         setFlashMessage,
         currentLocationIcon,
-    } = useMapsView({ venues, onMarkerPress });
+    } = useMapsView({ venues, onMarkerPress, onMapPress });
 
     if (!svg || !markerPath) {
         return <StatusMessage status="loading" />;

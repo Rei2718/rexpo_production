@@ -9,6 +9,7 @@ type Props = {
     translateY: SharedValue<number>;
     processedVenues: (Verified<DisplayVenue> & { x: number; y: number })[];
     onMarkerPress?: (venue: Verified<DisplayVenue>) => void;
+    onMapPress?: () => void;
     mapGestures: any;
 };
 
@@ -18,6 +19,7 @@ export function useMapInteraction({
     translateY,
     processedVenues,
     onMarkerPress,
+    onMapPress,
     mapGestures,
 }: Props) {
     const handleTap = (x: number, y: number) => {
@@ -45,6 +47,8 @@ export function useMapInteraction({
 
         if (closestVenue) {
             onMarkerPress?.(closestVenue);
+        } else {
+            onMapPress?.();
         }
     };
 
