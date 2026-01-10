@@ -24,17 +24,17 @@ export function FeatureItem(data: Verified<Feature>) {
             <ContainerAbsolute bottom={0} left={0} right={0} style={{ height: '50%' }}>
                 <LinearGradient
                     colors={[
-                        hexToRgba(color.natural_600, 0.0),  // 0%
-                        hexToRgba(color.natural_600, 0.08), // 8%
-                        hexToRgba(color.natural_600, 0.15), // 15%
-                        hexToRgba(color.natural_600, 0.25), // 25%
-                        hexToRgba(color.natural_600, 0.35), // 35%
-                        hexToRgba(color.natural_600, 0.45), // 45%
-                        hexToRgba(color.natural_600, 0.55), // 55%
-                        hexToRgba(color.natural_600, 0.65), // 65%
-                        hexToRgba(color.natural_600, 0.75), // 75%
-                        hexToRgba(color.natural_600, 0.85), // 85%
-                        hexToRgba(color.natural_600, 1.0),  // 100%
+                        hexToRgba(color.natural_600, 0.0),
+                        hexToRgba(color.natural_600, 0.1),
+                        hexToRgba(color.natural_600, 0.25),
+                        hexToRgba(color.natural_600, 0.4),
+                        hexToRgba(color.natural_600, 0.55),
+                        hexToRgba(color.natural_600, 0.7),
+                        hexToRgba(color.natural_600, 0.8),
+                        hexToRgba(color.natural_600, 0.88),
+                        hexToRgba(color.natural_600, 0.94),
+                        hexToRgba(color.natural_600, 0.98),
+                        hexToRgba(color.natural_600, 1.0),
                     ]}
                     style={{ flex: 1 }}
                 />

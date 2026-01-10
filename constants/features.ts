@@ -3,7 +3,7 @@ import { Feature, Verified } from "@/supabase/api/types";
 export const STATIC_FEATURES: Verified<Feature>[] = [
     {
         feature_public_id: "355d1d54-b224-4c2c-a249-2631eff8bf71",
-        name: "北昴×慶祥 よさこいコラボステージ",
+        name: "北昴×慶祥 よさこいコラボ",
         caption: "YOSAKOIソーラン祭りで活躍する実力派チーム「北昴」が、慶祥生徒との大迫力コラボステージを披露します。",
         note: "詳細をチェック。",
         image: require('@/assets/features/1.jpg') as any,
