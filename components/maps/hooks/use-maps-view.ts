@@ -4,13 +4,15 @@ import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Skia, useSVG } from "@shopify/react-native-skia";
 import { useEffect, useMemo, useState } from 'react';
 import { useColorScheme, useWindowDimensions } from 'react-native';
-import { useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
+import { runOnJS, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
 import { LOCATION_PIN_PATH, MARKER_SIZE, PIN_OFFSET_Y, PIN_VIEW_BOX_SIZE } from '../components/map-shapes';
 import { useMapFloor } from './use-map-floor';
 import { useMapGestures } from "./use-map-gestures";
 import { useMapInteraction } from './use-map-interaction';
-import { useMapMarkers } from './use-map-markers';
+import { calculateVenuePositions, useMapMarkers } from './use-map-markers';
 import { useMapUserLocation } from './use-map-user-location';
+
+
 
 type UseMapsViewProps = {
     venues: Verified<DisplayVenue>[];
@@ -24,31 +26,44 @@ export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewPr
     const colorScheme = useColorScheme() ?? 'light';
     const { currentFloor, handleFloorToggle } = useMapFloor();
 
-    const svgSource = useMemo(() => {
-        if (colorScheme === 'dark') {
-            return currentFloor === 1
-                ? require('@/assets/map/maps.dark.floor1.svg')
-                : require('@/assets/map/maps.dark.floor2.svg');
-        }
-        return currentFloor === 1
-            ? require('@/assets/map/maps.light.floor1.svg')
-            : require('@/assets/map/maps.light.floor2.svg');
-    }, [colorScheme, currentFloor]);
-
-    const svg = useSVG(svgSource);
-
-    const [currentSvg, setCurrentSvg] = useState<ReturnType<typeof useSVG>>(null);
-    const [previousSvg, setPreviousSvg] = useState<ReturnType<typeof useSVG>>(null);
+    const [renderFloor, setRenderFloor] = useState(currentFloor);
     const fadeProgress = useSharedValue(1);
 
     useEffect(() => {
-        if (svg && svg !== currentSvg) {
-            setPreviousSvg(currentSvg);
-            setCurrentSvg(svg);
-            fadeProgress.value = 0;
-            fadeProgress.value = withTiming(1, { duration: 300 });
+        if (renderFloor !== currentFloor) {
+            // 1. Fade Out
+            fadeProgress.value = withTiming(0, { duration: 400 }, (finished) => {
+                if (finished) {
+                    // 2. Wait (Blank) & Switch Floor
+                    runOnJS(setRenderFloor)(currentFloor);
+                }
+            });
         }
-    }, [svg]);
+    }, [currentFloor]);
+
+    // When renderFloor updates (at opacity 0), wait then Fade In
+    useEffect(() => {
+        if (fadeProgress.value === 0) {
+            // 3. Wait (Blank) then Fade In
+            const timeout = setTimeout(() => {
+                fadeProgress.value = withTiming(1, { duration: 400 });
+            }, 400);
+            return () => clearTimeout(timeout);
+        }
+    }, [renderFloor]);
+
+    const svgSource = useMemo(() => {
+        if (colorScheme === 'dark') {
+            return renderFloor === 1
+                ? require('@/assets/map/maps.dark.floor1.svg')
+                : require('@/assets/map/maps.dark.floor2.svg');
+        }
+        return renderFloor === 1
+            ? require('@/assets/map/maps.light.floor1.svg')
+            : require('@/assets/map/maps.light.floor2.svg');
+    }, [colorScheme, renderFloor]);
+
+    const svg = useSVG(svgSource);
 
     const markerPath = useMemo(() => {
         const path = Skia.Path.MakeFromSVGString(LOCATION_PIN_PATH);
@@ -79,9 +94,16 @@ export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewPr
     });
 
 
+    const processedVenues = useMemo(() => {
+        if (!svg) return [];
+        return calculateVenuePositions(venues, svg.width(), svg.height(), renderFloor);
+    }, [venues, svg, renderFloor]);
 
-    const { processedVenues, getPixelCoords } = useMapMarkers({
-        venues,
+    // Keep useMapMarkers for getPixelCoords if needed, or instantiate useMapCoordinates directly if needed for UserLocation
+    // But UserLocation uses getPixelCoords which depends on avgWidth/Height.
+    // Let's use the helper hook but with current dimensions
+    const { getPixelCoords } = useMapMarkers({
+        venues: [], // We don't need venues here
         svgWidth,
         svgHeight,
         currentFloor
@@ -143,14 +165,14 @@ export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewPr
 
     return {
         themeColor,
-        currentSvg,
-        previousSvg,
+        svg,
         fadeProgress,
         svgWidth,
         svgHeight,
         transform,
         markerPath,
         processedVenues,
+
         userLocationCoords,
         inverseScale,
         composedGesture,
