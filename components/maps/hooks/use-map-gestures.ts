@@ -107,7 +107,15 @@ export const useMapGestures = ({ containerDimensions, contentDimensions }: UseMa
         })
         .onUpdate((e) => {
             const nextScale = startScale.value * e.scale;
-            const clampedScale = Math.max(0.1, Math.min(nextScale, 10));
+
+            const minScale = calculateMinScale(
+                containerWidth.value,
+                containerHeight.value,
+                contentWidth.value,
+                contentHeight.value
+            );
+
+            const clampedScale = Math.max(minScale, Math.min(nextScale, 10));
 
             scale.value = clampedScale;
 

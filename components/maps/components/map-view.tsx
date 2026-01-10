@@ -33,6 +33,8 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress, 
         flashMessage,
         setFlashMessage,
         currentLocationIcon,
+        currentFloor,
+        handleFloorToggle,
     } = useMapsView({ venues, onMarkerPress, onMapPress });
 
     if (!svg || !markerPath) {
@@ -72,8 +74,8 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress, 
                                     x={userLocationCoords.x}
                                     y={userLocationCoords.y}
                                     inverseScale={inverseScale}
-                                    color={themeColor.tint}
-                                    strokeColor={themeColor.natural_500}
+                                    color={themeColor.red_500}
+                                    strokeColor={themeColor.red_500}
                                 />
                             )}
                         </Group>
@@ -84,6 +86,8 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress, 
             <MapControls
                 onPress={handleCurrentLocationPress}
                 icon={currentLocationIcon}
+                currentFloor={currentFloor}
+                onFloorToggle={handleFloorToggle}
             />
 
             <FlashMessage

@@ -22,7 +22,7 @@ export const UserLocationMarker = ({ x, y, inverseScale, color, strokeColor }: U
     return (
         <Group transform={transform}>
             <Circle cx={0} cy={0} r={Spacing.s24 / 2} color={color} opacity={0.3} />
-            <Circle cx={0} cy={0} r={Spacing.s12 / 2} color={color} />
+            <Circle cx={0} cy={0} r={Spacing.s12 / 2} color={color} opacity={0.6} />
             <Circle
                 cx={0}
                 cy={0}
@@ -30,6 +30,7 @@ export const UserLocationMarker = ({ x, y, inverseScale, color, strokeColor }: U
                 color={strokeColor}
                 style="stroke"
                 strokeWidth={1}
+                opacity={0.6}
             />
         </Group>
     );

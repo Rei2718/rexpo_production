@@ -3,9 +3,10 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Skia, useSVG } from "@shopify/react-native-skia";
 import { useMemo, useState } from 'react';
-import { useWindowDimensions } from 'react-native';
+import { useColorScheme, useWindowDimensions } from 'react-native';
 import { useDerivedValue, withTiming } from 'react-native-reanimated';
 import { LOCATION_PIN_PATH, MARKER_SIZE, PIN_OFFSET_Y, PIN_VIEW_BOX_SIZE } from '../components/map-shapes';
+import { useMapFloor } from './use-map-floor';
 import { useMapGestures } from "./use-map-gestures";
 import { useMapInteraction } from './use-map-interaction';
 import { useMapMarkers } from './use-map-markers';
@@ -20,7 +21,21 @@ type UseMapsViewProps = {
 export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewProps) {
     const themeColor = useThemeColor();
     const { width, height } = useWindowDimensions();
-    const svg = useSVG(require('@/assets/map/maps.dark.svg'));
+    const colorScheme = useColorScheme() ?? 'light';
+    const { currentFloor, handleFloorToggle } = useMapFloor();
+
+    const svgSource = useMemo(() => {
+        if (colorScheme === 'dark') {
+            return currentFloor === 1
+                ? require('@/assets/map/maps.dark.floor1.svg')
+                : require('@/assets/map/maps.dark.floor2.svg');
+        }
+        return currentFloor === 1
+            ? require('@/assets/map/maps.light.floor1.svg')
+            : require('@/assets/map/maps.light.floor2.svg');
+    }, [colorScheme, currentFloor]);
+
+    const svg = useSVG(svgSource);
 
     const markerPath = useMemo(() => {
         const path = Skia.Path.MakeFromSVGString(LOCATION_PIN_PATH);
@@ -50,10 +65,13 @@ export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewPr
         contentDimensions: { width: svgWidth, height: svgHeight }
     });
 
+
+
     const { processedVenues, getPixelCoords } = useMapMarkers({
         venues,
         svgWidth,
-        svgHeight
+        svgHeight,
+        currentFloor
     });
 
     const { composedGesture } = useMapInteraction({
@@ -125,5 +143,7 @@ export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewPr
         flashMessage,
         setFlashMessage,
         currentLocationIcon: (status === 'granted' ? 'myLocation' : 'locationDisabled') as IconName,
+        currentFloor,
+        handleFloorToggle,
     };
 }
