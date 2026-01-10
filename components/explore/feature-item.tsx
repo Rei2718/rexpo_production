@@ -41,11 +41,11 @@ export function FeatureItem(data: Verified<Feature>) {
             </ContainerAbsolute>
 
             {/* Text */}
-            <ContainerAbsolute bottom={0} flex={1} justifyContent="center" padding="s24" paddingBottom="s48">
-                <Container flexDirection="column" justifyContent="center" alignItems="center" gap="s4">
-                    <ThemedText type="footnote">TODAY'S PICK</ThemedText>
-                    <ThemedText type="title2">{data.caption ?? NO_DATA}</ThemedText>
-                    <ThemedText type="subhead" color="natural_200">{data.caption ?? NO_DATA}</ThemedText>
+            <ContainerAbsolute bottom={0} left={0} right={0} justifyContent="center" paddingHorizontal="s40" paddingTop="s24" paddingBottom="s48">
+                <Container flexDirection="column" justifyContent="center" alignItems="center" gap="s8">
+                    <ThemedText type="footnote" style={styles.textCenter} color="tint">TODAY'S PICK</ThemedText>
+                    <ThemedText type="title2" style={styles.textCenter}>{data.name ?? NO_DATA}</ThemedText>
+                    <ThemedText type="subhead" color="natural_200" style={styles.textCenter}>{data.caption ?? NO_DATA}</ThemedText>
                 </Container>
             </ContainerAbsolute>
         </View>
@@ -57,5 +57,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-    }
+    },
+    textCenter: {
+        textAlign: "center",
+    },
 });
