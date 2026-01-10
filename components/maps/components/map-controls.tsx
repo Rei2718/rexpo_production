@@ -6,11 +6,14 @@ import { Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { IconName } from '@/assets/msIcon';
+
 type Props = {
     onPress: () => void;
+    icon?: IconName;
 };
 
-export function MapControls({ onPress }: Props) {
+export function MapControls({ onPress, icon = 'myLocation' }: Props) {
     const color = useThemeColor();
     const insets = useSafeAreaInsets();
 
@@ -31,7 +34,7 @@ export function MapControls({ onPress }: Props) {
                         justifyContent: 'center',
                     }}
                 >
-                    <Icon icon="locationOnFill" size={Spacing.icon} color={color.tint} />
+                    <Icon icon={icon} size={Spacing.icon} color={color.tint} />
                 </ThemedView>
             </PressableScale>
         </ContainerAbsolute>

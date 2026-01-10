@@ -1,3 +1,4 @@
+import { IconName } from '@/assets/msIcon';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Skia, useSVG } from "@shopify/react-native-skia";
@@ -121,5 +122,6 @@ export function useMapsView({ venues, onMarkerPress }: UseMapsViewProps) {
         handleCurrentLocationPress,
         flashMessage,
         setFlashMessage,
+        currentLocationIcon: (status === 'granted' ? 'myLocation' : 'locationDisabled') as IconName,
     };
 }

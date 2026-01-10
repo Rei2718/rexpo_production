@@ -34,7 +34,7 @@ export function SettingsActionItem({
                 <SettingsItem label={label} icon={icon} labelStyle={isDestructive ? { color: color.red_500 } : undefined}>
                     <Container flexDirection="row" alignItems="center" gap="s8">
                         {value && (
-                            <ThemedText type="caption1" style={{ color: color.natural_300 }}>
+                            <ThemedText type="subhead" color="tint">
                                 {value}
                             </ThemedText>
                         )}

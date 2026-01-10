@@ -31,6 +31,7 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
         handleCurrentLocationPress,
         flashMessage,
         setFlashMessage,
+        currentLocationIcon,
     } = useMapsView({ venues, onMarkerPress });
 
     if (!svg || !markerPath) {
@@ -79,7 +80,10 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress }
                 </Container>
             </GestureDetector>
 
-            <MapControls onPress={handleCurrentLocationPress} />
+            <MapControls
+                onPress={handleCurrentLocationPress}
+                icon={currentLocationIcon}
+            />
 
             <FlashMessage
                 message={flashMessage}

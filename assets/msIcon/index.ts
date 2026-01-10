@@ -31,6 +31,8 @@ export const icons = {
     verified: require('./verified.svg'),
     pentagon: require('./pentagon.svg'),
     menu: require('./menu.svg'),
+    myLocation: require('./my-location.svg'),
+    locationDisabled: require('./location-disabled.svg'),
 };
 
 export type IconName = keyof typeof icons;

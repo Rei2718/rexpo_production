@@ -26,7 +26,7 @@ export default function SettingsScreen() {
                     headerTitle: "設定",
                 }}
             />
-            <ScrollView contentInsetAdjustmentBehavior="automatic">
+            <ScrollView contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
                 <Container paddingHorizontal="s20" gap="s32" style={{ paddingBottom: modal }}>
 
                     {/* Support */}
@@ -44,16 +44,6 @@ export default function SettingsScreen() {
                         />
                     </SettingsSection>
 
-                    {/* Data */}
-                    <SettingsSection title="データ">
-                        <SettingsLinkItem
-                            label="開発者メニュー"
-                            icon="gear"
-                            href="/(detail)/developer"
-                            isLast={true}
-                        />
-                    </SettingsSection>
-
                     {/* Privacy */}
                     <SettingsSection title="プライバシー">
                         <SettingsActionItem
@@ -62,11 +52,21 @@ export default function SettingsScreen() {
                             value={isLocationGranted ? "許可済み" : "許可しない"}
                             onPress={() => Linking.openSettings()}
                         />
-                        <Container paddingHorizontal="s16" paddingTop="s8">
-                            <ThemedText type="caption2" style={{ color: color.natural_400 }}>
+                        <Container paddingHorizontal="s8">
+                            <ThemedText type="subhead" color="natural_200">
                                 アプリが位置情報を利用するにはOSの設定で許可が必要です。許可設定は端末の設定画面から変更できます。
                             </ThemedText>
                         </Container>
+                    </SettingsSection>
+
+                    {/* Data */}
+                    <SettingsSection title="データ">
+                        <SettingsLinkItem
+                            label="開発者メニュー"
+                            icon="gear"
+                            href="/(detail)/developer"
+                            isLast={true}
+                        />
                     </SettingsSection>
 
                     {/* About App */}
@@ -101,8 +101,8 @@ export default function SettingsScreen() {
                         </ThemedText>
                     </Container>
 
-                </Container>
-            </ScrollView>
+                </Container >
+            </ScrollView >
         </>
     );
 }
