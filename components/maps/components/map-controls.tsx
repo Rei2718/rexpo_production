@@ -16,9 +16,9 @@ export function MapControls({ onPress }: Props) {
 
     return (
         <ContainerAbsolute
-            top={insets.top}
             right={Spacing.s20}
             zIndex={100}
+            style={{ top: Spacing.s16 + insets.top }}
         >
             <PressableScale onPress={onPress}>
                 <ThemedView

@@ -1,0 +1,62 @@
+import { DisplayVenue, Verified } from '@/supabase/api/types';
+import { Gesture } from "react-native-gesture-handler";
+import { runOnJS, SharedValue } from 'react-native-reanimated';
+import { HIT_RADIUS, MARKER_ANCHOR, MARKER_SIZE } from '../components/map-shapes';
+
+type Props = {
+    scale: SharedValue<number>;
+    translateX: SharedValue<number>;
+    translateY: SharedValue<number>;
+    processedVenues: (Verified<DisplayVenue> & { x: number; y: number })[];
+    onMarkerPress?: (venue: Verified<DisplayVenue>) => void;
+    mapGestures: any;
+};
+
+export function useMapInteraction({
+    scale,
+    translateX,
+    translateY,
+    processedVenues,
+    onMarkerPress,
+    mapGestures,
+}: Props) {
+    const handleTap = (x: number, y: number) => {
+        const currentScale = scale.value;
+        const tx = translateX.value;
+        const ty = translateY.value;
+
+        let closestVenue: Verified<DisplayVenue> | null = null;
+        let minDist = Infinity;
+
+        for (const processedVenue of processedVenues) {
+            const screenX = processedVenue.x * currentScale + tx;
+            const screenY = processedVenue.y * currentScale + ty;
+
+            const visualCenterX = screenX - MARKER_ANCHOR.x + (MARKER_SIZE / 2);
+            const visualCenterY = screenY - MARKER_ANCHOR.y + (MARKER_SIZE / 2);
+
+            const dist = Math.hypot(x - visualCenterX, y - visualCenterY);
+
+            if (dist < HIT_RADIUS && dist < minDist) {
+                minDist = dist;
+                closestVenue = processedVenue;
+            }
+        }
+
+        if (closestVenue) {
+            onMarkerPress?.(closestVenue);
+        }
+    };
+
+    const tapGesture = Gesture.Tap()
+        .maxDistance(10)
+        .onEnd((e) => {
+            runOnJS(handleTap)(e.x, e.y);
+        });
+
+    const composedGesture = Gesture.Simultaneous(mapGestures, tapGesture);
+
+    return {
+        composedGesture,
+    };
+}

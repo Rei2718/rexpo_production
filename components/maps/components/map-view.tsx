@@ -12,7 +12,7 @@ import { UserLocationMarker } from './user-location-marker';
 
 type Props = {
     venues?: Verified<DisplayVenue>[];
-    selectedVenueId: string | null;
+    selectedVenueId?: string | null;
     onMarkerPress?: (venue: Verified<DisplayVenue>) => void;
 };
 

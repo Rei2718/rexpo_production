@@ -8,7 +8,7 @@ import { Content } from './map-content';
 
 
 interface SheetProps {
-    data: Verified<DisplayVenue> | null;
+    data: Verified<DisplayVenue | null>;
     onClose: () => void;
 }
 

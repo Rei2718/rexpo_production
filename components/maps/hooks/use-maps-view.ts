@@ -3,11 +3,11 @@ import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Skia, useSVG } from "@shopify/react-native-skia";
 import { useMemo, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
-import { Gesture } from "react-native-gesture-handler";
-import { runOnJS, useDerivedValue, withTiming } from 'react-native-reanimated';
-import { HIT_RADIUS, LOCATION_PIN_PATH, MARKER_ANCHOR, MARKER_SIZE, PIN_OFFSET_Y, PIN_VIEW_BOX_SIZE } from '../components/map-shapes';
-import { useMapCoordinates } from "./use-map-coordinates";
+import { useDerivedValue, withTiming } from 'react-native-reanimated';
+import { LOCATION_PIN_PATH, MARKER_SIZE, PIN_OFFSET_Y, PIN_VIEW_BOX_SIZE } from '../components/map-shapes';
 import { useMapGestures } from "./use-map-gestures";
+import { useMapInteraction } from './use-map-interaction';
+import { useMapMarkers } from './use-map-markers';
 import { useMapUserLocation } from './use-map-user-location';
 
 type UseMapsViewProps = {
@@ -48,16 +48,20 @@ export function useMapsView({ venues, onMarkerPress }: UseMapsViewProps) {
         contentDimensions: { width: svgWidth, height: svgHeight }
     });
 
-    const { getPixelCoords } = useMapCoordinates({ svgWidth, svgHeight });
+    const { processedVenues, getPixelCoords } = useMapMarkers({
+        venues,
+        svgWidth,
+        svgHeight
+    });
 
-    const processedVenues = useMemo(() => {
-        return venues
-            .filter(v => v.map_latitude && v.map_longitude)
-            .map(venue => {
-                const { x, y } = getPixelCoords(venue.map_latitude!, venue.map_longitude!);
-                return { ...venue, x, y };
-            });
-    }, [venues, getPixelCoords]);
+    const { composedGesture } = useMapInteraction({
+        scale,
+        translateX,
+        translateY,
+        processedVenues,
+        onMarkerPress,
+        mapGestures
+    });
 
     const {
         userLocation,
@@ -102,42 +106,6 @@ export function useMapsView({ venues, onMarkerPress }: UseMapsViewProps) {
         translateX.value = withTiming(targetX);
         translateY.value = withTiming(targetY);
     };
-
-    const handleTap = (x: number, y: number) => {
-        const currentScale = scale.value;
-        const tx = translateX.value;
-        const ty = translateY.value;
-
-        let closestVenue: Verified<DisplayVenue> | null = null;
-        let minDist = Infinity;
-
-        for (const processedVenue of processedVenues) {
-            const screenX = processedVenue.x * currentScale + tx;
-            const screenY = processedVenue.y * currentScale + ty;
-
-            const visualCenterX = screenX - MARKER_ANCHOR.x + (MARKER_SIZE / 2);
-            const visualCenterY = screenY - MARKER_ANCHOR.y + (MARKER_SIZE / 2);
-
-            const dist = Math.hypot(x - visualCenterX, y - visualCenterY);
-
-            if (dist < HIT_RADIUS && dist < minDist) {
-                minDist = dist;
-                closestVenue = processedVenue;
-            }
-        }
-
-        if (closestVenue) {
-            onMarkerPress?.(closestVenue);
-        }
-    };
-
-    const tapGesture = Gesture.Tap()
-        .maxDistance(10)
-        .onEnd((e) => {
-            runOnJS(handleTap)(e.x, e.y);
-        });
-
-    const composedGesture = Gesture.Simultaneous(mapGestures, tapGesture);
 
     return {
         themeColor,

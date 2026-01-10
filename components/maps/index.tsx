@@ -14,7 +14,7 @@ export default function MapsScreen() {
         <View style={{ flex: 1 }}>
             <MapsView
                 venues={venues ?? []}
-                selectedVenueId={selectedVenue?.venue_public_id ?? null}
+                selectedVenueId={selectedVenue?.venue_public_id}
                 onMarkerPress={setSelectedVenue}
             />
             <Sheet
