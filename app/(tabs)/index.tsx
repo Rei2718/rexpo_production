@@ -1,3 +1,3 @@
-import HomeScreen from "@/components/home";
+import ExploreScreen from "@/components/explore";
 
-export default HomeScreen;
+export default ExploreScreen;

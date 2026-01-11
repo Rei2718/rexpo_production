@@ -11,6 +11,7 @@ export default function TabLayout() {
             tintColor={color.tint}
             indicatorColor={color.natural_400}
         >
+            {/* 
             <NativeTabs.Trigger name="index">
                 <Label>ホーム</Label>
                 <Icon
@@ -21,13 +22,14 @@ export default function TabLayout() {
                     }}
                 />
             </NativeTabs.Trigger>
-            <NativeTabs.Trigger name="explore">
-                <Label>探索</Label>
+            */}
+            <NativeTabs.Trigger name="index">
+                <Label>ホーム</Label>
                 <Icon
-                    sf={"square.stack.3d.up.fill"}
+                    sf={"house.fill"}
                     androidSrc={{
-                        default: require("@/assets/msIconImage/exploreDarkOff.png"),
-                        selected: require("@/assets/msIconImage/exploreDarkTint.png")
+                        default: require("@/assets/msIconImage/homeDarkOff.png"),
+                        selected: require("@/assets/msIconImage/homeDarkTint.png")
                     }}
                 />
             </NativeTabs.Trigger>
