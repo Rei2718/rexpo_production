@@ -29,7 +29,7 @@ export function SettingsItem({
         >
             {icon && (
                 <Container>
-                    <Icon icon={icon} color={color.natural_100} />
+                    <Icon icon={icon} color={color.tint} />
                 </Container>
             )}
             <Container

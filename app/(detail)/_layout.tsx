@@ -17,7 +17,7 @@ export default function DetailLayout() {
                 headerShadowVisible: false,
                 headerLeft: Platform.OS === 'ios' ? () => (
                     <PressableScale onPress={() => router.back()}>
-                        <Icon icon="left" color={color.tint} />
+                        <Icon icon="left" color={color.natural_100} />
                     </PressableScale>
                 ) : undefined,
             }}

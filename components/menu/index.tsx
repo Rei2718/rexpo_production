@@ -75,14 +75,14 @@ export default function MenuScreen() {
                     {/* Support */}
                     <SettingsSection title="サポート">
                         <SettingsLinkItem
-                            label="お問い合わせ / 不具合報告"
+                            label="バグ報告"
                             icon="link"
-                            href="https://google.com"
+                            href="https://docs.google.com/forms/d/e/1FAIpQLSdPEU1ETnndLiPo4Wy1vszlxvkzTG9uObHesd-ZSlDMyYH8Cw/viewform?usp=dialog"
                         />
                         <SettingsLinkItem
-                            label="公式サイト"
+                            label="立命館慶祥中学・高等学校"
                             icon="link"
-                            href="https://google.com"
+                            href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www2.spc.ritsumei.ac.jp/&ved=2ahUKEwjr45OB-4OSAxXVqFYBHURtIowQFnoECD8QAQ&usg=AOvVaw2k8UlHn8rEGPs9OMtTom1j"
                             isLast={true}
                         />
                     </SettingsSection>
@@ -105,7 +105,7 @@ export default function MenuScreen() {
                         />
                         <View>
                             <ThemedText type="largeTitle" style={{ fontWeight: 'bold' }}>R-EXPO</ThemedText>
-                            <ThemedText type="caption1" color="natural_300">Technology & Logic</ThemedText>
+                            <ThemedText type="caption1" color="natural_300">Developed by 石川 壱朗</ThemedText>
                         </View>
                     </Container>
 

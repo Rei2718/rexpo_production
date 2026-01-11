@@ -29,7 +29,7 @@ export default function BookmarkButton(data: Verified<EventOverview>) {
                 <Icon
                     icon={isBookmarked ? "bookmarkFill" : "bookmark"}
                     size={Spacing.icon}
-                    color={color.tint}
+                    color={color.natural_100}
                 />
             </PressableScale>
         </Haptic>
