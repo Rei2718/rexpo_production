@@ -33,6 +33,9 @@ export const icons = {
     menu: require('./menu.svg'),
     myLocation: require('./my-location.svg'),
     locationDisabled: require('./location-disabled.svg'),
+    close: require('./close.svg'),
+    survey: require('./survey.svg'),
+    mode: require('./mode.svg'),
 };
 
 export type IconName = keyof typeof icons;

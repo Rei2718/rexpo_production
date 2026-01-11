@@ -1,12 +1,13 @@
 import { SettingsLinkItem } from "@/components/settings/settings-link-item";
 import { SettingsSection } from "@/components/settings/settings-section";
 import { Container } from "@/components/ui/container";
+import { Icon } from "@/components/ui/icon";
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { Ionicons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
-import { Image, ScrollView, TouchableOpacity, View, useColorScheme } from "react-native";
+import { Image, ScrollView, View, useColorScheme } from "react-native";
 
 export default function MenuScreen() {
     const color = useThemeColor();
@@ -23,9 +24,9 @@ export default function MenuScreen() {
                     headerBackVisible: false,
                     headerLeft: () => null,
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.back()} style={{ marginRight: 8 }}>
-                            <Ionicons name="close" size={24} color={color.natural_100} />
-                        </TouchableOpacity>
+                        <PressableScale onPress={() => router.back()}>
+                            <Icon icon="close" color={color.natural_100} />
+                        </PressableScale>
                     ),
                 }}
             />
@@ -40,7 +41,7 @@ export default function MenuScreen() {
                         />
                         <SettingsLinkItem
                             label="アンケート"
-                            icon="contract"
+                            icon="survey"
                             href="/(detail)/survey"
                             isLast={true}
                         />
