@@ -12,11 +12,11 @@ export interface SurveyItem {
 export const SURVEY_DATA: SurveyItem[] = [
     {
         id: '1',
-        title: '開発体験に関する意識調査',
+        title: 'モバイルアプリ満足度調査',
         url: 'https://google.com',
         duration: '目安：1分',
         image: require('@/assets/logo/ios-light.png'),
-        provider: 'R-EXPO Development Team'
+        provider: 'R-EXPO 開発チーム'
     },
     {
         id: '2',
@@ -24,7 +24,7 @@ export const SURVEY_DATA: SurveyItem[] = [
         url: 'https://google.com',
         duration: '目安：3分',
         image: require('@/assets/logo/ios-light.png'),
-        provider: 'R-EXPO Research Lab'
+        provider: 'R-EXPO 開発チーム'
     },
     {
         id: '3',
@@ -32,6 +32,6 @@ export const SURVEY_DATA: SurveyItem[] = [
         url: 'https://google.com',
         duration: '目安：2分',
         image: require('@/assets/logo/ios-light.png'),
-        provider: 'R-EXPO Design Team'
+        provider: 'R-EXPO 開発チーム'
     }
 ];
