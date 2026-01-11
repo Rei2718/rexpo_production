@@ -53,6 +53,16 @@ export default function TabLayout() {
                     }}
                 />
             </NativeTabs.Trigger>
+            <NativeTabs.Trigger name="bookmark">
+                <Label>ブックマーク</Label>
+                <Icon
+                    sf={"bookmark.fill"}
+                    androidSrc={{
+                        default: require("@/assets/msIconImage/exploreDarkOff.png"),
+                        selected: require("@/assets/msIconImage/exploreDarkTint.png")
+                    }}
+                />
+            </NativeTabs.Trigger>
         </NativeTabs>
     );
 }

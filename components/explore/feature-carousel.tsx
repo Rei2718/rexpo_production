@@ -98,7 +98,7 @@ export default function FeatureCarousel() {
             <ContainerAbsolute top={0} left={0} right={0} paddingVertical="s12" paddingHorizontal="s20">
                 <SafeAreaView edges={['top']}>
                     <Container flexDirection="row" justifyContent="space-between" alignItems="center">
-                        <ThemedText type="largeTitle">探索</ThemedText>
+                        <ThemedText type="largeTitle">ホーム</ThemedText>
                         <PressableScale onPress={() => router.push('/(detail)/settings')}>
                             <Icon size={Spacing.icon} icon="menu" color={color.natural_100} />
                         </PressableScale>
