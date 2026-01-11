@@ -99,8 +99,8 @@ export default function FeatureCarousel() {
                 <SafeAreaView edges={['top']}>
                     <Container flexDirection="row" justifyContent="space-between" alignItems="center">
                         <ThemedText type="largeTitle">探索</ThemedText>
-                        <PressableScale onPress={() => router.push('/(detail)/bookmark')}>
-                            <Icon size={Spacing.icon} icon="bookmarks" color={color.natural_100} />
+                        <PressableScale onPress={() => router.push('/(detail)/settings')}>
+                            <Icon size={Spacing.icon} icon="menu" color={color.natural_100} />
                         </PressableScale>
                     </Container>
                 </SafeAreaView>
