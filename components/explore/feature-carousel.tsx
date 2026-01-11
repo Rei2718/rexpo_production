@@ -5,7 +5,7 @@ import { useThemeColor } from "@/hooks/use-theme-color";
 import { router } from "expo-router";
 import { useRef } from "react";
 import { useWindowDimensions, View } from "react-native";
-import { Extrapolation, interpolate, useSharedValue } from "react-native-reanimated";
+import { Extrapolation, interpolate, SharedValue, useSharedValue } from "react-native-reanimated";
 import Carousel, { ICarouselInstance, Pagination } from "react-native-reanimated-carousel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Container, ContainerAbsolute } from "../ui/container";
@@ -16,7 +16,11 @@ import { FeatureItem } from "./feature-item";
 import { STATIC_FEATURES } from "@/constants/features";
 
 
-export default function FeatureCarousel() {
+type FeatureCarouselProps = {
+    scrollOffset: SharedValue<number>;
+};
+
+export default function FeatureCarousel({ scrollOffset }: FeatureCarouselProps) {
     const color = useThemeColor();
     const width = useWindowDimensions().width;
     const height = width * (7 / 5);
@@ -34,8 +38,7 @@ export default function FeatureCarousel() {
     const data = STATIC_FEATURES;
 
     return (
-        <View id="carousel-component">
-
+        <View id="carousel-component" style={{ height }}>
             {/* Carousel */}
             <Carousel
                 ref={ref}
@@ -50,7 +53,7 @@ export default function FeatureCarousel() {
                 autoPlay={true}
                 autoPlayInterval={4000}
                 data={data}
-                renderItem={({ item }) => <FeatureItem {...item} />}
+                renderItem={({ item }) => <FeatureItem {...item} scrollOffset={scrollOffset} />}
             />
 
             {/* Pagination */}

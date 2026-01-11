@@ -4,59 +4,24 @@ import { Feature, Verified } from "@/supabase/api/types";
 import { hexToRgba } from "@/utils/color";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet, useWindowDimensions, View } from "react-native";
-import Animated, { Extrapolation, interpolate, SharedValue, useAnimatedStyle } from "react-native-reanimated";
+import { StyleSheet, View } from "react-native";
 import { Container, ContainerAbsolute } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 
 
-type FeatureItemProps = Verified<Feature> & {
-    scrollOffset: SharedValue<number>;
-};
-
-const AnimatedImage = Animated.createAnimatedComponent(Image);
-
-export function FeatureItem(props: FeatureItemProps) {
-    const { scrollOffset, ...data } = props;
+export function FeatureItem(data: Verified<Feature>) {
     const color = useThemeColor();
-    const width = useWindowDimensions().width;
-    const height = width * (7 / 5);
-
-    const animatedStyle = useAnimatedStyle(() => {
-        return {
-            transform: [
-                {
-                    translateY: interpolate(
-                        scrollOffset.value,
-                        [-height, 0, height],
-                        [-height * 0.5, 0, height * 0.5],
-                        Extrapolation.CLAMP
-                    ),
-                },
-                {
-                    scale: interpolate(
-                        scrollOffset.value,
-                        [-height, 0, height],
-                        [2, 1, 1],
-                        Extrapolation.CLAMP
-                    ),
-                },
-            ],
-        };
-    });
 
     return (
         <View style={styles.container}>
-            <View style={{ width, height, overflow: 'hidden' }}>
-                <AnimatedImage
-                    source={data.image}
-                    style={[StyleSheet.absoluteFill, animatedStyle]}
-                    contentFit="cover"
-                />
-            </View>
+            <Image
+                source={data.image}
+                style={StyleSheet.absoluteFill}
+                contentFit="cover"
+            />
 
             {/* Gradient */}
-            <ContainerAbsolute bottom={0} left={0} right={0} style={{ height: '60%' }}>
+            <ContainerAbsolute bottom={0} left={0} right={0} style={{ height: '50%' }}>
                 <LinearGradient
                     colors={[
                         hexToRgba(color.natural_600, 0.0),
@@ -86,7 +51,6 @@ export function FeatureItem(props: FeatureItemProps) {
         </View>
     )
 }
-
 
 const styles = StyleSheet.create({
     container: {
