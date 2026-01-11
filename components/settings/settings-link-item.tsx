@@ -2,6 +2,7 @@ import { IconName } from "@/assets/msIcon";
 import { Icon } from "@/components/ui/icon";
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { Spacing } from "@/constants/theme";
+import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useRouter } from "expo-router";
 import { Linking, View } from "react-native";
@@ -23,13 +24,13 @@ export function SettingsLinkItem({
 }: SettingsLinkItemProps) {
     const color = useThemeColor();
     const router = useRouter();
+    const openInAppBrowser = useInAppBrowser();
 
     const handlePress = async () => {
-        if (href.startsWith("http") || href.startsWith("mailto")) {
-            const supported = await Linking.canOpenURL(href);
-            if (supported) {
-                await Linking.openURL(href);
-            }
+        if (href.startsWith("http")) {
+            await openInAppBrowser(href);
+        } else if (href.startsWith("mailto")) {
+            await Linking.openURL(href);
         } else {
             router.push(href as any);
         }

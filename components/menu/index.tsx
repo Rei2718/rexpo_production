@@ -39,9 +39,9 @@ export default function MenuScreen() {
                             href="/(detail)/news"
                         />
                         <SettingsLinkItem
-                            label="キャンペーン"
-                            icon="favorite"
-                            href="/(detail)/campaign"
+                            label="アンケート"
+                            icon="contract"
+                            href="/(detail)/survey"
                             isLast={true}
                         />
                     </SettingsSection>

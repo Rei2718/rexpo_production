@@ -2,14 +2,15 @@ import { Row } from '@/components/ui/flex';
 import { Icon } from '@/components/ui/icon';
 import { PressableScale } from '@/components/ui/pressable-scale';
 import { Spacing } from '@/constants/theme';
+import { useInAppBrowser } from '@/hooks/use-in-app-browser';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { OrganizationDetails, Verified } from '@/supabase/api/types';
-import { Linking } from 'react-native';
 import { Container } from '../ui/container';
 
 
 export function OrganizationSns(data: Verified<OrganizationDetails>) {
     const color = useThemeColor();
+    const openInAppBrowser = useInAppBrowser();
 
     const hasSns =
         data.website || data.instagram || data.linkedin || data.twitter || data.youtube;
@@ -29,7 +30,7 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
             <Row flexWrap="wrap" paddingHorizontal='s8'>
                 {data.instagram && (
                     <PressableScale
-                        onPress={() => Linking.openURL(data.instagram!)}
+                        onPress={() => openInAppBrowser(data.instagram!)}
                     >
                         <Container padding="s8">
                             <Icon icon="instagram" color={color.natural_200} />
@@ -38,7 +39,7 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
                 )}
                 {data.linkedin && (
                     <PressableScale
-                        onPress={() => Linking.openURL(data.linkedin!)}
+                        onPress={() => openInAppBrowser(data.linkedin!)}
                     >
                         <Container padding="s8">
                             <Icon icon="linkedin" color={color.natural_200} />
@@ -47,7 +48,7 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
                 )}
                 {data.twitter && (
                     <PressableScale
-                        onPress={() => Linking.openURL(data.twitter!)}
+                        onPress={() => openInAppBrowser(data.twitter!)}
                     >
                         <Container padding="s8">
                             <Icon icon="twitter" color={color.natural_200} />
@@ -56,7 +57,7 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
                 )}
                 {data.youtube && (
                     <PressableScale
-                        onPress={() => Linking.openURL(data.youtube!)}
+                        onPress={() => openInAppBrowser(data.youtube!)}
                     >
                         <Container padding="s8">
                             <Icon icon="youtube" color={color.natural_200} />
@@ -65,7 +66,7 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
                 )}
                 {data.website && (
                     <PressableScale
-                        onPress={() => Linking.openURL(data.website!)}
+                        onPress={() => openInAppBrowser(data.website!)}
                     >
                         <Container padding="s8">
                             <Icon icon="link" color={color.natural_200} />
