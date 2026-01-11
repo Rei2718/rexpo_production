@@ -1,5 +1,6 @@
 import { Column } from "@/components/ui/flex";
 import { StatusMessage } from "@/components/ui/status-message";
+import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useNews } from "@/supabase/api";
 import { useLocalSearchParams } from "expo-router";
@@ -7,7 +8,6 @@ import { useMemo } from "react";
 import { ScrollView } from "react-native";
 import { NewsDescription } from "./description";
 import { NewsHeader } from "./header";
-import { NewsInfoCard } from "./info-card";
 
 export default function NewsDetailScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -33,14 +33,12 @@ export default function NewsDetailScreen() {
                 {/* Header */}
                 <NewsHeader {...data} />
 
-                {/* Info */}
-                <Column paddingHorizontal="s20">
-                    <NewsInfoCard {...data} />
-                </Column>
-
-                {/* Overview */}
-                <Column paddingHorizontal="s20">
+                {/* Body & Author */}
+                <Column paddingHorizontal="s20" gap="s8">
                     <NewsDescription {...data} />
+                    <ThemedText type="caption1" color="natural_200" style={{ alignSelf: 'flex-end' }}>
+                        著者: {data.performer?.name ?? "R-EXPO 運営"}
+                    </ThemedText>
                 </Column>
             </Column>
         </ScrollView>
