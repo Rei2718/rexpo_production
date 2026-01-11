@@ -1,3 +1,3 @@
-import OnboardingScreen from "@/components/onboarding";
+import CoreConceptScreen from "@/components/core-concept";
 
-export default OnboardingScreen;
+export default CoreConceptScreen;
