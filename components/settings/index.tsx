@@ -1,6 +1,7 @@
 import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 // import { useSettingStore } from "@/hooks/use-setting-store"; // Removed
+import { useThemeActionSheet } from "@/hooks/use-theme-action-sheet";
 import { useUserLocation } from "@/hooks/use-user-location";
 import { Stack } from "expo-router";
 import { Linking, ScrollView } from "react-native";
@@ -13,6 +14,7 @@ import { SettingsSection } from "./settings-section";
 export default function SettingsScreen() {
     const { modal } = useBottomPadding();
     const { status } = useUserLocation();
+    const { showThemeActionSheet, themeLabel } = useThemeActionSheet();
 
     const isLocationGranted = status === 'granted';
 
@@ -25,6 +27,17 @@ export default function SettingsScreen() {
             />
             <ScrollView contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
                 <Container paddingHorizontal="s20" gap="s32" style={{ paddingBottom: modal }}>
+
+                    {/* Display */}
+                    <SettingsSection title="表示">
+                        <SettingsActionItem
+                            label="テーマ"
+                            icon="browse"
+                            value={themeLabel}
+                            onPress={showThemeActionSheet}
+                            isLast={true}
+                        />
+                    </SettingsSection>
 
                     {/* Privacy */}
                     <SettingsSection title="プライバシー">

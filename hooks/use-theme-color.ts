@@ -1,6 +1,9 @@
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from 'react-native';
 
+/* New imports */
+import { useThemeStore } from '@/stores/theme-store';
+
 type ThemeColors = {
   [key in keyof typeof Colors.light]: string;
 };
@@ -13,7 +16,10 @@ export function useThemeColor(
 export function useThemeColor(
   colorName?: keyof ThemeColors
 ): ThemeColors | string {
-  const theme = useColorScheme() ?? 'light';
+  const systemTheme = useColorScheme() ?? 'light';
+  const { themeMode } = useThemeStore();
+
+  const theme = themeMode === 'system' ? systemTheme : themeMode;
 
   if (colorName === undefined) {
     return Colors[theme];
