@@ -1,5 +1,6 @@
 import { IconName } from '@/assets/msIcon';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { useThemeStore } from '@/stores/theme-store';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Skia, useSVG } from "@shopify/react-native-skia";
 import { useEffect, useMemo, useState } from 'react';
@@ -23,7 +24,10 @@ type UseMapsViewProps = {
 export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewProps) {
     const themeColor = useThemeColor();
     const { width, height } = useWindowDimensions();
-    const colorScheme = useColorScheme() ?? 'light';
+    const systemColorScheme = useColorScheme() ?? 'light';
+    const { themeMode } = useThemeStore();
+    const colorScheme = themeMode === 'system' ? systemColorScheme : themeMode;
+
     const { currentFloor, handleFloorToggle } = useMapFloor();
 
     const [renderFloor, setRenderFloor] = useState(currentFloor);
