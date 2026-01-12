@@ -18,14 +18,5 @@ export const STATIC_FEATURES: Verified<Feature>[] = [
         image: require('@/assets/features/2.jpg') as any,
         event_public_id: "event_id_placeholder_2",
         display_order: 2,
-    },
-    {
-        feature_public_id: "feature_id_3",
-        name: "芸術発表",
-        caption: "教室では見せない、もう一つの顔",
-        note: "詳細をチェック。",
-        image: require('@/assets/features/3.jpg') as any,
-        event_public_id: "event_id_placeholder_2",
-        display_order: 2,
     }
 ];
