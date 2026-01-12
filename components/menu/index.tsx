@@ -83,7 +83,7 @@ export default function MenuScreen() {
                         <SettingsLinkItem
                             label="立命館慶祥中学・高等学校"
                             icon="link"
-                            href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www2.spc.ritsumei.ac.jp/&ved=2ahUKEwjr45OB-4OSAxXVqFYBHURtIowQFnoECD8QAQ&usg=AOvVaw2k8UlHn8rEGPs9OMtTom1j"
+                            href="https://www2.spc.ritsumei.ac.jp"
                             isLast={true}
                         />
                     </SettingsSection>
