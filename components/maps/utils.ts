@@ -4,9 +4,9 @@
 // ピンが中央に集まりすぎている → 値を「小さく」する (0.0025など)
 
 export const MAP_CONFIG = {
-    centerLat: 43.057055,
-    centerLng: 141.388655,
-    latRange: 0.0034,
+    centerLat: 43.057190,
+    centerLng: 141.388485,
+    latRange: 0.00610,
 };
 
 const ASPECT_RATIO = Math.cos(MAP_CONFIG.centerLat * (Math.PI / 180));
@@ -16,8 +16,21 @@ export function convertLatLngToXY(latitude: number, longitude: number) {
     const latDiff = MAP_CONFIG.centerLat - latitude;
     const lngDiff = longitude - MAP_CONFIG.centerLng;
 
-    const xPct = 50 + (lngDiff / LNG_RANGE) * 100;
-    const yPct = 50 + (latDiff / MAP_CONFIG.latRange) * 100;
+    const u = lngDiff / LNG_RANGE;
+    const v = latDiff / MAP_CONFIG.latRange;
+
+    // The map is rotated 45 degrees clockwise.
+    // Original (u, v) -> New (x', y')
+    // Rotation logic:
+    // x' = (u - v) * cos(45)
+    // y' = (u + v) * cos(45)
+    const COS45 = Math.cos(Math.PI / 4);
+
+    const xRotated = (u - v) * COS45;
+    const yRotated = (u + v) * COS45;
+
+    const xPct = 50 + xRotated * 100;
+    const yPct = 50 + yRotated * 100;
 
     return { x: xPct, y: yPct };
 }
