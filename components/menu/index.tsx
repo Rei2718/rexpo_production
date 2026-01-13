@@ -40,6 +40,11 @@ export default function MenuScreen() {
                             href="/(detail)/news"
                         />
                         <SettingsLinkItem
+                            label="フード"
+                            icon="explore"
+                            href="/(detail)/food"
+                        />
+                        <SettingsLinkItem
                             label="アンケート"
                             icon="survey"
                             href="/(detail)/survey"

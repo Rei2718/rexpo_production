@@ -7,6 +7,7 @@ import {
     EventDetails,
     EventOverview,
     Feature,
+    Food,
     News,
     OrganizationDetails,
     TagEvents,
@@ -118,4 +119,10 @@ export async function get_organization_details(organization_public_id: string) {
     });
     if (error) throw error;
     return data as unknown as Verified<OrganizationDetails>;
+}
+
+export async function get_foods() {
+    const { data, error } = await supabase.rpc("get_foods");
+    if (error) throw error;
+    return data as unknown as Verified<Food>[];
 }
