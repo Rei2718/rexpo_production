@@ -3,6 +3,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { useThemeStore } from '@/stores/theme-store';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { Skia, useSVG } from "@shopify/react-native-skia";
+import { Asset } from 'expo-asset';
 import { useEffect, useMemo, useState } from 'react';
 import { useColorScheme, useWindowDimensions } from 'react-native';
 import { runOnJS, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -56,18 +57,30 @@ export function useMapsView({ venues, onMarkerPress, onMapPress }: UseMapsViewPr
         }
     }, [renderFloor]);
 
-    const svgSource = useMemo(() => {
-        if (colorScheme === 'dark') {
-            return renderFloor === 1
-                ? require('@/assets/map/maps.dark.floor1.svg')
-                : require('@/assets/map/maps.dark.floor2.svg');
-        }
-        return renderFloor === 1
-            ? require('@/assets/map/maps.light.floor1.svg')
-            : require('@/assets/map/maps.light.floor2.svg');
+    const [svgUri, setSvgUri] = useState<string | null>(null);
+
+    useEffect(() => {
+        const loadAsset = async () => {
+            let module;
+            if (colorScheme === 'dark') {
+                module = renderFloor === 1
+                    ? require('@/assets/map/maps.dark.floor1.svg')
+                    : require('@/assets/map/maps.dark.floor2.svg');
+            } else {
+                module = renderFloor === 1
+                    ? require('@/assets/map/maps.light.floor1.svg')
+                    : require('@/assets/map/maps.light.floor2.svg');
+            }
+
+            const asset = Asset.fromModule(module);
+            await asset.downloadAsync();
+            setSvgUri(asset.localUri || asset.uri);
+        };
+
+        loadAsset();
     }, [colorScheme, renderFloor]);
 
-    const svg = useSVG(svgSource);
+    const svg = useSVG(svgUri);
 
     const markerPath = useMemo(() => {
         const path = Skia.Path.MakeFromSVGString(LOCATION_PIN_PATH);
