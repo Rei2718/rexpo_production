@@ -69,11 +69,11 @@ export function FoodCard(data: Verified<Food>) {
                 {/* Website Link */}
                 {data.website && (
                     <TouchableOpacity onPress={handlePressWebsite} activeOpacity={0.7}>
-                        <Row gap="s4" alignItems="center" justifyContent="flex-end">
+                        <Row gap="s4" alignItems="center" justifyContent="flex-start">
+                            <Icon icon="link" size={16} color={color.tint} />
                             <ThemedText type="callout" color="tint">
                                 Webサイトを見る
                             </ThemedText>
-                            <Icon icon="link" size={16} color={color.tint} />
                         </Row>
                     </TouchableOpacity>
                 )}
