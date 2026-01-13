@@ -17,8 +17,7 @@ export function NewsList({
             keyExtractor={(item) => item.news_public_id}
             contentContainerStyle={[
                 {
-                    paddingHorizontal: Spacing.s20,
-                    paddingBottom: Spacing.s20,
+                    padding: Spacing.s20,
                     gap: Spacing.s16,
                 },
                 contentContainerStyle,

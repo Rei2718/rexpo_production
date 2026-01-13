@@ -51,6 +51,11 @@ export default function FeatureCarousel() {
                 autoPlayInterval={4000}
                 data={data}
                 renderItem={({ item }) => <FeatureItem {...item} />}
+                onConfigurePanGesture={gesture => {
+                    'worklet';
+                    gesture.activeOffsetX([-10, 10]);
+                    gesture.failOffsetY([-5, 5]);
+                }}
             />
 
             {/* Pagination */}
