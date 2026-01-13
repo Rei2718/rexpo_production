@@ -5,18 +5,19 @@ import { ThemedView } from "@/components/ui/themed-view";
 import { FALLBACK_IMAGE_URL } from "@/constants/fallback-image";
 import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
+import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Food, Verified } from "@/supabase/api/types";
 import { supabaseStorageUrl } from "@/supabase/supabase";
-import * as Linking from "expo-linking";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
 export function FoodCard(data: Verified<Food>) {
     const color = useThemeColor();
+    const openInAppBrowser = useInAppBrowser();
 
-    const handlePressWebsite = () => {
+    const handlePressWebsite = async () => {
         if (data.website) {
-            Linking.openURL(data.website);
+            await openInAppBrowser(data.website);
         }
     };
 

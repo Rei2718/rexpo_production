@@ -12,8 +12,9 @@ BEGIN
                 jsonb_build_object(
                     'food_public_id', f.food_public_id,
                     'name',           f.name,
-                    'caption',        f.caption,
                     'description',    f.description,
+                    'min_price',      f.min_price,   -- 追加
+                    'max_price',      f.max_price,   -- 追加
                     'icon',           f.icon,
                     'minutes',        f.minutes,
                     'distance',       f.distance,

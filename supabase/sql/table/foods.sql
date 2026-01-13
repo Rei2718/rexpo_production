@@ -5,8 +5,9 @@ CREATE TABLE public.foods (
     display_order INTEGER NOT NULL DEFAULT 0,
 
     name TEXT NOT NULL,
-    caption TEXT,
-    description TEXT,
+    description TEXT,       -- captionを削除し、descriptionのみにしました
+    min_price INTEGER,      -- CSVの「最安値(円)」に対応
+    max_price INTEGER,      -- CSVの「最高値(円)」に対応
     icon TEXT,
     minutes INTEGER,
     distance INTEGER,

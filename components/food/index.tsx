@@ -1,4 +1,3 @@
-import { Container } from "@/components/ui/container";
 import { StatusMessage } from "@/components/ui/status-message";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useFoods } from "@/supabase/api";
@@ -15,7 +14,7 @@ export default function FoodScreen() {
     if (!data || data.length === 0) return <StatusMessage status="empty" />;
 
     return (
-        <Container flex={1}>
+        <>
             <Stack.Screen
                 options={{
                     headerTitle: "フード"
@@ -25,6 +24,6 @@ export default function FoodScreen() {
                 data={data}
                 contentContainerStyle={{ paddingBottom: bottom }}
             />
-        </Container>
+        </>
     );
 }

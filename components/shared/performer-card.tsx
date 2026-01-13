@@ -3,6 +3,7 @@ import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { EventPerformer, Verified } from "@/supabase/api/types";
+import { supabaseStorageUrl } from "@/supabase/supabase";
 import { Image } from "expo-image";
 import { memo } from "react";
 import { StyleSheet } from "react-native";
@@ -26,7 +27,7 @@ export const PerformerCard = memo((data: Verified<EventPerformer>) => {
         >
             <Row alignItems="center" gap="s16" padding="s4">
                 <Image
-                    source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}
+                    source={data.icon ? { uri: `${supabaseStorageUrl}/${data.icon}` } : FALLBACK_IMAGE_URL}
                     style={styles.image}
                 />
                 <Column flex={1} gap="s2">

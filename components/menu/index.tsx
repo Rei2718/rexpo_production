@@ -19,9 +19,6 @@ export default function MenuScreen() {
         <>
             <Stack.Screen
                 options={{
-                    headerTitle: "",
-                    headerShown: true,
-                    headerBackVisible: false,
                     headerLeft: () => null,
                     headerRight: () => (
                         <PressableScale onPress={() => router.back()}>
@@ -33,7 +30,7 @@ export default function MenuScreen() {
             <ScrollView contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
                 <Container paddingHorizontal="s20" gap="s32" style={{ paddingBottom: modal }}>
                     {/* Features */}
-                    <SettingsSection title="機能">
+                    <SettingsSection title="その他">
                         <SettingsLinkItem
                             label="ニュース"
                             icon="browse"

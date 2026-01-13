@@ -3,9 +3,8 @@ import { Container } from "@/components/ui/container";
 import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { Ionicons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView } from "react-native";
 
 export default function SurveyScreen() {
     const color = useThemeColor();
@@ -17,13 +16,6 @@ export default function SurveyScreen() {
             <Stack.Screen
                 options={{
                     headerTitle: "アンケート",
-                    headerShown: true,
-                    headerBackVisible: false,
-                    headerLeft: () => (
-                        <TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 8 }}>
-                            <Ionicons name="chevron-back" size={24} color={color.natural_100} />
-                        </TouchableOpacity>
-                    ),
                 }}
             />
             <ScrollView contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>

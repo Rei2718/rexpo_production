@@ -1,8 +1,9 @@
 import { Icon } from "@/components/ui/icon";
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { Spacing } from "@/constants/theme";
+import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { Linking, View } from "react-native";
+import { View } from "react-native";
 import { ThemedText } from "../ui/themed-text";
 
 type LicenseData = {
@@ -18,18 +19,12 @@ type LicenseData = {
 export function LicenseItem({ data }: { data: LicenseData }) {
     const color = useThemeColor();
 
+    const openBrowser = useInAppBrowser();
+
     const handlePress = async () => {
-        if (data.repository && data.repository.startsWith("http")) {
-            const supported = await Linking.canOpenURL(data.repository);
-            if (supported) {
-                await Linking.openURL(data.repository);
-            }
-        } else if (data.url && data.url.startsWith("http")) {
-            // Fallback to url if repository is missing or invalid
-            const supported = await Linking.canOpenURL(data.url);
-            if (supported) {
-                await Linking.openURL(data.url);
-            }
+        const url = data.repository ?? data.url;
+        if (url) {
+            await openBrowser(url);
         }
     };
 

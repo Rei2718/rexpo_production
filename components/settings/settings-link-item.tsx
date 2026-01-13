@@ -5,7 +5,7 @@ import { Spacing } from "@/constants/theme";
 import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useRouter } from "expo-router";
-import { Linking, View } from "react-native";
+import { View } from "react-native";
 import { SettingsItem } from "./settings-item";
 
 
@@ -29,8 +29,6 @@ export function SettingsLinkItem({
     const handlePress = async () => {
         if (href.startsWith("http")) {
             await openInAppBrowser(href);
-        } else if (href.startsWith("mailto")) {
-            await Linking.openURL(href);
         } else {
             router.push(href as any);
         }
