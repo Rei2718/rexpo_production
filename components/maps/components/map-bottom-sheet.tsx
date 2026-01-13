@@ -15,11 +15,13 @@ interface SheetProps {
 export default function Sheet({ data, onClose }: SheetProps) {
     const bottomSheetRef = useRef<BottomSheetModal>(null);
     const color = useThemeColor();
+    const [contentData, setContentData] = React.useState<Verified<DisplayVenue> | null>(data);
 
     const snapPoints = useMemo(() => ['50%', '90%'], []);
 
     useEffect(() => {
         if (data) {
+            setContentData(data);
             bottomSheetRef.current?.present();
         } else {
             bottomSheetRef.current?.dismiss();
@@ -38,9 +40,9 @@ export default function Sheet({ data, onClose }: SheetProps) {
             onDismiss={onClose}
         >
             <BottomSheetScrollView showsVerticalScrollIndicator={false} contentInsetAdjustmentBehavior="automatic">
-                {data && (
+                {contentData && (
                     <Container paddingBottom="s20">
-                        <Content {...data} />
+                        <Content {...contentData} />
                     </Container>
                 )}
             </BottomSheetScrollView>
