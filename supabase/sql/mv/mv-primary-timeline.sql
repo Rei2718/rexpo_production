@@ -4,7 +4,6 @@ DROP MATERIALIZED VIEW IF EXISTS public.mv_primary_timeline CASCADE;
 CREATE MATERIALIZED VIEW public.mv_primary_timeline AS
 SELECT
     s.starts,
-    s.ends,
     count(e.event_id) as event_count,
     jsonb_agg(
         jsonb_build_object(
@@ -25,7 +24,7 @@ JOIN public.events_slots es ON e.event_id = es.event_id AND es.deleted_at IS NUL
 JOIN public.slots s ON es.slot_id = s.slot_id AND s.deleted_at IS NULL
 WHERE e.deleted_at IS NULL
 AND v.is_primary = TRUE
-GROUP BY s.starts, s.ends
+GROUP BY s.starts
 ORDER BY s.starts ASC;
 
 -- indexes

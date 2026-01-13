@@ -143,7 +143,6 @@ export type TimelineEvent = Nullable<{
 
 export type TimelineSlot = Nullable<{
     starts: string;
-    ends: string;
     events: TimelineEvent[];
 }>;
 
