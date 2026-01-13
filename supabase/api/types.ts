@@ -192,3 +192,16 @@ export type OrganizationDetails = Nullable<{
     twitter: string;
     youtube: string;
 }>;
+
+export type Food = Nullable<{
+    food_public_id: string;
+    name: string;
+    caption: string;
+    description: string;
+    icon: string;
+    minutes: number;
+    distance: number;
+    address: string;
+    website: string;
+    display_order: number;
+}>;

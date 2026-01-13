@@ -10,6 +10,7 @@ import {
     get_events_by_tag,
     get_events_by_venue,
     get_features,
+    get_foods,
     get_news,
     get_organization_details,
     get_several_events_by_tag,
@@ -146,6 +147,15 @@ export function useOrganizationDetails(organization_public_id: string) {
         queryKey: keys.get_organization_details(organization_public_id),
         queryFn: () => get_organization_details(organization_public_id),
         enabled: !!organization_public_id,
+    });
+    useRefetchOnFocus(refetch);
+    return { data, isPending, isError };
+}
+
+export function useFoods() {
+    const { data, isPending, isError, refetch } = useQuery({
+        queryKey: keys.get_foods(),
+        queryFn: get_foods,
     });
     useRefetchOnFocus(refetch);
     return { data, isPending, isError };
