@@ -51,16 +51,16 @@ export function FoodCard(data: Verified<Food>) {
                     <Column gap="s8">
                         {(data.minutes !== null || data.distance !== null) && (
                             <Row gap="s8" alignItems="center">
-                                <Icon icon="myLocation" size={16} color={color.natural_300} />
-                                <ThemedText type="caption1" color="natural_300">
+                                <Icon icon="myLocation" size={16} color={color.natural_100} />
+                                <ThemedText type="caption1" color="natural_100">
                                     {data.minutes ? `${data.minutes}分` : ""} {data.distance ? `(${data.distance}m)` : ""}
                                 </ThemedText>
                             </Row>
                         )}
                         {data.address && (
                             <Row gap="s8" alignItems="flex-start" style={{ paddingRight: Spacing.s16 }}>
-                                <Icon icon="locationOn" size={16} color={color.natural_300} />
-                                <ThemedText type="caption1" color="natural_300" style={{ flex: 1, lineHeight: 18 }}>
+                                <Icon icon="locationOn" size={16} color={color.natural_100} />
+                                <ThemedText type="caption1" color="natural_100" style={{ flex: 1, lineHeight: 18 }}>
                                     {data.address}
                                 </ThemedText>
                             </Row>
