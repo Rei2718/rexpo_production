@@ -196,9 +196,9 @@ export type OrganizationDetails = Nullable<{
 export type Food = Nullable<{
     food_public_id: string;
     name: string;
-    caption: string;
     description: string;
-    icon: string;
+    min_price: number;
+    max_price: number;
     minutes: number;
     distance: number;
     address: string;
