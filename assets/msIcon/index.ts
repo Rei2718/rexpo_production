@@ -36,6 +36,7 @@ export const icons = {
     close: require('./close.svg'),
     survey: require('./survey.svg'),
     mode: require('./mode.svg'),
+    food: require('./food.svg'),
 };
 
 export type IconName = keyof typeof icons;

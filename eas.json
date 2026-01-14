@@ -26,6 +26,10 @@
       "channel": "production",
       "autoIncrement": true,
       "distribution": "store"
+    },
+    "staging": {
+      "extends": "production",
+      "channel": "staging"
     }
   },
   "submit": {}

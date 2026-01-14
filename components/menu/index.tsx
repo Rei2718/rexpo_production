@@ -38,7 +38,7 @@ export default function MenuScreen() {
                         />
                         <SettingsLinkItem
                             label="フード"
-                            icon="explore"
+                            icon="food"
                             href="/(detail)/food"
                         />
                         <SettingsLinkItem
