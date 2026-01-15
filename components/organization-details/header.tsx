@@ -3,6 +3,7 @@ import { ThemedText } from "@/components/ui/themed-text";
 import { FALLBACK_IMAGE_URL } from "@/constants/fallback-image";
 import { Spacing } from "@/constants/theme";
 import { OrganizationDetails, Verified } from "@/supabase/api/types";
+import { supabaseStorageUrl } from "@/supabase/supabase";
 import { Image } from "expo-image";
 import { StyleSheet } from "react-native";
 
@@ -19,7 +20,7 @@ export function OrganizationHeader(data: Verified<OrganizationDetails>) {
                 paddingTop="s20"
                 paddingHorizontal="s80">
                 <Image
-                    source={data.header_image ? { uri: data.header_image } : FALLBACK_IMAGE_URL}
+                    source={data.header_image ? { uri: `${supabaseStorageUrl}/${data.header_image}` } : FALLBACK_IMAGE_URL}
                     style={[
                         styles.coverImage,
                         {
