@@ -50,3 +50,9 @@ Join our community of developers creating universal apps.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
 
 https://codelabs.developers.google.com/getting-started-google-antigravity?hl=ja#8
+
+## Copyright & Disclaimer
+Copyright (c) 2026 Ichiro Ishikawa. All Rights Reserved.
+
+This software is provided "AS IS", without warranty of any kind. The author is not liable for any damages arising from its use.
+(本ソフトウェアは現状有姿で提供され、著作者はいかなる保証も行いません。利用により生じた損害について、著作者は一切の責任を負いません。)
