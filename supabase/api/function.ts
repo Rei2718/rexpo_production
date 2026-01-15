@@ -60,7 +60,7 @@ export async function get_events_by_tag(tag_public_id?: string) {
 
 export async function get_events_by_venue(venue_public_id?: string) {
     if (venue_public_id === ALL_VENUE_ID) {
-        const { data, error } = await supabase.rpc("get_primary_timeline");
+        const { data, error } = await supabase.rpc("get_all_timeline");
         if (error) throw error;
         return data as unknown as Verified<TimelineSlot>[];
     }
