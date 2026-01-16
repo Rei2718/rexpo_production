@@ -3,7 +3,7 @@
     "name": "rexpo",
     "slug": "rexpo",
     "owner": "ichiro2718",
-    "version": "5.0.0",
+    "version": "5.1.0",
     "orientation": "portrait",
     "icon": "./assets/logo/icon.png",
     "scheme": "rexpo",
@@ -19,9 +19,6 @@
         "light": "./assets/logo/ios-light.png",
         "tinted": "./assets/logo/ios-tinted.png"
       },
-      "config": {
-        "googleMapsApiKey": "AIzaSyBY4YTVW45Xyfn5E97SNEU9P74o2_E6Pu0"
-      },
       "bundleIdentifier": "com.ichi.rexpo",
       "supportsTablet": false,
       "infoPlist": {
@@ -33,11 +30,6 @@
       "adaptiveIcon": {
         "backgroundColor": "#090909",
         "foregroundImage": "./assets/logo/adaptive-icon.png"
-      },
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyAY0bN56jJZDhlwyoH8NMOZ5IWAtcqCFFo"
-        }
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
