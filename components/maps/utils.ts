@@ -3,10 +3,11 @@
 // ピンの間隔が広すぎて画面外にはみ出る → 値を「大きく」する (0.0040など)
 // ピンが中央に集まりすぎている → 値を「小さく」する (0.0025など)
 
+
 export const MAP_CONFIG = {
-    centerLat: 43.057190,
-    centerLng: 141.388485,
-    latRange: 0.00610,
+    centerLat: 43.05719214841599,
+    centerLng: 141.38847510857013,
+    latRange: 0.0053,
 };
 
 const ASPECT_RATIO = Math.cos(MAP_CONFIG.centerLat * (Math.PI / 180));

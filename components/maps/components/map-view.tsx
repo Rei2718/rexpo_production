@@ -2,7 +2,7 @@ import { Container } from '@/components/ui/container';
 import { FlashMessage } from '@/components/ui/flash-message';
 import { StatusMessage } from '@/components/ui/status-message';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
-import { Canvas, Group, ImageSVG } from "@shopify/react-native-skia";
+import { Canvas, Circle, Group, ImageSVG } from "@shopify/react-native-skia";
 import { StyleSheet } from 'react-native';
 import { GestureDetector } from "react-native-gesture-handler";
 import { useMapsView } from "../hooks/use-maps-view";
@@ -78,6 +78,8 @@ export default function MapsView({ venues = [], selectedVenueId, onMarkerPress, 
                                     strokeColor={themeColor.red_500}
                                 />
                             )}
+                            {/* DEBUG: Center Marker for Calibration */}
+                            <Circle cx={svgWidth / 2} cy={svgHeight / 2} r={10} color="red" />
                         </Group>
                     </Canvas>
                 </Container>
