@@ -1,5 +1,5 @@
 import { StatusMessage } from "@/components/ui/status-message";
-import { View } from "react-native";
+import { ThemedView } from "../ui/themed-view";
 import Sheet from "./components/map-bottom-sheet";
 import MapsView from "./components/map-view";
 import { useMapsScreen } from "./hooks/use-maps-screen";
@@ -11,7 +11,7 @@ export default function MapsScreen() {
     if (isError) return <StatusMessage status="error" />;
 
     return (
-        <View style={{ flex: 1 }}>
+        <ThemedView style={{ flex: 1 }}>
             <MapsView
                 venues={venues ?? []}
                 selectedVenueId={selectedVenue?.venue_public_id}
@@ -22,6 +22,6 @@ export default function MapsScreen() {
                 data={selectedVenue}
                 onClose={() => setSelectedVenue(null)}
             />
-        </View>
+        </ThemedView>
     );
 }
