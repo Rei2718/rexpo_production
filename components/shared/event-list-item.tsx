@@ -29,7 +29,14 @@ export const EventListItem = memo((data: Verified<EventOverview>) => {
                 <Container flexDirection="row" alignItems="center" style={styles.container}>
                     <Image
                         source={data.icon ? { uri: supabaseStorageUrl + data.icon } : FALLBACK_IMAGE_URL}
-                        style={styles.image}
+                        style={[
+                            styles.image,
+                            {
+                                borderWidth: Spacing.s1,
+                                borderColor: color.border,
+                                backgroundColor: color.border,
+                            }
+                        ]}
                     />
                     <Container flexDirection="column" flex={1} style={styles.textContainer}>
                         <ThemedText type="footnote" numberOfLines={1}>

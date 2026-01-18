@@ -26,6 +26,7 @@ export function EventHeader(data: Verified<EventDetails>) {
                         {
                             borderWidth: Spacing.s1,
                             borderColor: color.border,
+                            backgroundColor: color.border,
                         }
                     ]}
                 />

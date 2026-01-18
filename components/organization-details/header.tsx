@@ -26,6 +26,7 @@ export function OrganizationHeader(data: Verified<OrganizationDetails>) {
                         {
                             borderWidth: Spacing.s1,
                             borderColor: color.border,
+                            backgroundColor: color.border,
                         }
                     ]}
                 />

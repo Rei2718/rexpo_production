@@ -13,7 +13,14 @@ export function NewsPerformerCard(data: Verified<NewsPerformer>) {
         <Row gap="s12" alignItems="center" padding="s16" backgroundColor={color.natural_600} borderRadius="s16">
             <Image
                 source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}
-                style={styles.icon}
+                style={[
+                    styles.icon,
+                    {
+                        borderWidth: Spacing.s1,
+                        borderColor: color.border,
+                        backgroundColor: color.border,
+                    }
+                ]}
             />
             <Column flex={1} gap="s2">
                 <ThemedText type="subhead" style={styles.boldText}>

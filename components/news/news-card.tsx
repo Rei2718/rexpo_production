@@ -24,7 +24,14 @@ export function NewsCard(data: Verified<News>) {
             <Row gap="s16" alignItems="center">
                 <Image
                     source={data.thumbnail ? { uri: `${supabaseStorageUrl}/${data.thumbnail}` } : FALLBACK_IMAGE_URL}
-                    style={[styles.image, { backgroundColor: color.natural_200 }]}
+                    style={[
+                        styles.image,
+                        {
+                            borderWidth: Spacing.s1,
+                            borderColor: color.border,
+                            backgroundColor: color.border,
+                        }
+                    ]}
                 />
                 <Column flex={1} gap="s4">
                     <ThemedText type="subhead" numberOfLines={1}>

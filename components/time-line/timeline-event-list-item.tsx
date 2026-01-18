@@ -46,7 +46,14 @@ export const TimelineEventListItem = memo((data: Verified<TimelineEvent>) => {
 
                     <Image
                         source={data.icon ? { uri: supabaseStorageUrl + data.icon } : FALLBACK_IMAGE_URL}
-                        style={styles.image}
+                        style={[
+                            styles.image,
+                            {
+                                borderWidth: Spacing.s1,
+                                borderColor: color.border,
+                                backgroundColor: color.border,
+                            }
+                        ]}
                     />
 
                     <Container flexDirection="column" flex={1} gap="s4">

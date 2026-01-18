@@ -3,19 +3,29 @@ import { ThemedText } from '@/components/ui/themed-text';
 import { FALLBACK_IMAGE_URL } from '@/constants/fallback-image';
 import { NO_DATA } from '@/constants/no-data';
 import { Spacing } from '@/constants/theme';
+import { useThemeColor } from '@/hooks/use-theme-color';
 import { useOperationalStatusColor } from '@/hooks/use-venue-status';
 import { VenueDetails, Verified } from '@/supabase/api/types';
 import { Image, StyleSheet, View } from 'react-native';
 
 export function Header(data: Verified<VenueDetails>) {
     const statusBadgeColor = useOperationalStatusColor(data.operational_status);
+    const color = useThemeColor();
 
     return (
         <Container paddingHorizontal="s20">
             <Container flexDirection="row" alignItems="center" gap="s12">
                 <Image
                     source={data.icon ? { uri: data.icon } : FALLBACK_IMAGE_URL}
-                    style={styles.venueIcon}
+
+                    style={[
+                        styles.venueIcon,
+                        {
+                            borderWidth: Spacing.s1,
+                            borderColor: color.border,
+                            backgroundColor: color.border,
+                        }
+                    ]}
                 />
                 <Container flex={1} gap="s4" justifyContent="center">
                     <Container alignItems="flex-start" gap="s4">

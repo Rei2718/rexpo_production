@@ -37,6 +37,7 @@ export default function CategoryCard(data: Verified<Category>) {
                         {
                             borderWidth: Spacing.s1,
                             borderColor: color.border,
+                            backgroundColor: color.border,
                         },
                     ]}
                 >

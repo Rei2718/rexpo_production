@@ -1,3 +1,4 @@
+import { FALLBACK_IMAGE_URL } from "@/constants/fallback-image";
 import { NO_DATA } from "@/constants/no-data";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Feature, Verified } from "@/supabase/api/types";
@@ -15,7 +16,7 @@ export function FeatureItem(data: Verified<Feature>) {
     return (
         <View style={styles.container}>
             <Image
-                source={data.image}
+                source={data.image ? { uri: data.image } : FALLBACK_IMAGE_URL}
                 style={StyleSheet.absoluteFill}
                 contentFit="cover"
             />

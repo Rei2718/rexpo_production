@@ -24,7 +24,14 @@ export function SurveyCard({ index, ...item }: SurveyItem & { index: number }) {
                 </ThemedText>
                 <Image
                     source={item.image}
-                    style={styles.image}
+                    style={[
+                        styles.image,
+                        {
+                            borderWidth: Spacing.s1,
+                            borderColor: color.border,
+                            backgroundColor: color.border,
+                        }
+                    ]}
                 />
                 <Container flexDirection="column" flex={1} gap="s4">
                     <ThemedText type="subhead" numberOfLines={1}>

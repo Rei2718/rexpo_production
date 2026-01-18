@@ -28,7 +28,14 @@ export const PerformerCard = memo((data: Verified<EventPerformer>) => {
             <Row alignItems="center" gap="s16" padding="s4">
                 <Image
                     source={data.icon ? { uri: `${supabaseStorageUrl}/${data.icon}` } : FALLBACK_IMAGE_URL}
-                    style={styles.image}
+                    style={[
+                        styles.image,
+                        {
+                            borderWidth: Spacing.s1,
+                            borderColor: color.border,
+                            backgroundColor: color.border,
+                        }
+                    ]}
                 />
                 <Column flex={1} gap="s2">
                     <ThemedText type="footnote" numberOfLines={1}>

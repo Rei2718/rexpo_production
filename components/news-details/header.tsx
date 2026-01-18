@@ -23,6 +23,7 @@ export function NewsHeader(data: Verified<News>) {
                         {
                             borderWidth: Spacing.s1,
                             borderColor: color.border,
+                            backgroundColor: color.border,
                         }
                     ]}
                 />

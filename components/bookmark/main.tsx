@@ -54,7 +54,7 @@ export default function BookmarkMain() {
             data={slots}
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={
-                <Container paddingBottom="s20">
+                <Container paddingBottom="s32">
                     <TitleBar />
                 </Container>
             }

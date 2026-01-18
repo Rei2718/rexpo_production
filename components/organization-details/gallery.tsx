@@ -43,6 +43,7 @@ export function OrganizationGallery(data: Verified<OrganizationDetails>) {
                                     borderRadius: Spacing.s20,
                                     borderWidth: Spacing.s1,
                                     borderColor: color.border,
+                                    backgroundColor: color.border,
                                 }
                             ]}
                         />
