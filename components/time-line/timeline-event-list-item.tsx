@@ -22,7 +22,7 @@ export const TimelineEventListItem = memo((data: Verified<TimelineEvent>) => {
     const isActive = useEventActiveStatus(data.starts, data.ends);
 
     const animatedStyle = useBlinkingAnimation(isActive);
-    const tintColorWithOpacity = `${color.tint}26`; // 15% opacity
+    const tintColorWithOpacity = `${color.tint}33`; // 20% opacity
 
     return (
         <Link
