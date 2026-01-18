@@ -1,4 +1,3 @@
-import { FALLBACK_IMAGE_URL } from "@/constants/fallback-image";
 import { NO_DATA } from "@/constants/no-data";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Feature, Verified } from "@/supabase/api/types";
@@ -16,7 +15,7 @@ export function FeatureItem(data: Verified<Feature>) {
     return (
         <View style={styles.container}>
             <Image
-                source={data.image ? { uri: data.image } : FALLBACK_IMAGE_URL}
+                source={data.image}
                 style={StyleSheet.absoluteFill}
                 contentFit="cover"
             />
@@ -44,7 +43,7 @@ export function FeatureItem(data: Verified<Feature>) {
             {/* Text */}
             <ContainerAbsolute bottom={0} left={0} right={0} justifyContent="center" paddingHorizontal="s40" paddingTop="s24" paddingBottom="s48">
                 <Container flexDirection="column" justifyContent="center" alignItems="center" gap="s8">
-                    <ThemedText type="footnote" style={styles.textCenter} color="tint">TODAY'S PICK</ThemedText>
+                    <ThemedText type="footnote" style={styles.textCenter} color="natural_200">TODAY'S PICK</ThemedText>
                     <ThemedText type="title2" style={styles.textCenter}>{data.name ?? NO_DATA}</ThemedText>
                     <ThemedText type="subhead" color="natural_200" style={styles.textCenter}>{data.caption ?? NO_DATA}</ThemedText>
                 </Container>
