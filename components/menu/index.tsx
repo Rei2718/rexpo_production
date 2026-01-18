@@ -7,7 +7,7 @@ import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Stack, useRouter } from "expo-router";
-import { Image, ScrollView, View, useColorScheme } from "react-native";
+import { ScrollView, useColorScheme } from "react-native";
 
 export default function MenuScreen() {
     const color = useThemeColor();
@@ -32,11 +32,6 @@ export default function MenuScreen() {
                     {/* Features */}
                     <SettingsSection title="その他">
                         <SettingsLinkItem
-                            label="ニュース"
-                            icon="browse"
-                            href="/(detail)/news"
-                        />
-                        <SettingsLinkItem
                             label="フード"
                             icon="food"
                             href="/(detail)/food"
@@ -45,17 +40,17 @@ export default function MenuScreen() {
                             label="アンケート"
                             icon="survey"
                             href="/(detail)/survey"
+                        />
+                        <SettingsLinkItem
+                            label="ニュース"
+                            icon="browse"
+                            href="/(detail)/news"
                             isLast={true}
                         />
                     </SettingsSection>
 
                     {/* App Info */}
                     <SettingsSection title="アプリについて">
-                        <SettingsLinkItem
-                            label="コア・コンセプト"
-                            icon="pentagon"
-                            href="/(detail)/core-concept"
-                        />
                         <SettingsLinkItem
                             label="利用規約"
                             icon="contract"
@@ -70,6 +65,16 @@ export default function MenuScreen() {
                             label="ライセンス"
                             icon="verified"
                             href="/(detail)/licenses"
+                        />
+                        <SettingsLinkItem
+                            label="クレジット"
+                            icon="humanFill"
+                            href="/(detail)/credits"
+                        />
+                        <SettingsLinkItem
+                            label="コア・コンセプト"
+                            icon="pentagon"
+                            href="/(detail)/core-concept"
                             isLast={true}
                         />
                     </SettingsSection>
@@ -101,20 +106,11 @@ export default function MenuScreen() {
                     </SettingsSection>
 
                     {/* Version Footer */}
-                    <Container flexDirection="row" alignItems="center" justifyContent="center" gap="s16" paddingVertical="s24">
-                        <Image
-                            source={theme === 'dark' ? require('@/assets/logo/ios-light.png') : require('@/assets/logo/ios-dark.png')}
-                            style={{ width: 60, height: 60, borderRadius: 12 }}
-                        />
-                        <View>
-                            <ThemedText type="largeTitle" style={{ fontWeight: 'bold' }}>R-EXPO</ThemedText>
-                            <ThemedText type="caption1" color="natural_300">Developed by 石川 壱朗</ThemedText>
-                        </View>
-                    </Container>
+
 
                     <Container alignItems="center">
                         <ThemedText type="caption1">
-                            v5.1.1
+                            v5.1.3
                         </ThemedText>
                     </Container>
 
