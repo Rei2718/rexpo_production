@@ -59,7 +59,7 @@ export const CREDITS_DATA: CreditSection[] = [
     {
         title: 'テストチーム',
         data: [
-            '伊藤 蓮', '渡辺 陽葵', '山本 陸',
+            '田中 達也', '芳賀 智輝', '髙山 つばさ',
             '中村 結衣', '小林 湊'
         ],
         type: 'grid',
