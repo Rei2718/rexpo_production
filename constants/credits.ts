@@ -14,12 +14,12 @@ export const CREDITS_DATA: CreditSection[] = [
     },
     {
         title: 'データ編集・管理',
-        data: ['佐藤 健太', '鈴木 美咲'], // 仮名であれば実際の名前に
+        data: ['西島 一樹', '稲村 湊'], // 仮名であれば実際の名前に
         type: 'grid',
     },
     {
         title: '初期開発・機材協力',
-        data: ['田中 翔太', '高橋 優子'], // 仮名であれば実際の名前に
+        data: ['山内 大佳良', '稲荷 久敬'], // 仮名であれば実際の名前に
         type: 'grid',
     },
 
@@ -37,7 +37,7 @@ export const CREDITS_DATA: CreditSection[] = [
     },
     {
         title: 'テスト・技術支援', // "品質検証"より文脈に即した表現
-        data: ['山田 太郎 様'],
+        data: ['buntyan 様'],
         type: 'default',
     },
 
