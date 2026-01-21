@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
     container: {
         gap: Spacing.s8,
         borderRadius: Spacing.s12,
-        padding: Spacing.s8, // Added padding to make the highlight look like a card
         overflow: 'hidden', // Ensure gradient doesn't bleed out
     },
     row: {
