@@ -49,6 +49,11 @@ export function OrganizationGallery(data: Verified<OrganizationDetails>) {
                         />
                     </ThemedView>
                 )}
+                onConfigurePanGesture={gesture => {
+                    'worklet';
+                    gesture.activeOffsetX([-10, 10]);
+                    gesture.failOffsetY([-5, 5]);
+                }}
             />
         </ThemedView>
     );
