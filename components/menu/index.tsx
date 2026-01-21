@@ -43,7 +43,7 @@ export default function MenuScreen() {
                         />
                         <SettingsLinkItem
                             label="ニュース"
-                            icon="browse"
+                            icon="news"
                             href="/(detail)/news"
                             isLast={true}
                         />

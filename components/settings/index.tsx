@@ -32,7 +32,7 @@ export default function SettingsScreen() {
                     <SettingsSection title="表示">
                         <SettingsActionItem
                             label="テーマ"
-                            icon="browse"
+                            icon="mode"
                             value={themeLabel}
                             onPress={showThemeActionSheet}
                             isLast={true}
@@ -43,7 +43,7 @@ export default function SettingsScreen() {
                     <SettingsSection title="プライバシー">
                         <SettingsActionItem
                             label="位置情報の許可"
-                            icon="locationOn"
+                            icon="locationOnFill"
                             value={isLocationGranted ? "許可済み" : "許可しない"}
                             onPress={() => Linking.openSettings()}
                         />

@@ -12,11 +12,6 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
     const color = useThemeColor();
     const openInAppBrowser = useInAppBrowser();
 
-    const hasSns =
-        data.website || data.instagram || data.linkedin || data.twitter || data.youtube;
-
-    if (!hasSns) return null;
-
     return (
         <Container
             borderRadius="pill"
@@ -27,7 +22,16 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
                 borderColor: color.border,
             }}
         >
-            <Row flexWrap="wrap" paddingHorizontal='s8'>
+            <Row flexWrap="wrap" paddingHorizontal="s8">
+                {data.website && (
+                    <PressableScale
+                        onPress={() => openInAppBrowser(data.website!)}
+                    >
+                        <Container padding="s8">
+                            <Icon icon="link" color={color.natural_200} />
+                        </Container>
+                    </PressableScale>
+                )}
                 {data.instagram && (
                     <PressableScale
                         onPress={() => openInAppBrowser(data.instagram!)}
@@ -51,7 +55,11 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
                         onPress={() => openInAppBrowser(data.twitter!)}
                     >
                         <Container padding="s8">
-                            <Icon icon="twitter" color={color.natural_200} />
+                            <Icon
+                                icon="twitter"
+                                color={color.natural_200}
+                                size={26}
+                            />
                         </Container>
                     </PressableScale>
                 )}
@@ -61,15 +69,6 @@ export function OrganizationSns(data: Verified<OrganizationDetails>) {
                     >
                         <Container padding="s8">
                             <Icon icon="youtube" color={color.natural_200} />
-                        </Container>
-                    </PressableScale>
-                )}
-                {data.website && (
-                    <PressableScale
-                        onPress={() => openInAppBrowser(data.website!)}
-                    >
-                        <Container padding="s8">
-                            <Icon icon="link" color={color.natural_200} />
                         </Container>
                     </PressableScale>
                 )}

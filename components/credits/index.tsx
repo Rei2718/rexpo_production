@@ -38,6 +38,7 @@ export default function CreditsScreen() {
                     paddingBottom: modal + Spacing.s20,
                     paddingHorizontal: Spacing.s20,
                 }}
+                showsVerticalScrollIndicator={false}
                 stickySectionHeadersEnabled={false}
                 contentInsetAdjustmentBehavior="automatic"
                 style={{ backgroundColor: color.natural_600 }}
@@ -99,14 +100,6 @@ export default function CreditsScreen() {
                 }}
                 ItemSeparatorComponent={() => <View style={{ height: Spacing.s4 }} />}
                 SectionSeparatorComponent={() => <View style={{ height: Spacing.s8 }} />}
-
-                ListFooterComponent={
-                    <Container alignItems="center" paddingVertical="s40" marginTop="s20">
-                        <ThemedText type="caption2" color="natural_200">
-                            © 2026 Ishikawa Ichiro
-                        </ThemedText>
-                    </Container>
-                }
             />
         </>
     );
