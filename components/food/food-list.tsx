@@ -7,9 +7,11 @@ import { FoodCard } from "./food-card";
 export function FoodList({
     data,
     contentContainerStyle,
+    ListHeaderComponent,
 }: {
     data: Verified<Food>[];
     contentContainerStyle?: StyleProp<ViewStyle>;
+    ListHeaderComponent?: React.ComponentProps<typeof FlatList>["ListHeaderComponent"];
 }) {
     return (
         <FlatList
@@ -25,6 +27,7 @@ export function FoodList({
             ]}
             contentInsetAdjustmentBehavior="automatic"
             showsVerticalScrollIndicator={false}
+            ListHeaderComponent={ListHeaderComponent}
         />
     );
 }
