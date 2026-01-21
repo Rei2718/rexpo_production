@@ -31,16 +31,18 @@ export function SettingsActionItem({
     return (
         <>
             <PressableScale onPress={onPress}>
-                <SettingsItem label={label} icon={icon} labelStyle={isDestructive ? { color: color.red_500 } : undefined}>
-                    <Container flexDirection="row" alignItems="center" gap="s8">
-                        {value && (
-                            <ThemedText type="subhead" color="tint">
-                                {value}
-                            </ThemedText>
-                        )}
-                        <Icon icon="right" color={color.natural_300} />
-                    </Container>
-                </SettingsItem>
+                <Container paddingVertical="s16">
+                    <SettingsItem label={label} icon={icon} labelStyle={isDestructive ? { color: color.red_500 } : undefined}>
+                        <Container flexDirection="row" alignItems="center" gap="s8">
+                            {value && (
+                                <ThemedText type="subhead" color="tint">
+                                    {value}
+                                </ThemedText>
+                            )}
+                            <Icon icon="right" color={color.natural_300} />
+                        </Container>
+                    </SettingsItem>
+                </Container>
             </PressableScale>
             {!isLast && (
                 <View
@@ -48,7 +50,6 @@ export function SettingsActionItem({
                         height: 1,
                         backgroundColor: color.natural_400,
                         marginLeft: Spacing.s40,
-                        marginVertical: Spacing.s16,
                     }}
                 />
             )}

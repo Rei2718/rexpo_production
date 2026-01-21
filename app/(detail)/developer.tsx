@@ -70,7 +70,7 @@ export default function DeveloperScreen() {
                 <Container paddingHorizontal="s20" gap="s32" style={{ paddingBottom: modal }}>
 
                     <SettingsSection title="デバッグ時間設定">
-                        <Container gap="s12">
+                        <Container gap="s12" paddingVertical="s16">
                             <Container flexDirection="row" justifyContent="space-between" alignItems="center">
                                 <ThemedText type="subhead">状態</ThemedText>
                                 <ThemedText type="body" color={debugTime ? "red_500" : "natural_200"}>

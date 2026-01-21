@@ -23,9 +23,9 @@ export function SettingsSection({ title, children, footer }: SettingsSectionProp
                 </Container>
             )}
             <Container
-                style={{ backgroundColor: color.natural_500 }}
+                style={{ backgroundColor: color.natural_500, overflow: 'hidden' }}
                 borderRadius="s20"
-                padding="s16"
+                paddingHorizontal="s16"
             >
                 {children}
             </Container>

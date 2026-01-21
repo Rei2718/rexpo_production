@@ -1,4 +1,5 @@
 import { IconName } from "@/assets/msIcon";
+import { Container } from "@/components/ui/container";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Switch } from "react-native";
 import { SettingsItem } from "./settings-item";
@@ -19,13 +20,15 @@ export function SettingsToggleItem({
     const color = useThemeColor();
 
     return (
-        <SettingsItem label={label} icon={icon}>
-            <Switch
-                value={value}
-                onValueChange={onValueChange}
-                trackColor={{ false: color.natural_300, true: color.tint }}
-                ios_backgroundColor={color.natural_300}
-            />
-        </SettingsItem>
+        <Container paddingVertical="s16">
+            <SettingsItem label={label} icon={icon}>
+                <Switch
+                    value={value}
+                    onValueChange={onValueChange}
+                    trackColor={{ false: color.natural_300, true: color.tint }}
+                    ios_backgroundColor={color.natural_300}
+                />
+            </SettingsItem>
+        </Container>
     );
 }

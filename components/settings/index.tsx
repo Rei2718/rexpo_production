@@ -47,7 +47,7 @@ export default function SettingsScreen() {
                             value={isLocationGranted ? "許可済み" : "許可しない"}
                             onPress={() => Linking.openSettings()}
                         />
-                        <Container paddingHorizontal="s8">
+                        <Container paddingHorizontal="s8" paddingVertical="s16">
                             <ThemedText type="subhead" color="natural_200">
                                 アプリが位置情報を利用するにはOSの設定で許可が必要です。許可設定は端末の設定画面から変更できます。
                             </ThemedText>

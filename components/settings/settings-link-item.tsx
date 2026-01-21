@@ -1,4 +1,5 @@
 import { IconName } from "@/assets/msIcon";
+import { Container } from "@/components/ui/container";
 import { Icon } from "@/components/ui/icon";
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { Spacing } from "@/constants/theme";
@@ -37,9 +38,11 @@ export function SettingsLinkItem({
     return (
         <>
             <PressableScale onPress={handlePress}>
-                <SettingsItem label={label} icon={icon}>
-                    <Icon icon="right" color={color.natural_300} />
-                </SettingsItem>
+                <Container paddingVertical="s16">
+                    <SettingsItem label={label} icon={icon}>
+                        <Icon icon="right" color={color.natural_300} />
+                    </SettingsItem>
+                </Container>
             </PressableScale>
             {!isLast && (
                 <View
@@ -47,7 +50,6 @@ export function SettingsLinkItem({
                         height: 1,
                         backgroundColor: color.natural_400,
                         marginLeft: Spacing.s40,
-                        marginVertical: Spacing.s16,
                     }}
                 />
             )}
