@@ -862,6 +862,14 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/prebuild-config",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/prebuild-config/LICENSE"
   },
+  "@expo/react-native-action-sheet@4.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/react-native-action-sheet",
+    "publisher": "Jesse Ruder",
+    "email": "jesse@sixfivezero.net",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/react-native-action-sheet",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/react-native-action-sheet/LICENSE"
+  },
   "@expo/schema-utils@0.1.8": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
@@ -1297,6 +1305,13 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/routers",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/routers/LICENSE"
   },
+  "@shopify/react-native-skia@2.2.12": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Shopify/react-native-skia",
+    "publisher": "Shopify Inc.",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@shopify/react-native-skia",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@shopify/react-native-skia/LICENSE.md"
+  },
   "@sinclair/typebox@0.27.8": {
     "licenses": "MIT",
     "repository": "https://github.com/sinclairzx81/typebox",
@@ -1418,12 +1433,6 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/babel__traverse",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/babel__traverse/LICENSE"
   },
-  "@types/geojson@7946.0.16": {
-    "licenses": "MIT",
-    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/geojson",
-    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/geojson/LICENSE"
-  },
   "@types/graceful-fs@4.1.9": {
     "licenses": "MIT",
     "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
@@ -1435,6 +1444,12 @@
     "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/hammerjs",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/hammerjs/LICENSE"
+  },
+  "@types/hoist-non-react-statics@3.3.7": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/hoist-non-react-statics",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/hoist-non-react-statics/LICENSE"
   },
   "@types/istanbul-lib-coverage@2.0.6": {
     "licenses": "MIT",
@@ -1516,6 +1531,12 @@
     "publisher": "urql GraphQL Contributors",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@urql/exchange-retry",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@urql/exchange-retry/LICENSE"
+  },
+  "@webgpu/types@0.1.21": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/gpuweb/types",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@webgpu/types",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@webgpu/types/LICENSE"
   },
   "@xmldom/xmldom@0.8.11": {
     "licenses": "MIT",
@@ -1924,6 +1945,11 @@
     "url": "http://beneb.info",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/caniuse-lite",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/caniuse-lite/LICENSE"
+  },
+  "canvaskit-wasm@0.40.0": {
+    "licenses": "BSD-3-Clause",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/canvaskit-wasm",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/canvaskit-wasm/LICENSE"
   },
   "chalk@2.4.2": {
     "licenses": "MIT",
@@ -2616,6 +2642,13 @@
     "publisher": "650 Industries, Inc.",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-updates",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-updates/README.md"
+  },
+  "expo-video@3.0.15": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/expo",
+    "publisher": "650 Industries, Inc.",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-video",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-video/README.md"
   },
   "expo-web-browser@15.0.10": {
     "licenses": "MIT",
@@ -4110,14 +4143,6 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native-is-edge-to-edge",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native-is-edge-to-edge/LICENSE"
   },
-  "react-native-maps@1.20.1": {
-    "licenses": "MIT",
-    "repository": "https://github.com/react-native-maps/react-native-maps",
-    "publisher": "Leland Richardson",
-    "email": "leland.m.richardson@gmail.com",
-    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native-maps",
-    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native-maps/LICENSE"
-  },
   "react-native-reanimated-carousel@4.0.3": {
     "licenses": "MIT",
     "repository": "https://github.com/dohooo/react-native-reanimated-carousel",
@@ -4169,6 +4194,12 @@
     "repository": "https://github.com/facebook/react-native",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native/LICENSE"
+  },
+  "react-reconciler@0.31.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/facebook/react",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-reconciler",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-reconciler/LICENSE"
   },
   "react-refresh@0.14.2": {
     "licenses": "MIT",
@@ -4366,6 +4397,12 @@
     "url": "http://blog.izs.me/",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/sax",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/sax/LICENSE.md"
+  },
+  "scheduler@0.25.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/facebook/react",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-reconciler/node_modules/scheduler",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-reconciler/node_modules/scheduler/LICENSE"
   },
   "scheduler@0.26.0": {
     "licenses": "MIT",

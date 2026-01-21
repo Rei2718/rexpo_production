@@ -16,7 +16,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         },
         plugins: [
             ...(config.plugins ?? []),
-            "expo-video"
+            "expo-video",
+            "expo-font"
         ]
     };
 };
