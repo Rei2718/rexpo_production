@@ -36,7 +36,8 @@ export default function TimelineMain() {
         <FlatList
             data={events}
             ListHeaderComponent={
-                <Container gap="s32" paddingBottom="s20">
+                // 領域を広げたのでその分調整(-s8)
+                <Container gap="s24" paddingBottom="s12">
                     <TitleBar />
                     <VenueFilter
                         venues={venues}
@@ -53,7 +54,7 @@ export default function TimelineMain() {
                 />
             )}
             ItemSeparatorComponent={TimelineSeparator}
-            keyExtractor={(item) => `${item.starts}-${item.ends}`}
+            keyExtractor={(item, index) => item.starts ?? `slot-${index}`}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: tab }}
             initialNumToRender={5}

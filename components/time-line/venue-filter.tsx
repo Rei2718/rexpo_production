@@ -25,27 +25,29 @@ const VenueItem = memo(({
 
     return (
         <PressableScale onPress={() => onPress(id)}>
-            <Container
-                paddingHorizontal="s24"
-                paddingVertical="s12"
-                gap="s12"
-                backgroundColor={isSelected ? color.natural_100 : color.natural_500}
-                style={{
-                    borderRadius: Spacing.pill,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    borderWidth: Spacing.s1,
-                    borderColor: isSelected ? "transparent" : color.border,
-                }}
-            >
-                <ThemedText
-                    type="caption1"
-                    color={isSelected ? "natural_600" : "natural_100"}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
+            <Container marginVertical="s8">
+                <Container
+                    paddingHorizontal="s24"
+                    paddingVertical="s12"
+                    gap="s12"
+                    backgroundColor={isSelected ? color.natural_100 : color.natural_500}
+                    style={{
+                        borderRadius: Spacing.pill,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        borderWidth: Spacing.s1,
+                        borderColor: isSelected ? "transparent" : color.border,
+                    }}
                 >
-                    {name}
-                </ThemedText>
+                    <ThemedText
+                        type="caption1"
+                        color={isSelected ? "natural_600" : "natural_100"}
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                    >
+                        {name}
+                    </ThemedText>
+                </Container>
             </Container>
         </PressableScale>
     );

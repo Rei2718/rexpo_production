@@ -4,7 +4,8 @@ import FeatureCarousel from "./feature-carousel";
 
 export function StickyHeader() {
     return (
-        <Container gap="s32" paddingBottom="s20">
+        // 領域を広げたのでその分調整(-s8)
+        <Container gap="s24" paddingBottom="s12">
             <FeatureCarousel />
             <CategoryFilter />
         </Container>

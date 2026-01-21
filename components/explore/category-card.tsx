@@ -25,30 +25,32 @@ export default function CategoryCard(data: Verified<Category>) {
             asChild
         >
             <PressableScale>
-                <Container
-                    paddingHorizontal="s16"
-                    paddingVertical="s8"
-                    gap="s8"
-                    backgroundColor={color.natural_500}
-                    flexDirection="row"
-                    alignItems="center"
-                    style={[
-                        styles.container,
-                        {
-                            borderWidth: Spacing.s1,
-                            borderColor: color.border,
-                        },
-                    ]}
-                >
-                    {data.icon && (
-                        <Image
-                            source={{ uri: supabaseStorageUrl + data.icon }}
-                            style={styles.icon}
-                        />
-                    )}
-                    <ThemedText type="caption1" numberOfLines={1} ellipsizeMode="tail">
-                        {data.name ?? NO_DATA}
-                    </ThemedText>
+                <Container marginVertical="s8">
+                    <Container
+                        paddingHorizontal="s16"
+                        paddingVertical="s8"
+                        gap="s8"
+                        backgroundColor={color.natural_500}
+                        flexDirection="row"
+                        alignItems="center"
+                        style={[
+                            styles.container,
+                            {
+                                borderWidth: Spacing.s1,
+                                borderColor: color.border,
+                            },
+                        ]}
+                    >
+                        {data.icon && (
+                            <Image
+                                source={{ uri: supabaseStorageUrl + data.icon }}
+                                style={styles.icon}
+                            />
+                        )}
+                        <ThemedText type="caption1" numberOfLines={1} ellipsizeMode="tail">
+                            {data.name ?? NO_DATA}
+                        </ThemedText>
+                    </Container>
                 </Container>
             </PressableScale>
         </Link>

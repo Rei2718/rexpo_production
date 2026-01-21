@@ -3,7 +3,7 @@ import { PressableScale } from '@/components/ui/pressable-scale';
 import { Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { router, Stack } from 'expo-router';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 
 export default function DetailLayout() {
     const color = useThemeColor();
@@ -17,10 +17,8 @@ export default function DetailLayout() {
                 headerTransparent: Platform.OS === 'ios' ? true : false,
                 headerShadowVisible: false,
                 headerLeft: Platform.OS === 'ios' ? () => (
-                    <PressableScale onPress={() => router.back()}>
-                        <View style={{ padding: Spacing.s8 }}>
-                            <Icon icon="left" color={color.natural_100} />
-                        </View>
+                    <PressableScale onPress={() => router.back()} style={{ padding: Spacing.s4 }}>
+                        <Icon icon="left" color={color.natural_100} size={Spacing.s24} />
                     </PressableScale>
                 ) : undefined,
             }}
