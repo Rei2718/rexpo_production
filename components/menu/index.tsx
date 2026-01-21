@@ -110,7 +110,7 @@ export default function MenuScreen() {
 
                     <Container alignItems="center">
                         <ThemedText type="caption1">
-                            v5.1.5
+                            v5.6.0
                         </ThemedText>
                     </Container>
 
