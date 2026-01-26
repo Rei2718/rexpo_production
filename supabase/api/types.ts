@@ -154,6 +154,24 @@ export type VenueOrganization = Nullable<{
     display_order: number;
 }>;
 
+
+export type VenueStaticInfo = Nullable<{
+    venue_public_id: string;
+    name: string;
+    icon: string;
+    map_latitude: number;
+    map_longitude: number;
+    is_primary: boolean;
+    organizations: VenueOrganization[];
+}>;
+
+export type VenueDynamicStatus = Nullable<{
+    venue_public_id: string;
+    operational_status: string;
+    congestion_status: string;
+    entry_type: string;
+}>;
+
 export type VenueDetails = Nullable<{
     venue_public_id: string;
     name: string;

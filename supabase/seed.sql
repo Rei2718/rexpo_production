@@ -1,357 +1,1357 @@
--- seed-test.sql
+SET session_replication_role = replica;
 
-TRUNCATE TABLE 
-    public.events_tags,
-    public.tags_categories,
-    public.events_performers,
-    public.events_venues,
-    public.events_slots,
-    public.venues_organizations,
-    public.features,
-    public.news,
-    public.banners,
-    public.events,
-    public.foods,
-    public.slots,
-    public.performers,
-    public.organizations,
-    public.venues,
-    public.tags,
-    public.categories
-RESTART IDENTITY CASCADE;
+--
+-- PostgreSQL database dump
+--
 
-DO $$
-DECLARE
-    v_cat_ids BIGINT[];
-    v_tag_ids BIGINT[];
-    v_venue_ids BIGINT[];
-    v_org_ids BIGINT[];
-    v_perf_ids BIGINT[];
-    v_slot_ids BIGINT[];
-    v_event_id BIGINT;
-    
-    i INTEGER;
-    j INTEGER;
-    k INTEGER;
-    
-    temp_id BIGINT;
-    temp_count INTEGER;
-    random_idx INTEGER;
-    
-    -- Data Arrays
-    arr_cat_names TEXT[] := ARRAY['テクノロジー', 'アート＆デザイン', '音楽', 'ビジネス', 'フード・食', 'ライフスタイル'];
-    arr_tag_names TEXT[] := ARRAY[
-        'AI/機械学習', 'Web開発', 'XR (VR/AR)', -- Tech
-        '油絵', 'メディアアート', '彫刻', -- Art
-        'ロック', 'ジャズセッション', 'クラシック', -- Music
-        'スタートアップ', 'マーケティング', '投資/VC', -- Business
-        'スイーツ', 'オーガニック', 'クラフトビール', -- Food
-        'ヨガ', '旅行', 'ファッション' -- Lifestyle
-    ];
-    
-    arr_event_titles_1 TEXT[] := ARRAY['未来の', '革新的な', '究極の', '公式', '春の', '素晴らしい', 'グローバル'];
-    arr_event_titles_2 TEXT[] := ARRAY['テック', 'アート', 'サウンド', 'グルメ', 'ネットワーク', '開発'];
-    arr_event_titles_3 TEXT[] := ARRAY['フェスティバル', 'サミット', 'カンファレンス', '展示会', 'フェア', 'ミートアップ'];
-    
-    arr_org_names TEXT[] := ARRAY['株式会社テックイノベーション', '一般社団法人アート振興会', 'グローバルミュージックラボ', '未来食プロジェクト', 'ネクストジェネレーション'];
-    arr_venue_primary TEXT[] := ARRAY['メインホール', 'グランドステージ', '展示ホールA', '国際会議室', '屋外アリーナ'];
-    arr_venue_others TEXT[] := ARRAY['101号室', '102号室', 'ラウンジA', 'ラウンジB', 'フードコート', 'キッチンカーエリア', '東トイレ前', '西エントランス', 'VIPラウンジ', 'ロッカー室'];
-    
-    arr_performer_last TEXT[] := ARRAY['佐藤', '鈴木', '高橋', '田中', '伊藤', '渡辺', '山本', '中村', '小林', '加藤'];
-    arr_performer_first TEXT[] := ARRAY['太郎', '次郎', '花子', '美咲', '健太', 'さくら', '大輔', '結衣', '翔太', '陽菜'];
-    arr_food_names TEXT[] := ARRAY['オーガニックカフェ', 'ステーキハウス29', '札幌ラーメン', 'ボッカ・イタリアン', '寿司処', 'バーガーキング'];
+-- \restrict fhyRpk0azzrgFkDiNLHOinf46GTAnARpz2SBJOFxTybdyrYbdj55LdE32V2pyam
 
-    v_curr_time TIME := '00:00:00';
-    v_slot_display_order INTEGER := 1;
-    v_event_global_count INTEGER := 0;
-    v_events_in_slot INTEGER;
-    v_venue_indices INTEGER[];
-    v_rand_pos INTEGER;
-    v_swap_tmp INTEGER;
-    v_target_venue_idx INTEGER;
+-- Dumped from database version 17.6
+-- Dumped by pg_dump version 17.6
 
-    -- Helper variables for randomness
-    v_random_val FLOAT;
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
-BEGIN
-    -- categories (6件)
-    FOR i IN 1..6 LOOP
-        INSERT INTO public.categories (name, caption, icon, display_order)
-        VALUES (
-            arr_cat_names[i],
-            CASE WHEN (random() < 0.2) THEN NULL ELSE arr_cat_names[i] || 'に関する最新情報が集まります。' END,
-            CASE WHEN (random() < 0.1) THEN NULL ELSE '/categories/' || i || '.png' END,
-            i
-        ) RETURNING category_id INTO temp_id;
-        v_cat_ids := array_append(v_cat_ids, temp_id);
-    END LOOP;
+--
+-- Data for Name: organizations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
 
-    -- tags (18件: 各カテゴリに3つずつ)
-    FOR i IN 1..6 LOOP
-        FOR j IN 1..3 LOOP
-            INSERT INTO public.tags (name, caption, display_order)
-            VALUES (
-                arr_tag_names[(i - 1) * 3 + j],
-                CASE WHEN (random() < 0.3) THEN NULL ELSE arr_tag_names[(i - 1) * 3 + j] || 'について' END,
-                (i - 1) * 3 + j
-            ) RETURNING tag_id INTO temp_id;
-            
-            v_tag_ids := array_append(v_tag_ids, temp_id);
+INSERT INTO "public"."organizations" ("organization_id", "organization_public_id", "display_order", "name", "caption", "icon", "sponsor", "description", "header_image", "images", "website", "instagram", "linkedin", "twitter", "youtube", "created_at", "updated_at", "deleted_at") VALUES
+	(1, '3165f7e0-e327-4503-b7df-f79297b3dd39', 0, '電制コムテック株式会社', '江別市の電子電気機器メーカー ～技術で感動を～', '/organizations/OR-0001_icon.jpg', 'スポンサー', '当社は、江別市に本社工場を構える電子電気機器のメーカーです。
+「人に感動をあたえ、社員皆がワクワクする会社」をモットーに日々社会のために活動しています。
+当社は、電気電子回路設計やソフトウェア設計など、電力事業に精通する高い技術を保有し、電力インフラ、センサー、ヘルスケアの３つの事業分野から成っています。
+電力エネルギーインフラを支える事業では、ダム管理システムの開発製造を道内で唯一行っているほか、生活に欠かせない電力インフラを支える各種製品も開発しています。
 
-            INSERT INTO public.tags_categories (tag_id, category_id, display_order)
-            VALUES (temp_id, v_cat_ids[i], j);
-        END LOOP;
-    END LOOP;
+さらに、ヘルスケア分野製品では、立命館慶祥中学校高等学校様の保健室にも導入されている「側弯症検査用機器スコリオデバイス」があり、たくさんの人の健康をサポートしています。その他にも全国トップシェアの電気式人工喉頭ユアトーンや朝陽の代わりに生活のリズムを整える製品「ルーチェグラス」なども注目を集めています。
 
-    -- venues - primary (5件)
-    -- 札幌中心座標: 43.057149, 141.388626
-    FOR i IN 1..5 LOOP
-        INSERT INTO public.venues (name, icon, capacity, floor, map_latitude, map_longitude, is_primary, display_order)
-        VALUES (
-            arr_venue_primary[i],
-            CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=venue_p' || i END,
-            CASE WHEN (random() < 0.2) THEN NULL ELSE 500 + (i * 100) END,
-            CASE WHEN (random() < 0.2) THEN NULL ELSE 1 + (i % 2) END,
-            43.057149 + ((i - 3) * 0.00015),
-            141.388626 + ((i - 3) * 0.00015),
-            TRUE,
-            i
-        ) RETURNING venue_id INTO temp_id;
-        v_venue_ids := array_append(v_venue_ids, temp_id);
-    END LOOP;
+R EXPO2026にご来場の皆様に、当社製品をたのしく体験いただけるとうれしく思います。', '/organizations/OR-0001_header.jpg', '{organizations/OR-0001_gallery_1.jpg,organizations/OR-0001_gallery_2.jpg,organizations/OR-0001_gallery_3.jpg,organizations/OR-0001_gallery_4.jpg,organizations/OR-0001_gallery_5.jpg}', 'https://dencom.co.jp/', NULL, NULL, 'https://x.com/DENCOM_official', 'https://www.youtube.com/channel/UCCIU1RKLjFB6tJDT7JuJaTw', '2026-01-15 07:39:33.974828+00', '2026-01-15 07:49:13.748159+00', NULL);
 
-    -- venues - others (10件)
-    FOR i IN 1..10 LOOP
-        INSERT INTO public.venues (name, icon, capacity, floor, map_latitude, map_longitude, is_primary, display_order)
-        VALUES (
-            arr_venue_others[i],
-            CASE WHEN (random() < 0.3) THEN NULL ELSE 'https://picsum.photos/512/512?random=venue_o' || i END,
-            CASE WHEN (random() < 0.5) THEN NULL ELSE 10 + (i * 5) END,
-            CASE WHEN (random() < 0.5) THEN NULL ELSE 1 + (i % 2) END,
-            43.057149 + (cos(i * 0.628) * 0.0005),
-            141.388626 + (sin(i * 0.628) * 0.0005),
-            FALSE,
-            5 + i
-        ) RETURNING venue_id INTO temp_id;
-        v_venue_ids := array_append(v_venue_ids, temp_id);
-    END LOOP;
 
-    -- organizations (20件)
-    FOR i IN 1..20 LOOP
-        INSERT INTO public.organizations (name, caption, icon, sponsor, description, header_image, images)
-        VALUES (
-            arr_org_names[((i - 1) % array_length(arr_org_names, 1)) + 1] || ' ' || i,
-            CASE WHEN (random() < 0.2) THEN NULL ELSE '業界をリードする企業です。' END,
-            CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=org_icon' || i END,
-            CASE 
-                WHEN (random() < 0.7) THEN NULL 
-                WHEN (random() < 0.9) THEN 'ゴールドスポンサー'
-                ELSE 'シルバースポンサー'
-            END,
-            CASE WHEN (random() < 0.4) THEN NULL ELSE '私たちのミッションは技術と情熱で世界を変えることです。' END,
-            CASE WHEN (random() < 0.3) THEN NULL ELSE 'https://picsum.photos/1920/1920?random=org_head' || i END,
-            CASE 
-                WHEN (random() < 0.3) THEN NULL 
-                WHEN (random() < 0.6) THEN ARRAY['https://picsum.photos/1920/1080?random=org_img1_'||i]
-                ELSE ARRAY['https://picsum.photos/1920/1080?random=org_img1_'||i, 'https://picsum.photos/1920/1080?random=org_img2_'||i]
-            END
-        ) RETURNING organization_id INTO temp_id;
-        v_org_ids := array_append(v_org_ids, temp_id);
-    END LOOP;
+--
+-- Data for Name: events; Type: TABLE DATA; Schema: public; Owner: postgres
+--
 
-    -- venues_organizations
-    FOR i IN 1..array_length(v_venue_ids, 1) LOOP
-        -- Randomly 0 to 3 organizations per venue
-        temp_count := floor(random() * 4)::int;
-        FOR j IN 1..temp_count LOOP
-            random_idx := 1 + floor(random() * array_length(v_org_ids, 1))::int;
-            IF random_idx > array_length(v_org_ids, 1) THEN random_idx := array_length(v_org_ids, 1); END IF;
-            
-            INSERT INTO public.venues_organizations (venue_id, organization_id, display_order)
-            VALUES (v_venue_ids[i], v_org_ids[random_idx], j)
-            ON CONFLICT (venue_id, organization_id) WHERE deleted_at IS NULL DO NOTHING;
-        END LOOP;
-    END LOOP;
+INSERT INTO "public"."events" ("event_id", "event_public_id", "display_order", "name", "caption", "icon", "description", "header_image", "images", "organization_id", "created_at", "updated_at", "deleted_at") VALUES
+	(348, 'eccb672e-830d-4767-bc40-8773a99f25d7', 34432, 'C-Lab活動報告', '新進気鋭のICTサークルC-Labによるゲーム公開、活動報告', '/events/RE-XW58_icon.jpg', '『NATALE』は、プログラミングを「学習」ではなく「遊び」として体験できるアクションRPGです。
+ 
+ ■ 世界観・ストーリー 舞台は人類滅亡寸前の北海道。記憶を失ったアンドロイドとして目覚めたあなたは、自身のシステム（コード）を修復・改良しながら、プログラムで構成された世界を旅します。
+ 
+ ■ ゲームシステム 最大の特徴は、移動や攻撃など全ての行動ロジックをプレイヤー自身が記述できること。 戦闘中は時間を止めてコードを編集する「思考フェーズ」へ移行。敵の動きを予測してロジックを組み、自分だけの戦略で強敵を攻略してください。 コード入力は、直感的なブロック方式と本格的なテキスト記述の両方に対応。発想次第で、バグすらも味方につける自由なプレイが可能です。', '/events/RE-XW58_header.jpg', '{/events/RE-XW58_images_1.jpg,/events/RE-XW58_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(371, '2c6ccde0-1d1d-4000-a616-655ab7c51895', 34458, '出会ってしまった物語', '高校生がフィリピンにサッカーボールを届ける記録', '/events/RE-B6QE_icon.jpg', '現在私は、フィリピンにサッカーボールを届け、ストリートチルドレンと一緒にサッカーをする活動をしています。先月実際にフィリピンを訪れ実態を把握し、2026年の夏ごろに再びフィリピンへ渡航して、実際にボールを届ける予定です。今回はそんな実際に自分の目で見てきたスラムの実態、そして今後の留学計画を紹介します。', '/events/RE-B6QE_header.jpg', '{/events/RE-B6QE_images_1.jpg,/events/RE-B6QE_images_2.jpg,/events/RE-B6QE_images_3.jpg}', NULL, '2026-01-19 15:32:05.132873+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(373, '206070ec-0ccf-49de-9cd4-bc31e6430120', 45811, 'e-sports大会(スマブラ大会)', 'ゲームが個性になるスマブラ大会', '/events/RE-HJ54_icon.jpg', 'ゲーム会社やゲーム作品が世界で活躍する要因の一つとして、e-sports 大会の存在が挙げられます。e-sports大会は、ゲームの魅力を広く発信し、売り上げや知名度の向上につながっています。そのため、e-sports大会を開催することは、ゲーム文化を世界に発信する一つのきっかけになると考えました。
+ 本企画では、その中でも「大乱闘スマッシュブラザーズ」を使用したe-sports大会を開催します。白熱した対戦を通して、ゲームの魅力や競技としての面白さを来場者に伝えることを目的としています。
+ また、学校という限られた環境では、「ゲーム」というテーマが表に出にくい傾向にあります。学校は学ぶ場であり、実際にそうであるべき場所です。しかし、今回の R-EXPO のテーマである「個性の表現」は、学校という限られた場所では発揮することが難しい場合も多いと感じました。その中でも、ゲームを扱うe-sports大会は特に実現が難しい分野です。
+ 私は、「ゲームができること」も一つの個性であると考えています。その個性が、R-EXPO という場で発揮されてもよいのではないかと感じたので、ゲーム文化の魅力と個性の多様性を伝えることを目的として本大会を開きます。', '/events/RE-HJ54_header.jpg', '{/events/RE-HJ54_images_1.jpg,/events/RE-HJ54_images_2.jpg}', NULL, '2026-01-19 15:32:05.132873+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(375, '3254c0b0-60fc-487f-ab3f-cfda9de9549a', 7893, '【Ahamed】You は何しにAPUへ', '「APUで広がった世界」講演', '/events/RE-9FLA_icon.jpg', 'APUには、世界中からたくさんの学生が集まっています。そんな環境で私が学んだこと、そして日本での学生生活で大変だったこと。その経験をもとに、慶祥生が世界に挑戦するために大切なことを伝えたいと思います。', '/events/RE-9FLA_header.jpg', '{/events/RE-9FLA_images_1.jpg,/events/RE-9FLA_images_2.jpg}', NULL, '2026-01-19 15:32:05.132873+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(376, '81c555ff-42d6-41c7-a554-b3ec7666a991', 93578, '【Su】You は何しにAPUへ', '「APUで変わる、私の世界」講演', '/events/RE-3HCC_icon.jpg', 'ミャンマー出身スーです！！世界中の学生が集まるAPU。文化も言語も価値観も違う環境の中で、挑戦し、学び続けてきました。日本での学生生活で感じた苦労も含め、慶祥生が世界で活躍するために必要な力とは何か。APUでの経験を通して、正直にお話しします。', '/events/RE-3HCC_header.jpg', '{/events/RE-3HCC_images_1.jpg,/events/RE-3HCC_images_2.jpg}', NULL, '2026-01-19 15:32:05.132873+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(378, 'f0878420-0414-4d4b-b01d-200218db8e50', 72082, '高校生と地域を繋ぐ まちごろリンク', '高校生による地域を繋ぐボードゲーム', '/events/RE-R7FX_icon.jpg', '私たちは「高校生と地域をつなげる」ことを目的に活動を行ってきた。私たちは、高校生が地域とのかかわりから離れてしまっていることを感じていた。地域内で「顔の見える関係」をつくることが日常での安心感や良好な関係による過ごしやすさにつながると考えた。そこで私たちは「まちごろリンク」というすごろくを作った。これはオリジナルボードゲームで小学生や高校生が「あるある」と思う学校生活の内容や、地域オリジナルの内容、踊ったり歌ったりする内容を含め、仲が深まるよう工夫した。またそれを使い、イベントを行った。参加者からは「世代の違う人と関われて楽しかった」「地域内でこういうコミュニティがあるのがいい」といった意見をいただいた。', '/events/RE-R7FX_header.jpg', '{/events/RE-R7FX_images_1.jpg,/events/RE-R7FX_images_2.jpg,/events/RE-R7FX_images_3.jpg}', NULL, '2026-01-19 15:32:05.132873+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(332, '99bb8f77-77eb-4dd0-acf9-07cc54076450', 72876, 'νερό－NERO', '15歳でもできる。フレッシュなバンド', '/events/RE-ZUEJ_icon.jpg', '初めまして！今回、唯一中学生バンドとして出場するνερό -NEROです。νερόは古代ギリシャ語で“水”という意味です。これには「誰のどんな心の形にも合わせられるような音楽を届けたい」という意味が込められています。私たちはこの中学3年間、バンドとして応募する機会が無く、ひたむきに頑張って来ました。努力、努力、努力し続け、そして今回、R-EXPOという素晴らしい機会に初舞台を迎えることができること、とても嬉しく思っています！また、νερόの魅力は幅広い楽器奏者がいることです。ボーカル・ギター・ベース・ドラムはもちろん、キーボードやバイオリンもいます。いままでのバンドとは一味違う音色になっているので、ぜひ聞いて欲しいポイントです。私たちは皆様と一緒に盛り上がって、笑って、楽しむことをモットーに頑張っています。誰の心にも響いて、「νερό、すげぇじゃん…」と思わせる最高のライブにすることをお約束します。是非観に来てください！', '/events/RE-ZUEJ_header.jpg', '{/events/RE-ZUEJ_images_1.jpg,/events/RE-ZUEJ_images_2.jpg,/events/RE-ZUEJ_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(333, '7c9e4b69-ac0d-40d6-92c6-1bb11d1053fa', 59002, 'ヴァイオリン演奏', 'ヴィターリ/ヴァイオリンと通奏低音のためのシャコンヌ ト短調', '/events/RE-VG3M_icon.jpg', 'ヴァイオリン独奏を披露させていただきます。
+ 
+ "シャコンヌ"は荘厳さ、情熱、甘美な悲劇性を持った美しいメロディーと激しい感情表現が魅力の変奏曲です。バッハやヴィヴァルディなどが活躍していたバロック時代に作曲された曲ですが、曲の途中でとても大胆な転調があったり感情の起伏がとても激しかったりなど、バロックの作品としては異例な要素がたくさんある曲です。一言で表すと、｢情熱的で華麗な、個性が光る物語のような変奏曲｣といったところでしょうか。
+ R-EXPOのテーマの1つでもある"個性"を発揮して私らしく演奏できればと思います。
+ 
+ 普段は敬遠されてしまいがちなクラシック音楽ですが、是非この機会にその魅力を知っていただけたら嬉しいです。', '/events/RE-VG3M_header.jpg', '{/events/RE-VG3M_images_1.jpg,/events/RE-VG3M_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(334, 'da41b371-e41e-434f-8d7b-e43f645bc6d2', 92366, 'ジェットエンジンの推力偏向の研究', '空に脳を焼かれた高校生による研究', '/events/RE-8CNW_icon.jpg', '最終的にFTVノズルの実用化を目指した高校生による研究です。
+ この研究ではF-14などの近代戦闘機に用いられる可変断面積ノズル(VAN)という技術を流体的推力方向制御(FTV)ノズルに組み合わせたものを主題として扱います。
+ このFTVノズルは室蘭工業大学による先行研究中において搭載時の推力の低下が確認されており、私はこの原因をノズル形状にあると考えたためノズル先端を細くできる機構を採用することで推力の増強を図りました。
+ しかしながら実際に機体に搭載して性能比較する時間はないので恐らく当日は実際に短距離離陸(STOL)機として成立したのかなどは書かれていないと思います。
+ 私には時間がありません。見に来てくれた皆さんがこの研究を見て少しでも興味を持ってくれたら幸いです。
+ できるだけ小中学生にも分かりやすくかつ専門性のある発表にしようと思っているのでわからないところ等あればぜひ質問してください。', '/events/RE-8CNW_header.jpg', '{/events/RE-8CNW_images_1.jpg,/events/RE-8CNW_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(364, '6213c1d3-a026-4c9a-86d6-d41dc2d60251', 37935, '世界征服ライブ', '俺らが奏でる最高の音楽', '/events/RE-SF7R_icon.jpg', 'こんにちは！世界征服です！私たちは楽しく演奏し、曲を通して観客に感動と音楽の素晴らしさを伝えることを目標として活動しています。私たちは全員高校2年生バンドです。R EXPOで私たち史上最高の演奏を皆さんに届けたいです。演奏する曲は米津玄師のピースサインとback numberの大不正解です。みなさん本番で待っています！！', '/events/RE-SF7R_header.jpg', '{/events/RE-SF7R_images_1.jpg,/events/RE-SF7R_images_2.jpg,/events/RE-SF7R_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(337, 'f197afe7-3902-40a8-b942-efacbfdf5599', 33938, 'Rits Gallery', '高校美術部による作品展示会', '/events/RE-WKYY_icon.jpg', '高校美術部で校外展示会を開催します！ 今年度の高文連・道展U-21などの大会で制作した絵を展示します。また、①14時30分〜と②15時30分〜の２つの時間帯で、部員による10分程度のギャラリートークも開催します。美術に興味のある方も、落ち着いた空間で一休みしたい方も、ぜひ気軽に立ち寄ってください！', '/events/RE-WKYY_header.jpg', '{/events/RE-WKYY_images_1.jpg,/events/RE-WKYY_images_2.jpg,/events/RE-WKYY_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(367, '80f8ad45-bf0d-48ae-8b4e-10ae9d6746df', 53124, '弁論', '弁論研究部員による弁論発表', '/events/RE-NV5H_icon.jpg', '弁論とは、演題に基づいて自分の意見を論理的に、自分の言葉で述べる競技のことです。よりよい弁論となるよう、1年をかけて指摘し合い、考え、原稿を少しずつ慶祥弁論というかたちにしてきました。原稿だけでなく、聴衆に向けた伝え方もひとりひとりが研究してきました。そんな弁論を、3人の中高生弁士が発表します。慶祥弁士の語る「未来」を、ぜひお聴きください。', '/events/RE-NV5H_header.jpg', '{/events/RE-NV5H_images_1.jpg,/events/RE-NV5H_images_2.jpg,/events/RE-NV5H_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(331, '03dd2466-dc8e-4b47-8e9a-63bfbd404550', 73921, 'ピアノ独奏', 'ショパン/バラード 第1番 ト短調 Op.23 
+リスト/パガニーニ大練習曲集 第3番 「ラ・カンパネラ」 嬰ト短調 S.141', '/events/RE-ZMDY_icon.jpg', 'ピアノ独奏を披露いたします。
+ 
+ 《バラード第1番》は、夢と現実、絶望と希望といった相反する感情が交錯し、内面の独白のように展開していく、強い物語性を持つ作品です。
+ 一方、《ラ・カンパネラ》は、鐘の音を思わせる軽やかな響きの中に、繊細さと高度な技巧が織り込まれた楽曲です。
+ 
+ 対照的な二曲を通して、ピアノという楽器の表現の幅や、音楽の奥行きを感じていただけたらと思います。
+ 
+ 慶祥創立30周年の節目に寄せるささやかなひとときとして、音楽を楽しんでいただければ幸いです。', '/events/RE-ZMDY_header.jpg', '{/events/RE-ZMDY_images_1.jpg,/events/RE-ZMDY_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(339, '6aa458c7-4125-45f3-8271-3b40a99b9a18', 64951, '5万円分売り上げるまで終われません！羽幌町の特産品売ります！', '羽幌町の商品が売れるかチャレンジ企画', '/events/RE-5AWS_icon.jpg', '読んでくださりありがとうございます！私たちC-Rits焼尻班は、北海道の焼尻島・天売島・羽幌町の地域おこしをしており、今回このブースでは特産品でビジネス企画をします。いま見てくださったあなた！絶対楽しませるのでぜひ遊びに来てください！
+ 
+ まず自己紹介をさせてください。私たちは、中学2年生の約3年前から焼尻島の島おこし活動を始め、昨年、焼尻島が所属する羽幌町の「羽幌町PRパートナー」という観光大使になりました！羽幌町（はぼろちょう）は、北海道の北西に位置する町で、焼尻島（やぎしりとう）と天売島（てうりとう）があります。青い海に囲まれて緑の木々が立ち並ぶ自然の風景、うにや甘えび、たこやいかといった海産物、焼尻島には幻の羊・めん羊、天売島にしか生息しない⁉オロロン鳥などなど、魅力あふれる場所なんです。
+ 
+ R-EXPOでは、おみくじやPR動画を通して、皆さんに焼尻島・天売島・羽幌町を知ってもらうこともゴールですが、それだけで2時間はつまらないですよね。そこで、今回は2時間で5万円分売り上げることを目標にビジネスにチャレンジします！観光大使として、現地の特産品のお菓子・食べ物、小物を販売します！
+ 
+ この文章を読んでくださった皆さん。小腹が空いた時、お菓子あります。ちょっと時間ができた時、私たちのお話し相手になってください。「そういえば、焼尻の人たち、何万円売り上げられたかな？」とぜひ見に来てください！お待ちしています！', '/events/RE-5AWS_header.jpg', '{/events/RE-5AWS_images_1.jpg,/events/RE-5AWS_images_2.jpg,/events/RE-5AWS_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(340, 'dffb579c-4f4a-4c0a-af17-a58391b2f79a', 91769, 'MORE✖️ROCK Don''t freak out!! Turn it up!!', 'MORE✖️ROCKによるロック&ポップ', '/events/RE-KW4R_icon.jpg', 'みなさんこんにちは！MORE✖️ROCKです！！中学3年生の頃に結成したこのバンド。初心者の集まりだった私たちですが、立命祭、グロフェスなどさまさまな機会で演奏させていただきたくさんの場数を踏んできました。今年はスニーカーエイジというバンドの大会の北海道大会に出場させていただき、全道9位、リベンジ頑張っダテ賞（特別賞）をいただきました。そんなぐんぐん成長中の私たちが今回演奏する曲は日和ってるやついる！？でお馴染みのあの曲や平成に流行ったみんなでジャンプしたくなっちゃうあの曲！会場全体で盛り上がることができる曲、魅せる演奏をします。一緒に最高に盛り上がって会場を夏みたいに熱くしていきましょう！', '/events/RE-KW4R_header.jpg', '{/events/RE-KW4R_images_1.jpg,/events/RE-KW4R_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(358, '98488e4b-be94-4599-aedc-b3a3e3e84582', 72071, 'あなたの適正は！？探求テーマ診断～トビタテ留学JAPAN～ （学生団体smile協賛）', '留学診断、留学相談会', '/events/RE-PYXF_icon.jpg', 'トビタテ留学JAPANで行う探求の自分に合った探求テーマを見つけることができる探求テーマ診断を行います！完全オリジナルのサイトで、学生団体smileに所属する高校生が診断のサイト、イラスト作成も行いました！またトビタテ留学JAPANに採択された高校生による留学相談会も行います！トビタテに申請するか迷っている人、留学にには行ってみたいけれど何からすればいいかわからない人、過去に様々な国に留学に行った人の話を聞きたい人など誰でも歓迎です！お待ちしています！！！', '/events/RE-PYXF_header.jpg', '{/events/RE-PYXF_images_1.jpg,/events/RE-PYXF_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(351, 'd6b988bd-4a27-4ada-a8f7-4afe8f9c2a9e', 9237, 'NOËL', '3年C組女子全員によるダンスパフォーマンス', '/events/RE-9UUN_icon.jpg', '12人全員でIZ*ONEのFIESTAを中心に、STYLEやSPAGHETTIなど、最近の人気曲を披露します。「FIESTA」はこのR-EXPOにふさわしい、スペイン語で「祝祭」という意味があり、本物のIZ*ONEのようにかっこよく華やかなステージをお見せできるよう、一瞬一瞬に想いを込めたパフォーマンスをお届けします！', '/events/RE-9UUN_header.jpg', '{/events/RE-9UUN_images_1.jpg,/events/RE-9UUN_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(341, '3830c77d-c89f-42a2-b422-83632f2f1bfc', 41736, '天満の部屋', '和田天満がみなさんの相談乗ります', '/events/RE-NTZL_icon.jpg', '・ブースを作って、立ち寄ってくださった方（生徒、先生方、一般の方など）のお悩みならなんでも聞きます！
+ ・お悩みは小さな悩みから大きな悩みまでなんでも可
+ ・集まったお悩みなを、「年齢、悩みのジャンル（進路、家庭、恋愛、友人関係）」などで分類、集計する
+ →立命館慶祥の学生の悩みをまとめられれば、今後の立命館慶祥の学生生活の質の向上に貢献できるのではないか
+ ・現在、学校生活を送っていると、周りには「進路、恋愛、友人関係」などの多くの悩みを抱えた生徒が多くいると感じる
+ →このような状況を改善したい！少しでも気持ちが沈んでいる人たちの助けになりたい！
+ ・どんなお悩みであっても、肯定し、相談を打つ
+ ・意見への反論はもちろん大切だが、自分の意見を頭の中で整理し、言葉に変換し、口に出してもらう
+ →意見を肯定して真剣に聞いてあげることも、自分の意見をはっきり言えるきっかけになるのではないか', '/events/RE-NTZL_header.jpg', '{/events/RE-NTZL_images_1.jpg,/events/RE-NTZL_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(342, '5f70872d-29c0-473e-b89a-fcec98fed2b0', 36169, 'ブラックボックスを開く -1から作るコンピューター-', '1から製作したコンピューターを紹介', '/events/RE-CDVK_icon.jpg', '現代のコンピューターは目まぐるしい進化を遂げている一方で、その中身はますます難しくなっています。好奇心から調べてみても、専門用語が並び、途中で諦めてしまったという経験がある人も多いのではないでしょうか。本企画では、70年代の比較的シンプルなコンピューターを参考に、分かりやすさ重視で構造や動作を調整したコンピューターを自作し、その中身を紹介します。これにより、0と1だけの信号のやり取りでコンピューターの動作がどのように実現されているかを実物を通して直感的に理解できることを目指します。実演ではミニゲームを動かす予定です。本企画で扱っている仕組み自体は新しいものではないですが、来場者の皆さんにとって、普段あまり意識することのないコンピューターの内部に目を向け、その面白さを感じてもらえればと思います。難しそうに見える仕組みも、実は単純な回路の積み重ねで成り立っています。また、個人での試行錯誤を通じた製作事例として、ものづくりの面白さや大変さも伝えたいと考えています。', '/events/RE-CDVK_header.jpg', '{/events/RE-CDVK_images_1.jpg,/events/RE-CDVK_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(345, '5fb04908-b7fe-4325-9e3e-10c8a680c681', 11208, '震災の教訓を未来へ', 'トリアージを実践し災害時の医療を体験しよう！', '/events/RE-E2ZQ_icon.jpg', '東北メディカルツアーで学んだ災害医療で行われているトリアージを体験してもらい命の優先順位を決めなければならないという深刻さを感じてもらいます。またそれと同時進行でメディカルツアーで見た原発の現在の状況やこれから災害復興で行うことなどを発表します。', '/events/RE-E2ZQ_header.jpg', '{/events/RE-E2ZQ_images_1.jpg,/events/RE-E2ZQ_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(346, 'fc7867e5-a8a1-444e-a142-66a1feeddc9a', 90267, '聖域なき委員会改革', '委員会の必要性を一から見直し！', '/events/RE-JB7T_icon.jpg', '※高校生はもちろん、中学生も高校委員会の予習としてお楽しみいただけます（内容自体は高校のものです）。
+ 
+ 立命館慶祥中学校高等学校の皆さん、こんにちは！
+ 皆さんは今、何の学級係・委員会に所属していますか？ この高校での生徒主体の運営組織には生徒会執行部を始め、学校課題対策委員会（ＩＣＩ）、行事改革実行委員会（行事部）、常任委員会、選挙管理委員会、図書委員会、立命祭実行委員会があります。
+ しかしながら、今年度前期の生徒総会では図書委員会廃止や行事改革実行委員会の引き継ぎについての議論が交わされました。ＩＣＩも実際、風紀委員会と環境委員会の合併組織（事実上の両組織の廃止）です。そうすると、今後、委員会の存在意義を改めて考える必要があります。
+ ぜひ、一緒に深掘りしてみませんか？
+ 
+ 【発表内容】
+ ・現在の委員会体制と問題点
+ ・過去の委員会体制について
+ ・将来の委員会体制への提案', '/events/RE-JB7T_header.jpg', '{/events/RE-JB7T_images_1.jpg,/events/RE-JB7T_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(366, '42f72ef6-20f6-4d6a-bb3f-367b51380d6f', 22711, '中学演劇部公演', '舞台の上に風が吹く', '/events/RE-UMAY_icon.jpg', '企画紹介
 
-    -- foods (6件)
-    FOR i IN 1..6 LOOP
-        INSERT INTO public.foods (name, caption, description, icon, minutes, distance, address, website, display_order)
-        VALUES (
-            arr_food_names[i],
-            '美味しい ' || arr_food_names[i],
-            CASE WHEN (random() < 0.3) THEN NULL ELSE '新鮮な食材を使用しています。' END,
-            'https://picsum.photos/512/512?random=food' || i,
-            5 + (i * 2),
-            100 + (i * 50),
-            CASE WHEN (random() < 0.2) THEN NULL ELSE '東京都渋谷区 ' || i END,
-            CASE WHEN (random() < 0.5) THEN NULL ELSE 'https://example.com/food' || i END,
-            i
-        );
-    END LOOP;
+本企画では、演劇部による舞台発表を行います。
 
-    -- performers (50件)
-    FOR i IN 1..50 LOOP
-        INSERT INTO public.performers (name, affiliation, icon, display_order)
-        VALUES (
-            arr_performer_last[((i - 1) % 10) + 1] || ' ' || arr_performer_first[((i * 3 - 1) % 10) + 1],
-            CASE 
-                WHEN (random() < 0.3) THEN NULL 
-                WHEN (random() < 0.6) THEN 'フリーランス' 
-                ELSE '株式会社XX' 
-            END,
-            CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=perf' || i END,
-            i
-        ) RETURNING performer_id INTO temp_id;
-        v_perf_ids := array_append(v_perf_ids, temp_id);
-    END LOOP;
+上演する作品は、3年生による卒業公演です。
+この作品は、演劇部そのものを題材にした物語であり、部員一人ひとりが過ごしてきた3年間の想いや経験を重ね合わせた、集大成の舞台です。
+楽しかったこと、悔しかったこと、迷いながらも前に進んできた時間。
+演劇部として歩んできた日々を、物語という形でお届けします。
 
-    -- EVENTS & SLOTS GENERATION (24 Hours Coverage)
-    -- Loop from 00:00:00 to 23:50:00 (144 slots)
-    
-    FOR i IN 0..143 LOOP
-        -- Calculate current time based on index * 10 minutes
-        v_curr_time := make_time(0, 0, 0) + (i * interval '10 minutes');
+演劇部の理念・お客さんに伝えたいこと
 
-        -- Create Slot
-        INSERT INTO public.slots (starts, ends, display_order)
-        VALUES (
-            v_curr_time,
-            v_curr_time + interval '10 minutes',
-            v_slot_display_order
-        ) RETURNING slot_id INTO temp_id;
-        
-        -- Generate events for this slot
-        -- 10% chance: 0 events (Empty)
-        -- 60% chance: 1-2 events (Sparse)
-        -- 30% chance: 3-5 events (Dense - as requested)
-        
-        v_random_val := random();
-        IF v_random_val < 0.1 THEN
-            v_events_in_slot := 0;
-        ELSIF v_random_val < 0.7 THEN
-            v_events_in_slot := 1 + floor(random() * 2)::int; -- 1 to 2
-        ELSE
-            v_events_in_slot := 3 + floor(random() * 3)::int; -- 3 to 5
-        END IF;
-        
-        -- Prepare valid primary venue indices (1..5)
-        v_venue_indices := ARRAY[1, 2, 3, 4, 5];
-        
-        -- Shuffle valid indices (so we distribute events to different venues if possible, or repeat same venue if dense?
-        -- User said "Same time slot, 4-5 events".
-        -- Usually in one venue? Or across venues?
-        -- "Events grouped by venue" is the view logic usually.
-        -- If I put 5 events in *one* slot (Global), they might be distributed across venues.
-        -- TimelinePreview scans a *specific* venue.
-        -- So for a *specific venue* to have 4-5 events at once, we need to assign multiple events to the *same venue* in the *same slot*.
-        -- My logic below assigns venue randomly.
-        -- To ensure density *per venue*, I should perhaps just pick venues randomly with replacement.
-        
-        FOR k IN 1..v_events_in_slot LOOP
-            v_event_global_count := v_event_global_count + 1;
-            
-            -- Pick a random venue (1..5 main + 1..10 sub? Just main logic used mostly)
-            -- Let's stick to v_venue_ids logic.
-            v_target_venue_idx := 1 + floor(random() * 5)::int; -- Pick one of the primary venues randomly
-            
-            INSERT INTO public.events (
-                name, caption, icon, description, header_image, images, 
-                organization_id, display_order
-            )
-            VALUES (
-                -- Random mix of titles
-                arr_event_titles_1[((v_event_global_count - 1) % 7) + 1] || 
-                ' ' || arr_event_titles_2[((v_event_global_count - 1) % 6) + 1] || 
-                ' ' || arr_event_titles_3[((v_event_global_count - 1) % 6) + 1] || 
-                ' Vol.' || v_event_global_count,
-                
-                CASE WHEN (random() < 0.2) THEN NULL ELSE 'ワクワクする体験。' END,
-                CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://picsum.photos/512/512?random=ev_icon' || v_event_global_count END,
-                CASE WHEN (random() < 0.4) THEN NULL ELSE '最新技術とアートの融合。お見逃しなく！' END,
-                CASE WHEN (random() < 0.2) THEN NULL ELSE 'https://picsum.photos/1920/1920?random=ev_head' || v_event_global_count END,
-                
-                -- Random images array (NULL, Empty, or populated)
-                CASE 
-                    WHEN (random() < 0.2) THEN NULL 
-                    WHEN (random() < 0.3) THEN ARRAY[]::text[] 
-                    ELSE ARRAY[
-                        'https://picsum.photos/1920/1080?random=ev_img1_' || v_event_global_count, 
-                        'https://picsum.photos/1920/1080?random=ev_img2_' || v_event_global_count
-                    ]
-                END,
-                
-                -- Random Organization
-                CASE WHEN (random() < 0.1) THEN NULL ELSE v_org_ids[((v_event_global_count - 1) % array_length(v_org_ids, 1)) + 1] END,
-                v_event_global_count
-            ) RETURNING event_id INTO v_event_id;
+私たち演劇部が何より大切にしているのは、「演劇を楽しむこと」です。
+上手いかどうか、完璧かどうかよりも、舞台に立ちたい、表現したいという気持ちを大切に、日々活動してきました。
 
-            -- events_venues (Primary Venue - always assign to ensure density)
-            INSERT INTO public.events_venues (event_id, venue_id, display_order)
-            VALUES (v_event_id, v_venue_ids[v_target_venue_idx], 1);
+舞台は、演じる側だけのものではありません。
+客席にいるお客さんと、舞台に立つ私たちが、同じ時間と感情を共有することで初めて完成するものだと、私たちは考えています。
+笑ったり、驚いたり、少し胸がぎゅっとなったり。
+その一つひとつの感情で、お客さんと私たちの心が繋がる瞬間を生み出したいと思っています。
 
-            -- events_slots (Current Slot)
-            INSERT INTO public.events_slots (event_id, slot_id, display_order)
-            VALUES (v_event_id, temp_id, 1);
+今回の舞台では、観てくださる方に「楽しかった」「来てよかった」と感じてもらえること、そして私たち自身も心から演劇を楽しむことを目標にしています。
+完成された作品を見せるだけでなく、演劇部が大切にしてきた想いや、舞台に立つ理由を、ありのままお届けできたら嬉しいです。
 
-            -- events_tags (0~3 items)
-            temp_count := floor(random() * 4)::int;
-            FOR j IN 1..temp_count LOOP
-                random_idx := 1 + floor(random() * array_length(v_tag_ids, 1))::int;
-                IF random_idx > array_length(v_tag_ids, 1) THEN random_idx := 1; END IF;
-                
-                INSERT INTO public.events_tags (event_id, tag_id, display_order)
-                VALUES (v_event_id, v_tag_ids[random_idx], j)
-                ON CONFLICT (event_id, tag_id) WHERE deleted_at IS NULL DO NOTHING;
-            END LOOP;
+この舞台が、誰かの心に少しでも残り、笑顔になれる時間となれるよう演劇部一同、精一杯お届けします。', '/events/RE-UMAY_header.jpg', '{/events/RE-UMAY_images_1.jpg,/events/RE-UMAY_images_2.jpg,/events/RE-UMAY_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(343, 'f6725572-e9a4-43e5-902d-bf4e47a6ddaf', 28241, '「まねりて」のすゝめ', '中3櫻井によるマネーリテラシー教育提案', '/events/RE-LAY8_icon.jpg', '「まねりて」のすゝめ：未来の自分を守る！「自’リツ’のための金融教育」 （自立と自律）
+  
+ 「社会に通用する15歳」、そして「世界に通用する18歳」へ。あなたはその自覚を持っていますか？日本のマネーリテラシー教育は、海外に比べ遅れをとっているのが現状です。この進化し続けるAI時代に、私達も進化しなければいけません。
+ 家庭科の授業で「消費生活」について学んでも、それが現実社会で蔓延する詐欺や悪質商法から自分を守る「実践的な知恵」や「行動力」に変わるとは限りません。
+ 知識だけでは、いざ社会に出たときに適切な金銭管理をすることは難しいでしょう。
+ 机上の学習だけでは不十分だと考え、皆さんの未来を豊かに守るため「まねりて」のすゝめを提案します！
+ 
+ 提案の核：自立と自律を支える「実践的なマネーリテラシー」
+ このプレゼンでは、金融知識を単なる暗記で終わらせず、あなたの判断力と危機回避能力を徹底的に鍛え上げる、具体的なカリキュラムを紹介します！
+ 
+ 1.知識を「武器」に変える実践体験プログラム
+ 教科書の内容を一歩超え、トラブルから自分を守るためのシミュレーションを導入します。
+ • 金融トラブル事例ワークショップ
+ • SNS型詐欺やマルチ商法など、若者を狙う巧妙な手口を教材化。
+ • ロールプレイングを通じて、危険を「見抜く力」と、きっぱりと「断る勇気」を実践的に養います。
+ • クーリング・オフなど、消費者としての権利と手続きを具体的に学びます。
+ • リアルな生活設計シミュレーション
+ • 大学生の一人暮らしを想定し、現実的な家計簿や年間予算を作成します。
+ • リボ払い、サブスクなどの「見えないお金」のリスクを理解し、計画的な資金管理能力を中高生のうちから身につけます。
+ 
+ 2. 未来の可能性を広げる発展的金融学習（放課後プログラム）
+ 「もっと学びたい」という意欲を持つ生徒のために、放課後、アントレプレナーシップ教育のように希望者を募り、資産運用の入門講座を開設します。
+ • 株式投資、投資信託、不動産投資など、資産運用の概要とリスクを学びます（本格的な投資勧誘ではなく、あくまで基礎知識の習得に重きを置きます）。
+ • 将来的に興味を持った生徒が集まれば、学校として日経ストックリーグへの参加も目指します！', '/events/RE-LAY8_header.jpg', '{/events/RE-LAY8_images_1.jpg,/events/RE-LAY8_images_2.jpg,/events/RE-LAY8_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(352, 'ecd509b0-1f56-4524-8d65-53e9917b982b', 88711, '歌×ピアノ〜二人で届ける本気の音楽〜', '岩切柚里香、佐藤直人によるデュオ発表！', '/events/RE-44TH_icon.jpg', '私たちは、ピアノとボーカルのデュオを披露します。
+ シンプルな編成ながら、技術と表現力にこだわり抜いたステージで、聴いた人の心に響く、最高の音楽を届けます。曲は、皆さんも口ずさめるような、有名な曲を選曲しました！
+ 
+ この大舞台REXPOで、大好きな音楽をを披露することができて本当に嬉しいです。
+ 緊張もありますが、まずは私達自身が楽しんで、素敵な音楽を届けたいと思います！
+ 
+ 聴いてくれる人に「やっぱり音楽っていいな」と感じてもらえるように、精一杯頑張ります。是非聞きに来てくださ', '/events/RE-44TH_header.jpg', '{/events/RE-44TH_images_1.jpg,/events/RE-44TH_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(1006, '143bbc23-2867-493d-8a39-9c2693bc84b0', 99794, 'カラスとの対話', '「ゴミ捨て場の攻防」を終わらせる鳴き声翻訳機の開発', '/events/RED-9999.jpg', '朝を騒がせるカラスの鳴き声。彼らはただ騒いでいるのではありません。高度な情報伝達を行っているのです。私たちは1年かけてカラスの鳴き声を録音し、Deep Learningを用いて感情と意図を分類。ついに「警戒」「餌あり」「求愛」に加え、「人間への嘲笑（？）」の識別にも成功しました。本発表では、カラスと平和的交渉を行うための翻訳デバイスのプロトタイプを発表します。', '/events/RED-9999.jpg', '{/events/RED-0006_images_1.jpg,/events/RED-0006_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(353, 'af06dec8-0a00-4ce7-b629-9f9760d36760', 24285, 'K-dol', '歴史に残るうちらのダンスパフォーマンス', '/events/RE-PCT9_icon.jpg', 'KEISHOダンススクールです！！
+ 私たちは、毎週火曜日の週１回、校内２階ラウンジで活動をしております。
+ 各部活動に所属しながら、また、生徒会に所属しながらなど、勉強も含めて日々忙しいながらも、週に１回だけでも皆で笑顔で楽しく指導者のアンナさんからダンスの技術を学んでおります！
+ このダンススクールがスタートして初めての発表の場がR-EXPOということで、スクール生全員で少しドキドキしていますが、いつも通り楽しんで踊っている姿を皆さんに見てもらえることができれば、とても嬉しいです！
+ どうぞ宜しくお願いいたします！', '/events/RE-PCT9_header.jpg', '{/events/RE-PCT9_images_1.jpg,/events/RE-PCT9_images_2.jpg,/events/RE-PCT9_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(355, 'e2f44a09-00a3-4f27-b442-d131b534bfce', 36282, 'Unisson ― Ballet & Piano', '卒業前の高3が贈るバレエとピアノの共演', '/events/RE-PPFH_icon.jpg', '卒業を目前に控えた高三による、バレエとピアノの特別共演です。
+ 長年それぞれの道で積み重ねてきた表現をひとつの舞台に重ね、音と身体が響き合う華やかな時間をお届けします！
+ バレエとピアノ、異なる表現が重なり合って生まれる雰囲気も、このステージの見どころです。
+ このステージは、卒業前の高三にとって一つの集大成であり、新たな一歩を踏み出す舞台でもあります。これまで支えてくれた方々への感謝と、次へ進む決意を込めて、心を込めてお届けします。
+ どうぞ最後まで、舞と旋律が織りなす時間をお楽しみください。', '/events/RE-PPFH_header.jpg', '{/events/RE-PPFH_images_1.jpg,/events/RE-PPFH_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(356, 'c650e8ce-b076-4b4b-9938-0df1ef476fe8', 95173, 'ニュージーランドで民族共生を学びみんなが平等な北海道を目指す', 'NZで行った探究活動の結果報告', '/events/RE-TAJV_icon.jpg', '私はトビタテ留学JAPANを通してニュージーランドで民族共生に関する探究活動を行いました。ニュージーランドでは平日は現地の高校に通い、マオリ語などの先住民族の文化や伝統に関する授業を受け、休日にはマオリのイベントや博物館、伝統工芸について学び、インタビューなどをしました。北海道の先住民族であるアイヌ民族への差別や偏見をなくすために私たちができること、ニュージーランドに倣って取り入れるべきことなどを考察します。トビタテ留学JAPANや留学に興味がある人の参考になればうれしいです。', '/events/RE-TAJV_header.jpg', '{/events/RE-TAJV_images_1.jpg,/events/RE-TAJV_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(357, '2ef3b091-76ab-4cd6-a46d-1f009adf2529', 42776, 'プラスチックを分解するミルワームとは', 'プラスチックを食べるとある生物ミルワームについて', '/events/RE-SJ64_icon.jpg', 'プラスチックは簡単に作れ、汚れにも強く、電気も通さない、２０世紀を代表する革新的な発明です。しかし未だ、プラスチックの処理方法が確立されていません。燃やせば有害な煙が発生し、土に埋めれば数百年かけても分解されず、海に出れば波によって細かくなるだけで分解はされません。今ではアフリカや南極など地球上のいかなる場所にもプラスチックは存在するとされ、人間の体の中にすら存在すると言われています。
+ バイオマスという新しい成分が発明され、それを従来のポリエチレンと混ぜ合わせた新しいレジ袋が作られました。従来のレジ袋と比べて燃えるときに排出するCO2排出量を少なくすることができます。しかし、このレジ袋も依然として自然界に悪影響を与える存在で、問題の根本的な解決には至っていません。
+ しかしながら、2015年にスタンフォード大学によってミルワームという生物がプラスチックを食し分解できるという事が明らかにされました。この生物は雑食で、なんでも食べることができるとされていましたが、プラスチックを食べるということはつい最近に知られた新しい事実なのです。
+ そこで私たちは、バイオマス配合率が高いことで燃やしてもCO2排出量が少なく、もし自然界に流出したとしても分解されやすいプラチックが作れるのではないかと思い、ミルワームという生物に目を付けて研究を開始しました。
+ 今回発表する研究内容は前回発表した研究及び実験の追証実験です。前回の研究内容と新しい実験結果も発表する予定です。', '/events/RE-SJ64_header.jpg', '{/events/RE-SJ64_images_1.jpg,/events/RE-SJ64_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(362, '60437b97-56ce-4d56-866a-8ad5155b5994', 61193, 'C-Rits和菓子制作体験', '和菓子、作ってみない？', '/events/RE-BK8Z_icon.jpg', '私たちは若者になぜ和菓子が広まらないのかに疑問を持ち、もっと若い人に和菓子の魅力を伝えたいと考えてアクションを起こしてきました。大阪関西万博や環境広場などでも「和菓子作り」を楽しく体験できるように出展してきました。今回は、粘土でできる、和菓子作り体験会を披露したいと思っています。来場者は和菓子である「練り切り」を想定した粘土を使って実際に簡単な和菓子作りを疑似体験できるようになっています。実際に職人さんから教えたもらった和菓子作りの面白さをぜひ体験してもらいたいと思います。尚、粘土で作った和菓子については持ち帰りも可能です！', '/events/RE-BK8Z_header.jpg', '{/events/RE-BK8Z_images_1.jpg,/events/RE-BK8Z_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(360, '59e80328-47bf-4528-86d3-f0b567ecac33', 92678, 'PETBOTLES', 'PETBOTLESによる弾き語り', '/events/RE-UPBR_icon.jpg', 'ありがたいことにバンド部門で落選した僕らは路上での弾き語りという形で演奏させていただくことになりました。そして、僕たちPETBOTLESは楽器に対する憧れから始まったバンドです。僕らは色々な曲を皆さんの身近な場所で弾き語りしていきます。もし会場で見かけたら是非一度立ち止まって音楽に耳を傾けていただけると幸いです。', '/events/RE-UPBR_header.jpg', '{/events/RE-UPBR_images_1.jpg,/events/RE-UPBR_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(369, '871f3c0f-b907-477e-9cde-9b345dbbd171', 32980, '制作中。', '美術部員のライブペイント', '/events/RE-ZAML_icon.jpg', 'この企画では、美術部員である私が、来場者の前で一枚の絵を最初から最後まで描き上げます。
+ 正直に言うと、今の自分の絵は決して「上手い」と胸を張って言えるものではありません。試行錯誤の途中で、迷いながら描いている段階です。今回の発表も、見切り発車な部分があり、正直かなり緊張しています。
+ それでもあえてライブペインティングという形を選んだのは、単に自分がやってみたかったという理由もあります。しかしそれ以上に、完成した一枚だけでなく、絵を描いている間の悩みや描き直し、少しずつ形になっていく過程そのものを見てほしいと思ったからです。
+ 失敗も含めた「制作の現場」を共有することで、絵を描くことの楽しさや難しさ、そして成長していく途中のリアルを感じてもらえたら嬉しいです。まだ未熟な点も多いですが温かい目で見ていただければと思います。', '/events/RE-ZAML_header.jpg', '{/events/RE-ZAML_images_1.jpg,/events/RE-ZAML_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(1004, '773560ca-2381-472d-8438-507dda8c3b1f', 87707, '食べられるプラスチック', '飲み終わったら容器ごと食べる「完全廃棄物ゼロ」への道', '/events/RED-9999.jpg', 'プラスチック削減が叫ばれる昨今、私たちは考えました。「容器自体がおいしければ、誰も捨てないのではないか？」と。海藻由来の成分とデンプンを配合し、強度と味を両立させた「食べられるペットボトル」を開発。水への耐性を持たせつつ、使用後はスナック感覚で食べられる夢の素材です。味はコンソメ、チョコ、抹茶の3種類。当日は試食（試飲？）も行います。', '/events/RED-9999.jpg', '{/events/RED-0004_images_1.jpg,/events/RED-0004_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(329, '7d2a3ddb-6654-4bca-953a-7b7b4241e823', 28528, 'ピアノ演奏', '上木美緒によるピアノの演奏', '/events/RE-GJJG_icon.jpg', '1年4組の上木美緒です。
+ 私は幼少期より趣味としてピアノを引き続けてきています。
+ 今回は、ブラームスによる2つのラプソディより、Op.79-1を演奏させていただきます。
+ 私は、ドイツの作曲家の中でも特にドイツ3大Bと呼ばれている、バッハ、ベートーヴェン、ブラームスが大好きです。
+ ドイツの作曲家の特徴として、少し重みや迫力があるものが多く、私の弾き方に合っていると自分では思っています。
+ 今回弾かせていただく曲は、何層にも重なるはーもにーがとても美しい曲です。
+ 曲の途中で日本の歌である「さくら さくら」の旋律にとても似ているメロディーが出てくるところにも注目して聴いていただけたら幸いです。', '/events/RE-GJJG_header.jpg', '{/events/RE-GJJG_images_1.jpg,/events/RE-GJJG_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(328, 'f19d86c3-9c27-4512-a2d8-ce706d11ab8a', 12206, 'タイ研修ハンディクラフト販売', 'タイ研修参加者がタイ女性支援のためのクラフトを販売', '/events/RE-PH6K_icon.jpg', '高校２年生の海外研修タイコースで訪問・活動するYMCAパヤオセンター※では，山岳民族の女性と，センター近隣の農村の女性たちへの支援の一つとして，クラフト作成・販売を行っています。このクラフトは，山岳民族の女性やセンターの子どもたちが刺繍をし，そしてセンター近隣の農村の女性たちが縫製し，全て手作業で作られています。クラフトを購入していただくと，山岳民族と農村地域の女性，センターのこどもへの支援に繋がります。また，タイの山岳民族の伝統文化の理解にも繋がります。ぜひお時間がありましたら，ブースにお立ち寄りください。
+ ※YMCAパヤオセンターは人身売買問題撲滅のために活動しており，同時にその原因として「貧困」に注目しています。特に山岳民族の人たちは教育・国籍・居住環境などの問題から安定した職業に就くのが困難な状況にあり，なかなか「貧困」から抜け出すことができません。そこでセンターは山岳民族の刺繍文化に注目し，彼らが適切な職業機会を得られるように“Phayao Center Handi Craft”プロジェクトを立ち上げました。（安定した収入だけでなく，貴重な伝統文化の保全と職業訓練も目的としています。）', '/events/RE-PH6K_header.jpg', '{/events/RE-PH6K_images_1.jpg,/events/RE-PH6K_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(361, 'ff80ad7d-fdd8-48e7-8f91-262f98e4a79f', 85301, 'ピアノ独奏', '1.ショパン/エチュード 変イ長調 Op.25-1 2.フォーレ/即興曲第3番 変イ長調 Op.34', '/events/RE-EMU4_icon.jpg', '1曲目は、美しいアルペジオが風に吹かれて揺れる弦楽器、エオリアン・ハープを思わせることから、「エオリアン・ハープ」と呼ばれています。
+ 自然の風のように軽やかに、心の奥からあふれるように。一音一音の表情を大切に、語るような音楽を表現したいです。
+ 
+ 2曲目は、フランスの作曲家フォーレの楽曲です。
+ 形式的な独創性、先進的な和声、洗練された美しさが凝縮された傑作として、多くの人々に愛されています。
+ この曲は、3月下旬に行われるピアノコンクールの全国大会で演奏します。日々試行錯誤しながら練習に取り組んでいます。', '/events/RE-EMU4_header.jpg', '{/events/RE-EMU4_images_1.jpg,/events/RE-EMU4_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(330, '3d52cf7d-ed1f-4fca-b293-0093ef8d3e37', 10474, 'REVEL !N DJ MIX', 'DJデュオによるDJプレイ', '/events/RE-G7DZ_icon.jpg', 'R-EXPOで唯一DJプレイをします。EDMやハウス、Hip-Hop、K-POPなど、さまざまなジャンルをミックスします。詳しくは下記のトラックリストの通りです。皆さんの好きな曲があるか確認してみてください。最後にはダンス発表の方々とのコラボもありますのでぜひお越しください。会場でお待ちしています！
 
-            -- events_performers (0~5 items)
-            temp_count := floor(random() * 6)::int;
-            FOR j IN 1..temp_count LOOP
-                random_idx := 1 + floor(random() * array_length(v_perf_ids, 1))::int;
-                IF random_idx > array_length(v_perf_ids, 1) THEN random_idx := 1; END IF;
+トラックリスト
+Amél - Birds Of A Feather / The Kid LAROI & Justin Bieber - STAY
+Martin Garrix & Seth Hills- Biochemical / LE SSERAFIM - SPAGHETTI (feat. j-hope)
+Central Cee & Lil Baby - BAND4BAND (Julian Jordan & Nova Blue Remix)
+Afrojack & DubVision - New Memories / Justin Bieber - Ghost
+Avicii - Wake Me Up (feat. Aloe Blacc)
+Sentinel, Martin Garrix & Bonn - Hurricane / Avicii - Fade Into Darkness (Vocal Mix Edit)', '/events/RE-G7DZ_header.jpg', '{/events/RE-G7DZ_images_1.jpg,/events/RE-G7DZ_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-26 02:19:44.239739+00', NULL),
+	(347, 'bf887111-7a43-4b98-ab74-530d09b66456', 35813, 'IAM', 'IAMによるK-popカバーダンス', '/events/RE-3NMH_icon_re_2.jpg', '私たちは、女子3人でK-popカバーダンスを踊るダンスグループ 「IAM」 です。 グループ名の「IAM」は、メンバーそれぞれの名前の頭文字を組み合わせて生まれました。一人ひとりの個性を大切にしながらも、「私たちは私たちらしく在る」という想いを込めています。
+ 今回のR-EXPOでは、K-popならではの力強さやキレのある動き、クールで洗練された世界観を表現することを目標にしてきました。細かい振りやフォーメーションにこだわり、3人だからこそ生み出せる一体感と迫力のあるパフォーマンスを追求しています。
+ それぞれの個性が重なり合い、ひとつのステージとして完成するIAMのダンスを、ぜひ会場で体感してください。', '/events/RE-3NMH_header_re.jpg', '{/events/RE-3NMH_images_1.jpg,/events/RE-3NMH_images_2.jpg,/events/RE-3NMH_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-26 02:54:40.812884+00', NULL),
+	(336, '7282944b-39ee-4700-8950-0419f7b3787e', 82833, '吹奏楽部による慶祥メドレー', '中学吹奏楽部による特別演奏', '/events/RE-SXKG_icon.jpg', '吹奏楽部のR-EXPOでの演奏会を開催します！3曲の最新ポップス曲と迫力ある楽しいサウンドで会場を盛り上げます。会場のみなさんもぜひ、手拍子などお願いします！', '/events/RE-SXKG_header.jpg', '{/events/RE-SXKG_images_1.jpg,/events/RE-SXKG_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(338, 'd6eb9a4f-9b43-4a9f-a535-8cd0cc239f30', 63046, 'Arduinoって使い道あるでぃーの？', 'ロボ班presentsカメムシ爆撃ゲーム', '/events/RE-2JU8_icon.jpg', '多機能マイコンボードarduinoの世界へようこそ！
+ 私たち中学ロボットサイエンス班3年生は、スマホで操作可能なカメムシ型の的を撃退するシューティングゲームを開発しました。楽しいゲームをしながら、一緒にarduinoや電子工作、プログラミングについて学びませんか？もちろん、純粋にゲームを楽しみたい方も大歓迎です。ぜひ、「慶祥の敵」カメムシを撃退する爽快なシューティングゲームを体験しにきてください！', '/events/RE-2JU8_header.jpg', '{/events/RE-2JU8_images_1.jpg,/events/RE-2JU8_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(1001, '4aa730b2-f2d2-445a-be53-63ff01714df0', 57333, '株式会社Progate', '「できる」が増えれば世界はもっと広がる', '/events/RED-0001_icon.jpg', '夢中になって努力した先に希望はある。そう信じられる明日を創れる人を世界中に増やしたい。この信念を持つProgateCEOが、AI時代を生き抜く意思の力と未来の創り方を語ります。自らの手で新たな未来を切り開きたいすべての方へ送る特別公演です。※本公演はCP付与対象講座です。（学域LS5点）', '/events/RED-0001_header.jpg', '{/events/RED-0001_images_1.jpg,/events/RED-0001_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(1003, '0619fe07-4900-4658-9352-b5700a955cf5', 85753, 'セイコーマートコラボ弁当', '慶祥生徒がパッケージデザインを作成！ここだけのホットシェフ弁当をお届けします', '/events/RED-0003_icon.jpg', '北海道最強のコンビニ「セイコーマート」と奇跡のコラボが実現しました。店内調理のあたたかさが嬉しい「ホットシェフ」の人気メニュー、カツ丼と豚丼が当日会場に並びます。パッケージは本校生徒がデザインしたこの日だけのアート仕様。味も見た目も特別なランチタイムを約束します。 ※事前予約必須。生徒・教職員のみ購入可能です。', '/events/RED-0003_header.jpg', '{/events/RED-0003_images_1.jpg,/events/RED-0003_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(1007, 'd6e906e3-b4f7-49ad-a8ca-65f30ffb540f', 46745, '立命館大学チアリーディング部ステージ', 'Rits Cheer Collaboration：立命館大学 × 慶祥 スペシャルステージ', '/events/RED-0007_icon.jpg', '立命館大学応援団チアリーダー部と、本校チアリーディング部による夢の競演です。JAPAN CUP（日本選手権大会）などの全国大会で輝かしい実績を誇る大学チア部の演技を間近で見られるチャンス。高度なアクロバットと、会場を一つにする弾ける笑顔。先輩と後輩が織りなす、エネルギー全開のパフォーマンスを目撃してください。', '/events/RED-0007_header.jpg', '{/events/RED-0007_images_1.jpg,/events/RED-0007_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(363, 'e59ffae0-fbc9-46e8-9621-084bc4cfa0f9', 40645, 'The One-Shot', 'これがブレイクダンスショーケースだ！', '/events/RE-M8VM_icon.jpg', '僕たちは友達2人でブレイクダンスを踊ります。ブレイクダンスは、技のかっこよさだけでなく、音楽に合わせて体全体で表現するダンスです。今回は、2人だからこそできる構成や動きを意識して練習してきました。
+ 息を合わせるところ、あえて動きをずらすところなど、細かい部分にも注目してほしいです。
+ このステージを通して、ブレイクダンスの迫力や楽しさ、そして2人で作り上げることの大切さが伝わればうれしいです。短い時間ですが、全力で踊るのでぜひ最後まで見てください。
+ 僕たちは友達2人でブレイクダンスを踊ります。ブレイクダンスは、技のかっこよさだけでなく、音楽に合わせて体全体で表現するダンスです。今回は、2人だからこそできる構成や動きを意識して練習してきました。
+ 息を合わせるところ、あえて動きをずらすところなど、細かい部分にも注目してほしいです。練習ではうまくいかないことも多く、何度も失敗しましたが、その分完成度を高めることができました。
+ このステージを通して、ブレイクダンスの迫力や楽しさ、そして2人で作り上げることの大切さが伝わればうれしいです。短い時間ですが、全力で踊るのでぜひ最後まで見てください。', '/events/RE-M8VM_header.jpg', '{/events/RE-M8VM_images_1.jpg,/events/RE-M8VM_images_2.jpg,/events/RE-M8VM_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(377, '45a756e8-0ab9-4a29-ae8b-5bf2f57e18fd', 27704, '【Kalin】You は何しにAPUへ', '「APUが人生を変えた」講演', '/events/RE-NMJM_icon.jpg', 'ベトナム出身カリンです！！立命館アジア太平洋大学（APU）は、世界中から学生が集まる大学です。そこで私が経験した学びや挑戦、そして日本での学生生活で苦労したこと。そのすべてを通して見えた、「慶祥生が世界に飛び出し、活躍するために本当に必要なこと」をAPUでのリアルな経験からお伝えします。', '/events/RE-NMJM_header.jpg', '{/events/RE-NMJM_images_1.jpg,/events/RE-NMJM_images_2.jpg}', NULL, '2026-01-19 15:32:05.132873+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(374, 'd61d0013-5787-4053-87ff-25896850cecc', 42265, '【土井航大】You は何しにAPUへ', '「世界中の人と繋がり、世界が変わった」講演', '/events/RE-LUL8_icon.jpg', '立命館アジア太平洋大学（APU）は、世界中から学生が集まり、価値観が本気でぶつかり合う場所です。言葉の壁、文化の違い、何度も悩み、立ち止まり、それでも前に進んできました。そのすべての経験が、「世界で活躍するために本当に必要な力」を教えてくれました。慶祥生が世界に飛び出し、自分の力で未来を切り拓くために。APUでのリアルな経験を、想いを込めて全力で伝えます。', '/events/RE-LUL8_header.jpg', '{/events/RE-LUL8_images_1.jpg,/events/RE-LUL8_images_2.jpg}', NULL, '2026-01-19 15:32:05.132873+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(372, '04dd0180-f573-446a-afc8-987b0107d347', 16650, '動いてるけど、何が起きてる？仕組みを見破れ', '触れた瞬間、疑問が始まる！ 高校自然科学部による体験型科学展示', '/events/RE-KX3M_icon.jpg', '私たちの身の回りには、さまざまな「動いている」技術があります。
+ しかし、その動きの中で実際に何が起きているのかを考える機会は、あまり多くありません。
+ 
+ 本企画では、空気・電気・光・知能といった、ふだんは目に見えないものが、どのようにして目の前の動きを生み出しているのかを、実際の体験を通して紹介します。
+ 
+ 人が乗って浮かぶホバークラフトでは、空気の流れや圧力の変化によって、物との摩擦が小さくなる仕組みを体で感じることができます。
+ イオンエンジンの展示では、電気の力で空気中の小さな粒が動き、その力が進む力になる様子を実際に見ることができます。
+ 3Dホログラムの展示では、光の反射や通り抜ける性質を利用して、実体のない映像が空中に見える不思議な現象を紹介します。
+ また、AIを使った展示では、情報を受け取り、判断して反応するしくみに注目し、機械が「考えているように見える」理由をわかりやすく示します。
+ 
+ この展示は、ただ見るだけのものではありません。
+ 触れたり、乗ったり、動きを間近で見ることで、「なぜ動くのか」「中で何が起きているのか」を来場者自身が考えるきっかけをつくる体験型展示です。', '/events/RE-KX3M_header.jpg', '{/events/RE-KX3M_images_1.jpg,/events/RE-KX3M_images_2.jpg,/events/RE-KX3M_images_3.jpg}', NULL, '2026-01-19 15:32:05.132873+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(349, 'a05bc96c-3cdb-4b0f-a1cc-17026109435a', 78699, 'C-Rits 江別のレンガを触って知って感じよう！', '本物のレンガに触れられる体験', '/events/RE-TZYW_icon.jpg', '江別市内で多く見かけるレンガ。当たり前のようで誰も考えたことがないかもしれないが、実は国内で工場が減っていて、工場のある江別市は特別な街！？
+ C-Ritsでは１年以上かけて米澤煉瓦株式会社と連携し、レンガの魅力を最大限生かした製品を考案。
+ レンガの重さ、色、素材、丈夫さなどの魅力を感じられる展示や体験も企画！
+ ブースを出るころにはレンガに愛着がわいていること間違いなし！
+ 江別市民としてなら知っていて当然？な、レンガについての常識を触って知って感じよう！', '/events/RE-TZYW_header.jpg', '{/events/RE-TZYW_images_1.jpg,/events/RE-TZYW_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(354, '53e96445-edd4-4491-a317-6c6453b3a48d', 94171, '佐伯旺亮', 'ボディビルダーが筋肉を見せつける', '/events/RE-2FU9_icon.jpg', 'Bonjour. Je m''appelle Osuke Saeki. Je suis lycéen au lycée Ritsumeikan Keisho.Je parle japonais, un peu anglais et un petit peu français.J''ai 18 ans.tu habite où?J''habite à Sapporo,près de la station Nishi11chome.Enchanté.', '/events/RE-2FU9_header.jpg', '{/events/RE-2FU9_images_1.jpg,/events/RE-2FU9_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(365, '381cf0aa-8699-440b-9cf2-1679dccf6989', 57838, 'R-EXPOお茶会', '高校茶道部によるお茶会', '/events/RE-GNHN_icon.jpg', '高校茶道部では、R-EXPOにあわせてお茶会を開催します。にぎやかな会場の中で、ほっと一息つける和の空間をご用意しました。当日は、お茶やお菓子、道具などを通して、茶道の雰囲気を気軽に楽しんでいただけます。茶道が初めての方も大歓迎です。ぜひお立ち寄りいただき、日本の「おもてなし」と落ち着いた時間を味わってください。', '/events/RE-GNHN_header.jpg', '{/events/RE-GNHN_images_1.jpg,/events/RE-GNHN_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(344, '68dbfb9c-812c-42a9-8fd0-4656ec32254b', 82025, '私たちが知るべき放射線の見方', '放射線の語り部による講義', '/events/RE-ZR7C_icon.jpg', 'みなさん。こういう話を聞いたり、思ったりしたことはありますか？現在
+ 福島県で甲状腺がんの人が増えたのは、放射線のせいだ。福島県産の農作物は食べても大丈夫なの？そもそも放射能、放射線、放射性物質の違いがわからない。チェルノブイリで起きた事故とは何が違うの？・・・普段接することのない話だからこそ正しい知識をここで学びませんか？放射線はマイナスのイメージしかないかもしれませんが、正しく使用すると
+ 実はいろんな分野でものすごい威力を発揮します。今回は、医療分野でどう使われてるかに
+ 焦点を当てて話します。またメディカルツアーはただ原発を見に行ったわけでもなく、
+ ただ観光をしただけでもありません。東北大震災のときに奮闘された方々の話を聞いて何を私たちは学んだのかもみなさんに知ってもらいたいです。', '/events/RE-ZR7C_header.jpg', '{/events/RE-ZR7C_images_1.jpg,/events/RE-ZR7C_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(1008, '58875464-31f7-499d-98b8-973291a20f2e', 68598, '北昴コラボステージ', 'YOSAKOIソーラン スペシャル演舞「北昴 × 中学2年生」', '/events/RED-0008_icon.jpg', 'YOSAKOIソーラン祭りで活躍する実力派チーム「北昴（きたすばる）」が、コンベンションセンターに集結。中学2年生全員と共に、総勢数百名での大迫力コラボステージを披露します。鳴子の響き、躍動する身体、そして轟く掛け声。北海道の伝統と若きエネルギーが融合し、会場のボルテージは最高潮へ達します。', '/events/RED-0008_header.jpg', '{/events/RED-0008_images_1.jpg,/events/RED-0008_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(359, '35933efd-a0ee-416d-b5c1-9f64629db6b4', 92837, 'YNY', '対照的な2人が魅せるペアパフォーマンス', '/events/RE-R6EF_icon.jpg', '私たち2人はダンスを習っていて、ジャンルは1人がJAZZ、もう1人がHIPHOPです。今までは、自ら前に出て何かを披露するということに苦手意識を持っていて、あまりやってきませんでした。しかし、新たな世界へ一歩踏み出したいという思いから、R-EXPOを通して2人でステージに立つことを決めました。今回披露する、bad guyとSPECIALZの振り付けは、自分たちで考えました。ジャンルの違いから、体の使い方やリズムの取り方などで苦戦しましたが、力を合わせて作り上げました。音楽が流れていればいつでもリズムに乗ってしまうほどダンスが大好きな2人組です。最後には「楽しかった 」で終われるそんなステージにしたいです。新たな経験のため大きな決断をした私たちは最後までお互いの良さを引き出して頑張ります。応援よろしくお願いします！', '/events/RE-R6EF_header.jpg', '{/events/RE-R6EF_images_1.jpg,/events/RE-R6EF_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(368, '7a323ed8-3619-4856-ad50-9f20b7f9e6a5', 66815, 'バラドネシア', 'バラバラ出身、まとまる気はあります', '/events/RE-4WK3_icon.jpg', '本企画は、インドネシアでの国際交流をきっかけに結成されたバンド「バラドネシア」による音楽パフォーマンスです。2025年7月に、インドネシアの相手校に演奏を届ける目的で初顔合わせを行い、当初は生徒4人での編成を予定していましたが、現地の先生方がボーカルとベースを担当してくださり、結果的に6人編成での演奏が実現しました。帰国後はエキスポでの演奏を目標に再編成を行い、日本側メンバーを加えて現在の6人編成に至っています。学年も所属もばらばらで、最初は「本当にまとまるのか？」という雰囲気もありましたが、こうした経験から、インドネシアで一体となって演奏したことをきっかけに、「バラドネシア」というバンド名が生まれました。
+ ばらばらな6人だからこそ出せる音を武器に、「猫」「小さな恋の歌」「イケナイ太陽」を、バラードからロックまで全力で演奏します。なお、ボーカルは遠田君と萩君が担当します。興味を持っていただけた方は、ぜひ見に来てください。', '/events/RE-4WK3_header.jpg', '{/events/RE-4WK3_images_1.jpg,/events/RE-4WK3_images_2.jpg,/events/RE-4WK3_images_3.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(370, '5a886c7e-aa93-44f7-812a-830cc58146cc', 19743, '臭。~臭すぎる更衣室について~', '全更衣室全面大改革', '/events/RE-J8FE_icon.jpg', '皆さんは今の更衣室に満足していますか？
+ 私たちは満足していません。そこで私たち更衣室の改革を提案します。第一に匂いについての改革、第二に更衣室に設置されているロッカーの破損、ジャージなどの置きっぱなし、清潔感についてに改革を提案します。また、シャワー室や手洗い場の存在意義についても議論したいと思っています。
+ 少しでも今の更衣室について興味がある方はぜひ私たちの発表を見に来てください。', '/events/RE-J8FE_header.jpg', '{/events/RE-J8FE_images_1.jpg,/events/RE-J8FE_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(335, '20e886e4-df60-4fb6-afe9-ee3cc51cafd4', 80975, '【ピアノ連弾】 ルパン三世のテーマ ’78 Jazz Ver.', '小野航太朗＆妹によるピアノ演奏', '/events/RE-AWL8_icon.jpg', '小野航太朗と妹：小野帆菜(小６：賛助出演)によるピアノ連弾演奏です。演奏曲は、アニメ「ルパン三世」のテーマソングである「ルパン三世のテーマ ‘78」です。この曲は、ジャズピアニストの大野雄二さんが作曲され、長きにわたり幅広い世代に人気を博してきた名曲です。今回は、その名曲を、人気You TuberであるJacob Koller＆よみぃさんがジャズアレンジしたものを、さらに、私、小野航太朗がマイナーアレンジし演奏します。
+ 私自身は、幼い頃よりクラシックピアノをずっと習ってきて各種コンクールにも出場してきましたが、数年前に、大野雄二バンドのライブを観に行って以来、ジャズの魅力にも強く惹かれ、そして、この曲のカッコよさにハマり、いつか演奏したいと思っていました。
+ セコンドパートのビートを刻む音色は、まさに、ジャズのベースやドラムです。この秀逸なビートを堪能して欲しいです。また、プリモとセコンドが入れ替わるところは、通常のクラシックの連弾ではまず無いであろう一押しポイントです！
+ 今回、この曲を演奏することにしたきっかけは、私が妹二人と、障がいのある子供達が通う療育機関でのボランティア演奏会を企画したことです。子供達にどんな曲を弾いてあげたら喜んでもらえるかを一生懸命考えて、選曲し練習してきました。その中でも特に気合いを入れて練習してきたこの曲を、R-EXPOでも演奏したいと思いエントリーしました。
+ きっと、皆さんにも楽しんでもらえると思います！是非、聴きに来てください！', '/events/RE-AWL8_header.jpg', '{/events/RE-AWL8_images_1.jpg,/events/RE-AWL8_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL),
+	(1002, 'a1531b57-4a76-4e13-a83c-5c7733c3908c', 46160, 'Rising Teenager Award', '北海道大学コラボ企画', '/events/RED-0002_icon.jpg', '「Rising Teenager Award」は、北海道大学と連携し、全国で活躍する高校生の知見と経験を共有する場です。 既存の学問領域や活動ジャンルに囚われることなく、圧倒的な熱量で「何か」に打ち込む生徒たちを選抜。 世界を舞台に戦う彼らのプレゼンテーションは、見る者の価値観をアップデートします。 未来のイノベーターたちが交錯する、特別なステージにご期待ください。', '/events/RED-0002_header.jpg', '{/events/RED-0002_images_1.jpg,/events/RED-0002_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-26 08:11:25.23803+00', NULL),
+	(1005, '945ad50f-07dd-4a2d-a3cd-6b2bc410044c', 20761, '席替えアルゴリズムの数理モデル', '教室内の幸福度を最大化する「席替えアルゴリズム」の数理モデルを考えました', '/events/RED-9999.jpg', '席替え。それは1ヶ月のスクールライフを左右する重大イベントです。私たちはクラス全員の「視力」「仲良し度」「授業への集中力」「隠れた恋心（推定値）」をパラメータ化。遺伝的アルゴリズムを用いて、クラス全体の幸福度が最大値をとる座席配置を算出するプログラムを開発しました。実際に導入したクラスで成績とカップル成立率がどう変化したのか、驚きのデータを公開します。', '/events/RED-9999.jpg', '{/events/RED-0005_images_1.jpg,/events/RED-0005_images_2.jpg}', NULL, '2026-01-08 06:30:39.128619+00', '2026-01-25 00:00:00.168703+00', NULL);
 
-                INSERT INTO public.events_performers (event_id, performer_id, display_order)
-                VALUES (v_event_id, v_perf_ids[random_idx], j)
-                ON CONFLICT (event_id, performer_id) WHERE deleted_at IS NULL DO NOTHING;
-            END LOOP;
-        END LOOP;
-        
-        v_slot_display_order := v_slot_display_order + 1;
-    END LOOP;
 
-    -- features (2~5 items)
-    FOR i IN 1..(2 + floor(random() * 4)::int) LOOP
-        INSERT INTO public.features (name, caption, note, image, display_order)
-        VALUES (
-            '特集: ' || arr_cat_names[i],
-            CASE WHEN (random() < 0.3) THEN NULL ELSE '必見ポイント' END,
-            CASE WHEN (random() < 0.5) THEN NULL ELSE '詳細をチェック。' END,
-            '/features/' || i || '.jpg',
-            i
-        );
-    END LOOP;
-    
-    -- news (5~15 items)
-    FOR i IN 1..(5 + floor(random() * 11)::int) LOOP
-        INSERT INTO public.news (name, caption, description, header_image, thumbnail, display_order)
-        VALUES (
-            'ニュース ' || i,
-            CASE WHEN (random() < 0.2) THEN NULL ELSE '重要なお知らせ' END,
-            CASE WHEN (random() < 0.4) THEN NULL ELSE 'ニュース ' || i || ' に関する詳細情報です。' END,
-            CASE WHEN (random() < 0.3) THEN NULL ELSE 'https://picsum.photos/1920/1920?random=news_h' || i END,
-            CASE WHEN (random() < 0.2) THEN NULL ELSE 'https://picsum.photos/512/512?random=news_t' || i END,
-            i
-        );
-    END LOOP;
+--
+-- Data for Name: banners; Type: TABLE DATA; Schema: public; Owner: postgres
+--
 
-    -- banners (3~8 items)
-    FOR i IN 1..(3 + floor(random() * 6)::int) LOOP
-        INSERT INTO public.banners (image, link, display_order)
-        VALUES (
-            'https://picsum.photos/1920/1080?random=ban' || i,
-            CASE WHEN (random() < 0.1) THEN NULL ELSE 'https://example.com' END,
-            i
-        );
-    END LOOP;
+INSERT INTO "public"."banners" ("banner_id", "banner_public_id", "display_order", "image", "link", "event_id", "created_at", "updated_at", "deleted_at") VALUES
+	(1, '00132230-33c2-4d7c-bc17-dcb3a7e0cb50', 1, 'https://picsum.photos/1920/1080?random=ban1', NULL, NULL, '2026-01-01 18:30:57.750433+00', '2026-01-01 18:30:57.750433+00', NULL),
+	(2, '2edfa99a-3f24-425a-83a7-4bac00e7d49e', 2, 'https://picsum.photos/1920/1080?random=ban2', 'https://example.com', NULL, '2026-01-01 18:30:57.750433+00', '2026-01-01 18:30:57.750433+00', NULL),
+	(3, 'b003fd41-0a54-4a01-9770-563e70c11919', 3, 'https://picsum.photos/1920/1080?random=ban3', 'https://example.com', NULL, '2026-01-01 18:30:57.750433+00', '2026-01-01 18:30:57.750433+00', NULL),
+	(4, '0a33e235-7dce-4b67-83ff-8cf137c50e05', 4, 'https://picsum.photos/1920/1080?random=ban4', 'https://example.com', NULL, '2026-01-01 18:30:57.750433+00', '2026-01-01 18:30:57.750433+00', NULL),
+	(5, '6d392979-079b-42aa-9168-b05850ffba20', 5, 'https://picsum.photos/1920/1080?random=ban5', 'https://example.com', NULL, '2026-01-01 18:30:57.750433+00', '2026-01-01 18:30:57.750433+00', NULL);
 
-END $$;
+
+--
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."categories" ("category_id", "category_public_id", "display_order", "name", "caption", "icon", "created_at", "updated_at", "deleted_at") VALUES
+	(1, 'ad632a1b-2581-4ec4-9ca5-45d90809b472', 5, 'グローバル', 'テクノロジーに関する最新情報が集まります。', '/categories/_1.png', '2026-01-01 18:30:57.750433+00', '2026-01-21 16:04:09.150391+00', NULL),
+	(2, 'e4b3dd5c-9b1b-48af-a375-fd21a97c1656', 1, 'アカデミック', 'アート＆デザインに関する最新情報が集まります。', '/categories/_5.png', '2026-01-01 18:30:57.750433+00', '2026-01-21 16:04:21.553499+00', NULL),
+	(3, '4cbca147-af5f-4eb9-9116-bca35e5d13f6', 4, 'エンタメ', '音楽に関する最新情報が集まります。', '/categories/_2.png', '2026-01-01 18:30:57.750433+00', '2026-01-21 16:04:24.695491+00', NULL),
+	(4, '590409dc-6d41-47a7-a92b-ef6c02aa379a', 2, 'コラボ', NULL, '/categories/_4.png', '2026-01-01 18:30:57.750433+00', '2026-01-21 16:04:27.532304+00', NULL),
+	(5, 'a9c4f8c7-26a9-42aa-a4f5-986fc52bce6d', 3, 'ブース', 'フード・食に関する最新情報が集まります。', '/categories/_3.png', '2026-01-01 18:30:57.750433+00', '2026-01-21 16:04:30.03063+00', NULL);
+
+
+--
+-- Data for Name: performers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."performers" ("performer_id", "performer_public_id", "display_order", "name", "affiliation", "icon", "created_at", "updated_at", "deleted_at") VALUES
+	(1, '84c75239-f74c-4b08-8ee7-f3b80429778d', 0, '大川瑚桃', '高校2年H組', '/performers/RE-GNHN_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(2, 'abc1ffe7-a810-493b-8d31-0f62cc29c593', 0, '近藍水', '中学3年6組', '/performers/RE-UMAY_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(3, 'bc29b4a6-5a70-4705-a8da-d24c8c9b207c', 0, '坂東沙羅', '中学1年5組', '/performers/RE-UMAY_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(4, '8f0dd849-5c4a-4285-a4fd-bcddef0e7ce8', 0, '谷口未玲', '中学3年1組', '/performers/RE-UMAY_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(5, '02a46422-34f2-4fb7-ad92-4d14bb8c201e', 0, '武部真夕', '中学3年4組', '/performers/RE-UMAY_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(6, '85bc5278-3ac8-46b3-ab6d-66e63d51db9b', 0, '大澤悠人', '中学3年2組', '/performers/RE-UMAY_5_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(7, '7347ef63-3922-48f1-ab7e-617309ba0ff6', 0, '木全江瑠夢', '中学2年4組', '/performers/RE-UMAY_6_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(8, '763204ea-3be4-410a-a64a-2b5ec610cbe6', 0, '川上歩珠', '中学3年5組', '/performers/RE-UMAY_7_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(9, 'd435eaee-f9ba-44f1-840e-6473c5a670fc', 0, '田尻唯乃', '中学3年4組', '/performers/RE-UMAY_8_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(10, 'cf34b876-8fd5-4a09-9db6-eb5a372f340d', 0, '鄭琉志', '中学1年4組', '/performers/RE-UMAY_9_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(11, '83272269-05b7-429a-bcf8-3df451d51c40', 0, '井上夏実', '中学1年4組', '/performers/RE-UMAY_10_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(12, '70de540e-9934-4d84-9a4e-a7620080bcae', 0, '矢口貴悠', '高校2年A組', '/performers/RE-SF7R_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(14, '06ee41ff-13f1-4c9e-bbec-1d36897ee108', 0, '原田玲', '高校1年G組', '/performers/RE-GNHN_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(15, 'fd2dbf39-031e-45db-b195-14ddc4b6ab4e', 0, '渡邊百花', '高校2年I組', '/performers/RE-SF7R_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(16, 'bbed49da-5794-431c-a0dc-a8df6abce624', 0, '城田奏', '高校2年I組', '/performers/RE-SF7R_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(17, '2ba7c13a-0f2b-4e2e-a938-94cdd4cc853f', 0, '上野凌誠', '高校2年I組', '/performers/RE-SF7R_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(18, '60ea74a3-f561-4fd3-a67e-2ed0a22d89ec', 0, '只野佑真', '中学3年6組', '/performers/RE-J8FE_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(19, 'b11988c8-3423-4ed3-9324-dd28de461497', 0, '渡邊あかり', '中学3年6組', '/performers/RE-J8FE_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(20, '148e5f61-56ab-463c-9a64-6c0f3380b758', 0, '河村風花', '中学3年6組', '/performers/RE-J8FE_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(21, '6c872c12-feed-4091-b547-dba9f040ad01', 0, '小野寺望', '中学3年6組', '/performers/RE-J8FE_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(22, '07abf296-4271-40d8-92d0-b22540f8dc4d', 0, '浅井篤弘', '中学2年3組', '/performers/RE-ZAML_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(23, '0dac1876-df82-4095-86dd-fa2e54f3c415', 0, '大聖姫花', '高校1年E組', '/performers/RE-NV5H_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(24, 'e1e4fd3c-6cee-4af5-82d3-b6afa55f68c3', 0, '組渋谷怜生', '中学2年6組', '/performers/RE-NV5H_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(25, '7b1955d3-5167-4cd1-9206-ac38131776b6', 0, '岡山諒祐', '中学3年6組', '/performers/RE-G7DZ_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(26, '76d5e08d-2cec-419b-9e2a-706249616d75', 0, '夏井坂怜剛', '中学3年5組', '/performers/RE-G7DZ_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(27, 'fb2e0ede-7a89-43a3-a522-43aa87e14c24', 0, '麻生紗耶香', '中学3年6組', '/performers/RE-ZMDY_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(28, '1a169358-14df-4759-893d-e5a395cefc4a', 0, '上木美緒', '中学1年4組', '/performers/RE-GJJG_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(29, '43679df3-a563-4cda-98bb-f16d49030c60', 0, '白井ひなの', '中学3年4組', '/performers/RE-ZUEJ_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(30, '00729064-b836-4db8-bcb6-88b1678d2b69', 0, '鈴木咲絢', '中学3年6組', '/performers/RE-ZUEJ_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(31, '7435c15a-9d4b-49e5-9159-bba82fcbc32d', 0, '江口明子', '本校教職員', '/performers/RE-PH6K_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(32, '2f0d9fc2-c272-4f57-8c8c-2ae51ff26f77', 0, '小西璃空', '高校2年A組', '/performers/RE-8CNW_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(33, 'ee7af412-3383-4839-a6bc-98e4e886522c', 0, '小野航太朗', '高校2年I組', '/performers/RE-AWL8_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(34, 'e9ed170a-c217-4fc7-a46d-2009df8b6cc7', 0, '服部澪', '中学3年3組', '/performers/RE-SXKG_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(35, '62f59df9-da98-4cf3-b4ee-49de94f65a85', 0, '瀧澤由佳紫', '高校2年I組', '/performers/RE-PH6K_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(36, '1fd8c389-a737-4022-8f65-1c3444afc41d', 0, '齋藤杏', '高校2年E組', '/performers/RE-WKYY_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(37, '3d3a8aca-d8d6-4ace-a8bf-e312861ac275', 0, '福島佳歩', '高校1年B組', '/performers/RE-WKYY_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(38, '259ae02e-ae66-441c-a83c-efd0bc7b5fb8', 0, '河原悠理', '高校1年E組', '/performers/RE-WKYY_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(39, 'e57ec56e-0256-430b-8dc6-54c998c26b9f', 0, '道添恵太朗', '高校1年H組', '/performers/RE-WKYY_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(40, '31a2512d-c638-4119-9aa7-ea60a5895957', 0, '奥田愛佳', '高校1年I組', '/performers/RE-WKYY_5_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(41, '2f40bf9d-7667-4835-8eb5-3c91d8292524', 0, '田中大和', '高校1年I組', '/performers/RE-WKYY_6_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(42, 'f580e2b7-c9e8-4df5-967c-f6f56af99a21', 0, '永澤友識', '高校3年A組', '/performers/RE-WKYY_7_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(43, 'fd24eb48-b276-41ed-a5c0-34e23d8c3ce3', 0, '大堀心愛', '高校3年E組', '/performers/RE-WKYY_8_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(44, '9e8ed10b-0dac-41aa-b54b-ee51da03dad8', 0, '中村実花', '高校3年E組', '/performers/RE-WKYY_9_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(45, '23283f96-a1cd-45e9-be2e-c819ab046089', 0, '池渕理子', '高校3年B組', '/performers/RE-WKYY_10_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(46, '02580094-1ae0-4d2a-bd1e-4bf990715b63', 0, '西海理心', '高校2年E組', '/performers/RE-5AWS_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(47, 'da49b723-0194-4745-8093-b9cb3812e3e8', 0, '大野心花', '高校2年I組', '/performers/RE-KW4R_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(48, '198ad482-f819-40a3-8047-6f99a94a9f55', 0, '米沢美海', '高校3年A組', '/performers/RE-WKYY_11_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(49, 'f675fba5-30fa-44c8-8027-64a0d2e3da76', 0, '佐藤彩音', '中学3年6組', '/performers/RE-ZUEJ_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(50, '1b037f39-2a22-4bb0-aec9-fd6b0acbff18', 0, '和田天満', '高校2年C組', '/performers/RE-NTZL_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(51, '696fc3bb-c7a6-456c-854f-593fdbaaec74', 0, '小野ゆりな', '高校2年A組', '/performers/RE-NTZL_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(52, '0c2d4180-d541-4da5-bc44-0d675f36b09d', 0, '稲見優助', '中学3年5組', '/performers/RE-2JU8_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(53, '9a086233-d2ab-4e16-8e44-94f8d7984fc5', 0, '池田悠人', '中学3年5組', '/performers/RE-2JU8_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(54, '63fe48a3-7001-485d-80db-561a360c3097', 0, '櫻井建大', '中学3年6組', '/performers/RE-LAY8_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(55, '812974c1-22d8-4873-94bf-c9bfaac124fc', 0, '田辺千明', '中学3年5組', '/performers/RE-2JU8_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(56, '5a74b594-624e-4635-a07a-768a6414f5fb', 0, '加藤樹', '中学3年2組', '/performers/RE-2JU8_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(57, '77d3fd8a-5863-4307-86fa-a5a0fa24aaee', 0, '石澤美怜', '中学3年6組', '/performers/RE-3NMH_1_icon_re.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-26 02:44:30.954122+00', NULL),
+	(58, '53fabb70-e450-40ad-9d22-0a7d7d36b2e2', 0, '田中達也', '高校1年F組', '/performers/RE-XW58_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(59, 'd3a63ba6-a34c-4f5e-acd8-40dce73b7fcc', 0, '戸川茉奈美', '高校3年C組', '/performers/RE-WKYY_12_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(60, '91816600-761d-4f47-8796-7f7c7b77eaa8', 0, '髙橋良介', '高校3年C組', '/performers/RE-WKYY_13_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(61, '9aed160e-33fb-4c07-bb94-49a0feaf48ba', 0, '武田萌玖', '高校1年G組', '/performers/RE-E2ZQ_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(62, '455c90e2-4d9e-41c5-ab75-378604b135a2', 0, '蝶野未羽', '高校2年I組', '/performers/RE-KW4R_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(63, 'efd6985c-2829-47b4-95d6-cd4ff1553382', 0, '図書怜奈', '高校2年C組', '/performers/RE-KW4R_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(64, '3d4c86e5-9b68-46c3-9510-dc752918aded', 0, '原口愛梨', '中学3年6組', '/performers/RE-3NMH_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(65, '7a905c88-e9be-4de0-9dcd-1fc94b91ab51', 0, '下垣一華', '中学3年4組', '/performers/RE-3NMH_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(66, '34bd23eb-edf0-403c-968b-d081cbc8aa82', 0, '中川天', '高校2年I組', '/performers/RE-KW4R_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(67, '6cdcf262-c11e-471f-8669-abb49a0764c5', 0, '岡部桜雪', '高校3年C組', '/performers/RE-9UUN_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(68, 'c88929ad-a80a-4ded-9cba-e86f290a2131', 0, '石橋沙雪', '高校2年C組', '/performers/RE-KW4R_5_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(69, '87350aaf-b957-47a2-b20a-63379e3ac2e0', 0, '小嶋柚和', '高校3年C組', '/performers/RE-9UUN_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(70, 'e43af984-23a9-4515-a508-724364a655ab', 0, '竹中愛', '高校3年C組', '/performers/RE-9UUN_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(71, '6c431a35-c54a-499f-9605-156026642bd9', 0, '木原麻紀子', '高校3年C組', '/performers/RE-9UUN_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(72, 'd7721a7f-9106-4b6a-8300-df88735bb284', 0, '小成さな', '高校3年C組', '/performers/RE-9UUN_5_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(73, 'b22ccffb-5493-4ae2-8598-fd4cd9e254d9', 0, '野中美佑', '中学3年5組', '/performers/RE-ZUEJ_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(74, '7ecf7af5-f911-4713-b27e-4489542b360f', 0, '清水梨々子', '高校3年C組', '/performers/RE-9UUN_6_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(75, 'b6d1327e-071c-4810-95c5-5110d54f0f8c', 0, '藤田妃芽', '高校3年C組', '/performers/RE-9UUN_7_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(76, '7b5bcfee-188f-46a9-99f3-e0b62dc253e8', 0, '小野帆菜', '本校教職員', '/performers/RE-AWL8_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(77, 'fc285496-c473-4be9-bf0a-175fd7a179f1', 0, '田中桜', '高校3年A組', '/performers/RE-PCT9_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(78, 'a6e9afcf-ba7d-4ac9-84b4-b2340272b065', 0, '谷尾花', '中学3年5組', '/performers/RE-PCT9_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(79, '3588f35d-ad00-4110-83f2-8f7fa0b6f87b', 0, '黒澤輝', '高校2年I組', '/performers/RE-JB7T_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(80, '8cc69589-04c2-428d-8425-eb550f035909', 0, '寺田菜雪', '高校3年A組', '/performers/RE-PCT9_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(81, '4c5dad89-c404-405d-9d4d-b342a8680a68', 0, '山口真結子', '高校1年I組', '/performers/RE-ZR7C_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(82, 'b885fc62-209a-41a7-bf8e-1f0a4ed44be2', 0, '末國直央子', '高校3年C組', '/performers/RE-9UUN_8_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(83, '90b794c7-64a7-4c06-b33f-f8a7428b3caf', 0, '石井有希', '高校3年C組', '/performers/RE-9UUN_9_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(84, '63b8bf82-d584-49ca-b7c1-efef197e863d', 0, '髙山つばさ', '高校1年G組', '/performers/RE-XW58_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(85, '5c8296cb-9f84-4489-9f84-d68d63dc2b94', 0, '上田瑛泉', '中学2年3組', '/performers/RE-PCT9_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(86, 'd4ca0cec-65fe-41c8-8858-13ca856c6422', 0, '中西彩葉', '高校3年C組', '/performers/RE-9UUN_10_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(87, '4817b7ef-9cc6-40cb-86c9-481d0639ebe1', 0, '佐伯旺亮', '高校3年A組', '/performers/RE-2FU9_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(88, '924227d0-9d85-4e93-b16b-188b240c21fe', 0, '井上碧月', '高校2年G組', '/performers/RE-TAJV_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(89, 'fa31db5d-573c-4b6e-af4c-b60cf3918f52', 0, '工藤匠海', '高校2年5組', '/performers/RE-SJ64_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(90, '2d476b70-293d-4f9c-a29d-d468bf4f757b', 0, '工藤優拓', '中学3年6組', '/performers/RE-ZUEJ_5_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(91, '96b07dec-0ae0-4340-8896-407a07828e26', 0, '小野瞬', '中学2年5組', '/performers/RE-TZYW_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(92, 'e8a053cd-2cf3-4ffc-9885-8522edc0253e', 0, '早川志真', '高校1年I組', '/performers/RE-E2ZQ_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(93, 'a926ad00-b173-48e6-bd33-492c5cd75ff5', 0, '宮本庸平', '高校1年H組', '/performers/RE-E2ZQ_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(94, '5e22ba2a-8e7f-48fe-a512-d0e9284f6531', 0, '那須聖智', '高校1年G組', '/performers/RE-UPBR_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(95, 'aa739c49-ee68-495e-8dd6-29844af5b977', 0, '加藤杏', '高校1年G組', '/performers/RE-E2ZQ_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(96, '4c26639d-f4c4-471d-9a0a-29ac027d730e', 0, '武次諒子', '高校1年I組', '/performers/RE-E2ZQ_5_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(98, '1d400de4-c38c-43fc-85fa-17ec62083201', 0, '福井こころ', '中学2年4組', '/performers/RE-TZYW_3_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(99, '924bf4b4-b629-4a29-8088-b07ab0b858fd', 0, '福田侑叶', '中学2年5組', '/performers/RE-TZYW_4_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(100, 'eccc0a7e-1a7d-4854-837a-8724c21f5b05', 0, '五十嵐花穂', '中学2年6組', '/performers/RE-TZYW_5_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(101, 'e83b3f01-3386-42d4-a614-427fa9e7d685', 0, '笹本七海', '中学2年5組', '/performers/RE-R6EF_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(102, '9d889ca6-c446-4fae-b0df-faa55b959f29', 0, '皆川綾介', '高校1年C組', '/performers/RE-UPBR_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(103, 'ff759a8e-78a9-40b5-8607-e7924baa9f0d', 0, '藤森詩月', '高校1年I組', '/performers/RE-E2ZQ_6_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(104, '2a3b0704-8771-4703-bfb2-ec08c0e3cd09', 0, '矢沢仁菜', '高校1年I組', '/performers/RE-ZR7C_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(105, 'b0ba8ce1-a846-48d8-a1b0-f56380aa1d3d', 0, '天沼そよ花', '中学1年3組', '/performers/RE-EMU4_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(106, '0612fa6f-7da7-4b5b-b968-215b2e464a26', 0, '鶴羽咲季', '中学1年4組', '/performers/RE-BK8Z_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(107, 'ff9f717c-35ef-41d1-ad52-debb7f2efa78', 0, '田中千陽', '高校2年A組', '/performers/RE-KW4R_6_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(108, 'd9c13a26-9159-4da8-a2b5-fbc7d179b4a7', 0, '波方珀人', '高校2年A組', '/performers/RE-M8VM_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(109, '2b57cd81-c253-4dd0-85d2-aaf32093a38c', 0, '笹井温矢', '高校2年A組', '/performers/RE-M8VM_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(110, '61507bb1-8dba-4c1c-b56d-f3707baa4786', 0, '3', '高校1年I組', '/performers/RE-44TH_1_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(111, '005fcb95-3c16-4d61-a74f-27d1223504c6', 0, '佐藤直人', '高校2年I組', '/performers/RE-44TH_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-14 15:04:41.166246+00', NULL),
+	(97, '00339a69-7206-4d44-9e91-ee17b7a09181', 0, '久保耀子', '中学2年2組', '/performers/RE-TZYW_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-15 07:32:24.993447+00', '2026-01-15 07:32:24+00'),
+	(13, 'a1b6927b-af51-46d8-b97c-0bb026a08fb9', 0, '宮崎真緒', '高校1年H組', '/performers/RE-GNHN_2_icon.jpg', '2026-01-14 15:04:41.166246+00', '2026-01-16 03:30:54.746212+00', '2026-01-16 03:30:54+00'),
+	(112, '3db950d2-7f73-477a-b602-07978a1a957a', 0, '菊地賢司', '立命館慶祥中学校・高等学校 校長', '/performers/RE-9999_icon.jpg', '2026-01-16 04:05:16.737228+00', '2026-01-16 04:10:32.36268+00', NULL);
+
+
+--
+-- Data for Name: events_performers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."events_performers" ("event_performer_id", "event_id", "performer_id", "display_order", "created_at", "updated_at", "deleted_at") VALUES
+	(990, 365, 1, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(991, 366, 2, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(992, 366, 3, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(993, 366, 4, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(994, 366, 5, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(995, 366, 6, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(996, 366, 7, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(997, 366, 8, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(998, 366, 9, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(999, 366, 10, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1000, 366, 11, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1001, 364, 12, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1002, 365, 13, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1003, 365, 14, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1004, 364, 15, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1005, 364, 16, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1006, 364, 17, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1007, 370, 18, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1008, 370, 19, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1009, 370, 20, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1010, 370, 21, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1011, 369, 22, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1012, 367, 23, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1013, 367, 24, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1014, 330, 25, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1015, 330, 26, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1016, 331, 27, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1017, 329, 28, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1018, 332, 29, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1019, 332, 30, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1020, 332, 2, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1021, 328, 31, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1022, 334, 32, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1023, 333, 27, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1024, 335, 33, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1025, 336, 34, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1026, 328, 35, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1027, 337, 36, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1028, 337, 37, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1029, 337, 38, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1030, 337, 39, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1031, 337, 40, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1032, 337, 41, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1033, 337, 42, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1034, 337, 43, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1035, 337, 44, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1036, 337, 45, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1037, 339, 46, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1038, 340, 47, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1039, 337, 48, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1040, 332, 49, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1041, 341, 50, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1042, 341, 51, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1043, 338, 52, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1044, 338, 53, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1045, 343, 54, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1046, 338, 55, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1047, 338, 56, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1048, 347, 57, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1049, 348, 58, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1050, 337, 59, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1051, 337, 60, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1052, 348, 41, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1053, 345, 61, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1054, 340, 62, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1055, 340, 63, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1056, 347, 64, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1057, 347, 65, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1058, 340, 66, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1059, 351, 67, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1060, 340, 68, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1061, 351, 69, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1062, 351, 70, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1063, 351, 71, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1064, 351, 72, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1065, 332, 73, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1066, 351, 74, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1067, 351, 59, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1068, 351, 75, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1069, 335, 76, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1070, 353, 77, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1071, 353, 78, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1072, 346, 79, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1073, 353, 80, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1074, 344, 81, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1075, 351, 82, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1076, 351, 83, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1077, 348, 84, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1078, 353, 85, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1079, 351, 86, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1080, 354, 87, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1081, 356, 88, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1082, 358, 88, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1083, 357, 89, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1084, 353, 2, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1085, 333, 29, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1086, 332, 90, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1087, 349, 91, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1088, 345, 92, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1089, 345, 93, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1090, 360, 94, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1091, 345, 95, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1092, 345, 96, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1093, 349, 97, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1094, 349, 98, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1095, 349, 99, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1096, 349, 100, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1097, 359, 101, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1098, 360, 102, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1099, 345, 103, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1100, 345, 39, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1101, 344, 104, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1102, 361, 105, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1103, 362, 106, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1104, 340, 107, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1105, 363, 108, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1106, 363, 109, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1107, 352, 110, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL),
+	(1108, 352, 111, 0, '2026-01-14 15:15:17.571671+00', '2026-01-14 15:15:17.571671+00', NULL);
+
+
+--
+-- Data for Name: slots; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."slots" ("slot_id", "slot_public_id", "display_order", "starts", "ends", "created_at", "updated_at", "deleted_at") VALUES
+	(148, 'c093f3ec-9853-40d4-a8cf-7de97e7a3ed1', 0, '10:30:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(149, '4a931c3d-6dd4-493d-899d-7a4a2ee98309', 0, '12:45:00', '13:10:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(150, 'de86e129-c4aa-4fff-be32-a2c74c802e66', 0, '16:08:00', '16:25:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(151, '65b19aef-e3ae-4a1d-8b80-944421388068', 0, '13:15:00', '13:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(152, 'f8b3d070-1994-49ad-9e7b-2f291d761bff', 0, '15:05:00', '15:20:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(153, '46f91fbd-6f53-4e60-af56-2d8b03c948de', 0, '13:30:00', '13:40:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(154, '1921018e-af87-4dbe-9f9c-bb1facbb1b1a', 0, '10:30:00', '12:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(155, '0fbb2ba9-32cb-4382-9f6d-c14ff7d042f9', 0, '12:45:00', '13:10:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(156, 'f193efb6-3d7d-4de9-ab72-390b502f85a0', 0, '12:30:00', '12:40:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(157, '2220672d-3770-4c29-8eb7-fd970b89a7e9', 0, '14:45:00', '15:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(159, '4c7922b2-8e76-486e-b7f6-b57880e353df', 0, '10:30:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(160, '3196501d-5c1c-4967-8eae-c0672b635608', 0, '16:05:00', '16:20:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(161, '83c56594-f393-4d5f-94ca-8fb1da306690', 0, '10:30:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(162, '9681294e-215f-4e54-a2e9-08bcc8271316', 0, '10:30:00', '12:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(163, 'b6fdeb69-8080-416f-b21b-886b17eb4678', 0, '10:30:00', '12:00:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(164, 'c08cf25f-dc05-4d56-b062-b71db7ee0a2e', 0, '11:50:00', '12:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(165, 'd23c0c46-85f3-47e8-81a1-bfd0231d0ff1', 0, '11:50:00', '12:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(166, '2c311411-0888-48f0-ba78-9a259b07c32e', 0, '10:30:00', '12:00:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(167, '52ad188d-ab01-4335-b5e2-afc4dd9c0444', 0, '15:35:00', '15:44:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(168, '6d7a66c5-74a8-4438-8492-1ac83b4c4645', 0, '14:45:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(169, 'a430f281-bd8a-455c-bc42-c4cc610e113e', 0, '14:45:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(170, '2d13b65b-9711-44da-bcca-6d4b000e18a2', 0, '15:26:00', '15:35:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(171, '62acc0a6-ed3c-474f-94cf-1988f9a2fe13', 0, '14:55:00', '15:05:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(172, '76ca0f2f-66a8-449c-bc9a-e6f627c312e4', 0, '15:10:00', '15:20:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(173, '9020ff0d-5bf3-44b8-a4cb-fccd83793123', 0, '16:01:00', '16:08:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(174, '32d43f22-d116-4f8b-9321-390fbdc4f930', 0, '14:45:00', '14:55:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(175, 'a2aa5612-2025-4a4d-97f3-16ff7de3cea1', 0, '14:45:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(176, '2329bc14-0741-48c6-8fc6-a4117caedc3a', 0, '10:30:00', '12:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(177, '2d026ed3-ff22-4a5c-8372-7390dea565a7', 0, '14:45:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(178, 'e39c5292-909b-4e62-9dcd-4bb68a6d3bf9', 0, '15:20:00', '15:26:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(179, 'b3aedce7-b6c0-4831-ac49-714d5ab351b0', 0, '10:30:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(180, '03efd1c8-bd8c-49c8-85dc-b38270f678b6', 0, '12:45:00', '13:10:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(182, '2e56d5d5-cd47-49c6-a110-ec416da15966', 0, '15:44:00', '15:51:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(183, '630f502e-e015-427f-8a62-13ff4e9b7944', 0, '14:45:00', '15:00:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(184, '3483f30d-50d6-4355-83b2-8f547d431258', 0, '14:45:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(185, '5a7babb9-f4da-4587-99db-def28abeb2f5', 0, '11:25:00', '12:05:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(186, '3f75a83d-5290-4f3d-bda4-99edddfd761d', 0, '10:30:00', '12:00:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(187, 'bd0605a7-b2f3-45ec-ab2d-54f45943d6ac', 0, '15:25:00', '15:40:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(188, '55f82d3a-217a-4aa4-b76f-7bc529129de6', 0, '14:45:00', '15:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(189, '7de11852-30f4-4df5-b07b-4e5f666e5cf0', 0, '10:30:00', '12:00:00', '2026-01-08 05:08:17.467105+00', '2026-01-08 05:08:17.467105+00', NULL),
+	(190, 'f023d105-2686-4184-935e-1833b2da9769', 0, '12:15:00', '13:25:00', '2026-01-08 06:43:38.205352+00', '2026-01-08 06:43:38.205352+00', NULL),
+	(191, 'ffbf277e-b4f8-43fa-8fe4-510644e308f1', 0, '10:30:00', '16:30:00', '2026-01-08 06:43:38.205352+00', '2026-01-08 06:43:38.205352+00', NULL),
+	(192, '64e5c737-973a-4016-833d-3c410ab25237', 0, '12:30:00', '14:00:00', '2026-01-08 06:43:38.205352+00', '2026-01-08 06:43:38.205352+00', NULL),
+	(193, '61f606e1-bdb9-4978-a830-7b3f203ed61a', 0, '10:40:00', '11:30:00', '2026-01-08 06:43:38.205352+00', '2026-01-08 06:43:38.205352+00', NULL),
+	(194, '64bfa976-cb2c-4a40-8145-494e56cc5325', 0, '10:40:00', '11:30:00', '2026-01-08 06:43:38.205352+00', '2026-01-08 06:43:38.205352+00', NULL),
+	(195, '5cdea2ee-1842-43b0-8a73-ca9a57ae4c7c', 0, '14:45:00', '16:30:00', '2026-01-08 06:43:38.205352+00', '2026-01-08 06:43:38.205352+00', NULL),
+	(196, '4d52504a-64cf-4565-ad06-d990265d0942', 0, '09:45:00', '10:15:00', '2026-01-08 06:43:38.205352+00', '2026-01-08 06:43:38.205352+00', NULL),
+	(197, 'e896cc2a-66d2-4251-873a-ef50a9856fa2', 0, '14:00:00', '14:30:00', '2026-01-08 06:43:38.205352+00', '2026-01-08 06:43:38.205352+00', NULL),
+	(158, '18a78fc1-c0b5-4dac-bd0e-09009d6f122e', 0, '14:45:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-14 15:24:45.126279+00', NULL),
+	(181, '77d97082-687a-4c01-bff2-e4162c5d50bc', 0, '14:45:00', '16:30:00', '2026-01-08 05:08:17.467105+00', '2026-01-14 15:25:44.146215+00', NULL),
+	(198, 'cae8b4d0-0182-4449-92e2-c96c4bc31e73', 0, '10:30:00', '11:40:00', '2026-01-19 15:34:15.078636+00', '2026-01-19 15:34:15.078636+00', NULL),
+	(199, 'fb89e6b4-572b-445e-b30e-0ffaffb26713', 0, '14:45:00', '16:30:00', '2026-01-19 15:34:15.078636+00', '2026-01-19 15:34:15.078636+00', NULL),
+	(200, '5d9bd722-4761-4dec-89ef-36e7d9f315c4', 0, '14:45:00', '16:30:00', '2026-01-19 15:34:15.078636+00', '2026-01-19 15:34:15.078636+00', NULL),
+	(201, '5d56580f-f07e-49e0-9a29-5fb2c7b4f361', 0, '10:30:00', '12:30:00', '2026-01-19 15:34:15.078636+00', '2026-01-19 15:34:15.078636+00', NULL),
+	(202, '2839902a-d7d1-42d4-833c-618d620c7dbc', 0, '10:30:00', '12:30:00', '2026-01-19 15:34:15.078636+00', '2026-01-19 15:34:15.078636+00', NULL),
+	(203, 'a50886c0-2d02-472e-b9b6-3e56ebd1aa54', 0, '10:30:00', '12:30:00', '2026-01-19 15:34:15.078636+00', '2026-01-19 15:34:15.078636+00', NULL),
+	(204, 'f46101dd-1468-4c32-9a7f-32e40c455adb', 0, '10:30:00', '12:30:00', '2026-01-19 15:34:15.078636+00', '2026-01-19 15:34:15.078636+00', NULL),
+	(205, '81f57770-84cf-4612-b532-7796564f09b6', 0, '14:45:00', '16:30:00', '2026-01-19 15:34:15.078636+00', '2026-01-19 15:34:15.078636+00', NULL);
+
+
+--
+-- Data for Name: events_slots; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."events_slots" ("event_slot_id", "event_id", "slot_id", "display_order", "created_at", "updated_at", "deleted_at") VALUES
+	(420, 328, 148, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(421, 329, 149, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(422, 330, 150, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(423, 331, 151, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(424, 332, 152, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(425, 333, 153, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(426, 334, 154, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(427, 335, 155, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(428, 336, 156, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(429, 337, 157, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(430, 338, 158, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(431, 339, 159, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(432, 340, 160, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(433, 341, 161, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(434, 342, 162, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(435, 343, 163, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(436, 344, 164, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(437, 345, 165, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(438, 346, 166, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(439, 347, 167, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(440, 348, 168, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(441, 349, 169, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(442, 351, 170, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(443, 352, 171, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(444, 353, 172, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(445, 354, 173, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(446, 355, 174, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(447, 356, 175, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(448, 357, 176, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(449, 358, 177, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(450, 359, 178, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(451, 360, 179, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(452, 361, 180, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(453, 362, 181, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(454, 363, 182, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(455, 364, 183, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(456, 365, 184, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(457, 366, 185, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(458, 367, 186, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(459, 368, 187, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(460, 369, 188, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(461, 370, 189, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(462, 1001, 190, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(463, 1002, 191, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(464, 1003, 192, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(465, 1004, 193, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(466, 1005, 194, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(467, 1006, 195, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(468, 1007, 196, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(469, 1008, 197, 0, '2026-01-08 06:44:06.647579+00', '2026-01-08 06:44:06.647579+00', NULL),
+	(470, 371, 198, 0, '2026-01-19 15:34:45.161062+00', '2026-01-19 15:34:45.161062+00', NULL),
+	(471, 372, 199, 0, '2026-01-19 15:34:45.161062+00', '2026-01-19 15:34:45.161062+00', NULL),
+	(472, 373, 200, 0, '2026-01-19 15:34:45.161062+00', '2026-01-19 15:34:45.161062+00', NULL),
+	(473, 374, 201, 0, '2026-01-19 15:34:45.161062+00', '2026-01-19 15:34:45.161062+00', NULL),
+	(474, 375, 202, 0, '2026-01-19 15:34:45.161062+00', '2026-01-19 15:34:45.161062+00', NULL),
+	(475, 376, 203, 0, '2026-01-19 15:34:45.161062+00', '2026-01-19 15:34:45.161062+00', NULL),
+	(476, 377, 204, 0, '2026-01-19 15:34:45.161062+00', '2026-01-19 15:34:45.161062+00', NULL),
+	(477, 378, 205, 0, '2026-01-19 15:34:45.161062+00', '2026-01-19 15:34:45.161062+00', NULL);
+
+
+--
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."tags" ("tag_id", "tag_public_id", "display_order", "name", "caption", "created_at", "updated_at", "deleted_at") VALUES
+	(4, 'ee1c3c8f-ef6f-4afd-a2ab-8b3262b35818', 5, 'アート', '生徒の感性が光る絵画展示や音楽発表', '2026-01-01 18:30:57.750433+00', '2026-01-08 06:50:12.219009+00', NULL),
+	(5, 'bea513e3-2390-4eb0-aebe-be6abdd4593c', 5, '演劇', '生徒が創る笑いと涙のドラマ', '2026-01-01 18:30:57.750433+00', '2026-01-08 06:50:13.920183+00', NULL),
+	(7, 'fbb05e2a-9cc9-4dd9-ac89-b3772ca538fa', 6, 'カルチャー', '文化系部活動や伝統文化に関する展示', '2026-01-01 18:30:57.750433+00', '2026-01-08 06:50:18.17314+00', NULL),
+	(8, '28468aa9-59ff-4771-a22e-b9895055cc35', 6, 'ソーシャル', '社会課題解決やボランティア活動の報告', '2026-01-01 18:30:57.750433+00', '2026-01-08 06:50:20.23403+00', NULL),
+	(10, '0b0ab467-3daf-4b24-8ed0-0c1930265f2f', 3, '国内', '国内研修や地域調査に関する学習報告', '2026-01-01 18:30:57.750433+00', '2026-01-08 06:50:25.403193+00', NULL),
+	(13, '933cf099-38b6-40ed-a4dd-8751f92df0d7', 1, '立命館大学', '立命館大学の学生が参加する企画やステージ', '2026-01-01 18:30:57.750433+00', '2026-01-08 06:50:32.501238+00', NULL),
+	(26, '28a7c26e-29b9-4558-9440-00592ce84012', 0, '見る', '美しい展示や迫力の演技を目で楽しむ', '2026-01-07 18:05:46.313147+00', '2026-01-07 18:05:46.313147+00', NULL),
+	(27, '7f170736-3030-44ae-9318-c14670f1cf1d', 0, '聴く', '素敵な演奏やタメになる話に耳を傾けて', '2026-01-07 18:05:46.313147+00', '2026-01-07 18:05:46.313147+00', NULL),
+	(28, '2da85511-2afb-4249-8c1d-10d004283a0b', 0, '話す', '発表者との対話が可能な双方向型企画', '2026-01-07 18:05:46.313147+00', '2026-01-07 18:05:46.313147+00', NULL),
+	(29, 'ac184a97-447b-4767-ba35-ad7722cf6388', 0, '体験する', '参加者が実技等を行う体験型プログラム', '2026-01-07 18:05:46.313147+00', '2026-01-07 18:05:46.313147+00', NULL),
+	(15, 'de042757-3763-44d8-9e5f-bcd525888411', 4, '学校行事報告', '学校主催行事における学習成果の報告', '2026-01-01 18:30:57.750433+00', '2026-01-08 06:50:36.965953+00', NULL),
+	(16, '9739d779-bed1-405e-a9a8-49827898b755', 4, '有志企画展示', '生徒有志が自主的に立案した展示企画', '2026-01-01 18:30:57.750433+00', '2026-01-08 06:50:39.330486+00', NULL),
+	(30, 'b957ea7f-36ae-4b39-81c7-d88909cdd7b4', 6, 'スピーチ', '多種多様な慶祥生の声をお届け', '2026-01-07 19:58:49.895134+00', '2026-01-08 06:51:06.849722+00', NULL),
+	(31, '35053312-23b5-4dbe-afbf-bc713a1fd765', 5, '高校海外研修', '世界9か国の研修先で見た世界のリアル', '2026-01-19 15:22:31.146898+00', '2026-01-19 15:22:31.146898+00', NULL),
+	(17, '9156b030-368e-423b-b772-b14f4219f7ae', 4, '部活動発表', '部活動単位での活動紹介および作品展示', '2026-01-01 18:30:57.750433+00', '2026-01-08 06:50:41.546671+00', NULL),
+	(18, '8c501704-d708-4cd8-9648-679da40ccebd', 2, 'REDTalks', '生徒による学校改革の提言プレゼン', '2026-01-01 18:30:57.750433+00', '2026-01-08 06:50:44.870616+00', NULL),
+	(22, '9b18010f-16f1-4979-b484-1acce8a1ba7e', 2, 'Rits Gallery', '美術部員によるアートギャラリー', '2026-01-07 18:05:46.313147+00', '2026-01-08 06:50:47.692898+00', NULL),
+	(23, '189a2d16-429b-48bb-b887-aee124b276c9', 2, '留学報告', '留学プログラム参加者による体験談', '2026-01-07 18:05:46.313147+00', '2026-01-08 06:50:50.41709+00', NULL),
+	(24, 'a528819e-5f4a-4ab2-82fb-3e7379b92c9c', 2, '課題研究', '授業を超えて研究を突き詰めた生徒の研究報告', '2026-01-07 18:05:46.313147+00', '2026-01-08 06:50:52.614359+00', NULL),
+	(25, '20272c9c-1bbe-406e-960e-f40aa297d510', 2, 'C-Rits', '文系分野における課題探究活動の報告', '2026-01-07 18:05:46.313147+00', '2026-01-08 06:50:55.193033+00', NULL),
+	(32, '5b608d6c-6a7d-4d9a-adc5-6affd02ada4d', 5, '中学研修報告', '異なる文化と価値観に出会った学びの報告', '2026-01-19 15:22:31.146898+00', '2026-01-19 15:22:31.146898+00', NULL),
+	(33, 'dd9c1bad-1315-43a3-b3fe-89029dbce7ec', 2, 'APU国際交流', '結MUSUBU', '2026-01-19 15:22:31.146898+00', '2026-01-19 15:22:31.146898+00', NULL),
+	(1, 'f75eefbd-343e-4b52-b1c9-5b806e5bfe43', 8, 'バンド', '生徒有志バンドによる演奏発表ステージ', '2026-01-01 18:30:57.750433+00', '2026-01-21 19:18:37.949431+00', NULL),
+	(2, '257e8c21-4fe9-495b-b425-afbae55d5fca', 8, 'ダンス', '生徒有志チームによるダンスステージ', '2026-01-01 18:30:57.750433+00', '2026-01-21 19:18:45.568588+00', NULL),
+	(3, '311a8d9e-4e88-4626-9c9a-cca27bf8ddb3', 8, 'ミュージック', 'バンドやクラシックなど音を楽しむ企画', '2026-01-01 18:30:57.750433+00', '2026-01-21 19:18:47.521031+00', NULL),
+	(6, '6d59dc8b-39fc-4000-b4da-80fc02e15cc3', 8, 'サイエンス', '理数分野における研究発表および展示', '2026-01-01 18:30:57.750433+00', '2026-01-21 19:18:51.447208+00', NULL),
+	(9, '06ff328c-a9c8-4dde-ad02-f9ecd4fb1d9b', 8, '海外', '世界で学んだ生徒たちのリアルな体験記', '2026-01-01 18:30:57.750433+00', '2026-01-21 19:18:55.282134+00', NULL),
+	(11, '425ee6fb-b0e1-42e1-a501-fe1130fe99bc', 7, '協賛企業', '協賛企業によるブース出展および講演', '2026-01-01 18:30:57.750433+00', '2026-01-21 19:18:57.35196+00', NULL),
+	(12, 'e387eaa8-8ed2-4da1-9daa-d9d9d839b113', 7, '立命館附属校', '立命館附属校生徒による研究発表', '2026-01-01 18:30:57.750433+00', '2026-01-21 19:19:00.981665+00', NULL),
+	(14, '502239cb-26a5-4c03-b4c8-942eb67e7b18', 6, '講演会', 'その道のプロが語る未来へのヒント', '2026-01-01 18:30:57.750433+00', '2026-01-21 19:19:11.386727+00', NULL);
+
+
+--
+-- Data for Name: events_tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."events_tags" ("event_tag_id", "event_id", "tag_id", "display_order", "created_at", "updated_at", "deleted_at") VALUES
+	(673, 328, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(685, 330, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(686, 330, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(687, 331, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(688, 331, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(689, 331, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(690, 331, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(691, 332, 1, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(692, 332, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(693, 332, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(694, 332, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(696, 333, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(697, 333, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(698, 333, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(699, 333, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(700, 334, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(701, 334, 15, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(702, 334, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(703, 334, 24, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(704, 334, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(705, 334, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(706, 334, 29, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(707, 335, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(708, 335, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(709, 335, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(710, 335, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(711, 336, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(712, 336, 17, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(713, 336, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(714, 337, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(715, 337, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(716, 337, 17, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(717, 337, 22, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(718, 337, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(719, 337, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(720, 338, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(721, 338, 17, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(722, 338, 29, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(723, 339, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(724, 339, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(725, 339, 10, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(726, 339, 15, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(727, 339, 25, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(728, 339, 29, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(729, 340, 1, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(730, 340, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(731, 340, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(732, 340, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(733, 341, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(734, 341, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(735, 341, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(736, 342, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(737, 342, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(738, 342, 24, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(739, 342, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(740, 343, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(741, 343, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(742, 343, 18, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(743, 343, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(744, 343, 30, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(745, 344, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(746, 344, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(747, 344, 10, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(748, 344, 15, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(749, 344, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(750, 345, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(751, 345, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(752, 345, 10, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(753, 345, 15, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(754, 345, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(755, 346, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(756, 346, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(757, 346, 18, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(758, 346, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(759, 346, 30, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(760, 347, 2, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(761, 347, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(762, 347, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(763, 347, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(764, 348, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(765, 348, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(766, 348, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(767, 349, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(768, 349, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(769, 349, 10, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(770, 349, 15, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(771, 349, 25, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(772, 349, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(773, 349, 29, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(774, 351, 2, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(775, 351, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(776, 351, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(777, 351, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(778, 352, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(779, 352, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(780, 352, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(781, 352, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(782, 353, 2, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(783, 353, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(784, 353, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(785, 353, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(786, 354, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(787, 354, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(788, 354, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(789, 355, 2, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(790, 355, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(791, 355, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(792, 355, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(793, 355, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(794, 356, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(795, 356, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(796, 356, 9, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(797, 356, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(798, 356, 23, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(799, 356, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(800, 357, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(801, 357, 15, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(802, 357, 24, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(803, 357, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(804, 358, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(805, 358, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(806, 358, 9, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(807, 358, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(808, 358, 23, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(809, 358, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(810, 359, 2, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(811, 359, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(812, 359, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(813, 359, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(814, 360, 1, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(815, 360, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(816, 360, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(817, 360, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(818, 361, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(819, 361, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(820, 361, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(821, 361, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(822, 362, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(823, 362, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(824, 362, 10, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(825, 362, 15, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(826, 362, 25, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(827, 362, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(828, 362, 29, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(829, 363, 2, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(830, 363, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(831, 363, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(832, 363, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(833, 364, 1, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(834, 364, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(835, 364, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(836, 364, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(837, 365, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(838, 365, 17, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(839, 365, 29, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(840, 366, 5, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(841, 366, 17, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(842, 366, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(843, 367, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(844, 367, 17, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(845, 367, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(846, 367, 30, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(847, 368, 1, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(848, 368, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(849, 368, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(850, 368, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(851, 369, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(852, 369, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(853, 369, 17, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(854, 369, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(855, 369, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(856, 370, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(857, 370, 18, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(858, 370, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(859, 370, 30, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(860, 1001, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(861, 1001, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(862, 1001, 11, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(863, 1001, 14, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(864, 1001, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(865, 1001, 30, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(866, 1002, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(867, 1002, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(868, 1002, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(869, 1002, 11, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(870, 1002, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(871, 1003, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(872, 1003, 11, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(873, 1003, 29, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(874, 1004, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(875, 1004, 12, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(876, 1004, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(674, 328, 8, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(675, 328, 9, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(676, 328, 15, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(677, 328, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(678, 328, 29, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(679, 329, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(680, 329, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(681, 329, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(682, 329, 27, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(683, 330, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(684, 330, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(695, 333, 1, 0, '2026-01-08 06:41:19.910467+00', '2026-01-11 16:32:05.688881+00', '2026-01-11 16:32:04+00'),
+	(976, 374, 13, 0, '2026-01-19 15:45:36.467818+00', '2026-01-19 15:45:36.467818+00', NULL),
+	(979, 377, 13, 0, '2026-01-19 15:46:09.692467+00', '2026-01-19 15:46:09.692467+00', NULL),
+	(977, 375, 13, 0, '2026-01-19 15:45:46.463797+00', '2026-01-19 15:45:46.463797+00', NULL),
+	(950, 371, 7, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(951, 371, 8, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(952, 371, 9, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(953, 371, 27, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(954, 372, 6, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(955, 372, 14, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(956, 372, 27, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(957, 372, 30, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(958, 373, 14, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(959, 373, 29, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(960, 373, 30, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(961, 374, 9, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(962, 374, 27, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(963, 374, 33, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(964, 375, 9, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(965, 375, 27, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(966, 375, 33, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(967, 376, 9, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(968, 376, 27, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(969, 376, 33, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(970, 377, 9, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(877, 1004, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(878, 1005, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(879, 1005, 12, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(880, 1005, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(881, 1005, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(882, 1006, 6, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(883, 1006, 12, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(884, 1006, 16, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(885, 1006, 28, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(886, 1007, 2, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(887, 1007, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(888, 1007, 13, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(889, 1007, 17, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(890, 1007, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(891, 1008, 2, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(892, 1008, 3, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(893, 1008, 4, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(894, 1008, 7, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(895, 1008, 11, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(896, 1008, 26, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(897, 1008, 29, 0, '2026-01-08 06:41:19.910467+00', '2026-01-19 04:31:13.020491+00', NULL),
+	(971, 377, 27, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(972, 377, 33, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(973, 378, 8, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(974, 378, 10, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(975, 378, 27, 0, '2026-01-19 15:33:37.471764+00', '2026-01-19 15:33:37.471764+00', NULL),
+	(978, 376, 13, 0, '2026-01-19 15:45:58.57758+00', '2026-01-19 15:45:58.57758+00', NULL);
+
+
+--
+-- Data for Name: venues; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."venues" ("venue_id", "venue_public_id", "display_order", "name", "icon", "capacity", "floor", "map_latitude", "map_longitude", "is_primary", "operational_status", "congestion_status", "entry_type", "created_at", "updated_at", "deleted_at") VALUES
+	(15, '3988feda-a7f6-4007-91ea-96fa874b2feb', 0, 'ブース', 'https://picsum.photos/512/512?random=venue_o15', NULL, 1, 43.056842110093626, 141.38858871024067, false, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-14 03:19:51.185882+00', NULL),
+	(12, '183d6361-e56c-4213-a3e0-823776ec1585', 16, 'エントランスホール', 'https://picsum.photos/512/512?random=venue_o7', NULL, 1, 43.05660294430197, 141.3881092779106, true, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-21 06:55:17.670233+00', NULL),
+	(1, '62666db5-714b-48d2-8698-5840acead943', 1, '104・105', 'https://picsum.photos/512/512?random=venue_p1', 160, 1, 43.05750632965534, 141.38902437056652, true, '準備中', '制限中', '整理券配布', '2026-01-01 18:30:57.750433+00', '2026-01-16 04:56:10.325871+00', NULL),
+	(4, '502fc671-2f34-4732-9ad7-0afeff149144', 4, '202', 'https://picsum.photos/512/512?random=venue_p4', 80, 2, 43.05722574147469, 141.38917861178382, true, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-16 05:31:00.987715+00', NULL),
+	(2, 'ba2cd53d-56a0-4559-9467-644d253656ce', 2, '107・108', 'https://picsum.photos/512/512?random=venue_p2', 360, 1, 43.05742597753693, 141.38942133748958, true, '準備中', '制限中', '予約制', '2026-01-01 18:30:57.750433+00', '2026-01-16 04:57:04.031435+00', NULL),
+	(17, '12791047-9965-4406-8980-c78692037d1e', 0, 'ブース_1', NULL, 10, 1, 43.05684889225286, 141.3883162193307, false, '準備中', '制限中', '自由入場', '2026-01-16 05:34:22.171228+00', '2026-01-21 03:51:36.368354+00', '2026-01-21 03:51:35+00'),
+	(18, 'f235952c-25fd-4836-befd-72e27723a992', 0, 'ブース_2', NULL, 10, 1, 43.05687207547679, 141.3883461347137, false, '準備中', '制限中', '自由入場', '2026-01-16 05:36:28.469009+00', '2026-01-21 03:51:39.524828+00', '2026-01-21 03:51:38+00'),
+	(19, '9ec1390c-680d-4f99-b0b0-aca5003fb9b7', 0, 'ブース_3', NULL, 10, 1, 43.056888634917065, 141.3883651717756, false, '準備中', '制限中', '自由入場', '2026-01-16 05:37:24.219532+00', '2026-01-21 03:51:43.215016+00', '2026-01-21 03:51:42+00'),
+	(5, '37a18965-675a-4ae6-a1a0-274fee361915', 5, '204', 'https://picsum.photos/512/512?random=venue_p5', 320, 2, 43.057360272318626, 141.38886846360302, true, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-16 05:24:05.473671+00', NULL),
+	(14, '8b4fb77d-6bdf-4d72-a55c-9e93ed5380c7', 0, 'トイレ', 'https://picsum.photos/512/512?random=venue_o14', NULL, 1, 43.05698558970861, 141.3882940368591, false, '準備中', '混雑', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-16 04:50:31.179505+00', NULL),
+	(3, 'f9dcef6e-f4e7-4aa8-a092-5d31fbf3c32d', 3, '201', 'https://picsum.photos/512/512?random=venue_p3', 80, 2, 43.057152156291494, 141.38926343557657, true, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-16 05:32:21.988301+00', NULL),
+	(20, '1e67949c-85a4-46d1-b35f-9104733ef9d5', 0, 'ブース_4', NULL, 10, 1, 43.056899232956496, 141.3883887414713, false, '準備中', '制限中', '自由入場', '2026-01-16 05:38:06.101445+00', '2026-01-21 03:51:45.889917+00', '2026-01-21 03:51:45+00'),
+	(21, '7ea2629c-e155-4b9d-8d1f-94d583c11123', 0, 'ブース_5', NULL, 10, 1, 43.0569191042755, 141.38841684380074, false, '準備中', '制限中', '自由入場', '2026-01-16 05:38:44.405959+00', '2026-01-21 03:51:50.805239+00', '2026-01-21 03:51:47+00'),
+	(22, 'cc1f0451-9bb5-48b6-a553-00322aa1bb65', 0, 'ブース_6', NULL, 10, 1, 43.05693667092179, 141.38844249989583, false, '準備中', '制限中', '自由入場', '2026-01-16 05:39:26.113359+00', '2026-01-21 03:51:51.49447+00', '2026-01-21 03:51:50+00'),
+	(6, 'bf917e24-4075-45f3-9db1-4f0bb99c9200', 6, '206', 'https://picsum.photos/512/512?random=venue_o6', 150, 2, 43.057455529405516, 141.3893858124184, true, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-16 05:26:14.071398+00', NULL),
+	(7, '7a450832-f172-49bc-870c-87dfd6b1e063', 7, '207', 'https://picsum.photos/512/512?random=venue_o2', 180, 2, 43.057392325561516, 141.38948773635812, true, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-16 05:28:33.294212+00', NULL),
+	(13, '8e4fad14-d07d-40a8-afa5-2696ec50820f', 13, 'その他', 'https://picsum.photos/512/512?random=venue_o8', NULL, 1, 43.056972416537434, 141.3894288271591, false, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-14 03:19:45.85307+00', NULL),
+	(16, '976efc40-931e-44a1-8cf3-5248f13163fa', 0, '和室', 'https://picsum.photos/512/512?random=venue_o16', 30, 2, 43.05742662222921, 141.3896801848555, false, '準備中', '制限中', '自由入場', '2026-01-14 07:59:52.904047+00', '2026-01-16 05:29:36.289427+00', NULL),
+	(23, 'a8a00df2-567d-4e33-ae5e-5d5587fd45fd', 0, 'ブース_7', NULL, 10, 1, 43.0569660937522, 141.38848665112263, false, '準備中', '制限中', '自由入場', '2026-01-16 05:40:14.347827+00', '2026-01-21 03:51:53.957396+00', '2026-01-21 03:51:53+00'),
+	(24, '10ea8e8e-bd99-418f-84bb-60628c714de5', 0, 'ブース_8', NULL, 10, 1, 43.05698958075025, 141.38851427055224, false, '準備中', '制限中', '自由入場', '2026-01-16 05:43:21.291346+00', '2026-01-21 03:51:56.336359+00', '2026-01-21 03:51:55+00'),
+	(25, '08af9e04-6afd-4c92-a271-bb756bc501de', 0, 'ブース_9', NULL, 10, 1, 43.057014634835014, 141.38855541042213, false, '準備中', '制限中', '自由入場', '2026-01-16 05:44:35.723405+00', '2026-01-21 03:51:58.498859+00', '2026-01-21 03:51:57+00'),
+	(26, '602cdaca-5a74-4aa4-a998-60e64da1521a', 0, 'ブース_10', '', 10, 1, 43.057027797713566, 141.38857599864218, false, '準備中', '制限中', '自由入場', '2026-01-16 05:53:42.534558+00', '2026-01-21 03:52:03.26156+00', '2026-01-21 03:52:02+00'),
+	(8, '6af94eb4-4bdf-4fe0-b074-7226b80589ff', 20, '大ホール', 'https://picsum.photos/512/512?random=venue_o3', 1500, 1, 43.05711395040694, 141.38795582941512, true, '公開中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-21 06:55:07.167837+00', NULL),
+	(9, '242328b4-06dd-4110-ba12-a4586e6ffeae', 19, '中ホール', 'https://picsum.photos/512/512?random=venue_o9', 200, 1, 43.05702568964931, 141.3890801852611, true, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-21 06:55:09.377217+00', NULL),
+	(10, 'f5dd725b-dec7-4659-9f75-527ed403b524', 18, '小ホール', 'https://picsum.photos/512/512?random=venue_o5', 180, 2, 43.057243715024455, 141.38869445886695, true, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-21 06:55:11.867767+00', NULL),
+	(11, '2ab74f90-c8b2-4994-8496-0da045ff31a9', 17, '特別会議場', 'https://picsum.photos/512/512?random=venue_o6', 250, 1, 43.05653997922516, 141.3885532112061, true, '準備中', '制限中', '自由入場', '2026-01-01 18:30:57.750433+00', '2026-01-21 06:55:15.087137+00', NULL);
+
+
+--
+-- Data for Name: events_venues; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."events_venues" ("event_venue_id", "event_id", "venue_id", "display_order", "created_at", "updated_at", "deleted_at") VALUES
+	(370, 328, 12, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(371, 329, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(372, 330, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(373, 331, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(374, 332, 8, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(375, 333, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(376, 334, 5, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(377, 335, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(378, 336, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(379, 337, 2, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(380, 338, 5, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(381, 339, 12, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(382, 340, 8, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(383, 341, 12, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(384, 342, 5, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(385, 343, 10, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(386, 344, 4, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(387, 345, 4, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(388, 346, 10, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(389, 347, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(390, 348, 7, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(391, 349, 7, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(392, 351, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(393, 352, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(394, 353, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(395, 354, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(396, 355, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(397, 356, 4, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(398, 357, 5, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(399, 358, 4, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(400, 359, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(401, 360, 12, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(402, 361, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(403, 362, 7, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(404, 363, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(405, 364, 8, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(407, 366, 11, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(408, 367, 10, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(409, 368, 8, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(410, 369, 2, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(411, 370, 10, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(412, 1001, 10, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(413, 1002, 9, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(414, 1003, 12, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(415, 1004, 8, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(416, 1005, 8, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(417, 1006, 1, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(418, 1007, 8, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(419, 1008, 8, 0, '2026-01-08 06:45:06.830245+00', '2026-01-08 06:45:06.830245+00', NULL),
+	(406, 365, 16, 0, '2026-01-08 06:45:06.830245+00', '2026-01-14 08:01:59.701174+00', NULL),
+	(420, 371, 4, 0, '2026-01-19 15:36:36.315285+00', '2026-01-19 15:36:36.315285+00', NULL),
+	(421, 372, 5, 0, '2026-01-19 15:36:36.315285+00', '2026-01-19 15:36:36.315285+00', NULL),
+	(422, 373, 10, 0, '2026-01-19 15:36:36.315285+00', '2026-01-19 15:36:36.315285+00', NULL),
+	(423, 374, 3, 0, '2026-01-19 15:36:36.315285+00', '2026-01-19 15:36:36.315285+00', NULL),
+	(424, 375, 3, 0, '2026-01-19 15:36:36.315285+00', '2026-01-19 15:36:36.315285+00', NULL),
+	(425, 376, 3, 0, '2026-01-19 15:36:36.315285+00', '2026-01-19 15:36:36.315285+00', NULL),
+	(426, 377, 3, 0, '2026-01-19 15:36:36.315285+00', '2026-01-19 15:36:36.315285+00', NULL),
+	(427, 378, 1, 0, '2026-01-19 15:36:36.315285+00', '2026-01-19 15:36:36.315285+00', NULL);
+
+
+--
+-- Data for Name: features; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."features" ("feature_id", "feature_public_id", "display_order", "name", "caption", "note", "image", "event_id", "created_at", "updated_at", "deleted_at") VALUES
+	(1, '355d1d54-b224-4c2c-a249-2631eff8bf71', 1, '北昴×慶祥 よさこいコラボステージ', 'YOSAKOIソーラン祭りで活躍する実力派チーム「北昴」が、慶祥生徒との大迫力コラボステージを披露します。', '詳細をチェック。', '/features/1.jpg', NULL, '2026-01-01 18:30:57.750433+00', '2026-01-10 08:32:17.69582+00', NULL),
+	(2, 'd93cc066-7c39-46b7-acd3-f7d4a91b01d7', 2, '海外研修発表', '国境を越え、価値観を揺さぶる旅へ。慶祥生が世界各地で学んだ研修の成果を発表します', '詳細をチェック。', '/features/2.jpg', NULL, '2026-01-01 18:30:57.750433+00', '2026-01-10 08:32:35.017753+00', NULL),
+	(3, '696e1251-90eb-4aef-bfdc-c973d503eabc', 0, '芸術発表', '教室では見せない、もう一つの顔。研ぎ澄まされたピアノやバイオリンの音色をお楽しみください', '詳細をチェック。', '/features/3.jpg', NULL, '2026-01-10 08:32:59.766313+00', '2026-01-10 08:33:14.688675+00', NULL);
+
+
+--
+-- Data for Name: foods; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."foods" ("food_id", "food_public_id", "display_order", "name", "description", "min_price", "max_price", "minutes", "distance", "address", "website", "created_at", "updated_at", "deleted_at") VALUES
+	(1, '5bb18eae-4b60-4637-9e8b-7ebd13a8d2ce', 0, '華馨園', '本場中国の料理人が作る本格的な中華料理店です。リーズナブルな価格とボリュームが魅力で、麻婆豆腐や広東麺、豊富な種類のチャーハンが人気です。', 1000, 2500, 10, 700, '〒003-0006北海道札幌市白石区東札幌6条3丁目1-20ターバンドレスビル 1F', 'https://maps.google.com/maps/place/%E8%8F%AF%E9%A6%A8%E5%9C%92/data=!4m2!3m1!1s0x5f0b2bc527f41a6b:0x1da4e7dae8b70910?sa=X&ved=1t:242&hl=ja-jp&ictx=111', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(2, '315ef1b4-2747-42ce-8c74-538c8f7bad44', 0, 'ハーベストムーン', 'アメリカンスタイルでジャズの流れる隠れ家的なカフェです。ボリューム満点のハンバーガーやパスタ、自家製スイーツが人気で、テイクアウトも可能です。', 1000, 2000, 18, 1300, '〒003-0002北海道札幌市白石区東札幌2条4丁目6-4 マキシムコート 1階', 'https://www.google.com/maps/place/%E3%83%8F%E3%83%BC%E3%83%99%E3%82%B9%E3%83%88%E3%83%A0%E3%83%BC%E3%83%B3(Harvest+Moon)/@43.0483071,141.38794,17z/data=!3m1!4b1!4m6!3m5!1s0x5f0b2bcea1e5e42b:0x5bd778300b8b8227!8m2!3d43.0483071!4d141.38794!16s%2Fg%2F1wc47s1z', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(3, '76aea08a-0aae-4276-a3db-7ba0f81bfc4d', 0, 'KANON PANCAKES', '北海道産米粉100%にこだわったふわふわのパンケーキ専門店です。オーダー後にメレンゲを立て、低温で丁寧に焼き上げるのが特徴です。', 500, 1500, 11, 750, '〒003-0803北海道札幌市白石区菊水3条5丁目5-18', 'https://www.google.com/maps/place/KANON+PANCAKES/@43.0523732,141.3794338,15.82z/data=!4m6!3m5!1s0x5f0b2bd140633385:0xb4baf389f82d802c!8m2!3d43.053667!4d141.3812822!16s%2Fg%2F12hpjljy1', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(4, 'fd50acfc-a44a-4ecc-8b3d-88b5a51efe13', 0, '炭焼ステーキ　ビーフインパクト　白石中央店', '肉を量り売りで提供する炭焼きステーキ専門店です。ボリュームとコスパが魅力で、好みの部位と量を決めて注文できるのが特徴です。', 2500, 3500, 12, 850, '〒003-0012北海道札幌市白石区中央2条3丁目7-1', 'https://www.google.com/maps/place/%E7%82%AD%E7%84%BC%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD+%E3%83%93%E3%83%BC%E3%83%95%E3%82%A4%E3%83%B3%E3%83%91%E3%82%AF%E3%83%88+%E7%99%BD%E7%9F%B3%E4%B8%AD%E5%A4%AE%E5%BA%97/@43.056928,141.3852062,15.42z/data=!4m6!3m5!1s0x5f0b2b0ccefbd1c5:0x62c958024179b177!8m2!3d43.0565647!4d141.3962689!16s%2Fg%2F11j3r94q9k', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(5, '94424245-c65c-4304-81b8-a406f3be564b', 0, '札幌スープカレー専門店エスパーイトウ　白石中央店', '地元で人気の札幌スープカレー専門店です。鶏ガラと豚骨ベースの濃厚でコク深いスープが特徴で、具材の旨味が引き立っています。', 1500, 2500, 17, 1200, '〒001-0022北海道札幌市北区北22条西5丁目2-32 松井ビル 1F', 'https://www.google.com/maps/place/%E6%9C%AD%E5%B9%8C%E3%82%B9%E3%83%BC%E3%83%97%E3%82%AB%E3%83%AC%E3%83%BC%E5%B0%82%E9%96%80%E5%BA%97%E3%82%A8%E3%82%B9%E3%83%91%E3%83%BC%E3%82%A4%E3%83%88%E3%82%A6+%E7%99%BD%E7%9F%B3%E4%B8%AD%E5%A4%AE%E5%BA%97/@43.0548841,141.3966537,16z/data=!3m1!4b1!4m6!3m5!1s0x5f0b2bc31218e1e7:0xdbfaaf9fccb58ba0!8m2!3d43.0548841!4d141.3992286!16s%2Fg%2F11f2p7m0g4', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(6, '1a298900-a9dc-4b75-bd21-74dc5b12dd69', 0, 'MAMECO', '北海道産のおからをメインに使ったソイマフィン（おからマフィン）の専門店です。しっとりもちもちした食感と、ヘルシーで罪悪感なく食べられるのが人気です。', 500, 1500, 17, 1200, '〒003-0002北海道札幌市白石区東札幌2条3丁目4-3', 'https://www.google.com/maps/place/MAMECO+(%E3%83%9E%E3%83%A1%E3%82%B3)/@43.0501752,141.3820793,16z/data=!3m1!4b1!4m6!3m5!1s0x5f0b2bce084b9e23:0x49060f360b70eb51!8m2!3d43.0501752!4d141.3846542!16s%2Fg%2F11dymtwtx_', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(7, '3b009956-67e0-4980-8018-d64beed24ef9', 0, 'Little Fort Coffee', '自家焙煎のスペシャルティコーヒーを提供する隠れ家的なカフェです。木を基調とした温かい店内で、豆の個性を活かした一杯が楽しめます。', 500, 1500, 17, 1200, '〒003-0002 北海道札幌市白石区東札幌2条3丁目4-3', 'https://www.google.com/maps/place/Little+Fort+Coffee/@43.0502034,141.3821155,16z/data=!3m1!4b1!4m6!3m5!1s0x5f0b2bce09ae49e3:0x600be72ad531be15!8m2!3d43.0502034!4d141.3846904!16s%2Fg%2F11bbx2t2r2', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(8, 'b180347f-664a-4ec8-b344-ebffcae1ba4b', 0, '餃子の王将', '手頃な価格で餃子やラーメン、定食などを食べれます。特に安くて美味しい焼き餃子が看板メニューとして大人気です。', 1000, 2000, 14, 1000, '〒003-0011 北海道札幌市白石区中央1条4丁目3-43', 'https://www.google.com/maps/place/%E9%A4%83%E5%AD%90%E3%81%AE%E7%8E%8B%E5%B0%86+%E7%99%BD%E7%9F%B3%E4%B8%AD%E5%A4%AE%E5%BA%97/@43.0556911,141.3943425,16z/data=!3m1!4b1!4m6!3m5!1s0x5f0b2bc34b6aae03:0x75c27312dc5f47d5!8m2!3d43.0556911!4d141.3969174!16s%2Fg%2F1hf6jrgzn', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(9, '6bf22ac3-8edd-405c-b556-45e1051a6139', 0, '海鮮組　東札幌店', '新鮮な北海道産の魚介をリーズナブルに楽しめる海鮮居酒屋です。刺身や寿司、焼き物など、旬の味を活気ある雰囲気の中で堪能できます。', 3500, 4500, 11, 750, '〒003-0003北海道札幌市白石区東札幌3条2丁目1-57東札幌ハイツ 1F', 'https://www.google.com/maps/place/%E6%B5%B7%E9%AE%AE%E7%B5%84+%E6%9D%B1%E6%9C%AD%E5%B9%8C%E5%BA%97/@43.051767,141.3827442,16z/data=!3m2!4b1!5s0x5f0b2bd1dacf2b99:0x45707283291f43a4!4m6!3m5!1s0x5f0b2bd1dae8cb75:0x83d17b5f0e62009b!8m2!3d43.051767!4d141.3853191!16s%2Fg%2F11hc9pcsrh', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(10, 'af119004-01f2-43ef-bb61-0a06439d7587', 0, 'コメダ珈琲店　東札幌5条店', '広々とした空間でくつろぎながら、ボリューム満点の喫茶メニューを楽しめる人気カフェチェーンです。さらに、名物シロノワールは一度食べたら忘れられない逸品です。', 1000, 2000, 15, 1100, '〒003-0005 北海道 札幌市 白石区東札幌5条1丁目3番1号', 'https://www.google.com/maps/place/%E3%82%B3%E3%83%A1%E3%83%80%E7%8F%88%E7%90%B2%E5%BA%97+%E6%9D%B1%E6%9C%AD%E5%B9%8C%EF%BC%95%E6%9D%A1%E5%BA%97/@43.0554295,141.3836326,16z/data=!3m1!4b1!4m6!3m5!1s0x5f0b2bda74ba1b6d:0x5b32f8facb8462b!8m2!3d43.0554295!4d141.3862075!16s%2Fg%2F11c0qs43l9', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(11, '9d398422-854a-4864-8264-4cd0e4d085e0', 0, 'テラスレストラン　SORA', '生徒利用不可。来賓者、企業の方のみ利用可能。種類豊富なメニューが魅力のバイキング形式のレストランです。旬の食材を使った和洋中を、明るく開放的な空間で楽しめます。', 1500, 2500, 8, 550, '〒003-0006 北海道 札幌市 白石区東札幌六条1-1-1 札幌コンベンションセンター内', 'https://www.google.com/maps/place/%E3%80%92003-0006+%E5%8C%97%E6%B5%B7%E9%81%93%E6%9C%AD%E5%B9%8C%E5%B8%82%E7%99%BD%E7%9F%B3%E5%8C%BA%E6%9D%B1%E6%9C%AD%E5%B9%8C%EF%BC%96%E6%9D%A1%EF%BC%91%E4%B8%81%E7%9B%AE%EF%BC%91%E2%88%92%EF%BC%92%EF%BC%96+%E3%82%B3%E3%83%B3%E3%83%99%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC/@43.0574572,141.3844337,16z/data=!3m1!4b1!4m6!3m5!1s0x5f0b2bd983d4bea7:0x933ada01e5d68ee5!8m2!3d43.0574572!4d141.3870086!16s%2Fg%2F11cpqfwhh5', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(12, '5cb0ea71-7563-4ba6-8691-3fc1aa4e619a', 0, '中華そば　カルフォルニア', '煮干しをベースにした澄んだスープが特徴のネオ中華そば専門店です。あっさりながらコク深い、洗練された一杯が人気を集めています。', 1000, 2000, 13, 900, '〒003-0803 北海道札幌市白石区菊水３条４丁目４−６ ビバ菊水 1F', 'https://www.google.com/maps/place/%E4%B8%AD%E8%8F%AF%E3%81%9D%E3%81%B0+%E3%82%AB%E3%83%AA%E3%83%95%E3%82%A9%E3%83%AB%E3%83%8B%E3%82%A2/@43.0543264,141.361916,15z/data=!4m6!3m5!1s0x5f0b2b53a6d72b9f:0x13b986253766354!8m2!3d43.0543264!4d141.3768994!16s%2Fg%2F11ny4pq1y9', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(13, '54b03efc-dc20-4bfc-86df-889e411dd53d', 0, '麺屋　おざわ', '地元で人気の札幌味噌ラーメン専門店です。中華鍋で炒めた野菜と味噌の風味が豊かな濃厚な豚骨スープが、太めのちぢれ麺によく絡みます。', 1000, 2000, 15, 1100, '〒003-0806 北海道札幌市白石区菊水６条３丁目１−２２ I''Sコート 1F ', 'https://www.google.com/maps/place/%E9%BA%BA%E5%B1%8B+%E3%81%8A%E3%81%96%E3%82%8F/@43.0571526,141.376209,16z/data=!3m1!4b1!4m6!3m5!1s0x5f0b2bd7b1a518ed:0xeeb353cf37e7b6fc!8m2!3d43.0571526!4d141.3787839!16s%2Fg%2F12qh1599z', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(14, '08c21572-adbd-49da-bcae-f60a28ccc87d', 0, 'らーめんさいとう', '昔ながらの製法にこだわる人気店です。豚骨と魚介の旨味を活かした透き通ったスープが特徴で、塩ラーメンや中華そばが特に人気です。', 1000, 2000, 14, 1000, '〒003-0011 北海道札幌市白石区中央１条６丁目９−１ 成晃ハイツ', 'https://www.google.com/maps/place/%E3%82%89%E3%83%BC%E3%82%81%E3%82%93+%E3%81%95%E3%81%84%E3%81%A8%E3%81%86/@43.0506759,141.3963175,16z/data=!3m1!4b1!4m6!3m5!1s0x5f0b2bc68f7b6ef1:0xde2265508d58d770!8m2!3d43.0506759!4d141.3988924!16s%2Fg%2F11ddww5d0q', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(15, '2cfee77f-2b08-4239-a765-820e9c522c95', 0, 'びっくりドンキー　白石中央店', '全国展開するハンバーグレストランです。木製ディッシュで提供されるジューシーなハンバーグと、遊び心あふれる個性的な内装が特徴です。', 2000, 3000, 17, 1200, '〒003-0012 北海道札幌市白石区中央２条６丁目１０−１', 'https://www.google.com/maps/place/%E3%81%B3%E3%81%A3%E3%81%8F%E3%82%8A%E3%83%89%E3%83%B3%E3%82%AD%E3%83%BC+%E7%99%BD%E7%9F%B3%E4%B8%AD%E5%A4%AE%E5%BA%97/@43.0531549,141.3985793,17z/data=!4m6!3m5!1s0x5f0b2bc3c7bac0a7:0xc6fcef3b2c55b065!8m2!3d43.0536817!4d141.4016829!16s%2Fg%2F1tf_h67_', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(16, '4dcadb63-8f33-4af4-9096-89f8149120fe', 0, 'くら寿司', '複合商業施設のためお昼は大変混雑が予想されます。全ての商品に四大添加物を使用しないチェーンの回転寿司店です。びっくらポン！というゲームシステムと、一皿115円（税込）からの手頃な価格で人気です。', 2500, 3500, 3, 240, '〒003-0004 北海道札幌市白石区東札幌４条１丁目１−１ラソラ札幌', 'https://www.google.com/maps/place/%E3%83%A9%E3%82%BD%E3%83%A9%E6%9C%AD%E5%B9%8C/@43.0553412,141.3820869,16z/data=!3m2!4b1!5s0x5f0b2bd0bd8b8ad7:0xcd2eaca23cad245a!4m6!3m5!1s0x5f0b2bd0e0eb3cbb:0xb0984265a156ba7b!8m2!3d43.0553412!4d141.3846618!16s%2Fg%2F120t40dl', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(17, '767920b4-aa2c-4530-ab53-a245c7b7c21d', 0, 'KFC', '複合商業施設のためお昼は大変混雑が予想されます。カーネル・サンダースが生み出した11種類のハーブ＆スパイスを使ったオリジナルチキンが看板メニューのフライドチキン専門店です。', 1000, 2000, 3, 240, '〒003-0004 北海道札幌市白石区東札幌４条１丁目１−１ラソラ札幌', 'https://www.google.com/maps/place/%E3%83%A9%E3%82%BD%E3%83%A9%E6%9C%AD%E5%B9%8C/@43.0553412,141.3820869,16z/data=!3m2!4b1!5s0x5f0b2bd0bd8b8ad7:0xcd2eaca23cad245a!4m6!3m5!1s0x5f0b2bd0e0eb3cbb:0xb0984265a156ba7b!8m2!3d43.0553412!4d141.3846618!16s%2Fg%2F120t40dl', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(18, '967e1d54-c57b-4304-a330-8bbe2fa3e76a', 0, 'サイゼリア', '複合商業施設のためお昼は大変混雑が予想されます。リーズナブルな価格で本格的なイタリア料理を提供するファミリーレストランです。名物ミラノ風ドリアやパスタ、ワインなどをドリンクバーと共に楽しめます。', 1000, 2000, 3, 240, '〒003-0004 北海道札幌市白石区東札幌４条１丁目１−１ラソラ札幌', 'https://www.google.com/maps/place/%E3%83%A9%E3%82%BD%E3%83%A9%E6%9C%AD%E5%B9%8C/@43.0553412,141.3820869,16z/data=!3m2!4b1!5s0x5f0b2bd0bd8b8ad7:0xcd2eaca23cad245a!4m6!3m5!1s0x5f0b2bd0e0eb3cbb:0xb0984265a156ba7b!8m2!3d43.0553412!4d141.3846618!16s%2Fg%2F120t40dl', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(19, 'e49988f3-b4c1-4ec9-a3d8-83fd27911313', 0, 'さかい珈琲', '複合商業施設のためお昼は大変混雑が予想されます。注文後に丁寧に淹れるハンドドリップコーヒーと、厚焼きのふわふわパンケーキが人気の喫茶店チェーンです。ゆったりとくつろげるソファ席が魅力です。', 1000, 2000, 3, 240, '〒003-0004 北海道札幌市白石区東札幌４条１丁目１−１ラソラ札幌', 'https://www.google.com/maps/place/%E3%83%A9%E3%82%BD%E3%83%A9%E6%9C%AD%E5%B9%8C/@43.0553412,141.3820869,16z/data=!3m2!4b1!5s0x5f0b2bd0bd8b8ad7:0xcd2eaca23cad245a!4m6!3m5!1s0x5f0b2bd0e0eb3cbb:0xb0984265a156ba7b!8m2!3d43.0553412!4d141.3846618!16s%2Fg%2F120t40dl', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(20, '177d8d21-cb6e-4894-ae26-f9f27668aa56', 0, '中華楼', '複合商業施設のためお昼は大変混雑が予想されます。昔ながらの懐かしい味わいが人気の町中華です。特に五目焼きそばやあんかけ焼きそば、シンプルなラーメンが地元で愛されています。', 1500, 2500, 3, 240, '〒003-0004 北海道札幌市白石区東札幌４条１丁目１−１ラソラ札幌', 'https://www.google.com/maps/place/%E3%83%A9%E3%82%BD%E3%83%A9%E6%9C%AD%E5%B9%8C/@43.0553412,141.3820869,16z/data=!3m2!4b1!5s0x5f0b2bd0bd8b8ad7:0xcd2eaca23cad245a!4m6!3m5!1s0x5f0b2bd0e0eb3cbb:0xb0984265a156ba7b!8m2!3d43.0553412!4d141.3846618!16s%2Fg%2F120t40dl', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(21, 'c310fb4b-1848-426d-a6de-3966e94da86f', 0, 'とんかつ和幸', '複合商業施設のためお昼は大変混雑が予想されます。サクサクの生パン粉とジューシーな豚肉にこだわるとんかつ専門店です。ご飯、味噌汁、キャベツがおかわり自由な定食セットが人気です。', 1000, 2000, 3, 240, '〒003-0004 北海道札幌市白石区東札幌４条１丁目１−１ラソラ札幌', 'https://www.google.com/maps/place/%E3%83%A9%E3%82%BD%E3%83%A9%E6%9C%AD%E5%B9%8C/@43.0553412,141.3820869,16z/data=!3m2!4b1!5s0x5f0b2bd0bd8b8ad7:0xcd2eaca23cad245a!4m6!3m5!1s0x5f0b2bd0e0eb3cbb:0xb0984265a156ba7b!8m2!3d43.0553412!4d141.3846618!16s%2Fg%2F120t40dl', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(22, 'aa397090-36bf-4aab-89ca-f78f51d34c7d', 0, '北海道純雪うどん', '複合商業施設のためお昼は大変混雑が予想されます。北海道産小麦を使い店内で打つ自家製うどんの専門店です。雪のように白く、つるつるとした喉ごしの良いうどんが人気を集めています。', 500, 1500, 3, 240, '〒003-0004 北海道札幌市白石区東札幌４条１丁目１−１ラソラ札幌', 'https://www.google.com/maps/place/%E3%83%A9%E3%82%BD%E3%83%A9%E6%9C%AD%E5%B9%8C/@43.0553412,141.3820869,16z/data=!3m2!4b1!5s0x5f0b2bd0bd8b8ad7:0xcd2eaca23cad245a!4m6!3m5!1s0x5f0b2bd0e0eb3cbb:0xb0984265a156ba7b!8m2!3d43.0553412!4d141.3846618!16s%2Fg%2F120t40dl', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(23, '5ccc6f48-4860-4d37-b57e-5c35363ae65e', 0, 'モスバーガー', '複合商業施設のためお昼は大変混雑が予想されます。注文を受けてから作り始める方式が特徴のハンバーガーチェーンです。国産の新鮮な野菜と、特製ミートソースを使った看板メニューが人気です。', 500, 1500, 3, 240, '〒003-0004 北海道札幌市白石区東札幌４条１丁目１−１ラソラ札幌', 'https://www.google.com/maps/place/%E3%83%A9%E3%82%BD%E3%83%A9%E6%9C%AD%E5%B9%8C/@43.0553412,141.3820869,16z/data=!3m2!4b1!5s0x5f0b2bd0bd8b8ad7:0xcd2eaca23cad245a!4m6!3m5!1s0x5f0b2bd0e0eb3cbb:0xb0984265a156ba7b!8m2!3d43.0553412!4d141.3846618!16s%2Fg%2F120t40dl', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(24, 'b355bff2-e88e-4ad6-8f87-f0cd1fe5da4d', 0, 'らぁめん銀波露', '複合商業施設のためお昼は大変混雑が予想されます。焦がし醤油の香ばしい風味が特徴の「ぱいくぅ麺」が看板メニューの人気店です。ラードを熱して加えることで、醤油スープにコクと深みを出しています。', 500, 1500, 3, 240, '〒003-0004 北海道札幌市白石区東札幌４条１丁目１−１ラソラ札幌', 'https://www.google.com/maps/place/%E3%83%A9%E3%82%BD%E3%83%A9%E6%9C%AD%E5%B9%8C/@43.0553412,141.3820869,16z/data=!3m2!4b1!5s0x5f0b2bd0bd8b8ad7:0xcd2eaca23cad245a!4m6!3m5!1s0x5f0b2bd0e0eb3cbb:0xb0984265a156ba7b!8m2!3d43.0553412!4d141.3846618!16s%2Fg%2F120t40dl', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(25, 'f043070c-877a-4940-843e-11c7179ce375', 0, 'ロッテリア', '複合商業施設のためお昼は大変混雑が予想されます。エビバーガーや絶品チーズバーガーなど、ユニークなメニューが特徴のハンバーガーチェーンです。定期的に発売される限定商品も人気を集めています。', 500, 1000, 7, 500, '〒03-0003 北海道札幌市白石区東札幌３条２丁目１−２０', 'https://www.google.com/maps/place/%E3%82%A4%E3%82%AA%E3%83%B3%E6%9D%B1%E6%9C%AD%E5%B9%8C%E5%BA%97/@43.0522268,141.3673777,15z/data=!3m1!5s0x5f0b2bd04ca961f9:0x102838f6f3f0225d!4m6!3m5!1s0x5f0b2bd04b31b3db:0x431dfaee198adeba!8m2!3d43.0522268!4d141.3854021!16s%2Fg%2F121ngnqy', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(26, 'd4a8f7d7-f3c8-4561-a06c-618a289f2a9f', 0, 'サーティーワンアイスクリーム', '複合商業施設のためお昼は大変混雑が予想されます。常に31種類のフレーバーが店頭に並ぶアイスクリーム専門店です。ひと月に31日、毎日違う味が楽しめる「楽しさ」を提供しています。', 400, 800, 7, 500, '〒03-0003 北海道札幌市白石区東札幌３条２丁目１−２０', 'https://www.google.com/maps/place/%E3%82%A4%E3%82%AA%E3%83%B3%E6%9D%B1%E6%9C%AD%E5%B9%8C%E5%BA%97/@43.0522268,141.3673777,15z/data=!3m1!5s0x5f0b2bd04ca961f9:0x102838f6f3f0225d!4m6!3m5!1s0x5f0b2bd04b31b3db:0x431dfaee198adeba!8m2!3d43.0522268!4d141.3854021!16s%2Fg%2F121ngnqy', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(27, 'bda5a9e7-c477-457c-bb33-c1dd414cbde2', 0, '楓漣', '複合商業施設のためお昼は大変混雑が予想されます。ボリューム満点の天丼セットと手頃な価格が魅力で、気軽に立ち寄れて、しっかり食べたいときにもぴったりなお店です。', 600, 1600, 7, 500, '〒03-0003 北海道札幌市白石区東札幌３条２丁目１−２０', 'https://www.google.com/maps/place/%E3%82%A4%E3%82%AA%E3%83%B3%E6%9D%B1%E6%9C%AD%E5%B9%8C%E5%BA%97/@43.0522268,141.3673777,15z/data=!3m1!5s0x5f0b2bd04ca961f9:0x102838f6f3f0225d!4m6!3m5!1s0x5f0b2bd04b31b3db:0x431dfaee198adeba!8m2!3d43.0522268!4d141.3854021!16s%2Fg%2F121ngnqy', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(28, 'a1f87940-e1e9-48c7-83c1-8029e4c355fd', 0, '福八', '複合商業施設のためお昼は大変混雑が予想されます。新鮮な鶏肉を炭火で丁寧に焼き上げる焼き鳥専門店です。一本一本手打ちの串と、特製つくねなどの一品料理が、お酒🍶と共に楽しめるお店です。', 800, 1200, 7, 500, '〒03-0003 北海道札幌市白石区東札幌３条２丁目１−２０', 'https://www.google.com/maps/place/%E3%82%A4%E3%82%AA%E3%83%B3%E6%9D%B1%E6%9C%AD%E5%B9%8C%E5%BA%97/@43.0522268,141.3673777,15z/data=!3m1!5s0x5f0b2bd04ca961f9:0x102838f6f3f0225d!4m6!3m5!1s0x5f0b2bd04b31b3db:0x431dfaee198adeba!8m2!3d43.0522268!4d141.3854021!16s%2Fg%2F121ngnqy', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(29, '12ff470b-a7ac-4963-b1e4-e491ed57a918', 0, 'ライラック', '複合商業施設のためお昼は大変混雑が予想されます。1979年から営業する老舗ファミレスです。名物のオムライスなど、ボリューム満点の懐かしい洋食を提供し、地域住民の憩いの場として長く親しまれています。', 1000, 2000, 7, 500, '〒03-0003 北海道札幌市白石区東札幌３条２丁目１−２０', 'https://www.google.com/maps/place/%E3%82%A4%E3%82%AA%E3%83%B3%E6%9D%B1%E6%9C%AD%E5%B9%8C%E5%BA%97/@43.0522268,141.3673777,15z/data=!3m1!5s0x5f0b2bd04ca961f9:0x102838f6f3f0225d!4m6!3m5!1s0x5f0b2bd04b31b3db:0x431dfaee198adeba!8m2!3d43.0522268!4d141.3854021!16s%2Fg%2F121ngnqy', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL),
+	(30, 'f14d3d2c-43fc-4514-90e4-b49f4a5d31a6', 0, '餃子の王将', '複合商業施設のためお昼は大変混雑が予想されます。手頃な価格で餃子やラーメン、定食などを食べれます。特に安くて美味しい焼き餃子が看板メニューとして大人気です。', 1000, 2000, 7, 500, '〒03-0003 北海道札幌市白石区東札幌３条２丁目１−２０', 'https://www.google.com/maps/place/%E3%82%A4%E3%82%AA%E3%83%B3%E6%9D%B1%E6%9C%AD%E5%B9%8C%E5%BA%97/@43.0522268,141.3673777,15z/data=!3m1!5s0x5f0b2bd04ca961f9:0x102838f6f3f0225d!4m6!3m5!1s0x5f0b2bd04b31b3db:0x431dfaee198adeba!8m2!3d43.0522268!4d141.3854021!16s%2Fg%2F121ngnqy', '2026-01-14 04:13:12.02189+00', '2026-01-14 04:13:12.02189+00', NULL);
+
+
+--
+-- Data for Name: news; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."news" ("news_id", "news_public_id", "display_order", "name", "caption", "description", "header_image", "thumbnail", "website", "performer_id", "created_at", "updated_at", "deleted_at") VALUES
+	(13, '476a80c7-39d4-4050-bf5a-384c9ded5171', 0, 'セコマコラボ企画が実現しました', 'コラボ商品のパッケージを本校生徒がデザインします', '北海道民のソウルフード「セイコーマート」とR-EXPOの夢のコラボレーションが決定！当日は、みんな大好きホットシェフが会場にて出張販売を行います。この特別企画をさらに熱くするため、販売される商品のパッケージデザインを生徒の皆さんから緊急募集することになりました！
+「絵を描くのが好き」「面白そう」、その気持ちだけでOK！エントリー後の辞退も可能ですので、まずは気軽に挑戦してみてください。 詳細はツムギノへ。
+', '/news/3_header.jpg', '/news/3_thumbnail.jpg', NULL, NULL, '2026-01-11 20:08:56.619151+00', '2026-01-11 20:12:01.647808+00', NULL),
+	(14, '053b7910-06c5-4338-a4a5-1d4b2c9f217f', 0, '一般来場の申し込みがスタート！', 'お待たせいたしました。保護者の方を含む一般来場者の申し込みがスタートしました', '立命館慶祥中学校・高等学校が贈る一大イベント「R-EXPO 2026」。 いよいよ本日より、一般の方（保護者の皆様を含む）の参加申し込み受付をスタートいたしました！
+今年の舞台は、札幌コンベンションセンター。 9つの国を巡った海外研修のリアルな報告、知的好奇心を刺激するアカデミックな研究発表、そして感性が爆発するエンターテインメントステージまで。「世界に通用する18歳」を目指す生徒たちが、ありったけの情熱をぶつける一日です。
+
+本イベントは、どなたでも無料でご参加いただけます。 地域の方々、受験を考えている小学生・中学生の皆さん、そして保護者の皆様。生徒たちが創り上げる「ミライ」への挑戦を、ぜひ会場で体感してください。
+スムーズな入場のため、Webでの事前登録へのご協力をお願いいたします。皆様のご来場を心よりお待ちしております！
+
+事前登録の詳細は立命館慶祥高校ホームページでご確認ください
+', '/news/4_header.jpg', '/news/4_thumbnail.jpg', NULL, NULL, '2026-01-11 20:08:56.619151+00', '2026-01-11 20:12:05.553639+00', NULL),
+	(11, '913ee6c1-82ce-4f03-affb-09db9e227059', 0, 'R-EXPOポスター完成！', '公式ポスターのデザインを美術部員が手がけました', 'R-EXPO 2026のメインビジュアルとなる公式ポスターがついに完成いたしました。デザインを手掛けたのは、本校美術部の生徒です。
+鮮やかな色彩が印象的な今回のデザインモチーフは「ステンドグラス」。 このデザインには、「一人ひとり色が異なる個性が集まることで、一つの美しい絵になる」というメッセージが込められています。
+
+“赤、青、黄色。ガラスの色や形が一つとして同じものがないように、生徒一人ひとりの個性や生き方も唯一無二のものです。バラバラに見えるピースが結集し、慶祥生として当日のステージが光るように願いを込めました。”
+
+ポスターは今後、校内やWebサイトで掲出予定です。 生徒の「色」が織りなす美しいビジュアルを、ぜひご覧ください。
+', '/news/1_header.jpg', '/news/1_thumbnail.jpg', NULL, NULL, '2026-01-11 20:08:56.619151+00', '2026-01-11 20:11:49.494089+00', NULL),
+	(12, '678ab7db-65db-4ce8-865b-97b2aa914195', 1, '学校長よりご挨拶', '立命館慶祥中高菊地賢司校長よりご挨拶です', '　平素より本校の教育活動にご理解とご協力を賜り、心より感謝申し上げます。
+2025年、本校は「北の立命館」として北海道に誕生してから、開校30周年の節目を迎えました。1996年の開校以来、立命館学園の建学の精神「自由と清新」、教学理念「平和と民主主義」を具現化するため、私たちは常に時代の最先端と、人類が抱える課題の現場を学びの場として教育を実践してまいりました。
+
+現在、世界は大きな転換点を迎えています。終わりの見えない紛争、異常気象、そして根深い差別。「地球規模の課題」は、その深刻さを増し続けています。こうした時代だからこそ、本校は、生徒が自らの目で真実を見つめ、自らの肌で感じ、自らがなすべきことを決意する教育を追求してきました。
+
+この度、私たちはその集大成であり、新たな一歩となる挑戦の場「R-EXPO」を始動いたします。これは単なる学校行事の枠を超え、生徒たちが自らの手で未来を創造し、世界とつながるための「壮大な実験ステージ」です。
+
+予測不可能な現代社会において、受動的に知識を得るだけでは十分ではありません。自ら問いを立て、仲間と協働して最適解を導き出す力。そして、多様な価値観を持つ他者へと思いを届ける表現力。R-EXPOは、まさにこれらの力を養うための実践の場となります。
+
+生徒たちが主体となり、試行錯誤しながら創り上げるこの時間が、彼らにとってかけがえのない経験となり、世界を舞台に活躍するための確かな礎となると確信しています。開校以来、学校目標として掲げてきた「世界に通用する18歳」への新たな扉が、この挑戦によって開かれることを強く期待しています。
+どうぞ、生徒たちの新たな挑戦に、温かいご支援とご期待をお寄せください。
+
+立命館慶祥中学校・高等学校
+校長 菊地賢司', '/news/2_header.jpg', '/news/2_thumbnail.jpg', NULL, 112, '2026-01-11 20:08:56.619151+00', '2026-01-21 03:23:55.159929+00', NULL);
+
+
+--
+-- Data for Name: tags_categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."tags_categories" ("tag_category_id", "tag_id", "category_id", "display_order", "created_at", "updated_at", "deleted_at") VALUES
+	(21, 1, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(22, 2, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(23, 3, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(24, 4, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(25, 5, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(26, 6, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(27, 7, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(28, 7, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(29, 8, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(30, 9, 1, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(31, 10, 1, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(32, 11, 4, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(33, 11, 5, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(34, 12, 4, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(35, 13, 4, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(36, 14, 4, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(37, 15, 1, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(38, 15, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(39, 16, 1, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(40, 16, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(41, 16, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(42, 17, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(43, 17, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(44, 18, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(45, 22, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(46, 23, 1, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(47, 24, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(48, 25, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(49, 25, 5, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(50, 26, 1, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(51, 26, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(52, 26, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(53, 26, 4, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(54, 27, 1, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(55, 27, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(56, 27, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(57, 27, 4, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(58, 27, 5, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(59, 28, 1, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(60, 28, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(61, 28, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(62, 28, 4, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(63, 28, 5, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(64, 29, 1, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(65, 29, 2, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(66, 29, 3, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(67, 29, 4, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(68, 29, 5, 0, '2026-01-07 20:09:14.195091+00', '2026-01-07 20:09:14.195091+00', NULL),
+	(69, 30, 1, 0, '2026-01-19 15:23:58.380412+00', '2026-01-19 15:23:58.380412+00', NULL),
+	(70, 30, 2, 0, '2026-01-19 15:23:58.380412+00', '2026-01-19 15:23:58.380412+00', NULL),
+	(71, 31, 1, 0, '2026-01-19 15:23:58.380412+00', '2026-01-19 15:23:58.380412+00', NULL),
+	(72, 32, 1, 0, '2026-01-19 15:23:58.380412+00', '2026-01-19 15:23:58.380412+00', NULL),
+	(73, 32, 2, 0, '2026-01-19 15:23:58.380412+00', '2026-01-19 15:23:58.380412+00', NULL),
+	(74, 33, 1, 0, '2026-01-19 15:23:58.380412+00', '2026-01-19 15:23:58.380412+00', NULL),
+	(75, 33, 2, 0, '2026-01-19 15:23:58.380412+00', '2026-01-19 15:23:58.380412+00', NULL),
+	(76, 33, 4, 0, '2026-01-19 15:23:58.380412+00', '2026-01-19 15:23:58.380412+00', NULL),
+	(77, 31, 2, 0, '2026-01-19 15:44:58.370713+00', '2026-01-19 15:44:58.370713+00', NULL);
+
+
+--
+-- Data for Name: venues_organizations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: banners_banner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."banners_banner_id_seq"', 5, true);
+
+
+--
+-- Name: categories_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."categories_category_id_seq"', 7, true);
+
+
+--
+-- Name: events_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."events_event_id_seq"', 370, true);
+
+
+--
+-- Name: events_performers_event_performer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."events_performers_event_performer_id_seq"', 1108, true);
+
+
+--
+-- Name: events_slots_event_slot_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."events_slots_event_slot_id_seq"', 477, true);
+
+
+--
+-- Name: events_tags_event_tag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."events_tags_event_tag_id_seq"', 979, true);
+
+
+--
+-- Name: events_venues_event_venue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."events_venues_event_venue_id_seq"', 427, true);
+
+
+--
+-- Name: features_feature_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."features_feature_id_seq"', 3, true);
+
+
+--
+-- Name: foods_food_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."foods_food_id_seq"', 30, true);
+
+
+--
+-- Name: news_news_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."news_news_id_seq"', 14, true);
+
+
+--
+-- Name: organizations_organization_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."organizations_organization_id_seq"', 22, true);
+
+
+--
+-- Name: performers_performer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."performers_performer_id_seq"', 51, true);
+
+
+--
+-- Name: slots_slot_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."slots_slot_id_seq"', 189, true);
+
+
+--
+-- Name: tags_categories_tag_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."tags_categories_tag_category_id_seq"', 77, true);
+
+
+--
+-- Name: tags_tag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."tags_tag_id_seq"', 30, true);
+
+
+--
+-- Name: venues_organizations_venue_organization_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."venues_organizations_venue_organization_id_seq"', 21, true);
+
+
+--
+-- Name: venues_venue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."venues_venue_id_seq"', 26, true);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+-- \unrestrict fhyRpk0azzrgFkDiNLHOinf46GTAnARpz2SBJOFxTybdyrYbdj55LdE32V2pyam
+
+RESET ALL;
+
+-- Refresh all materialized views to ensure data is populated after seed
+REFRESH MATERIALIZED VIEW public.mv_all_timeline;
+REFRESH MATERIALIZED VIEW public.mv_category_tree;
+REFRESH MATERIALIZED VIEW public.mv_event_details;
+REFRESH MATERIALIZED VIEW public.mv_primary_timeline;
+REFRESH MATERIALIZED VIEW public.mv_venue_timeline;

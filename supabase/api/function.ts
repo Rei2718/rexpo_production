@@ -1,5 +1,5 @@
 import { ALL_VENUE_ID } from "@/constants/venue-constants";
-import { supabase } from "../supabase";
+import { supabase } from "@/supabase/supabase";
 import {
     Banner,
     Category,
@@ -14,6 +14,8 @@ import {
     TimelineEvent,
     TimelineSlot,
     VenueDetails,
+    VenueDynamicStatus,
+    VenueStaticInfo,
     Verified
 } from "./types";
 
@@ -91,6 +93,22 @@ export async function get_venue_details(venue_public_id: string) {
     });
     if (error) throw error;
     return data as unknown as Verified<VenueDetails>;
+}
+
+export async function get_venue_static_info(venue_public_id: string) {
+    const { data, error } = await supabase.rpc("get_venue_static_info", {
+        venue_public_id,
+    });
+    if (error) throw error;
+    return data as unknown as Verified<VenueStaticInfo>;
+}
+
+export async function get_venue_dynamic_status(venue_public_id: string) {
+    const { data, error } = await supabase.rpc("get_venue_dynamic_status", {
+        venue_public_id,
+    });
+    if (error) throw error;
+    return data as unknown as Verified<VenueDynamicStatus>;
 }
 
 export async function get_categories() {
