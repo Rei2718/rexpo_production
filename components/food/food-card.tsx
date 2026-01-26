@@ -67,10 +67,11 @@ export function FoodCard(data: Verified<Food>) {
                         )}
                     </Column>
 
-                    {/* Description */}
+                    {/* Description 
                     <ThemedText type="caption1" color="natural_200" style={{ lineHeight: 18 }}>
                         {data.description ?? NO_DATA}
                     </ThemedText>
+                    */}
                 </Column>
 
                 {/* Footer Action Button */}
