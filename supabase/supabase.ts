@@ -22,8 +22,6 @@ export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
     },
 });
 
-{/* Local development
 export const supabaseStorageUrl = __DEV__
     ? `https://blmzflkpvksjqkajrzhs.supabase.co/storage/v1/object/public`
     : `${supabaseUrl}/storage/v1/object/public`;
-*/}
