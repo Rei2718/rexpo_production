@@ -65,14 +65,14 @@ export default function SettingsScreen() {
                     {/* Data */}
                     <SettingsSection title="データ">
                         <SettingsActionItem
-                            label="詳細な利用状況データの送信"
+                            label="アナリティクス"
                             icon="survey"
                             value={dataCollectionLabel}
                             onPress={showDataCollectionActionSheet}
                         />
                         <Container paddingHorizontal="s8" paddingVertical="s16">
                             <ThemedText type="subhead" color="natural_200">
-                                アプリの改善のため、匿名化された利用状況データを収集しています。この設定をオフにすると、データの収集は停止されます。
+                                アプリの品質向上のため、匿名化された利用状況データを送信します。この設定をオフにすると、送信は停止されます。
                             </ThemedText>
                         </Container>
                         <SettingsLinkItem

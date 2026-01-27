@@ -12,7 +12,7 @@ export const useDataCollectionActionSheet = () => {
     const showDataCollectionActionSheet = () => {
         showActionSheetWithOptions(
             {
-                options: ['許可する', '許可しない', 'キャンセル'],
+                options: ['オン', 'オフ', 'キャンセル'],
                 cancelButtonIndex: 2,
                 destructiveButtonIndex: 2,
                 userInterfaceStyle: colorScheme ?? 'light',
@@ -41,6 +41,6 @@ export const useDataCollectionActionSheet = () => {
 
     return {
         showDataCollectionActionSheet,
-        dataCollectionLabel: isOptedIn ? '許可済み' : '許可しない',
+        dataCollectionLabel: isOptedIn ? 'オン' : 'オフ',
     };
 };
