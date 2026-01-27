@@ -1,6 +1,7 @@
 import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 // import { useSettingStore } from "@/hooks/use-setting-store"; // Removed
+import { useDataCollectionActionSheet } from "@/hooks/use-data-collection-action-sheet";
 import { useScreenView } from "@/hooks/use-screen-view";
 import { useThemeActionSheet } from "@/hooks/use-theme-action-sheet";
 import { useUserLocation } from "@/hooks/use-user-location";
@@ -16,6 +17,7 @@ export default function SettingsScreen() {
     const { modal } = useBottomPadding();
     const { status } = useUserLocation();
     const { showThemeActionSheet, themeLabel } = useThemeActionSheet();
+    const { showDataCollectionActionSheet, dataCollectionLabel } = useDataCollectionActionSheet();
 
     const isLocationGranted = status === 'granted';
 
@@ -62,6 +64,17 @@ export default function SettingsScreen() {
 
                     {/* Data */}
                     <SettingsSection title="データ">
+                        <SettingsActionItem
+                            label="詳細な利用状況データの送信"
+                            icon="survey"
+                            value={dataCollectionLabel}
+                            onPress={showDataCollectionActionSheet}
+                        />
+                        <Container paddingHorizontal="s8" paddingVertical="s16">
+                            <ThemedText type="subhead" color="natural_200">
+                                アプリの改善のため、匿名化された利用状況データを収集しています。この設定をオフにすると、データの収集は停止されます。
+                            </ThemedText>
+                        </Container>
                         <SettingsLinkItem
                             label="開発者メニュー"
                             icon="gear"

@@ -38,7 +38,7 @@ export function SettingsItem({
                 alignItems="center"
                 justifyContent="space-between"
             >
-                <ThemedText type="body" style={labelStyle}>
+                <ThemedText type="body" style={[{ flex: 1 }, labelStyle]}>
                     {label}
                 </ThemedText>
 
