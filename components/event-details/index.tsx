@@ -9,6 +9,7 @@ import BookmarkButton from "@/components/ui/bookmark-button";
 import { Column } from "@/components/ui/flex";
 import { StatusMessage } from "@/components/ui/status-message";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useEventDetails } from "@/supabase/api";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView } from "react-native";
@@ -17,6 +18,12 @@ export default function EventDetailsScreen() {
     const { event_public_id } = useLocalSearchParams<{ event_public_id: string }>();
     const { data, isPending, isError } = useEventDetails(event_public_id);
     const { modal } = useBottomPadding();
+
+    useScreenView({
+        screen: 'event-details',
+        label: data?.name,
+        isReady: !!data,
+    });
 
     if (isPending) return <StatusMessage status="loading" />;
     if (isError) return <StatusMessage status="error" />;

@@ -3,6 +3,7 @@ import { ThemedText } from '@/components/ui/themed-text';
 import { CREDITS_DATA } from '@/constants/credits';
 import { Spacing } from '@/constants/theme';
 import { useBottomPadding } from '@/hooks/use-bottom-padding';
+import { useScreenView } from '@/hooks/use-screen-view';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { Stack } from 'expo-router';
 import { Image, SectionList, useColorScheme, View } from 'react-native';
@@ -11,6 +12,11 @@ export default function CreditsScreen() {
     const color = useThemeColor();
     const { modal } = useBottomPadding();
     const theme = useColorScheme() ?? 'light';
+
+    useScreenView({
+        screen: 'credits',
+        label: 'Credits',
+    });
 
     // Transform data for SectionList
     const sections = CREDITS_DATA.map((section) => {

@@ -2,6 +2,7 @@ import { Column } from "@/components/ui/flex";
 import { StatusMessage } from "@/components/ui/status-message";
 import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useNews } from "@/supabase/api";
 import { useLocalSearchParams } from "expo-router";
 import { useMemo } from "react";
@@ -19,9 +20,17 @@ export default function NewsDetailScreen() {
         return allNews?.find((item) => item.news_public_id === id);
     }, [allNews, id]);
 
+    useScreenView({
+        screen: 'news-details',
+        label: data?.name,
+        isReady: !!data,
+    });
+
     if (isPending) return <StatusMessage status="loading" />;
     if (isError) return <StatusMessage status="error" />;
     if (!data) return <StatusMessage status="empty" />;
+
+
 
     return (
         <ScrollView

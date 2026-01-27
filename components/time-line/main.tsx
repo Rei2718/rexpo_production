@@ -1,5 +1,8 @@
+import { ALL_VENUE_ID } from "@/constants/venue-constants";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useTimeline } from "@/hooks/use-timeline";
+import { useMemo } from "react";
 import { FlatList } from "react-native";
 import { Container } from "../ui/container";
 import { StatusMessage } from "../ui/status-message";
@@ -20,6 +23,18 @@ export default function TimelineMain() {
         eventsPending,
         eventsError
     } = useTimeline();
+
+    const venueName = useMemo(() => {
+        if (selectedVenueId === ALL_VENUE_ID) return "All Venues";
+        const venue = venues?.find(v => v.venue_public_id === selectedVenueId);
+        return venue ? venue.name : "Unknown Venue";
+    }, [selectedVenueId, venues]);
+
+    useScreenView({
+        screen: 'timeline',
+        label: venueName,
+        isReady: !!venues && !venuesPending,
+    });
 
     if (venuesPending) return <StatusMessage status="loading" />;
     if (venuesError) return <StatusMessage status="error" />;

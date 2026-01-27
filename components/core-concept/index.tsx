@@ -1,4 +1,5 @@
 import { ThemedView } from "@/components/ui/themed-view";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { StyleSheet } from "react-native";
 
@@ -7,6 +8,11 @@ export default function CoreConceptScreen() {
         player.loop = true;
         player.play();
         player.muted = true;
+    });
+
+    useScreenView({
+        screen: 'core-concept',
+        label: 'Core Concept',
     });
 
     return (

@@ -2,6 +2,7 @@ import { SurveyList } from "@/components/survey/survey-list";
 import { Container } from "@/components/ui/container";
 import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Stack, useRouter } from "expo-router";
 import { ScrollView } from "react-native";
@@ -10,6 +11,11 @@ export default function SurveyScreen() {
     const color = useThemeColor();
     const { modal } = useBottomPadding();
     const router = useRouter();
+
+    useScreenView({
+        screen: 'survey',
+        label: 'Survey',
+    });
 
     return (
         <>

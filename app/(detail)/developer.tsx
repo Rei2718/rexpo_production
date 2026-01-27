@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/container";
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useDebugTimeStore } from "@/store/use-debug-time-store";
 import { useLaunchStore } from "@/store/use-launch-store";
@@ -16,6 +17,11 @@ export default function DeveloperScreen() {
     const { debugTime, setDebugTime } = useDebugTimeStore();
     const router = useRouter();
     const color = useThemeColor();
+
+    useScreenView({
+        screen: 'developer',
+        label: 'Developer Menu',
+    });
 
     const handleResetOnboarding = () => {
         Alert.alert(

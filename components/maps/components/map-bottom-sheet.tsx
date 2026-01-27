@@ -1,5 +1,6 @@
 import { Container } from '@/components/ui/container';
 import { Spacing } from '@/constants/theme';
+import { useScreenView } from '@/hooks/use-screen-view';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
@@ -27,6 +28,12 @@ export default function Sheet({ data, onClose }: SheetProps) {
             bottomSheetRef.current?.dismiss();
         }
     }, [data]);
+
+    useScreenView({
+        screen: 'map',
+        label: contentData ? `Venue: ${contentData.name}` : 'Map Bottom Sheet',
+        isReady: !!data,
+    });
 
     return (
         <BottomSheetModal

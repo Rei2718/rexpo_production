@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/container";
 import { Icon } from "@/components/ui/icon";
 import { Spacing } from "@/constants/theme";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Stack } from "expo-router";
 import { FlatList } from "react-native";
@@ -20,6 +21,11 @@ const licenses = Object.entries(licensesData).map(([key, value]) => ({
 export default function LicensesScreen() {
     const { modal } = useBottomPadding();
     const color = useThemeColor();
+
+    useScreenView({
+        screen: 'licenses',
+        label: 'Licenses',
+    });
 
     return (
         <>

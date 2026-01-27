@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/container";
 import { StatusMessage } from "@/components/ui/status-message";
 import { Spacing } from "@/constants/theme";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useTagAndEventsByCategory } from "@/supabase/api";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { FlatList } from "react-native-gesture-handler";
@@ -11,6 +12,14 @@ export default function CategoryScreen() {
     const { category_public_id, name } = useLocalSearchParams<{ category_public_id: string; name: string }>();
     const { data, isPending, isError } = useTagAndEventsByCategory(category_public_id);
     const { modal } = useBottomPadding();
+
+
+
+    useScreenView({
+        screen: 'category',
+        label: name,
+        isReady: !!data,
+    });
 
     if (isPending) return <StatusMessage status="loading" />
     if (isError) return <StatusMessage status="error" />

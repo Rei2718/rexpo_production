@@ -1,4 +1,5 @@
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { Stack } from "expo-router";
 import { ScrollView } from "react-native";
 import { Container } from "../ui/container";
@@ -9,6 +10,11 @@ import { privacyText } from "./text";
 export default function PrivacyScreen() {
     const { modal } = useBottomPadding();
     const formattedText = useFormattedText(privacyText);
+
+    useScreenView({
+        screen: 'privacy',
+        label: 'Privacy Policy',
+    });
 
     return (
         <>

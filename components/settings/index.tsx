@@ -1,6 +1,7 @@
 import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
 // import { useSettingStore } from "@/hooks/use-setting-store"; // Removed
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useThemeActionSheet } from "@/hooks/use-theme-action-sheet";
 import { useUserLocation } from "@/hooks/use-user-location";
 import { Stack } from "expo-router";
@@ -17,6 +18,11 @@ export default function SettingsScreen() {
     const { showThemeActionSheet, themeLabel } = useThemeActionSheet();
 
     const isLocationGranted = status === 'granted';
+
+    useScreenView({
+        screen: 'settings',
+        label: 'Settings',
+    });
 
     return (
         <>

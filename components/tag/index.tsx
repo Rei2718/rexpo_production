@@ -3,6 +3,7 @@ import { StatusMessage } from "@/components/ui/status-message";
 import { ThemedView } from "@/components/ui/themed-view";
 import { Spacing } from "@/constants/theme";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useEventsByTag } from "@/supabase/api";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StyleSheet } from "react-native";
@@ -13,6 +14,12 @@ export default function TagScreen() {
     const { tag_public_id, name } = useLocalSearchParams<{ tag_public_id: string; name: string }>();
     const { data, isPending, isError } = useEventsByTag(tag_public_id);
     const { modal } = useBottomPadding();
+
+    useScreenView({
+        screen: 'tag',
+        label: name,
+        isReady: !!data,
+    });
 
     if (isPending) return <StatusMessage status="loading" />;
     if (isError) return <StatusMessage status="error" />;

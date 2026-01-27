@@ -1,4 +1,5 @@
 import { StatusMessage } from "@/components/ui/status-message";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { ThemedView } from "../ui/themed-view";
 import Sheet from "./components/map-bottom-sheet";
 import MapsView from "./components/map-view";
@@ -6,6 +7,12 @@ import { useMapsScreen } from "./hooks/use-maps-screen";
 
 export default function MapsScreen() {
     const { venues, isPending, isError, selectedVenue, setSelectedVenue } = useMapsScreen();
+
+    useScreenView({
+        screen: 'map',
+        label: 'Map View',
+        isReady: !isPending,
+    });
 
     if (isPending) return <StatusMessage status="loading" />;
     if (isError) return <StatusMessage status="error" />;

@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/container";
 import { StatusMessage } from "@/components/ui/status-message";
 import { ThemedText } from "@/components/ui/themed-text";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useScreenView } from "@/hooks/use-screen-view";
 import { useFoods } from "@/supabase/api";
 import { Stack } from "expo-router";
 import { FoodList } from "./food-list";
@@ -10,6 +11,12 @@ import { FoodList } from "./food-list";
 export default function FoodScreen() {
     const { data, isPending, isError } = useFoods();
     const { modal: bottom } = useBottomPadding();
+
+    useScreenView({
+        screen: 'food',
+        label: 'Food',
+        isReady: !!data,
+    });
 
     if (isPending) return <StatusMessage status="loading" />;
     if (isError) return <StatusMessage status="error" />;
