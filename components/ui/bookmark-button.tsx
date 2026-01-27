@@ -8,8 +8,11 @@ import { EventOverview, Verified } from '@/supabase/api/types';
 import { StyleSheet } from 'react-native';
 
 
+import { usePostHog } from 'posthog-react-native';
+
 export default function BookmarkButton(data: Verified<EventOverview>) {
     const color = useThemeColor();
+    const posthog = usePostHog();
 
     const isBookmarked = useBookmarkStore(
         (state) => !!state.bookmarks[data.event_public_id]
@@ -17,6 +20,12 @@ export default function BookmarkButton(data: Verified<EventOverview>) {
     const toggleBookmark = useBookmarkStore((state) => state.toggleBookmark);
 
     const handlePress = () => {
+        const properties = {
+            screen: data.name ?? 'Unknown',
+            label: isBookmarked ? 'unbookmarked' : 'bookmarked',
+        };
+        console.log('[PostHog] bookmark:', properties);
+        posthog.capture('bookmark', properties);
         toggleBookmark(data.event_public_id);
     };
 
