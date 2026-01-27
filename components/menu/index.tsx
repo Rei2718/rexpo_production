@@ -47,12 +47,6 @@ export default function MenuScreen() {
                             icon="survey"
                             href="/(detail)/survey"
                         />
-                        <SettingsLinkItem
-                            label="ニュース"
-                            icon="news"
-                            href="/(detail)/news"
-                            isLast={true}
-                        />
                     </SettingsSection>
 
                     {/* App Info */}
