@@ -15,7 +15,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/config/node_modules/@babel/code-frame",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/config/node_modules/@babel/code-frame/LICENSE"
   },
-  "@babel/code-frame@7.27.1": {
+  "@babel/code-frame@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -23,7 +23,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/code-frame",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/code-frame/LICENSE"
   },
-  "@babel/compat-data@7.28.5": {
+  "@babel/compat-data@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -31,7 +31,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/compat-data",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/compat-data/LICENSE"
   },
-  "@babel/core@7.28.5": {
+  "@babel/core@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -39,7 +39,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/core",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/core/LICENSE"
   },
-  "@babel/generator@7.28.5": {
+  "@babel/generator@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -55,7 +55,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-annotate-as-pure",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-annotate-as-pure/LICENSE"
   },
-  "@babel/helper-compilation-targets@7.27.2": {
+  "@babel/helper-compilation-targets@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -63,7 +63,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-compilation-targets",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-compilation-targets/LICENSE"
   },
-  "@babel/helper-create-class-features-plugin@7.28.5": {
+  "@babel/helper-create-class-features-plugin@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -101,7 +101,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-member-expression-to-functions",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-member-expression-to-functions/LICENSE"
   },
-  "@babel/helper-module-imports@7.27.1": {
+  "@babel/helper-module-imports@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -109,7 +109,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-module-imports",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-module-imports/LICENSE"
   },
-  "@babel/helper-module-transforms@7.28.3": {
+  "@babel/helper-module-transforms@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -125,7 +125,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-optimise-call-expression",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-optimise-call-expression/LICENSE"
   },
-  "@babel/helper-plugin-utils@7.27.1": {
+  "@babel/helper-plugin-utils@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -141,7 +141,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-remap-async-to-generator",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-remap-async-to-generator/LICENSE"
   },
-  "@babel/helper-replace-supers@7.27.1": {
+  "@babel/helper-replace-supers@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -181,7 +181,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-validator-option",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-validator-option/LICENSE"
   },
-  "@babel/helper-wrap-function@7.28.3": {
+  "@babel/helper-wrap-function@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -189,7 +189,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-wrap-function",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/helper-wrap-function/LICENSE"
   },
-  "@babel/helpers@7.28.4": {
+  "@babel/helpers@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -205,7 +205,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/highlight",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/highlight/LICENSE"
   },
-  "@babel/parser@7.28.5": {
+  "@babel/parser@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -213,7 +213,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/parser",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/parser/LICENSE"
   },
-  "@babel/plugin-proposal-decorators@7.28.0": {
+  "@babel/plugin-proposal-decorators@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -255,7 +255,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-class-static-block",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-class-static-block/LICENSE"
   },
-  "@babel/plugin-syntax-decorators@7.27.1": {
+  "@babel/plugin-syntax-decorators@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -269,7 +269,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-dynamic-import",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-dynamic-import/LICENSE"
   },
-  "@babel/plugin-syntax-export-default-from@7.27.1": {
+  "@babel/plugin-syntax-export-default-from@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -277,7 +277,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-export-default-from",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-export-default-from/LICENSE"
   },
-  "@babel/plugin-syntax-flow@7.27.1": {
+  "@babel/plugin-syntax-flow@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -285,7 +285,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-flow",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-flow/LICENSE"
   },
-  "@babel/plugin-syntax-import-attributes@7.27.1": {
+  "@babel/plugin-syntax-import-attributes@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -305,7 +305,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-json-strings",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-json-strings/LICENSE"
   },
-  "@babel/plugin-syntax-jsx@7.27.1": {
+  "@babel/plugin-syntax-jsx@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -365,7 +365,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-top-level-await",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-syntax-top-level-await/LICENSE"
   },
-  "@babel/plugin-syntax-typescript@7.27.1": {
+  "@babel/plugin-syntax-typescript@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -381,7 +381,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-arrow-functions",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-arrow-functions/LICENSE"
   },
-  "@babel/plugin-transform-async-generator-functions@7.28.0": {
+  "@babel/plugin-transform-async-generator-functions@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -389,7 +389,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-async-generator-functions",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-async-generator-functions/LICENSE"
   },
-  "@babel/plugin-transform-async-to-generator@7.27.1": {
+  "@babel/plugin-transform-async-to-generator@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -397,7 +397,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-async-to-generator",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-async-to-generator/LICENSE"
   },
-  "@babel/plugin-transform-block-scoping@7.28.5": {
+  "@babel/plugin-transform-block-scoping@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -405,7 +405,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-block-scoping",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-block-scoping/LICENSE"
   },
-  "@babel/plugin-transform-class-properties@7.27.1": {
+  "@babel/plugin-transform-class-properties@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -413,7 +413,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-class-properties",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-class-properties/LICENSE"
   },
-  "@babel/plugin-transform-class-static-block@7.28.3": {
+  "@babel/plugin-transform-class-static-block@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -421,7 +421,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-class-static-block",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-class-static-block/LICENSE"
   },
-  "@babel/plugin-transform-classes@7.28.4": {
+  "@babel/plugin-transform-classes@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -429,7 +429,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-classes",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-classes/LICENSE"
   },
-  "@babel/plugin-transform-computed-properties@7.27.1": {
+  "@babel/plugin-transform-computed-properties@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -485,7 +485,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-literals",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-literals/LICENSE"
   },
-  "@babel/plugin-transform-logical-assignment-operators@7.28.5": {
+  "@babel/plugin-transform-logical-assignment-operators@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -493,7 +493,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-logical-assignment-operators",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-logical-assignment-operators/LICENSE"
   },
-  "@babel/plugin-transform-modules-commonjs@7.27.1": {
+  "@babel/plugin-transform-modules-commonjs@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -509,7 +509,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-named-capturing-groups-regex",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-named-capturing-groups-regex/LICENSE"
   },
-  "@babel/plugin-transform-nullish-coalescing-operator@7.27.1": {
+  "@babel/plugin-transform-nullish-coalescing-operator@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -517,7 +517,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-nullish-coalescing-operator",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-nullish-coalescing-operator/LICENSE"
   },
-  "@babel/plugin-transform-numeric-separator@7.27.1": {
+  "@babel/plugin-transform-numeric-separator@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -525,7 +525,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-numeric-separator",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-numeric-separator/LICENSE"
   },
-  "@babel/plugin-transform-object-rest-spread@7.28.4": {
+  "@babel/plugin-transform-object-rest-spread@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -533,7 +533,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-object-rest-spread",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-object-rest-spread/LICENSE"
   },
-  "@babel/plugin-transform-optional-catch-binding@7.27.1": {
+  "@babel/plugin-transform-optional-catch-binding@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -541,7 +541,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-optional-catch-binding",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-optional-catch-binding/LICENSE"
   },
-  "@babel/plugin-transform-optional-chaining@7.28.5": {
+  "@babel/plugin-transform-optional-chaining@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -557,7 +557,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-parameters",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-parameters/LICENSE"
   },
-  "@babel/plugin-transform-private-methods@7.27.1": {
+  "@babel/plugin-transform-private-methods@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -565,7 +565,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-private-methods",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-private-methods/LICENSE"
   },
-  "@babel/plugin-transform-private-property-in-object@7.27.1": {
+  "@babel/plugin-transform-private-property-in-object@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -605,7 +605,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-react-jsx-source",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-react-jsx-source/LICENSE"
   },
-  "@babel/plugin-transform-react-jsx@7.27.1": {
+  "@babel/plugin-transform-react-jsx@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -621,7 +621,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-react-pure-annotations",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-react-pure-annotations/LICENSE"
   },
-  "@babel/plugin-transform-regenerator@7.28.4": {
+  "@babel/plugin-transform-regenerator@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -645,7 +645,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-shorthand-properties",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-shorthand-properties/LICENSE"
   },
-  "@babel/plugin-transform-spread@7.27.1": {
+  "@babel/plugin-transform-spread@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -669,7 +669,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-template-literals",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/plugin-transform-template-literals/LICENSE"
   },
-  "@babel/plugin-transform-typescript@7.28.5": {
+  "@babel/plugin-transform-typescript@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -701,7 +701,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/preset-typescript",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/preset-typescript/LICENSE"
   },
-  "@babel/runtime@7.28.4": {
+  "@babel/runtime@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -709,7 +709,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/runtime",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/runtime/LICENSE"
   },
-  "@babel/template@7.27.2": {
+  "@babel/template@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -717,7 +717,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/template",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/template/LICENSE"
   },
-  "@babel/traverse@7.28.5": {
+  "@babel/traverse@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -725,7 +725,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/traverse",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@babel/traverse/LICENSE"
   },
-  "@babel/types@7.28.5": {
+  "@babel/types@7.28.6": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel",
     "publisher": "The Babel Team",
@@ -747,14 +747,14 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo-google-fonts/noto-sans-jp",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo-google-fonts/noto-sans-jp/LICENSE"
   },
-  "@expo/cli@54.0.20": {
+  "@expo/cli@54.0.22": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "Expo",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo/node_modules/@expo/cli",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo/node_modules/@expo/cli/README.md"
   },
-  "@expo/code-signing-certificates@0.0.5": {
+  "@expo/code-signing-certificates@0.0.6": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/code-signing-certificates",
     "publisher": "Expo",
@@ -818,7 +818,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/json-file",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/json-file/LICENSE"
   },
-  "@expo/metro-config@54.0.12": {
+  "@expo/metro-config@54.0.14": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/metro-config",
@@ -844,7 +844,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/osascript",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/osascript/LICENSE"
   },
-  "@expo/package-manager@1.9.9": {
+  "@expo/package-manager@1.9.10": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@expo/package-manager",
@@ -1056,6 +1056,11 @@
     "email": "justin@ridgewell.name",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@jridgewell/trace-mapping",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@jridgewell/trace-mapping/LICENSE"
+  },
+  "@posthog/core@1.14.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/PostHog/posthog-js",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@posthog/core"
   },
   "@radix-ui/primitive@1.1.3": {
     "licenses": "MIT",
@@ -1269,31 +1274,31 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native/node_modules/@react-native/virtualized-lists",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native/node_modules/@react-native/virtualized-lists/README.md"
   },
-  "@react-navigation/bottom-tabs@7.9.0": {
+  "@react-navigation/bottom-tabs@7.10.1": {
     "licenses": "MIT",
     "repository": "https://github.com/react-navigation/react-navigation",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/bottom-tabs",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/bottom-tabs/LICENSE"
   },
-  "@react-navigation/core@7.13.7": {
+  "@react-navigation/core@7.14.0": {
     "licenses": "MIT",
     "repository": "https://github.com/react-navigation/react-navigation",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/core",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/core/LICENSE"
   },
-  "@react-navigation/elements@2.9.3": {
+  "@react-navigation/elements@2.9.5": {
     "licenses": "MIT",
     "repository": "https://github.com/react-navigation/react-navigation",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/elements",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/elements/LICENSE"
   },
-  "@react-navigation/native-stack@7.9.0": {
+  "@react-navigation/native-stack@7.10.1": {
     "licenses": "MIT",
     "repository": "https://github.com/react-navigation/react-navigation",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/native-stack",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/native-stack/LICENSE"
   },
-  "@react-navigation/native@7.1.26": {
+  "@react-navigation/native@7.1.28": {
     "licenses": "MIT",
     "repository": "https://github.com/react-navigation/react-navigation",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@react-navigation/native",
@@ -1332,77 +1337,77 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@sinonjs/fake-timers",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@sinonjs/fake-timers/LICENSE"
   },
-  "@supabase/auth-js@2.89.0": {
+  "@supabase/auth-js@2.91.0": {
     "licenses": "MIT",
     "repository": "https://github.com/supabase/supabase-js",
     "publisher": "Supabase",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/auth-js",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/auth-js/LICENSE"
   },
-  "@supabase/functions-js@2.89.0": {
+  "@supabase/functions-js@2.91.0": {
     "licenses": "MIT",
     "repository": "https://github.com/supabase/supabase-js",
     "publisher": "Supabase",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/functions-js",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/functions-js/README.md"
   },
-  "@supabase/postgrest-js@2.89.0": {
+  "@supabase/postgrest-js@2.91.0": {
     "licenses": "MIT",
     "repository": "https://github.com/supabase/supabase-js",
     "publisher": "Supabase",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/postgrest-js",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/postgrest-js/README.md"
   },
-  "@supabase/realtime-js@2.89.0": {
+  "@supabase/realtime-js@2.91.0": {
     "licenses": "MIT",
     "repository": "https://github.com/supabase/supabase-js",
     "publisher": "Supabase",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/realtime-js",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/realtime-js/README.md"
   },
-  "@supabase/storage-js@2.89.0": {
+  "@supabase/storage-js@2.91.0": {
     "licenses": "MIT",
     "repository": "https://github.com/supabase/supabase-js",
     "publisher": "Supabase",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/storage-js",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/storage-js/README.md"
   },
-  "@supabase/supabase-js@2.89.0": {
+  "@supabase/supabase-js@2.91.0": {
     "licenses": "MIT",
     "repository": "https://github.com/supabase/supabase-js",
     "publisher": "Supabase",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/supabase-js",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/supabase-js/README.md"
   },
-  "@tanstack/query-async-storage-persister@5.90.14": {
+  "@tanstack/query-async-storage-persister@5.90.21": {
     "licenses": "MIT",
     "repository": "https://github.com/TanStack/query",
     "publisher": "tannerlinsley",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@tanstack/query-async-storage-persister",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@tanstack/query-async-storage-persister/LICENSE"
   },
-  "@tanstack/query-core@5.90.12": {
+  "@tanstack/query-core@5.90.19": {
     "licenses": "MIT",
     "repository": "https://github.com/TanStack/query",
     "publisher": "tannerlinsley",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@tanstack/query-core",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@tanstack/query-core/LICENSE"
   },
-  "@tanstack/query-persist-client-core@5.91.11": {
+  "@tanstack/query-persist-client-core@5.91.18": {
     "licenses": "MIT",
     "repository": "https://github.com/TanStack/query",
     "publisher": "tannerlinsley",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@tanstack/query-persist-client-core",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@tanstack/query-persist-client-core/LICENSE"
   },
-  "@tanstack/react-query-persist-client@5.90.14": {
+  "@tanstack/react-query-persist-client@5.90.21": {
     "licenses": "MIT",
     "repository": "https://github.com/TanStack/query",
     "publisher": "tannerlinsley",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@tanstack/react-query-persist-client",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@tanstack/react-query-persist-client/LICENSE"
   },
-  "@tanstack/react-query@5.90.12": {
+  "@tanstack/react-query@5.90.19": {
     "licenses": "MIT",
     "repository": "https://github.com/TanStack/query",
     "publisher": "tannerlinsley",
@@ -1469,7 +1474,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/istanbul-reports",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/istanbul-reports/LICENSE"
   },
-  "@types/node@25.0.3": {
+  "@types/node@25.0.9": {
     "licenses": "MIT",
     "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@types/node",
@@ -1784,7 +1789,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/babel-preset-current-node-syntax",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/babel-preset-current-node-syntax/LICENSE"
   },
-  "babel-preset-expo@54.0.9": {
+  "babel-preset-expo@54.0.10": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "Expo",
@@ -1815,7 +1820,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/base64-js",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/base64-js/LICENSE"
   },
-  "baseline-browser-mapping@2.9.11": {
+  "baseline-browser-mapping@2.9.17": {
     "licenses": "Apache-2.0",
     "repository": "https://github.com/web-platform-dx/baseline-browser-mapping",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/baseline-browser-mapping",
@@ -1836,6 +1841,14 @@
     "email": "peter.e.c.olson+npm@gmail.com",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/big-integer",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/big-integer/LICENSE"
+  },
+  "boolbase@1.0.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/fb55/boolbase",
+    "publisher": "Felix Boehm",
+    "email": "me@feedic.com",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/boolbase",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/boolbase/README.md"
   },
   "bplist-creator@0.1.0": {
     "licenses": "MIT",
@@ -1937,7 +1950,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/camelcase",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/camelcase/license"
   },
-  "caniuse-lite@1.0.30001761": {
+  "caniuse-lite@1.0.30001765": {
     "licenses": "CC-BY-4.0",
     "repository": "https://github.com/browserslist/caniuse-lite",
     "publisher": "Ben Briggs",
@@ -2160,7 +2173,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/convert-source-map",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/convert-source-map/LICENSE"
   },
-  "core-js-compat@3.47.0": {
+  "core-js-compat@3.48.0": {
     "licenses": "MIT",
     "repository": "https://github.com/zloirock/core-js",
     "publisher": "Denis Pushkarev",
@@ -2201,6 +2214,32 @@
     "email": "contact@weser.io",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/css-in-js-utils",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/css-in-js-utils/LICENSE"
+  },
+  "css-select@5.2.2": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/fb55/css-select",
+    "publisher": "Felix Boehm",
+    "email": "me@feedic.com",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/css-select",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/css-select/LICENSE"
+  },
+  "css-tree@1.1.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/csstree/csstree",
+    "publisher": "Roman Dvornov",
+    "email": "rdvornov@gmail.com",
+    "url": "https://github.com/lahmatiy",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/css-tree",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/css-tree/LICENSE"
+  },
+  "css-what@6.2.2": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/fb55/css-what",
+    "publisher": "Felix Böhm",
+    "email": "me@feedic.com",
+    "url": "http://feedic.com",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/css-what",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/css-what/LICENSE"
   },
   "csstype@3.2.3": {
     "licenses": "MIT",
@@ -2306,6 +2345,38 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/detect-node-es",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/detect-node-es/LICENSE"
   },
+  "dom-serializer@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/cheeriojs/dom-serializer",
+    "publisher": "Felix Boehm",
+    "email": "me@feedic.com",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/dom-serializer",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/dom-serializer/LICENSE"
+  },
+  "domelementtype@2.3.0": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/fb55/domelementtype",
+    "publisher": "Felix Boehm",
+    "email": "me@feedic.com",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/domelementtype",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/domelementtype/LICENSE"
+  },
+  "domhandler@5.0.3": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/fb55/domhandler",
+    "publisher": "Felix Boehm",
+    "email": "me@feedic.com",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/domhandler",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/domhandler/LICENSE"
+  },
+  "domutils@3.2.2": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/fb55/domutils",
+    "publisher": "Felix Boehm",
+    "email": "me@feedic.com",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/domutils",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/domutils/LICENSE"
+  },
   "dotenv-expand@11.0.7": {
     "licenses": "BSD-2-Clause",
     "repository": "https://github.com/motdotla/dotenv-expand",
@@ -2354,6 +2425,14 @@
     "repository": "https://github.com/pillarjs/encodeurl",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/serve-static/node_modules/encodeurl",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/serve-static/node_modules/encodeurl/LICENSE"
+  },
+  "entities@4.5.0": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/fb55/entities",
+    "publisher": "Felix Boehm",
+    "email": "me@feedic.com",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/entities",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/entities/LICENSE"
   },
   "env-editor@0.4.2": {
     "licenses": "MIT",
@@ -2441,6 +2520,13 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/exec-async",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/exec-async/LICENSE"
   },
+  "expo-application@7.0.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/expo",
+    "publisher": "650 Industries, Inc.",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-application",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-application/README.md"
+  },
   "expo-asset@12.0.12": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
@@ -2448,7 +2534,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-asset",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-asset/README.md"
   },
-  "expo-constants@18.0.12": {
+  "expo-constants@18.0.13": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "650 Industries, Inc.",
@@ -2483,6 +2569,13 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-dev-menu",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-dev-menu/README.md"
   },
+  "expo-device@8.0.10": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/expo",
+    "publisher": "650 Industries, Inc.",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-device",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-device/README.md"
+  },
   "expo-eas-client@1.0.8": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
@@ -2497,7 +2590,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-file-system",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-file-system/README.md"
   },
-  "expo-font@14.0.10": {
+  "expo-font@14.0.11": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "650 Industries, Inc.",
@@ -2546,6 +2639,13 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-linking",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-linking/README.md"
   },
+  "expo-localization@17.0.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/expo",
+    "publisher": "650 Industries, Inc.",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-localization",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-localization/README.md"
+  },
   "expo-location@19.0.8": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
@@ -2560,7 +2660,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-manifests",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-manifests/README.md"
   },
-  "expo-modules-autolinking@3.0.23": {
+  "expo-modules-autolinking@3.0.24": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "650 Industries, Inc.",
@@ -2574,7 +2674,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-modules-core",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-modules-core/README.md"
   },
-  "expo-router@6.0.21": {
+  "expo-router@6.0.22": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "650 Industries, Inc.",
@@ -2636,7 +2736,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-updates-interface",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-updates-interface/README.md"
   },
-  "expo-updates@29.0.15": {
+  "expo-updates@29.0.16": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "650 Industries, Inc.",
@@ -2657,7 +2757,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-web-browser",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-web-browser/README.md"
   },
-  "expo@54.0.30": {
+  "expo@54.0.32": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "Expo",
@@ -3294,13 +3394,13 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/lighthouse-logger",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/lighthouse-logger/LICENSE"
   },
-  "lightningcss-darwin-arm64@1.30.2": {
+  "lightningcss-darwin-arm64@1.31.1": {
     "licenses": "MPL-2.0",
     "repository": "https://github.com/parcel-bundler/lightningcss",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/lightningcss-darwin-arm64",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/lightningcss-darwin-arm64/LICENSE"
   },
-  "lightningcss@1.30.2": {
+  "lightningcss@1.31.1": {
     "licenses": "MPL-2.0",
     "repository": "https://github.com/parcel-bundler/lightningcss",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/lightningcss",
@@ -3406,6 +3506,13 @@
     "email": "nolan@nolanlawson.com",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/marky",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/marky/LICENSE"
+  },
+  "mdn-data@2.0.14": {
+    "licenses": "CC0-1.0",
+    "repository": "https://github.com/mdn/data",
+    "publisher": "Mozilla Developer Network",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/mdn-data",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/mdn-data/LICENSE"
   },
   "memoize-one@5.2.1": {
     "licenses": "MIT",
@@ -3709,6 +3816,14 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/npm-package-arg",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/npm-package-arg/LICENSE"
   },
+  "nth-check@2.1.1": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/fb55/nth-check",
+    "publisher": "Felix Boehm",
+    "email": "me@feedic.com",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/nth-check",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/nth-check/LICENSE"
+  },
   "nullthrows@1.1.1": {
     "licenses": "MIT",
     "repository": "https://github.com/zertosh/nullthrows",
@@ -3971,6 +4086,21 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/postcss",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/postcss/LICENSE"
   },
+  "posthog-react-native-session-replay@1.2.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/PostHog/posthog-react-native-session-replay",
+    "publisher": "PostHog",
+    "email": "engineering@posthog.com",
+    "url": "https://github.com/PostHog",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/posthog-react-native-session-replay",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/posthog-react-native-session-replay/LICENSE"
+  },
+  "posthog-react-native@4.24.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/PostHog/posthog-js",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/posthog-react-native",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/posthog-react-native/LICENSE"
+  },
   "pressto@0.6.0": {
     "licenses": "MIT",
     "repository": "https://github.com/enzomanuelmangano/pressto",
@@ -4001,8 +4131,8 @@
     "licenses": "ISC",
     "repository": "https://github.com/npm/proc-log",
     "publisher": "GitHub Inc.",
-    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/proc-log",
-    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/proc-log/LICENSE"
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/npm-package-arg/node_modules/proc-log",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/npm-package-arg/node_modules/proc-log/LICENSE"
   },
   "progress@2.0.3": {
     "licenses": "MIT",
@@ -4176,6 +4306,12 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native-screens",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native-screens/LICENSE"
   },
+  "react-native-svg@15.12.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/react-native-community/react-native-svg",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native-svg",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/react-native-svg/LICENSE"
+  },
   "react-native-web@0.21.2": {
     "licenses": "MIT",
     "repository": "https://github.com/necolas/react-native-web",
@@ -4327,7 +4463,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/resolve-global",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/resolve-global/license"
   },
-  "resolve-workspace-root@2.0.0": {
+  "resolve-workspace-root@2.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/byCedric/resolve-workspace-root",
     "publisher": "Cedric van Putten",
@@ -4380,6 +4516,15 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/rimraf",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/rimraf/LICENSE"
   },
+  "rtl-detect@1.1.2": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/shadiabuhilal/rtl-detect",
+    "publisher": "Shadi Abu Hilal",
+    "email": "shadiabuhilal@gmail.com",
+    "url": "http://github.com/shadiabuhilal",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/rtl-detect",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/rtl-detect/LICENSE.md"
+  },
   "safe-buffer@5.2.1": {
     "licenses": "MIT",
     "repository": "https://github.com/feross/safe-buffer",
@@ -4389,7 +4534,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/safe-buffer",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/safe-buffer/LICENSE"
   },
-  "sax@1.4.3": {
+  "sax@1.4.4": {
     "licenses": "BlueOak-1.0.0",
     "repository": "https://github.com/isaacs/sax-js",
     "publisher": "Isaac Z. Schlueter",
@@ -4778,7 +4923,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/supports-preserve-symlinks-flag",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/supports-preserve-symlinks-flag/LICENSE"
   },
-  "tar@7.5.2": {
+  "tar@7.5.3": {
     "licenses": "BlueOak-1.0.0",
     "repository": "https://github.com/isaacs/node-tar",
     "publisher": "Isaac Z. Schlueter",
@@ -4803,7 +4948,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/terminal-link",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/terminal-link/license"
   },
-  "terser@5.44.1": {
+  "terser@5.46.0": {
     "licenses": "BSD-2-Clause",
     "repository": "https://github.com/terser/terser",
     "publisher": "Mihai Bazon",
@@ -4924,6 +5069,15 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/type-fest",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/type-fest/license"
   },
+  "ua-parser-js@0.7.41": {
+    "licenses": "MIT",
+    "repository": "https://github.com/faisalman/ua-parser-js",
+    "publisher": "Faisal Salman",
+    "email": "f@faisalman.com",
+    "url": "http://faisalman.com",
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-device/node_modules/ua-parser-js",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/expo-device/node_modules/ua-parser-js/license.md"
+  },
   "ua-parser-js@1.0.41": {
     "licenses": "MIT",
     "repository": "https://github.com/faisalman/ua-parser-js",
@@ -4939,7 +5093,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/undici-types",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/undici-types/LICENSE"
   },
-  "undici@6.22.0": {
+  "undici@6.23.0": {
     "licenses": "MIT",
     "repository": "https://github.com/nodejs/undici",
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/undici",
@@ -5197,17 +5351,17 @@
     "publisher": "Einar Otto Stangvik",
     "email": "einaros@gmail.com",
     "url": "http://2x.io",
-    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/ws",
-    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/ws/LICENSE"
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/metro/node_modules/ws",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/metro/node_modules/ws/LICENSE"
   },
-  "ws@8.18.3": {
+  "ws@8.19.0": {
     "licenses": "MIT",
     "repository": "https://github.com/websockets/ws",
     "publisher": "Einar Otto Stangvik",
     "email": "einaros@gmail.com",
     "url": "http://2x.io",
-    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/realtime-js/node_modules/ws",
-    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/@supabase/realtime-js/node_modules/ws/LICENSE"
+    "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/ws",
+    "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/ws/LICENSE"
   },
   "xcode@3.0.1": {
     "licenses": "Apache-2.0",
@@ -5299,7 +5453,7 @@
     "path": "/Users/ichiro/Desktop/rexpo_production/node_modules/yocto-queue",
     "licenseFile": "/Users/ichiro/Desktop/rexpo_production/node_modules/yocto-queue/license"
   },
-  "zustand@5.0.9": {
+  "zustand@5.0.10": {
     "licenses": "MIT",
     "repository": "https://github.com/pmndrs/zustand",
     "publisher": "Paul Henschel",
