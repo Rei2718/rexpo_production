@@ -60,7 +60,8 @@
         {
           "locationWhenInUsePermission": "マップ上で現在地を表示し、会場内での位置関係を把握しやすくするために位置情報を取得します。"
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true,
