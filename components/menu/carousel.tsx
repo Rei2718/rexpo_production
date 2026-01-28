@@ -27,6 +27,8 @@ export function MenuCarousel() {
                 loop={true}
                 width={carouselWidth}
                 height={carouselHeight}
+                autoPlay={true}
+                autoPlayInterval={1500}
                 snapEnabled={true}
                 pagingEnabled={true}
                 data={carouselImages}
