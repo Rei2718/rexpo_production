@@ -1,4 +1,3 @@
-
 import { ThemedView } from "@/components/ui/themed-view";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
@@ -10,8 +9,6 @@ const carouselImages = [
     require("@/assets/event-carousel/1.png"),
     require("@/assets/event-carousel/2.png"),
     require("@/assets/event-carousel/3.png"),
-    require("@/assets/event-carousel/4.png"),
-    require("@/assets/event-carousel/5.png"),
 ];
 
 export function MenuCarousel() {
