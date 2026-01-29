@@ -14,7 +14,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import 'expo-sqlite/localStorage/install';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from "expo-system-ui";
-import { PostHogProvider } from 'posthog-react-native';
 import { PressablesConfig } from 'pressto';
 import React, { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
@@ -46,6 +45,7 @@ const persister = createAsyncStoragePersister({
   storage: localStorage,
 });
 
+import { AnalyticsProvider } from '@/provider/analytics-provider';
 import { useThemeStore } from '@/stores/theme-store';
 
 export default function RootLayout() {
@@ -85,35 +85,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={theme === 'dark' ? DarkNavigationTheme : LightNavigationTheme}>
-      <PostHogProvider
-        apiKey="phc_VIPP7lxjJsKRyGvCm0x6HbMjivvcHXTL4u5qtCQHzge"
-        options={{
-          host: 'https://us.i.posthog.com',
-
-          // check https://posthog.com/docs/session-replay/installation?tab=React+Native
-          // for more config and to learn about how we capture sessions on mobile
-          // and what to expect
-          enableSessionReplay: true,
-          sessionReplayConfig: {
-            // Whether text inputs are masked. Default is true.
-            // Password inputs are always masked regardless
-            maskAllTextInputs: true,
-            // Whether images are masked. Default is true.
-            maskAllImages: true,
-            // Capture logs automatically. Default is true.
-            // Android only (Native Logcat only)
-            captureLog: true,
-            // Whether network requests are captured in recordings. Default is true
-            // Only metric-like data like speed, size, and response code are captured.
-            // No data is captured from the request or response body.
-            // iOS only
-            captureNetworkTelemetry: true,
-            // Throttling delay used to reduce the number of snapshots captured and reduce performance impact
-            // The lower the number more snapshots will be captured but higher the performance impact
-            // Default is 1000ms
-            throttleDelayMs: 1000,
-          },
-        }}>
+      <AnalyticsProvider>
         <ActionSheetProvider>
           <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
             <GestureHandlerRootView>
@@ -157,7 +129,7 @@ export default function RootLayout() {
             </GestureHandlerRootView>
           </PersistQueryClientProvider>
         </ActionSheetProvider>
-      </PostHogProvider>
+      </AnalyticsProvider>
     </ThemeProvider>
   );
 }
