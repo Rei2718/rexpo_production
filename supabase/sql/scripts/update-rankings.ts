@@ -102,10 +102,12 @@ async function main() {
         });
 
         // B. Trending Ranking (1h)
-        // Score = (1h_Views * 10) + (1h_Bookmarks * 100)
+        // Score = (1h_Bookmarks * 15) + log10(1h_Views + 1) * 100
         const trendingMetrics = await collectMetrics(1, 'TRENDING (1h)');
         const trendingRanking = calculateRanking(trendingMetrics, (m) => {
-            return (m.views * 10) + (m.bookmarks * 100);
+            const viewScore = Math.log10(m.views + 1) * 100;
+            const bookmarkScore = m.bookmarks * 15;
+            return viewScore + bookmarkScore;
         });
 
         console.log(`\n📊 Scored Results:`);
