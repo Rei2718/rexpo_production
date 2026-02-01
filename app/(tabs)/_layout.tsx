@@ -28,8 +28,8 @@ export default function TabLayout() {
                 <Icon
                     sf={"house.fill"}
                     androidSrc={{
-                        default: require("@/assets/msIconImage/homeDarkOff.png"),
-                        selected: require("@/assets/msIconImage/homeDarkTint.png")
+                        default: require("@/assets/msIconImage/homeOff.png"),
+                        selected: require("@/assets/msIconImage/homeTint.png")
                     }}
                 />
             </NativeTabs.Trigger>
@@ -38,8 +38,8 @@ export default function TabLayout() {
                 <Icon
                     sf={"trophy.fill"}
                     androidSrc={{
-                        default: require("@/assets/msIconImage/exploreDarkOff.png"),
-                        selected: require("@/assets/msIconImage/exploreDarkTint.png")
+                        default: require("@/assets/msIconImage/crownOff.png"),
+                        selected: require("@/assets/msIconImage/crownTint.png")
                     }}
                 />
             </NativeTabs.Trigger>
@@ -48,18 +48,8 @@ export default function TabLayout() {
                 <Icon
                     sf={"clock.fill"}
                     androidSrc={{
-                        default: require("@/assets/msIconImage/clockDarkOff.png"),
-                        selected: require("@/assets/msIconImage/clockDarkTint.png")
-                    }}
-                />
-            </NativeTabs.Trigger>
-            <NativeTabs.Trigger name="map">
-                <Label>マップ</Label>
-                <Icon
-                    sf={"map.fill"}
-                    androidSrc={{
-                        default: require("@/assets/msIconImage/mapDarkOff.png"),
-                        selected: require("@/assets/msIconImage/mapDarkTint.png")
+                        default: require("@/assets/msIconImage/clockOff.png"),
+                        selected: require("@/assets/msIconImage/clockTint.png")
                     }}
                 />
             </NativeTabs.Trigger>
@@ -68,8 +58,8 @@ export default function TabLayout() {
                 <Icon
                     sf={"bookmark.fill"}
                     androidSrc={{
-                        default: require("@/assets/msIconImage/bookmarkDarkOff.png"),
-                        selected: require("@/assets/msIconImage/bookmarkDarkTint.png")
+                        default: require("@/assets/msIconImage/bookmarkOff.png"),
+                        selected: require("@/assets/msIconImage/bookmarkTint.png")
                     }}
                 />
             </NativeTabs.Trigger>
