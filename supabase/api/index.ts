@@ -6,6 +6,7 @@ import {
     get_categories,
     get_display_venue,
     get_event_details,
+    get_event_rankings,
     get_events_by_ids,
     get_events_by_tag,
     get_events_by_venue,
@@ -22,7 +23,7 @@ import {
 import { keys } from "./keys";
 
 export function useBanners() {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_banners(),
         queryFn: get_banners,
     });
@@ -31,7 +32,7 @@ export function useBanners() {
 }
 
 export function useFeatures() {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_features(),
         queryFn: get_features,
     });
@@ -40,7 +41,7 @@ export function useFeatures() {
 }
 
 export function useNews() {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_news(),
         queryFn: get_news,
     });
@@ -49,7 +50,7 @@ export function useNews() {
 }
 
 export function useDisplayVenue() {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_display_venue(),
         queryFn: get_display_venue,
     });
@@ -58,7 +59,7 @@ export function useDisplayVenue() {
 }
 
 export function useEventDetails(event_public_id: string) {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_event_details(event_public_id),
         queryFn: () => get_event_details(event_public_id),
         enabled: !!event_public_id,
@@ -68,7 +69,7 @@ export function useEventDetails(event_public_id: string) {
 }
 
 export function useEventsByTag(tag_public_id?: string) {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_events_by_tag(tag_public_id),
         queryFn: () => get_events_by_tag(tag_public_id),
         enabled: !!tag_public_id,
@@ -78,7 +79,7 @@ export function useEventsByTag(tag_public_id?: string) {
 }
 
 export function useEventsByVenue(venue_public_id?: string) {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_events_by_venue(venue_public_id),
         queryFn: () => get_events_by_venue(venue_public_id),
         enabled: !!venue_public_id,
@@ -88,7 +89,7 @@ export function useEventsByVenue(venue_public_id?: string) {
 }
 
 export function useSeveralEventsByTag() {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_several_events_by_tag(),
         queryFn: get_several_events_by_tag,
     });
@@ -97,7 +98,7 @@ export function useSeveralEventsByTag() {
 }
 
 export function useTagAndEventsByCategory(category_public_id?: string) {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_tag_and_events_by_category(category_public_id),
         queryFn: () => get_tag_and_events_by_category(category_public_id),
         enabled: !!category_public_id,
@@ -107,7 +108,7 @@ export function useTagAndEventsByCategory(category_public_id?: string) {
 }
 
 export function useVenueDetails(venue_public_id: string) {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_venue_details(venue_public_id),
         queryFn: () => get_venue_details(venue_public_id),
         enabled: !!venue_public_id,
@@ -137,7 +138,7 @@ export function useVenueDynamicStatus(venue_public_id: string) {
 }
 
 export function useCategories() {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_categories(),
         queryFn: get_categories,
     });
@@ -146,7 +147,7 @@ export function useCategories() {
 }
 
 export function useAllVenues() {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_all_venues(),
         queryFn: get_all_venues,
     });
@@ -155,7 +156,7 @@ export function useAllVenues() {
 }
 
 export function useEventsByIds(event_public_ids: string[]) {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_events_by_ids(event_public_ids),
         queryFn: () => get_events_by_ids(event_public_ids),
         enabled: event_public_ids.length > 0,
@@ -165,7 +166,7 @@ export function useEventsByIds(event_public_ids: string[]) {
 }
 
 export function useOrganizationDetails(organization_public_id: string) {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_organization_details(organization_public_id),
         queryFn: () => get_organization_details(organization_public_id),
         enabled: !!organization_public_id,
@@ -175,10 +176,20 @@ export function useOrganizationDetails(organization_public_id: string) {
 }
 
 export function useFoods() {
-    const { data, isPending, isError, refetch } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: keys.get_foods(),
         queryFn: get_foods,
     });
 
     return { data, isPending, isError };
+}
+
+export function useEventRankings() {
+    const { data, isPending, isError, refetch } = useQuery({
+        queryKey: keys.get_event_rankings(),
+        queryFn: get_event_rankings,
+    });
+    useRefetchOnFocus(refetch);
+
+    return { data, isPending, isError, refetch };
 }

@@ -1,8 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
+import 'dotenv/config';
 
 // 環境変数のチェック
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY;
 
 // Project 1
 const POSTHOG_PROJECT_ID_1 = process.env.POSTHOG_PROJECT_ID;
@@ -138,7 +139,7 @@ function calculateRanking(
             ...data
         }))
         .sort((a, b) => b.score - a.score)
-        .slice(0, 10); // Limit Top 10
+        .slice(0, 5); // Limit Top 5
 }
 
 // Mapping to DB Schema

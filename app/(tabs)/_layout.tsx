@@ -33,6 +33,16 @@ export default function TabLayout() {
                     }}
                 />
             </NativeTabs.Trigger>
+            <NativeTabs.Trigger name="ranking">
+                <Label>ランキング</Label>
+                <Icon
+                    sf={"trophy.fill"}
+                    androidSrc={{
+                        default: require("@/assets/msIconImage/exploreDarkOff.png"),
+                        selected: require("@/assets/msIconImage/exploreDarkTint.png")
+                    }}
+                />
+            </NativeTabs.Trigger>
             <NativeTabs.Trigger name="time-line">
                 <Label>タイムライン</Label>
                 <Icon

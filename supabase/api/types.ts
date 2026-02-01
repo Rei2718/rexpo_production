@@ -223,3 +223,17 @@ export type Food = Nullable<{
     website: string;
     display_order: number;
 }>;
+
+export type EventRankingItem = Nullable<{
+    rank: number;
+    score: number;
+    event_public_id: string;
+    name: string;
+    caption: string;
+    icon: string;
+}>;
+
+export type EventRankings = {
+    top: Verified<EventRankingItem>[];
+    trending: Verified<EventRankingItem>[];
+};

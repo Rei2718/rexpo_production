@@ -6,6 +6,7 @@ import {
     DisplayVenue,
     EventDetails,
     EventOverview,
+    EventRankings,
     Feature,
     Food,
     News,
@@ -143,4 +144,10 @@ export async function get_foods() {
     const { data, error } = await supabase.rpc("get_foods");
     if (error) throw error;
     return data as unknown as Verified<Food>[];
+}
+
+export async function get_event_rankings() {
+    const { data, error } = await supabase.rpc("get_event_rankings");
+    if (error) throw error;
+    return data as unknown as Verified<EventRankings>;
 }

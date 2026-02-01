@@ -16,4 +16,5 @@ export const keys = {
     get_events_by_ids: (event_public_ids: string[]) => ['get_events_by_ids', { event_public_ids }] as const,
     get_organization_details: (organization_public_id: string) => ['get_organization_details', organization_public_id] as const,
     get_foods: () => ['get_foods'] as const,
+    get_event_rankings: () => ['get_event_rankings'] as const,
 } as const;
