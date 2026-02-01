@@ -24,7 +24,11 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSLocationWhenInUseUsageDescription": "マップ上で現在地を表示し、会場内での位置関係を把握しやすくするために位置情報を取得します。"
-      }
+      },
+      "associatedDomains": [
+        "applinks:r-expo-app.vercel.app"
+      ],
+      "appleTeamId": "YZ5MV487NP"
     },
     "android": {
       "adaptiveIcon": {
@@ -37,6 +41,23 @@
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "r-expo-app.vercel.app",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
       ]
     },
     "plugins": [
