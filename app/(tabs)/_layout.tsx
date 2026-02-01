@@ -36,7 +36,7 @@ export default function TabLayout() {
             <NativeTabs.Trigger name="ranking">
                 <Label>ランキング</Label>
                 <Icon
-                    sf={"trophy.fill"}
+                    sf={"crown.fill"}
                     androidSrc={{
                         default: require("@/assets/msIconImage/crownOff.png"),
                         selected: require("@/assets/msIconImage/crownTint.png")
