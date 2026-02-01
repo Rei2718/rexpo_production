@@ -8,6 +8,14 @@ import { Platform } from 'react-native';
 export default function DetailLayout() {
     const color = useThemeColor();
 
+    const handleBack = () => {
+        if (router.canGoBack()) {
+            router.back();
+        } else {
+            router.replace("/");
+        }
+    };
+
     return (
         <Stack
             screenOptions={{
@@ -16,11 +24,11 @@ export default function DetailLayout() {
                 headerTitleAlign: "center",
                 headerTransparent: Platform.OS === 'ios' ? true : false,
                 headerShadowVisible: false,
-                headerLeft: Platform.OS === 'ios' ? () => (
-                    <PressableScale onPress={() => router.back()} style={{ padding: Spacing.s4 }}>
+                headerLeft: () => (
+                    <PressableScale onPress={handleBack} style={{ padding: Spacing.s4 }}>
                         <Icon icon="left" color={color.natural_100} size={Spacing.s24} />
                     </PressableScale>
-                ) : undefined,
+                ),
             }}
         >
             <Stack.Screen name="event-details" />
@@ -34,6 +42,19 @@ export default function DetailLayout() {
             <Stack.Screen name="privacy" />
             <Stack.Screen name="news/index" />
             <Stack.Screen name="news/[id]" />
+            <Stack.Screen
+                name="event/[event_public_id]"
+                options={{
+                    headerShown: true,
+                    headerTitle: "",
+                    headerTransparent: Platform.OS === 'ios',
+                    headerLeft: () => (
+                        <PressableScale onPress={handleBack} style={{ padding: Spacing.s4 }}>
+                            <Icon icon="left" color={color.natural_100} size={Spacing.s24} />
+                        </PressableScale>
+                    ),
+                }}
+            />
         </Stack>
     );
 }
