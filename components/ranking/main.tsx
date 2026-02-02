@@ -30,8 +30,8 @@ export default function RankingMain() {
             >
                 <TitleBar />
                 <Container gap="s32">
-                    <RankingSection title="🏆 トップ" data={topList} />
-                    <RankingSection title="🔥 急上昇" data={trendingList} />
+                    <RankingSection title="🏆 トップ" data={topList} variant="top" />
+                    <RankingSection title="🔥 急上昇" data={trendingList} variant="trending" />
                 </Container>
             </ScrollView>
         </Container>

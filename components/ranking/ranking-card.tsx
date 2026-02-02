@@ -5,17 +5,28 @@ import { Spacing } from "@/constants/theme";
 import { EventRankingItem, Verified } from "@/supabase/api/types";
 import { View } from "react-native";
 
-export function RankingCard(data: Verified<EventRankingItem>) {
+export type RankingVariant = 'top' | 'trending';
+
+type RankingCardProps = {
+    data: Verified<EventRankingItem>;
+    variant: RankingVariant;
+};
+
+export function RankingCard({ data, variant }: RankingCardProps) {
+    const isTrending = variant === 'trending';
+
     return (
         <Container flexDirection="row" alignItems="center" gap="s8">
             {/* Rank Indicator */}
-            <Container alignItems="center" justifyContent="center" style={{ width: Spacing.s32 }}>
+            <Container alignItems="center" justifyContent="center" style={{ width: Spacing.s40 }}>
                 <ThemedText type="title2" color="tint">
                     {data.rank}
                 </ThemedText>
-                <ThemedText type="caption2" color="natural_200">
-                    {data.score}
-                </ThemedText>
+                <Container alignItems="center">
+                    <ThemedText type="caption2" color="natural_200">
+                        {isTrending ? "+" : ""}{data.score} <ThemedText type="caption2" color="natural_300">pt</ThemedText>
+                    </ThemedText>
+                </Container>
             </Container>
 
             {/* Event List Item (Reused) */}

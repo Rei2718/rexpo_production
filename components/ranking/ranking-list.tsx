@@ -4,13 +4,14 @@ import { EventRankingItem, Verified } from "@/supabase/api/types";
 import { memo } from "react";
 import { StyleSheet, View } from "react-native";
 import { Container } from "../ui/container";
-import { RankingCard } from "./ranking-card";
+import { RankingCard, RankingVariant } from "./ranking-card";
 
 type RankingListProps = {
     data: Verified<EventRankingItem>[];
+    variant: RankingVariant;
 };
 
-export const RankingList = memo(({ data }: RankingListProps) => {
+export const RankingList = memo(({ data, variant }: RankingListProps) => {
     const color = useThemeColor();
 
     if (!data || data.length === 0) return null;
@@ -22,6 +23,7 @@ export const RankingList = memo(({ data }: RankingListProps) => {
                     <MemoizedRankingRow
                         key={item.event_public_id}
                         item={item}
+                        variant={variant}
                         isLast={index === data.length - 1}
                     />
                 ))}
@@ -30,11 +32,11 @@ export const RankingList = memo(({ data }: RankingListProps) => {
     );
 });
 
-const MemoizedRankingRow = memo(({ item, isLast }: { item: Verified<EventRankingItem>; isLast: boolean }) => {
+const MemoizedRankingRow = memo(({ item, variant, isLast }: { item: Verified<EventRankingItem>; variant: RankingVariant; isLast: boolean }) => {
     const color = useThemeColor();
     return (
         <View>
-            <RankingCard {...item} />
+            <RankingCard data={item} variant={variant} />
             {!isLast && (
                 <View style={[styles.separator, { backgroundColor: color.natural_400 }]} />
             )}
@@ -51,6 +53,6 @@ const styles = StyleSheet.create({
     separator: {
         height: 1,
         marginVertical: Spacing.s8,
-        marginLeft: 104, // rank(32) + gap(8) + icon(56) + gap(8) = 104
+        marginLeft: 112, // rank(40) + gap(8) + icon(56) + gap(8) = 112
     },
 });

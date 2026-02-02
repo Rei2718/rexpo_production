@@ -96,18 +96,14 @@ async function main() {
         // Score = (Bookmarks * 15) + log10(Views + 1) * 100
         const topMetrics = await collectMetrics(-1, 'TOP (All-time)');
         const topRanking = calculateRanking(topMetrics, (m) => {
-            const viewScore = Math.log10(m.views + 1) * 100;
-            const bookmarkScore = m.bookmarks * 15;
-            return viewScore + bookmarkScore;
+            return calculateAdvancedScore(m.views, m.bookmarks);
         });
 
         // B. Trending Ranking (1h)
         // Score = (1h_Bookmarks * 15) + log10(1h_Views + 1) * 100
         const trendingMetrics = await collectMetrics(1, 'TRENDING (1h)');
         const trendingRanking = calculateRanking(trendingMetrics, (m) => {
-            const viewScore = Math.log10(m.views + 1) * 100;
-            const bookmarkScore = m.bookmarks * 15;
-            return viewScore + bookmarkScore;
+            return calculateAdvancedScore(m.views, m.bookmarks);
         });
 
         console.log(`\n📊 Scored Results:`);
@@ -127,6 +123,21 @@ async function main() {
         console.error('❌ Critical Error:', error);
         process.exit(1);
     }
+}
+
+function calculateAdvancedScore(views: number, bookmarks: number): number {
+    // 1. ベーススコア算出（変更なし）
+    // ブックマークの重み15, Viewは対数
+    const baseScore = (bookmarks * 15) + (Math.log10(views + 1) * 100);
+
+    // 2. 3桁上限（999）に合わせたパラメータ設定
+    const CEILING = 999;
+    const SENSITIVITY = 1500; // 1000人規模に最適化した感度
+
+    // 3. 漸近関数で0〜999にマッピング
+    const normalizedScore = CEILING * (1 - Math.exp(-baseScore / SENSITIVITY));
+
+    return Math.round(normalizedScore);
 }
 
 // Result Aggregation & Sorting
