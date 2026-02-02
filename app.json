@@ -26,7 +26,7 @@
         "NSLocationWhenInUseUsageDescription": "マップ上で現在地を表示し、会場内での位置関係を把握しやすくするために位置情報を取得します。"
       },
       "associatedDomains": [
-        "applinks:r-expo-app.vercel.app"
+        "applinks:r-expo-app.site"
       ],
       "appleTeamId": "YZ5MV487NP"
     },
@@ -49,7 +49,7 @@
           "data": [
             {
               "scheme": "https",
-              "host": "r-expo-app.vercel.app",
+              "host": "r-expo-app.site",
               "pathPrefix": "/"
             }
           ],

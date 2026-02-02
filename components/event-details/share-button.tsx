@@ -14,7 +14,7 @@ export function EventShareButton(data: Verified<EventDetails>) {
 
     const handleShare = async () => {
         try {
-            const url = `https://r-expo-app.vercel.app/event/${data.event_public_id}`;
+            const url = `https://r-expo-app.site/event/${data.event_public_id}`;
             const campaignMessage = 'みんなでこのイベントを盛り上げよう！🔥';
             const name = data.name ?? 'R-EXPO';
             const baseMessage = `${campaignMessage}\n\n${name}`;
