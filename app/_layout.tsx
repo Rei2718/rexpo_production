@@ -62,6 +62,13 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name="map"
+            options={{
+              headerShown: false,
+              presentation: 'fullScreenModal',
+            }}
+          />
+          <Stack.Screen
             name="(detail)"
             options={{
               presentation: "modal",

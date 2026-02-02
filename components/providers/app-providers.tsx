@@ -2,7 +2,6 @@ import { DarkNavigationTheme, LightNavigationTheme } from '@/constants/theme';
 import { AnalyticsProvider } from '@/provider/analytics-provider';
 import { useThemeStore } from '@/stores/theme-store';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider } from '@react-navigation/native';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { QueryClient } from '@tanstack/react-query';
@@ -39,21 +38,19 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
                 <ActionSheetProvider>
                     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
                         <GestureHandlerRootView style={{ flex: 1 }}>
-                            <BottomSheetModalProvider>
-                                <PressablesConfig
-                                    animationType="spring"
-                                    animationConfig={{ damping: 30, stiffness: 200 }}
-                                    config={{ minScale: 0.9, activeOpacity: 0.6 }}
-                                    globalHandlers={{
-                                        onPress: () => {
-                                            Haptics.selectionAsync();
-                                        },
-                                    }}
-                                >
-                                    {children}
-                                    <StatusBar style="auto" />
-                                </PressablesConfig>
-                            </BottomSheetModalProvider>
+                            <PressablesConfig
+                                animationType="spring"
+                                animationConfig={{ damping: 30, stiffness: 200 }}
+                                config={{ minScale: 0.9, activeOpacity: 0.6 }}
+                                globalHandlers={{
+                                    onPress: () => {
+                                        Haptics.selectionAsync();
+                                    },
+                                }}
+                            >
+                                {children}
+                                <StatusBar style="auto" />
+                            </PressablesConfig>
                         </GestureHandlerRootView>
                     </PersistQueryClientProvider>
                 </ActionSheetProvider>
