@@ -1,19 +1,28 @@
 import { ThemedView } from "@/components/ui/themed-view";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
+import { useThemeStore } from "@/stores/theme-store";
 import { Image } from "expo-image";
-import { StyleSheet, useWindowDimensions } from "react-native";
+import { StyleSheet, useColorScheme, useWindowDimensions } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 
-const carouselImages = [
-    require("@/assets/event-carousel/1.png"),
-    require("@/assets/event-carousel/2.png"),
-    require("@/assets/event-carousel/3.png"),
-];
+// Moved inside component
+
 
 export function MenuCarousel() {
     const color = useThemeColor();
     const { width } = useWindowDimensions();
+
+    const systemTheme = useColorScheme() ?? 'light';
+    const { themeMode } = useThemeStore();
+    const isDark = (themeMode === 'system' ? systemTheme : themeMode) === 'dark';
+
+    const carouselImages = [
+        require("@/assets/event-carousel/universe.png"),
+        isDark
+            ? require("@/assets/event-carousel/walk_dark.jpg")
+            : require("@/assets/event-carousel/walk_light.jpg"),
+    ];
 
     const carouselWidth = width;
     const carouselHeight = (width - Spacing.s20 * 2) / 3;
