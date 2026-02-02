@@ -39,6 +39,7 @@ export const icons = {
     food: require('./food.svg'),
     news: require('./news.svg'),
     flatware: require('./flatware.svg'),
+    share: require('./share.svg'),
 };
 
 export type IconName = keyof typeof icons;

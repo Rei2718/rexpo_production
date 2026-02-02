@@ -4,6 +4,7 @@ import { EventHeader } from "@/components/event-details/header";
 import { EventInfoCard } from "@/components/event-details/info-card";
 import { EventOrganization } from "@/components/event-details/organization";
 import { EventPerformers } from "@/components/event-details/performers";
+import { EventShareButton } from "@/components/event-details/share-button";
 import { EventTags } from "@/components/event-details/tags";
 import BookmarkButton from "@/components/ui/bookmark-button";
 import { Column } from "@/components/ui/flex";
@@ -50,8 +51,9 @@ export default function EventDetailsScreen() {
                     <EventHeader {...data} />
 
                     {/* Info */}
-                    <Column paddingHorizontal="s20">
+                    <Column paddingHorizontal="s20" gap="s12">
                         <EventInfoCard {...data} />
+                        <EventShareButton {...data} />
                     </Column>
 
                     {/* Overview */}
