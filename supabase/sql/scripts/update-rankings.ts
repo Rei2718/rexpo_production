@@ -61,6 +61,8 @@ async function main() {
 
         if (projects.length === 0) throw new Error('❌ No PostHog configuration found.');
 
+        let hasFetchError = false;
+
         // 共通Fetch関数
         const collectMetrics = async (hours: number, label: string): Promise<Record<string, MetricData>> => {
             console.log(`\n🔍 Collecting metrics for ${label} (Hours: ${hours})...`);
@@ -78,14 +80,20 @@ async function main() {
                     const views = await fetchHogQL(proj, hours, 'views');
                     views.forEach((r: any) => merge(r[0], 'views', Number(r[1])));
                     // console.log(`   - [${proj.name}] Views: fetched ${views.length} rows.`);
-                } catch (e: any) { console.error(`   ⚠️ Failed to fetch views from ${proj.name}:`, e.message); }
+                } catch (e: any) {
+                    console.error(`   ⚠️ Failed to fetch views from ${proj.name}:`, e.message);
+                    hasFetchError = true;
+                }
 
                 // 2. Fetch Bookmarks
                 try {
                     const bookmarks = await fetchHogQL(proj, hours, 'bookmarks');
                     bookmarks.forEach((r: any) => merge(r[0], 'bookmarks', Number(r[1])));
                     // console.log(`   - [${proj.name}] Bookmarks: fetched ${bookmarks.length} rows.`);
-                } catch (e: any) { console.error(`   ⚠️ Failed to fetch bookmarks from ${proj.name}:`, e.message); }
+                } catch (e: any) {
+                    console.error(`   ⚠️ Failed to fetch bookmarks from ${proj.name}:`, e.message);
+                    hasFetchError = true;
+                }
             }
             return mergedMetrics;
         };
@@ -111,6 +119,10 @@ async function main() {
         console.log(`   Trending: ${trendingRanking.length} items.`);
 
         // --- 4. データ作成 & DB更新 ---
+        if (hasFetchError) {
+            console.warn('\n⚠️ Errors occurred during metrics collection. Skipping DB update to prevent data corruption.');
+            return;
+        }
         const topDBData = mapToDBData(topRanking, nameToIdMap, 'top');
         const trendingDBData = mapToDBData(trendingRanking, nameToIdMap, 'trending');
 

@@ -1,6 +1,7 @@
 import { DarkNavigationTheme, LightNavigationTheme } from '@/constants/theme';
 import { useIsFirstLaunch } from '@/hooks/use-is-first-launch';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { AnalyticsProvider } from '@/provider/analytics-provider';
+import { useThemeStore } from '@/stores/theme-store';
 import { NotoSansJP_300Light, NotoSansJP_400Regular, NotoSansJP_500Medium, NotoSansJP_600SemiBold, NotoSansJP_700Bold, useFonts } from '@expo-google-fonts/noto-sans-jp';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -35,7 +36,7 @@ export const unstable_settings = {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 60 * 24, // 24 hours
+      staleTime: 1000 * 60 * 60 * 72, // 72 hours
       refetchOnWindowFocus: false,
     },
   },
@@ -45,15 +46,11 @@ const persister = createAsyncStoragePersister({
   storage: localStorage,
 });
 
-import { AnalyticsProvider } from '@/provider/analytics-provider';
-import { useThemeStore } from '@/stores/theme-store';
-
 export default function RootLayout() {
   const systemTheme = useColorScheme() ?? 'light';
   const { themeMode } = useThemeStore();
   const theme = themeMode === 'system' ? systemTheme : themeMode;
 
-  const color = useThemeColor();
   const [loaded] = useFonts({
     NotoSansJP_300Light,
     NotoSansJP_400Regular,
