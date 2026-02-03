@@ -18,7 +18,7 @@ export function RankingCard({ data, variant }: RankingCardProps) {
     return (
         <Container flexDirection="row" alignItems="center" gap="s8">
             {/* Rank Indicator */}
-            <Container alignItems="center" justifyContent="center" style={{ width: Spacing.s40 }}>
+            <Container alignItems="center" justifyContent="center" style={{ width: Spacing.s48 }}>
                 <ThemedText type="title2" color="tint">
                     {data.rank}
                 </ThemedText>
