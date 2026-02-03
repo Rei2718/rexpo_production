@@ -18,13 +18,16 @@ export function RankingCard({ data, variant }: RankingCardProps) {
     return (
         <Container flexDirection="row" alignItems="center" gap="s8">
             {/* Rank Indicator */}
-            <Container alignItems="center" justifyContent="center" style={{ width: Spacing.s48 }}>
+            <Container alignItems="center" justifyContent="center" style={{ width: Spacing.s40 }}>
                 <ThemedText type="title2" color="tint">
                     {data.rank}
                 </ThemedText>
-                <Container alignItems="center">
+                <Container alignItems="baseline" flexDirection="row" justifyContent="center">
                     <ThemedText type="caption2" color="natural_200">
-                        {isTrending ? "+" : ""}{data.score} <ThemedText type="caption2" color="natural_300">pt</ThemedText>
+                        {isTrending ? "+" : ""}{data.score}
+                    </ThemedText>
+                    <ThemedText type="caption2" color="natural_300" style={{ marginLeft: 2 }}>
+                        pt
                     </ThemedText>
                 </Container>
             </Container>

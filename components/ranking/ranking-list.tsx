@@ -53,6 +53,6 @@ const styles = StyleSheet.create({
     separator: {
         height: 1,
         marginVertical: Spacing.s8,
-        marginLeft: 120, // rank(48) + gap(8) + icon(56) + gap(8) = 120
+        marginLeft: 112, // rank(40) + gap(8) + icon(56) + gap(8) = 112
     },
 });
