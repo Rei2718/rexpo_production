@@ -125,7 +125,7 @@ export default function MenuScreen() {
                         {/* Version Footer */}
                         <Container alignItems="center">
                             <ThemedText type="caption1">
-                                v5.7.0
+                                v5.7.2
                             </ThemedText>
                         </Container>
 
