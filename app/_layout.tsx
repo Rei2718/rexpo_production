@@ -13,7 +13,7 @@ SystemUI.setBackgroundColorAsync("transparent");
 SplashScreen.preventAutoHideAsync();
 SplashScreen.setOptions({
   fade: true,
-  duration: 1500,
+  duration: 1000,
 });
 
 export const unstable_settings = {
@@ -50,8 +50,11 @@ export default function RootLayout() {
     }
   }, [isReady]);
 
+  const isNavigatingToOnboarding = React.useRef(false);
+
   useEffect(() => {
-    if (isReady && isFirstLaunch && segments[0] !== 'onboarding') {
+    if (isReady && isFirstLaunch && segments[0] !== 'onboarding' && !isNavigatingToOnboarding.current) {
+      isNavigatingToOnboarding.current = true;
       router.push('/onboarding');
     }
   }, [isReady, isFirstLaunch, segments]);

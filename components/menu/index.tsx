@@ -55,7 +55,7 @@ export default function MenuScreen() {
                             />
                             <SettingsLinkItem
                                 label="マップ"
-                                icon="map"
+                                icon="mapFill"
                                 href="/map"
                             />
                             <SettingsLinkItem
