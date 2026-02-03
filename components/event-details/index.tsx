@@ -22,7 +22,7 @@ export default function EventDetailsScreen() {
 
     useScreenView({
         screen: 'event-details',
-        label: data?.name,
+        label: data?.event_public_id,
         isReady: !!data,
     });
 

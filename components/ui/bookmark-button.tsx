@@ -21,7 +21,7 @@ export default function BookmarkButton(data: Verified<EventOverview>) {
 
     const handlePress = () => {
         const properties = {
-            screen: data.name ?? 'Unknown',
+            screen: data.event_public_id,
             label: isBookmarked ? 'unbookmarked' : 'bookmarked',
         };
         console.log('[PostHog] bookmark:', properties);

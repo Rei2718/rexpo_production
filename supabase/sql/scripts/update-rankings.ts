@@ -5,13 +5,9 @@ import 'dotenv/config';
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY;
 
-// Project 1
-const POSTHOG_PROJECT_ID_1 = process.env.POSTHOG_PROJECT_ID;
-const POSTHOG_API_KEY_1 = process.env.POSTHOG_API_KEY;
-
-// Project 2
-const POSTHOG_PROJECT_ID_2 = process.env.POSTHOG_PROJECT_ID_2;
-const POSTHOG_API_KEY_2 = process.env.POSTHOG_API_KEY_2;
+// Production Project
+const POSTHOG_PROJECT_ID = process.env.POSTHOG_PROJECT_ID_PRODUCTION;
+const POSTHOG_API_KEY = process.env.POSTHOG_API_KEY_PRODUCTION;
 
 if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
     console.error('❌ Missing required Supabase environment variables.');
@@ -45,21 +41,25 @@ async function main() {
         if (mapError) throw new Error(`Failed to fetch event map: ${mapError.message}`);
 
         const nameToIdMap: Record<string, string> = {};
+        const validIdSet = new Set<string>();
+
         if (Array.isArray(eventMapData)) {
             eventMapData.forEach((item: EventMapItem) => {
-                if (item.name && item.event_public_id) {
-                    nameToIdMap[item.name] = item.event_public_id;
+                if (item.event_public_id) {
+                    validIdSet.add(item.event_public_id);
+                    // Name -> ID mapping for legacy data support
+                    if (item.name) {
+                        nameToIdMap[item.name] = item.event_public_id;
+                    }
                 }
             });
         }
-        console.log(`✅ Loaded ${Object.keys(nameToIdMap).length} events from DB.`);
+        console.log(`✅ Loaded ${validIdSet.size} events from DB. (Legacy map size: ${Object.keys(nameToIdMap).length})`);
 
         // --- 2. PostHogからデータ取得 ---
-        const projects: ProjectConfig[] = [];
-        if (POSTHOG_PROJECT_ID_1 && POSTHOG_API_KEY_1) projects.push({ id: POSTHOG_PROJECT_ID_1, key: POSTHOG_API_KEY_1, name: 'Project 1' });
-        if (POSTHOG_PROJECT_ID_2 && POSTHOG_API_KEY_2) projects.push({ id: POSTHOG_PROJECT_ID_2, key: POSTHOG_API_KEY_2, name: 'Project 2' });
+        if (!POSTHOG_PROJECT_ID || !POSTHOG_API_KEY) throw new Error('❌ No PostHog configuration found.');
 
-        if (projects.length === 0) throw new Error('❌ No PostHog configuration found.');
+        const project: ProjectConfig = { id: POSTHOG_PROJECT_ID, key: POSTHOG_API_KEY, name: 'Production' };
 
         let hasFetchError = false;
 
@@ -69,31 +69,42 @@ async function main() {
 
             const mergedMetrics: Record<string, MetricData> = {};
 
-            const merge = (name: string, type: 'views' | 'bookmarks', count: number) => {
-                if (!mergedMetrics[name]) mergedMetrics[name] = { views: 0, bookmarks: 0 };
-                mergedMetrics[name][type] += count;
+            const merge = (key: string, type: 'views' | 'bookmarks', count: number) => {
+                let eventId: string | undefined;
+
+                // 1. If key is a valid ID, use it directly (New Logic)
+                if (validIdSet.has(key)) {
+                    eventId = key;
+                }
+                // 2. If key is a known Name, map to ID (Legacy Logic)
+                else if (nameToIdMap[key]) {
+                    eventId = nameToIdMap[key];
+                }
+
+                if (eventId) {
+                    if (!mergedMetrics[eventId]) mergedMetrics[eventId] = { views: 0, bookmarks: 0 };
+                    mergedMetrics[eventId][type] += count;
+                }
             };
 
-            for (const proj of projects) {
-                // 1. Fetch Views
-                try {
-                    const views = await fetchHogQL(proj, hours, 'views');
-                    views.forEach((r: any) => merge(r[0], 'views', Number(r[1])));
-                    // console.log(`   - [${proj.name}] Views: fetched ${views.length} rows.`);
-                } catch (e: any) {
-                    console.error(`   ⚠️ Failed to fetch views from ${proj.name}:`, e.message);
-                    hasFetchError = true;
-                }
+            // 1. Fetch Views
+            try {
+                const views = await fetchHogQL(project, hours, 'views');
+                views.forEach((r: any) => merge(r[0], 'views', Number(r[1])));
+                // console.log(`   - [${project.name}] Views: fetched ${views.length} rows.`);
+            } catch (e: any) {
+                console.error(`   ⚠️ Failed to fetch views from ${project.name}:`, e.message);
+                hasFetchError = true;
+            }
 
-                // 2. Fetch Bookmarks
-                try {
-                    const bookmarks = await fetchHogQL(proj, hours, 'bookmarks');
-                    bookmarks.forEach((r: any) => merge(r[0], 'bookmarks', Number(r[1])));
-                    // console.log(`   - [${proj.name}] Bookmarks: fetched ${bookmarks.length} rows.`);
-                } catch (e: any) {
-                    console.error(`   ⚠️ Failed to fetch bookmarks from ${proj.name}:`, e.message);
-                    hasFetchError = true;
-                }
+            // 2. Fetch Bookmarks
+            try {
+                const bookmarks = await fetchHogQL(project, hours, 'bookmarks');
+                bookmarks.forEach((r: any) => merge(r[0], 'bookmarks', Number(r[1])));
+                // console.log(`   - [${project.name}] Bookmarks: fetched ${bookmarks.length} rows.`);
+            } catch (e: any) {
+                console.error(`   ⚠️ Failed to fetch bookmarks from ${project.name}:`, e.message);
+                hasFetchError = true;
             }
             return mergedMetrics;
         };
@@ -170,22 +181,23 @@ function calculateRanking(
 // Mapping to DB Schema
 function mapToDBData(
     rankedList: any[],
-    nameMap: Record<string, string>,
+    _: Record<string, string>, // Unused now
     type: 'top' | 'trending'
 ) {
     const result: any[] = [];
     rankedList.forEach((item, index) => {
-        const uuid = nameMap[item.name];
-        if (uuid) {
+        // item.name is now the event_public_id (from merge logic)
+        const eventId = item.name;
+
+        // Basic validation that it looks like a string (logic ensures it's a valid ID or mapped ID)
+        if (eventId) {
             result.push({
-                event_public_id: uuid,
+                event_public_id: eventId,
                 rank: index + 1,
                 score: item.score,
                 type: type,
                 updated_at: new Date().toISOString()
             });
-        } else {
-            // console.warn(`⚠️ Event not found in DB: "${item.name}"`);
         }
     });
     return result;

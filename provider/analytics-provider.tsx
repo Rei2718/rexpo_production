@@ -7,7 +7,7 @@ type Props = {
 export const AnalyticsProvider = ({ children }: Props) => {
     return (
         <PostHogProvider
-            apiKey="phc_TepSLLI5M2ci841Ie4rCT4tSXJHCgolno6fHEuLMkHV"
+            apiKey="phc_uYFeuNEb9SSVRJ8Fgd5whPO62QU1SaADYXpN7TfMg8B"
             options={{
                 host: 'https://us.i.posthog.com',
                 enableSessionReplay: false,
