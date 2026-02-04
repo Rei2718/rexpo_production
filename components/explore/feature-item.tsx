@@ -1,5 +1,6 @@
 import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
+import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Feature, Verified } from "@/supabase/api/types";
 import { hexToRgba } from "@/utils/color";
@@ -16,6 +17,7 @@ import { ThemedText } from "../ui/themed-text";
 export function FeatureItem(data: Verified<Feature>) {
     const router = useRouter();
     const color = useThemeColor();
+    const openInAppBrowser = useInAppBrowser();
 
     return (
         <View style={styles.container}>
@@ -52,7 +54,13 @@ export function FeatureItem(data: Verified<Feature>) {
                         <ThemedText type="title2" style={styles.textCenter}>{data.name ?? NO_DATA}</ThemedText>
                         <ThemedText type="subhead" color="natural_200" style={styles.textCenter}>{data.caption ?? NO_DATA}</ThemedText>
                         {data.event_public_id && (
-                            <PressableScale onPress={() => router.push(`/event/${data.event_public_id}`)}>
+                            <PressableScale onPress={() => {
+                                if (data.event_public_id.startsWith('https')) {
+                                    openInAppBrowser(data.event_public_id);
+                                } else {
+                                    router.push(`/event/${data.event_public_id}`);
+                                }
+                            }}>
                                 <ShineBorder borderRadius={Spacing.pill} style={{ marginTop: Spacing.s12 }}>
                                     <Container
                                         paddingHorizontal="s24"

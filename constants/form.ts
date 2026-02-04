@@ -28,10 +28,10 @@ export const SURVEY_DATA: SurveyItem[] = [
     },
     {
         id: '3',
-        title: 'セコマコラボ デザイン募集',
-        url: 'https://docs.google.com/forms/d/e/1FAIpQLSdVnUeVihwpVgAyGx5S-_4HJXQ3jF6sRtjj9VS9JHsY-LL51Q/viewform',
+        title: 'Rising Teenager Award 2026 観覧予約',
+        url: 'https://reg31.smp.ne.jp/regist/is?SMPFORM=lioi-mbnfpj-417cdc5c8b5f37390dab3360cfddb4a7',
         duration: '目安：3分',
         image: require('@/assets/logo/tint.png'),
-        provider: '行事部'
+        provider: '北海道大学 社会・地域創発本部'
     },
 ];
