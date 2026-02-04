@@ -62,6 +62,11 @@ export default function MenuScreen() {
                                 label="アンケート"
                                 icon="survey"
                                 href="/(detail)/survey"
+                            />
+                            <SettingsLinkItem
+                                label="パートナー"
+                                icon="favorite"
+                                href="/(detail)/partners"
                                 isLast={true}
                             />
                         </SettingsSection>
