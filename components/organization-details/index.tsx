@@ -41,13 +41,13 @@ export default function OrganizationDetailsScreen() {
                     {/* Info */}
                     <OrganizationSns {...data} />
 
-                    {/* Gallery */}
-                    <OrganizationGallery {...data} />
-
                     {/* Overview */}
                     <Column paddingHorizontal="s20">
                         <OrganizationDescription {...data} />
                     </Column>
+
+                    {/* Gallery */}
+                    <OrganizationGallery {...data} />
 
                 </Column >
             </ScrollView >
