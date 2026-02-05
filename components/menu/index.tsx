@@ -65,7 +65,7 @@ export default function MenuScreen() {
                             />
                             <SettingsLinkItem
                                 label="パートナー"
-                                icon="favorite"
+                                icon="favoriteFill"
                                 href="/(detail)/partners"
                                 isLast={true}
                             />

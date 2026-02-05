@@ -1,12 +1,12 @@
-
 import { Container } from "@/components/ui/container";
 import { Icon } from "@/components/ui/icon";
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { ThemedText } from "@/components/ui/themed-text";
 import { ThemedView } from "@/components/ui/themed-view";
-import { PARTNERS } from "@/constants/data";
+import { PARTNERS } from "@/constants/partners-data";
 import { Spacing } from "@/constants/theme";
 import { useBottomPadding } from "@/hooks/use-bottom-padding";
+import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { useScreenView } from "@/hooks/use-screen-view";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Image } from "expo-image";
@@ -18,6 +18,7 @@ export default function PartnersScreen() {
     const router = useRouter();
     const { modal } = useBottomPadding();
     const { width } = useWindowDimensions();
+    const openInAppBrowser = useInAppBrowser();
 
     useScreenView({
         screen: "partners",
@@ -26,6 +27,19 @@ export default function PartnersScreen() {
 
     const gap = Spacing.s12;
     const itemWidth = (width - Spacing.s20 * 2 - gap) / 2;
+
+    const handlePress = async (id: string) => {
+        if (id.startsWith("https")) {
+            await openInAppBrowser(id);
+        } else {
+            router.push({
+                pathname: "/(detail)/organization-details",
+                params: {
+                    organization_public_id: id,
+                },
+            });
+        }
+    };
 
     return (
         <ThemedView style={{ flex: 1 }}>
@@ -58,20 +72,13 @@ export default function PartnersScreen() {
                             本イベントをご支援いただいている{"\n"}
                             パートナー企業の皆様です。{"\n"}
                             {"\n"}
-                            （五十音順）
+                            （五十音順・敬称略）
                         </ThemedText>
                     </Container>
                 }
                 renderItem={({ item }) => (
                     <PressableScale
-                        onPress={() =>
-                            router.push({
-                                pathname: "/(detail)/organization-details",
-                                params: {
-                                    organization_public_id: item.organization_public_id,
-                                },
-                            })
-                        }
+                        onPress={() => handlePress(item.organization_public_id)}
                         style={{ width: itemWidth, marginBottom: gap }}
                     >
                         <Container gap="s8">

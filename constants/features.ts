@@ -21,8 +21,8 @@ export const STATIC_FEATURES: Verified<Feature>[] = [
     },
     {
         feature_public_id: "artist",
-        name: "『君に捧げる応援歌』",
-        caption: "困難を乗り越えていく人の背中を押す歌い手",
+        name: "HIPPY",
+        caption: "1億人の背中を押した令和の応援ソング\n『君に捧げる応援歌』",
         note: "MVを見る",
         image: require('@/assets/features/artist.jpg') as any,
         event_public_id: "https://youtu.be/DiRXDpDL7es?si=hSFcNJSEHPfdMF8d",
