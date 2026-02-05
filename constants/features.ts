@@ -20,15 +20,6 @@ export const STATIC_FEATURES: Verified<Feature>[] = [
         display_order: 2,
     },
     {
-        feature_public_id: "artist",
-        name: "HIPPY",
-        caption: "1億人の背中を押した令和の応援ソング\n『君に捧げる応援歌』",
-        note: "MVを見る",
-        image: require('@/assets/features/artist.jpg') as any,
-        event_public_id: "https://youtu.be/DiRXDpDL7es?si=hSFcNJSEHPfdMF8d",
-        display_order: 3,
-    },
-    {
         feature_public_id: "eco",
         name: "エコステーション",
         caption: "ゴミはエコステーションまでお持ちください",
@@ -38,3 +29,15 @@ export const STATIC_FEATURES: Verified<Feature>[] = [
         display_order: 3,
     }
 ];
+
+{/*
+    {
+        feature_public_id: "artist",
+        name: "HIPPY",
+        caption: "1億人の背中を押した令和の応援ソング\n『君に捧げる応援歌』",
+        note: "MVを見る",
+        image: require('@/assets/features/artist.jpg') as any,
+        event_public_id: "https://youtu.be/DiRXDpDL7es?si=hSFcNJSEHPfdMF8d",
+        display_order: 3,
+    },
+*/}
