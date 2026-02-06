@@ -11,6 +11,15 @@ export const STATIC_FEATURES: Verified<Feature>[] = [
         display_order: 1,
     },
     {
+        feature_public_id: "artist",
+        name: "HIPPY",
+        caption: "多くの人の背中を押した令和の応援ソング\n『君に捧げる応援歌』",
+        note: "MVを見る",
+        image: require('@/assets/features/artist.jpg') as any,
+        event_public_id: "https://youtu.be/DiRXDpDL7es?si=hSFcNJSEHPfdMF8d",
+        display_order: 3,
+    },
+    {
         feature_public_id: "teen",
         name: "Rising Teenager Award 2026",
         caption: "全国で活躍する若者が集まる新アワード\n北大×慶祥が魅せる次世代の祭典",
@@ -29,15 +38,3 @@ export const STATIC_FEATURES: Verified<Feature>[] = [
         display_order: 3,
     }
 ];
-
-{/*
-    {
-        feature_public_id: "artist",
-        name: "HIPPY",
-        caption: "1億人の背中を押した令和の応援ソング\n『君に捧げる応援歌』",
-        note: "MVを見る",
-        image: require('@/assets/features/artist.jpg') as any,
-        event_public_id: "https://youtu.be/DiRXDpDL7es?si=hSFcNJSEHPfdMF8d",
-        display_order: 3,
-    },
-*/}
