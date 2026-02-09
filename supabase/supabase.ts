@@ -11,7 +11,7 @@ const supabasePublishableKey = "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH";
 
 
 const supabaseUrl = "https://blmzflkpvksjqkajrzhs.supabase.co";
-const supabasePublishableKey = "sb_publishable_oY-nioBRjB0wgwg5mEv1DQ_HS5Unqrg";
+const supabasePublishableKey = "sb_publishable_XkJpiFt783Sz8t_W_5F8SQ_246d9UG0";
 
 export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
     auth: {
