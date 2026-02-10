@@ -2,7 +2,7 @@ name: Update Event Rankings
 
 on:
   schedule:
-    - cron: "*/30 * * * *" # 30分ごとに実行
+    - cron: "*/5 * * * *" # 5分ごとに実行するように変更
   workflow_dispatch: # 手動実行用
 
 jobs:
