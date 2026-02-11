@@ -155,7 +155,7 @@ function calculateAdvancedScore(views: number, bookmarks: number): number {
 
     // 2. 3桁上限（999）に合わせたパラメータ設定
     const CEILING = 999;
-    const SENSITIVITY = 20000;
+    const SENSITIVITY = 30000;
 
     // 3. 漸近関数で0〜999にマッピング
     const normalizedScore = CEILING * (1 - Math.exp(-baseScore / SENSITIVITY));
