@@ -54,11 +54,6 @@ export default function MenuScreen() {
                                 href="/(detail)/food"
                             />
                             <SettingsLinkItem
-                                label="マップ"
-                                icon="mapFill"
-                                href="/map"
-                            />
-                            <SettingsLinkItem
                                 label="アンケート"
                                 icon="survey"
                                 href="/(detail)/survey"
@@ -130,7 +125,7 @@ export default function MenuScreen() {
                         {/* Version Footer */}
                         <Container alignItems="center">
                             <ThemedText type="caption1">
-                                v5.7.3
+                                v5.7.4
                             </ThemedText>
                         </Container>
 

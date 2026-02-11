@@ -17,7 +17,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            staleTime: 1000 * 60 * 60 * 1, // 1 hours
+            // 30分（1000ms * 60s * 30m）に変更
+            staleTime: 1000 * 60 * 30,
             refetchOnWindowFocus: false,
         },
     },
