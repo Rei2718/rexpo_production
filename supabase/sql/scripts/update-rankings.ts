@@ -32,7 +32,7 @@ type MetricData = {
 };
 
 async function main() {
-    console.log('🚀 Starting ranking update (Advanced Score Mode)...');
+    console.log('🚀 Starting ranking update (Advanced Score Mode with Unique User Count)...');
 
     try {
         // --- 1. Supabaseからイベントマッピング取得 ---
@@ -47,14 +47,13 @@ async function main() {
             eventMapData.forEach((item: EventMapItem) => {
                 if (item.event_public_id) {
                     validIdSet.add(item.event_public_id);
-                    // Name -> ID mapping for legacy data support
                     if (item.name) {
                         nameToIdMap[item.name] = item.event_public_id;
                     }
                 }
             });
         }
-        console.log(`✅ Loaded ${validIdSet.size} events from DB. (Legacy map size: ${Object.keys(nameToIdMap).length})`);
+        console.log(`✅ Loaded ${validIdSet.size} events from DB.`);
 
         // --- 2. PostHogからデータ取得 ---
         if (!POSTHOG_PROJECT_ID || !POSTHOG_API_KEY) throw new Error('❌ No PostHog configuration found.');
@@ -63,7 +62,6 @@ async function main() {
 
         let hasFetchError = false;
 
-        // 共通Fetch関数
         const collectMetrics = async (hours: number, label: string): Promise<Record<string, MetricData>> => {
             console.log(`\n🔍 Collecting metrics for ${label} (Hours: ${hours})...`);
 
@@ -72,12 +70,9 @@ async function main() {
             const merge = (key: string, type: 'views' | 'bookmarks', count: number) => {
                 let eventId: string | undefined;
 
-                // 1. If key is a valid ID, use it directly (New Logic)
                 if (validIdSet.has(key)) {
                     eventId = key;
-                }
-                // 2. If key is a known Name, map to ID (Legacy Logic)
-                else if (nameToIdMap[key]) {
+                } else if (nameToIdMap[key]) {
                     eventId = nameToIdMap[key];
                 }
 
@@ -87,23 +82,21 @@ async function main() {
                 }
             };
 
-            // 1. Fetch Views
+            // 1. Fetch Views (Unique Users)
             try {
                 const views = await fetchHogQL(project, hours, 'views');
                 views.forEach((r: any) => merge(r[0], 'views', Number(r[1])));
-                // console.log(`   - [${project.name}] Views: fetched ${views.length} rows.`);
             } catch (e: any) {
-                console.error(`   ⚠️ Failed to fetch views from ${project.name}:`, e.message);
+                console.error(`   ⚠️ Failed to fetch views:`, e.message);
                 hasFetchError = true;
             }
 
-            // 2. Fetch Bookmarks
+            // 2. Fetch Bookmarks (Unique Users)
             try {
                 const bookmarks = await fetchHogQL(project, hours, 'bookmarks');
                 bookmarks.forEach((r: any) => merge(r[0], 'bookmarks', Number(r[1])));
-                // console.log(`   - [${project.name}] Bookmarks: fetched ${bookmarks.length} rows.`);
             } catch (e: any) {
-                console.error(`   ⚠️ Failed to fetch bookmarks from ${project.name}:`, e.message);
+                console.error(`   ⚠️ Failed to fetch bookmarks:`, e.message);
                 hasFetchError = true;
             }
             return mergedMetrics;
@@ -112,14 +105,12 @@ async function main() {
         // --- 3. スコア計算 ---
 
         // A. Top Ranking (All-time)
-        // Score = (Bookmarks * 15) + log10(Views + 1) * 100
         const topMetrics = await collectMetrics(-1, 'TOP (All-time)');
         const topRanking = calculateRanking(topMetrics, (m) => {
             return calculateAdvancedScore(m.views, m.bookmarks);
         });
 
         // B. Trending Ranking (1h)
-        // Score = (1h_Bookmarks * 15) + log10(1h_Views + 1) * 100
         const trendingMetrics = await collectMetrics(1, 'TRENDING (1h)');
         const trendingRanking = calculateRanking(trendingMetrics, (m) => {
             return calculateAdvancedScore(m.views, m.bookmarks);
@@ -131,11 +122,12 @@ async function main() {
 
         // --- 4. データ作成 & DB更新 ---
         if (hasFetchError) {
-            console.warn('\n⚠️ Errors occurred during metrics collection. Skipping DB update to prevent data corruption.');
+            console.warn('\n⚠️ Errors occurred during metrics collection. Skipping DB update.');
             return;
         }
-        const topDBData = mapToDBData(topRanking, nameToIdMap, 'top');
-        const trendingDBData = mapToDBData(trendingRanking, nameToIdMap, 'trending');
+
+        const topDBData = mapToDBData(topRanking, 'top');
+        const trendingDBData = mapToDBData(trendingRanking, 'trending');
 
         await updateRankingsInDB('top', topDBData);
         await updateRankingsInDB('trending', trendingDBData);
@@ -148,22 +140,21 @@ async function main() {
     }
 }
 
+/**
+ * スコア計算ロジック
+ * 漸近関数を用いて0〜999の範囲に収める
+ */
 function calculateAdvancedScore(views: number, bookmarks: number): number {
-    // 1. ベーススコア算出（変更なし）
-    // ブックマークの重み15, Viewは対数
     const baseScore = (bookmarks * 15) + (Math.log10(views + 1) * 100);
-
-    // 2. 3桁上限（999）に合わせたパラメータ設定
     const CEILING = 999;
     const SENSITIVITY = 30000;
-
-    // 3. 漸近関数で0〜999にマッピング
     const normalizedScore = CEILING * (1 - Math.exp(-baseScore / SENSITIVITY));
-
     return Math.round(normalizedScore);
 }
 
-// Result Aggregation & Sorting
+/**
+ * 集計とソート（上位5件）
+ */
 function calculateRanking(
     metrics: Record<string, MetricData>,
     scoreFn: (m: MetricData) => number
@@ -171,45 +162,33 @@ function calculateRanking(
     return Object.entries(metrics)
         .map(([name, data]) => ({
             name,
-            score: Math.round(scoreFn(data)), // Integer score
+            score: Math.round(scoreFn(data)),
             ...data
         }))
         .sort((a, b) => b.score - a.score)
-        .slice(0, 5); // Limit Top 5
+        .slice(0, 5);
 }
 
-// Mapping to DB Schema
-function mapToDBData(
-    rankedList: any[],
-    _: Record<string, string>, // Unused now
-    type: 'top' | 'trending'
-) {
-    const result: any[] = [];
-    rankedList.forEach((item, index) => {
-        // item.name is now the event_public_id (from merge logic)
-        const eventId = item.name;
-
-        // Basic validation that it looks like a string (logic ensures it's a valid ID or mapped ID)
-        if (eventId) {
-            result.push({
-                event_public_id: eventId,
-                rank: index + 1,
-                score: item.score,
-                type: type,
-                updated_at: new Date().toISOString()
-            });
-        }
-    });
-    return result;
+/**
+ * DBスキーマへのマッピング
+ */
+function mapToDBData(rankedList: any[], type: 'top' | 'trending') {
+    return rankedList.map((item, index) => ({
+        event_public_id: item.name,
+        rank: index + 1,
+        score: item.score,
+        type: type,
+        updated_at: new Date().toISOString()
+    }));
 }
 
-// DB Updater
+/**
+ * DB更新処理
+ */
 async function updateRankingsInDB(type: 'top' | 'trending', data: any[]) {
-    // Clear old data
     const { error: delErr } = await supabase.from('rankings').delete().eq('type', type);
     if (delErr) throw new Error(`Failed to clear ${type}: ${delErr.message}`);
 
-    // Insert new data
     if (data.length > 0) {
         const { error: insErr } = await supabase.from('rankings').insert(data);
         if (insErr) throw new Error(`Failed to insert ${type}: ${insErr.message}`);
@@ -217,7 +196,10 @@ async function updateRankingsInDB(type: 'top' | 'trending', data: any[]) {
     console.log(`✅ Updated ${type.toUpperCase()}: ${data.length} records.`);
 }
 
-// HogQL Fetcher
+/**
+ * HogQL Fetcher
+ * count(DISTINCT distinct_id) を使用して連打対策を行う
+ */
 async function fetchHogQL(proj: ProjectConfig, hours: number, type: 'views' | 'bookmarks') {
     let timeFilter = '';
     if (hours > 0) {
@@ -226,9 +208,9 @@ async function fetchHogQL(proj: ProjectConfig, hours: number, type: 'views' | 'b
 
     let query = '';
     if (type === 'views') {
-        // Group by properties.label (Event Name)
+        // properties.label に格納されたイベントIDごとにユニークユーザー数をカウント
         query = `
-            SELECT properties.label, count()
+            SELECT properties.label, count(DISTINCT distinct_id)
             FROM events 
             WHERE event = 'screen-view' 
               AND properties.screen = 'event-details'
@@ -239,9 +221,9 @@ async function fetchHogQL(proj: ProjectConfig, hours: number, type: 'views' | 'b
             LIMIT 1000
         `;
     } else {
-        // Bookmarks: Group by properties.screen (Event Name in BookmarkButton)
+        // properties.screen に格納されたイベントIDごとにユニークユーザー数をカウント
         query = `
-            SELECT properties.screen, count()
+            SELECT properties.screen, count(DISTINCT distinct_id)
             FROM events
             WHERE event = 'bookmark'
               AND properties.label = 'bookmarked'
@@ -260,7 +242,11 @@ async function fetchHogQL(proj: ProjectConfig, hours: number, type: 'views' | 'b
         body: JSON.stringify({ query: { kind: 'HogQLQuery', query } })
     });
 
-    if (!response.ok) throw new Error(`API Error ${response.status}`);
+    if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(`API Error ${response.status}: ${errorBody}`);
+    }
+
     const json = await response.json();
     return json.results || [];
 }
