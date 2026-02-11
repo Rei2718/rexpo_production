@@ -13,6 +13,7 @@ BEGIN
     REFRESH MATERIALIZED VIEW CONCURRENTLY public.mv_venue_timeline;
     REFRESH MATERIALIZED VIEW CONCURRENTLY public.mv_category_tree;
     REFRESH MATERIALIZED VIEW CONCURRENTLY public.mv_primary_timeline;
+    REFRESH MATERIALIZED VIEW CONCURRENTLY public.mv_all_timeline;
 END;
 $$ LANGUAGE plpgsql;
 

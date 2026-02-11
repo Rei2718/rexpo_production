@@ -15,7 +15,7 @@ export const TimelineEventList = memo((data: Verified<TimelineSlot>) => {
             <Container flexDirection="column">
                 {data.events.map((event, index) => (
                     <MemoizedTimelineEventRow
-                        key={event.event_public_id}
+                        key={`${event.event_public_id}-${event.venue_name}-${index}`}
                         event={event}
                         isLast={index === data.events.length - 1}
                     />
