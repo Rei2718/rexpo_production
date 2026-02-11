@@ -147,7 +147,7 @@ async function main() {
 function calculateAdvancedScore(views: number, bookmarks: number): number {
     const baseScore = (bookmarks * 15) + (Math.log10(views + 1) * 100);
     const CEILING = 999;
-    const SENSITIVITY = 30000;
+    const SENSITIVITY = 10000;
     const normalizedScore = CEILING * (1 - Math.exp(-baseScore / SENSITIVITY));
     return Math.round(normalizedScore);
 }
