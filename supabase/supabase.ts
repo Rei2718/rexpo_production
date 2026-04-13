@@ -11,7 +11,7 @@ const supabasePublishableKey = "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH";
 
 
 const supabaseUrl = "https://blmzflkpvksjqkajrzhs.supabase.co";
-const supabasePublishableKey = "sb_publishable_XkJpiFt783Sz8t_W_5F8SQ_246d9UG0";
+const supabasePublishableKey = "sb_publishable_xZFTkXMODdJG4LXabjEDSg_CmdpVZWK";
 
 export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
     auth: {
@@ -23,5 +23,5 @@ export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
 });
 
 export const supabaseStorageUrl = __DEV__
-    ? `https://blmzflkpvksjqkajrzhs.supabase.co/storage/v1/object/public`
+    ? `https://picsum.photos/800/800?random=`
     : `${supabaseUrl}/storage/v1/object/public`;

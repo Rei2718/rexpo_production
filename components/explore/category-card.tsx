@@ -10,6 +10,19 @@ import { StyleSheet } from "react-native";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 
+const DEV_CATEGORY_IMAGES = [
+    require('@/assets/category/1.png'),
+    require('@/assets/category/2.png'),
+    require('@/assets/category/3.png'),
+    require('@/assets/category/4.png'),
+    require('@/assets/category/5.png'),
+];
+
+const getDevImage = (id: string) => {
+    const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return DEV_CATEGORY_IMAGES[hash % DEV_CATEGORY_IMAGES.length];
+};
+
 export default function CategoryCard(data: Verified<Category>) {
     const color = useThemeColor();
 
@@ -43,7 +56,7 @@ export default function CategoryCard(data: Verified<Category>) {
                     >
                         {data.icon && (
                             <Image
-                                source={{ uri: supabaseStorageUrl + data.icon }}
+                                source={__DEV__ ? getDevImage(data.category_public_id) : { uri: supabaseStorageUrl + data.icon }}
                                 style={styles.icon}
                             />
                         )}
