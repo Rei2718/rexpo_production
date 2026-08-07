@@ -23,6 +23,9 @@ export default function Sheet({ data, onClose }: SheetProps) {
     useEffect(() => {
         if (data) {
             setContentData(data);
+            bottomSheetRef.current?.snapToIndex(0);
+        } else {
+            bottomSheetRef.current?.close();
         }
     }, [data]);
 

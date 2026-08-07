@@ -1,4 +1,5 @@
 import { DisplayVenue, Verified } from '@/supabase/api/types';
+import { useRef } from 'react';
 import { Gesture } from "react-native-gesture-handler";
 import { runOnJS, SharedValue } from 'react-native-reanimated';
 import { HIT_RADIUS, MARKER_ANCHOR, MARKER_SIZE } from '../components/map-shapes';
@@ -22,7 +23,15 @@ export function useMapInteraction({
     onMapPress,
     mapGestures,
 }: Props) {
+    const lastTapTimeRef = useRef<number>(0);
+
     const handleTap = (x: number, y: number) => {
+        const now = Date.now();
+        if (now - lastTapTimeRef.current < 350) {
+            return;
+        }
+        lastTapTimeRef.current = now;
+
         const currentScale = scale.value;
         const tx = translateX.value;
         const ty = translateY.value;
