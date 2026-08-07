@@ -3,16 +3,36 @@ import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { Category, Verified } from "@/supabase/api/types";
-import { getImageUrl } from "@/supabase/supabase";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { StyleSheet } from "react-native";
 import { Container } from "../ui/container";
 import { ThemedText } from "../ui/themed-text";
 
+const LOCAL_CATEGORY_ICONS: Record<string, any> = {
+    "1": require("@/assets/category/1.png"),
+    "2": require("@/assets/category/2.png"),
+    "3": require("@/assets/category/3.png"),
+    "4": require("@/assets/category/4.png"),
+    "5": require("@/assets/category/5.png"),
+    "1.png": require("@/assets/category/1.png"),
+    "2.png": require("@/assets/category/2.png"),
+    "3.png": require("@/assets/category/3.png"),
+    "4.png": require("@/assets/category/4.png"),
+    "5.png": require("@/assets/category/5.png"),
+    "/categories/1.png": require("@/assets/category/1.png"),
+    "/categories/2.png": require("@/assets/category/2.png"),
+    "/categories/3.png": require("@/assets/category/3.png"),
+    "/categories/4.png": require("@/assets/category/4.png"),
+    "/categories/5.png": require("@/assets/category/5.png"),
+};
+
 export default function CategoryCard(data: Verified<Category>) {
     const color = useThemeColor();
-    const imageUrl = getImageUrl(data.icon);
+
+    const order = ((data.display_order ?? 1) - 1) % 5 + 1;
+    const localAsset = LOCAL_CATEGORY_ICONS[data.icon ?? ""] || LOCAL_CATEGORY_ICONS[`/categories/${order}.png`];
+    const iconSource = localAsset || (data.icon?.startsWith('http') ? { uri: data.icon } : null);
 
     return (
         <Link
@@ -42,9 +62,9 @@ export default function CategoryCard(data: Verified<Category>) {
                             },
                         ]}
                     >
-                        {imageUrl && (
+                        {iconSource && (
                             <Image
-                                source={{ uri: imageUrl }}
+                                source={iconSource}
                                 style={styles.icon}
                             />
                         )}

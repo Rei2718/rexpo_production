@@ -59,7 +59,6 @@ export async function get_news() {
 }
 
 export async function get_display_venue() {
-    if (IS_ARCHIVE) return archiveDisplayVenues;
     const { data, error } = await supabase.rpc("get_display_venue");
     if (error) throw error;
     return data as unknown as Verified<DisplayVenue>[];
@@ -117,7 +116,6 @@ export async function get_tag_and_events_by_category(category_public_id?: string
 }
 
 export async function get_venue_details(venue_public_id: string) {
-    if (IS_ARCHIVE) return archiveVenueDetails;
     const { data, error } = await supabase.rpc("get_venue_details", {
         venue_public_id,
     });
@@ -126,7 +124,6 @@ export async function get_venue_details(venue_public_id: string) {
 }
 
 export async function get_venue_static_info(venue_public_id: string) {
-    if (IS_ARCHIVE) return archiveVenueStaticInfo;
     const { data, error } = await supabase.rpc("get_venue_static_info", {
         venue_public_id,
     });
@@ -135,7 +132,6 @@ export async function get_venue_static_info(venue_public_id: string) {
 }
 
 export async function get_venue_dynamic_status(venue_public_id: string) {
-    if (IS_ARCHIVE) return archiveVenueDynamicStatus;
     const { data, error } = await supabase.rpc("get_venue_dynamic_status", {
         venue_public_id,
     });
@@ -151,7 +147,6 @@ export async function get_categories() {
 }
 
 export async function get_all_venues() {
-    if (IS_ARCHIVE) return archiveDisplayVenues;
     const { data, error } = await supabase.rpc("get_all_venues");
     if (error) throw error;
     return data as unknown as Verified<DisplayVenue>[];
