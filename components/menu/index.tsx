@@ -64,6 +64,12 @@ export default function MenuScreen() {
                                 href="/(detail)/partners"
                                 isLast={true}
                             />
+                            <SettingsLinkItem
+                                label="マップ"
+                                icon="mapFill"
+                                href="/map"
+                                isLast={true}
+                            />
                         </SettingsSection>
 
                         {/* App Info */}

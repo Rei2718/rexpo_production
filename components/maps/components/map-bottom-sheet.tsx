@@ -23,7 +23,9 @@ export default function Sheet({ data, onClose }: SheetProps) {
     useEffect(() => {
         if (data) {
             setContentData(data);
-            bottomSheetRef.current?.present();
+            requestAnimationFrame(() => {
+                bottomSheetRef.current?.present();
+            });
         } else {
             bottomSheetRef.current?.dismiss();
         }
