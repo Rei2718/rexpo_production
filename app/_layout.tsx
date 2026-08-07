@@ -1,6 +1,8 @@
 import { AppProviders } from '@/components/providers/app-providers';
+import Termination from '@/components/termination';
 
 import { useIsFirstLaunch } from '@/hooks/use-is-first-launch';
+import { useTermination } from '@/hooks/use-termination';
 
 import { NotoSansJP_300Light, NotoSansJP_400Regular, NotoSansJP_500Medium, NotoSansJP_600SemiBold, NotoSansJP_700Bold, useFonts } from '@expo-google-fonts/noto-sans-jp';
 import { Stack, router, useRootNavigationState, useSegments } from "expo-router";
@@ -32,6 +34,7 @@ export default function RootLayout() {
     NotoSansJP_700Bold,
   });
   const { isFirstLaunch, isLoading: isLaunchLoading } = useIsFirstLaunch();
+  const { isTerminationActive } = useTermination();
   const segments = useSegments();
   const rootNavigationState = useRootNavigationState();
 
@@ -69,36 +72,40 @@ export default function RootLayout() {
   return (
     <AppProviders>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <Stack>
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="map"
-            options={{
-              headerShown: false,
-              presentation: 'fullScreenModal',
-            }}
-          />
-          <Stack.Screen
-            name="(detail)"
-            options={{
-              presentation: "modal",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="onboarding"
-            options={{
-              headerShown: false,
-              presentation: 'fullScreenModal',
-              gestureEnabled: false,
-            }}
-          />
-        </Stack>
+        {isTerminationActive ? (
+          <Termination />
+        ) : (
+          <Stack>
+            <Stack.Screen
+              name="(tabs)"
+              options={{
+                headerShown: false
+              }}
+            />
+            <Stack.Screen
+              name="map"
+              options={{
+                headerShown: false,
+                presentation: 'fullScreenModal',
+              }}
+            />
+            <Stack.Screen
+              name="(detail)"
+              options={{
+                presentation: "modal",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="onboarding"
+              options={{
+                headerShown: false,
+                presentation: 'fullScreenModal',
+                gestureEnabled: false,
+              }}
+            />
+          </Stack>
+        )}
       </View>
     </AppProviders>
   );
