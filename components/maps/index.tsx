@@ -1,6 +1,5 @@
 import { StatusMessage } from "@/components/ui/status-message";
 import { useScreenView } from "@/hooks/use-screen-view";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { ThemedView } from "../ui/themed-view";
 import Sheet from "./components/map-bottom-sheet";
 import MapsView from "./components/map-view";
@@ -19,19 +18,17 @@ export default function MapsScreen() {
     if (isError) return <StatusMessage status="error" />;
 
     return (
-        <BottomSheetModalProvider>
-            <ThemedView style={{ flex: 1 }}>
-                <MapsView
-                    venues={venues ?? []}
-                    selectedVenueId={selectedVenue?.venue_public_id}
-                    onMarkerPress={setSelectedVenue}
-                    onMapPress={() => setSelectedVenue(null)}
-                />
-                <Sheet
-                    data={selectedVenue}
-                    onClose={() => setSelectedVenue(null)}
-                />
-            </ThemedView>
-        </BottomSheetModalProvider>
+        <ThemedView style={{ flex: 1 }}>
+            <MapsView
+                venues={venues ?? []}
+                selectedVenueId={selectedVenue?.venue_public_id}
+                onMarkerPress={setSelectedVenue}
+                onMapPress={() => setSelectedVenue(null)}
+            />
+            <Sheet
+                data={selectedVenue}
+                onClose={() => setSelectedVenue(null)}
+            />
+        </ThemedView>
     );
 }

@@ -3,8 +3,8 @@ import { Spacing } from '@/constants/theme';
 import { useScreenView } from '@/hooks/use-screen-view';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { DisplayVenue, Verified } from '@/supabase/api/types';
-import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import React, { useEffect, useMemo, useRef } from 'react';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Content } from './map-content';
 
 
@@ -14,7 +14,7 @@ interface SheetProps {
 }
 
 export default function Sheet({ data, onClose }: SheetProps) {
-    const bottomSheetRef = useRef<BottomSheetModal>(null);
+    const bottomSheetRef = useRef<BottomSheet>(null);
     const color = useThemeColor();
     const [contentData, setContentData] = React.useState<Verified<DisplayVenue> | null>(data);
 
@@ -23,13 +23,14 @@ export default function Sheet({ data, onClose }: SheetProps) {
     useEffect(() => {
         if (data) {
             setContentData(data);
-            requestAnimationFrame(() => {
-                bottomSheetRef.current?.present();
-            });
-        } else {
-            bottomSheetRef.current?.dismiss();
         }
     }, [data]);
+
+    const handleSheetChanges = useCallback((index: number) => {
+        if (index === -1) {
+            onClose();
+        }
+    }, [onClose]);
 
     useScreenView({
         screen: 'map',
@@ -38,15 +39,15 @@ export default function Sheet({ data, onClose }: SheetProps) {
     });
 
     return (
-        <BottomSheetModal
+        <BottomSheet
             ref={bottomSheetRef}
-            enableDynamicSizing={false}
+            index={data ? 0 : -1}
             snapPoints={snapPoints}
             enablePanDownToClose={true}
+            onChange={handleSheetChanges}
             backgroundStyle={{ backgroundColor: color.natural_600, borderRadius: Spacing.s36 }}
             handleStyle={{ height: Spacing.s20 }}
             handleIndicatorStyle={{ backgroundColor: color.natural_300 }}
-            onDismiss={onClose}
         >
             <BottomSheetScrollView showsVerticalScrollIndicator={false} contentInsetAdjustmentBehavior="automatic">
                 {contentData && (
@@ -55,6 +56,6 @@ export default function Sheet({ data, onClose }: SheetProps) {
                     </Container>
                 )}
             </BottomSheetScrollView>
-        </BottomSheetModal>
+        </BottomSheet>
     );
 }
