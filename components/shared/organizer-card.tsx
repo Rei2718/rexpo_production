@@ -4,7 +4,7 @@ import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { EventOrganization, VenueOrganization, Verified } from "@/supabase/api/types";
-import { supabaseStorageUrl } from "@/supabase/supabase";
+import { getImageUrl } from "@/supabase/supabase";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { memo } from "react";
@@ -17,6 +17,7 @@ import { ThemedView } from "../ui/themed-view";
 
 export const OrganizerCard = memo((data: Verified<EventOrganization | VenueOrganization>) => {
     const color = useThemeColor();
+    const imageUrl = getImageUrl(data.icon);
 
     return (
         <Link
@@ -39,7 +40,7 @@ export const OrganizerCard = memo((data: Verified<EventOrganization | VenueOrgan
                 >
                     <Row alignItems="center" gap="s16" padding="s4">
                         <Image
-                            source={data.icon ? { uri: `${supabaseStorageUrl}/${data.icon}` } : FALLBACK_IMAGE_URL}
+                            source={imageUrl ? { uri: imageUrl } : FALLBACK_IMAGE_URL}
                             style={[
                                 styles.image,
                                 {

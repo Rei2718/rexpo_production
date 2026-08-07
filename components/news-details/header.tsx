@@ -5,11 +5,13 @@ import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { News, Verified } from "@/supabase/api/types";
-import { supabaseStorageUrl } from "@/supabase/supabase";
+import { getImageUrl } from "@/supabase/supabase";
 import { Image, StyleSheet } from "react-native";
 
 export function NewsHeader(data: Verified<News>) {
     const color = useThemeColor();
+    const imageUrl = getImageUrl(data.header_image);
+
     return (
         <Column>
             {/* Cover Image */}
@@ -17,7 +19,7 @@ export function NewsHeader(data: Verified<News>) {
                 paddingTop="s20"
                 paddingHorizontal="s80">
                 <Image
-                    source={data.header_image ? { uri: `${supabaseStorageUrl}/${data.header_image}` } : FALLBACK_IMAGE_URL}
+                    source={imageUrl ? { uri: imageUrl } : FALLBACK_IMAGE_URL}
                     style={[
                         styles.coverImage,
                         {

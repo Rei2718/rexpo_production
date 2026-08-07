@@ -10,7 +10,7 @@ import {
 import Carousel from "react-native-reanimated-carousel";
 
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { supabaseStorageUrl } from "@/supabase/supabase";
+import { getImageUrl } from "@/supabase/supabase";
 
 export function EventGallery(data: Verified<EventDetails>) {
     const color = useThemeColor();
@@ -31,23 +31,26 @@ export function EventGallery(data: Verified<EventDetails>) {
                 pagingEnabled={true}
                 data={data.images}
                 style={styles.carousel}
-                renderItem={({ item }) => (
-                    <ThemedView style={styles.itemContainer}>
-                        <Image
-                            source={item ? { uri: supabaseStorageUrl + item } : FALLBACK_IMAGE_URL}
-                            contentFit="cover"
-                            style={[
-                                styles.imageBackground,
-                                {
-                                    borderRadius: Spacing.s20,
-                                    borderWidth: Spacing.s1,
-                                    borderColor: color.border,
-                                    backgroundColor: color.border,
-                                }
-                            ]}
-                        />
-                    </ThemedView>
-                )}
+                renderItem={({ item }) => {
+                    const imageUrl = getImageUrl(item);
+                    return (
+                        <ThemedView style={styles.itemContainer}>
+                            <Image
+                                source={imageUrl ? { uri: imageUrl } : FALLBACK_IMAGE_URL}
+                                contentFit="cover"
+                                style={[
+                                    styles.imageBackground,
+                                    {
+                                        borderRadius: Spacing.s20,
+                                        borderWidth: Spacing.s1,
+                                        borderColor: color.border,
+                                        backgroundColor: color.border,
+                                    }
+                                ]}
+                            />
+                        </ThemedView>
+                    );
+                }}
                 onConfigurePanGesture={gesture => {
                     'worklet';
                     gesture.activeOffsetX([-10, 10]);

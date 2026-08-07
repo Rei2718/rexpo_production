@@ -6,7 +6,7 @@ import { useBlinkingAnimation } from "@/hooks/use-blinking-animation";
 import { useEventActiveStatus } from "@/hooks/use-event-active-status";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { TimelineEvent, Verified } from "@/supabase/api/types";
-import { supabaseStorageUrl } from "@/supabase/supabase";
+import { getImageUrl } from "@/supabase/supabase";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
@@ -23,6 +23,7 @@ export const TimelineEventListItem = memo((data: Verified<TimelineEvent>) => {
 
     const animatedStyle = useBlinkingAnimation(isActive);
     const tintColorWithOpacity = `${color.tint}33`; // 20% opacity
+    const imageUrl = getImageUrl(data.icon);
 
     return (
         <Link
@@ -45,7 +46,7 @@ export const TimelineEventListItem = memo((data: Verified<TimelineEvent>) => {
                     </Animated.View>
 
                     <Image
-                        source={data.icon ? { uri: supabaseStorageUrl + data.icon } : FALLBACK_IMAGE_URL}
+                        source={imageUrl ? { uri: imageUrl } : FALLBACK_IMAGE_URL}
                         style={[
                             styles.image,
                             {

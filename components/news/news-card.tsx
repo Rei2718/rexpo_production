@@ -7,13 +7,14 @@ import { NO_DATA } from "@/constants/no-data";
 import { Spacing } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { News, Verified } from "@/supabase/api/types";
-import { supabaseStorageUrl } from "@/supabase/supabase";
+import { getImageUrl } from "@/supabase/supabase";
 import { useRouter } from "expo-router";
 import { Image, StyleSheet } from "react-native";
 
 export function NewsCard(data: Verified<News>) {
     const router = useRouter();
     const color = useThemeColor();
+    const imageUrl = getImageUrl(data.thumbnail);
 
     const handlePress = () => {
         router.push(`/(detail)/news/${data.news_public_id}`);
@@ -23,7 +24,7 @@ export function NewsCard(data: Verified<News>) {
         <PressableScale onPress={handlePress}>
             <Row gap="s16" alignItems="center">
                 <Image
-                    source={data.thumbnail ? { uri: `${supabaseStorageUrl}/${data.thumbnail}` } : FALLBACK_IMAGE_URL}
+                    source={imageUrl ? { uri: imageUrl } : FALLBACK_IMAGE_URL}
                     style={[
                         styles.image,
                         {

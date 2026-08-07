@@ -7,12 +7,14 @@ import { Image } from "expo-image";
 import { StyleSheet } from "react-native";
 
 import { NO_DATA } from "@/constants/no-data";
-import { supabaseStorageUrl } from "@/supabase/supabase";
+import { getImageUrl } from "@/supabase/supabase";
 
 import { useThemeColor } from "@/hooks/use-theme-color";
 
 export function EventHeader(data: Verified<EventDetails>) {
     const color = useThemeColor();
+    const imageUrl = getImageUrl(data.header_image);
+
     return (
         <Column>
             {/* Cover Image */}
@@ -20,7 +22,7 @@ export function EventHeader(data: Verified<EventDetails>) {
                 paddingTop="s20"
                 paddingHorizontal="s80">
                 <Image
-                    source={data.header_image ? { uri: supabaseStorageUrl + data.header_image } : FALLBACK_IMAGE_URL}
+                    source={imageUrl ? { uri: imageUrl } : FALLBACK_IMAGE_URL}
                     style={[
                         styles.coverImage,
                         {
